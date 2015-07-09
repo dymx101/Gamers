@@ -49,7 +49,6 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Alamofire.framework'
-  install_framework 'FMDB.framework'
   install_framework 'SDCycleScrollView.framework'
   install_framework 'Starscream.framework'
   install_framework 'SwiftyJSON.framework'
@@ -57,7 +56,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Alamofire.framework'
-  install_framework 'FMDB.framework'
   install_framework 'SDCycleScrollView.framework'
   install_framework 'Starscream.framework'
   install_framework 'SwiftyJSON.framework'
