@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 pod 'Starscream', '~> 0.9.2'
-pod 'FMDB'
+#pod 'FMDB'
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
 pod 'YouTubePlayer'

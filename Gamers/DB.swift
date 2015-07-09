@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Db{
+class DB{
     class func getDb()->FMDatabase{
         let filemgr = NSFileManager.defaultManager()
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)

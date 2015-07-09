@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 import Starscream
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WebSocketDelegate {
 
     @IBOutlet weak var playerView: YouTubePlayerView!
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class ViewController: UIViewController {
 //        db.close()
         
         let sql = "SELECT * FROM SYSTEM"
-        let db = Db.getDb()
+        let db = DB.getDb()
         db.open()
         let rs = db.executeQuery(sql, withArgumentsInArray: [1])
 
@@ -51,20 +51,57 @@ class ViewController: UIViewController {
             println(rs.stringForColumn("IOS"))
         }
         db.close()
+        
+
 //
-//        // 5、测试WebSocket
-//        socket.delegate = self
-//        socket.connect()
+        // 5、测试WebSocket
+        socket.delegate = self
+        socket.connect()
         
         
+        var socket2 = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
         
     }
+    
+    var socket = WebSocket(url: NSURL(scheme: "ws", host: "localhost:8080", path: "/")!, protocols: ["chat", "superchat"])
 
+    @IBOutlet weak var message: UIButton!
+    @IBOutlet weak var connect: UIButton!
+
+    @IBAction func onclickConnect(sender: AnyObject) {
+        if socket.isConnected {
+            socket.disconnect()
+            self.connect.backgroundColor = UIColor.redColor()
+            self.connect.setTitle("Connect", forState: UIControlState.allZeros)
+        } else {
+            socket.connect()
+            self.connect.setTitle("Disconnect", forState: UIControlState.allZeros)
+            self.connect.backgroundColor = UIColor.greenColor()
+        }
+    }
+    
+    @IBAction func sendMessage(sender: AnyObject) {
+        socket.writeString("hello there!")
+    }
+    // Websocket 组件的4个委托Delegate方法
+    func websocketDidConnect(ws: WebSocket) {
+        println("websocket is connected")
+    }
+    func websocketDidDisconnect(ws: WebSocket, error: NSError?) {
+        if let e = error {
+            println("websocket is disconnected: \(e.localizedDescription)")
+        }
+    }
+    func websocketDidReceiveMessage(ws: WebSocket, text: String) {
+        println("Received text: \(text)")
+    }
+    func websocketDidReceiveData(ws: WebSocket, data: NSData) {
+        println("Received data: \(data.length)")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 

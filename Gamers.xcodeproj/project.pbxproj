@@ -15,6 +15,9 @@
 		1A3015D21B4E587C00EB9965 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015CA1B4E587C00EB9965 /* FMDatabasePool.m */; };
 		1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015CC1B4E587C00EB9965 /* FMDatabaseQueue.m */; };
 		1A3015D41B4E587C00EB9965 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015CF1B4E587C00EB9965 /* FMResultSet.m */; };
+		1A3015D61B4E5D4F00EB9965 /* system.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A3015D51B4E5D4F00EB9965 /* system.plist */; };
+		1A3015D91B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */; };
+		1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */; };
 		1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7011B4E1189001FE414 /* AppDelegate.swift */; };
 		1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7031B4E1189001FE414 /* ViewController.swift */; };
 		1AD9C7071B4E1189001FE414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD9C7051B4E1189001FE414 /* Main.storyboard */; };
@@ -51,6 +54,9 @@
 		1A3015CD1B4E587C00EB9965 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
 		1A3015CE1B4E587C00EB9965 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		1A3015CF1B4E587C00EB9965 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		1A3015D51B4E5D4F00EB9965 /* system.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = system.plist; sourceTree = "<group>"; };
+		1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMDatabaseAdditionsVariadic.swift; path = ../FMDatabaseAdditionsVariadic.swift; sourceTree = "<group>"; };
+		1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMDatabaseVariadic.swift; path = ../FMDatabaseVariadic.swift; sourceTree = "<group>"; };
 		1AD9C6FC1B4E1189001FE414 /* Gamers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gamers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD9C7001B4E1189001FE414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AD9C7011B4E1189001FE414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +156,8 @@
 		1A3015C41B4E587C00EB9965 /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
+				1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */,
+				1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */,
 				1A3015C51B4E587C00EB9965 /* FMDatabase.h */,
 				1A3015C61B4E587C00EB9965 /* FMDatabase.m */,
 				1A3015C71B4E587C00EB9965 /* FMDatabaseAdditions.h */,
@@ -208,6 +216,7 @@
 				1A3015AA1B4E1F4100EB9965 /* YTPlayer.html */,
 				1AD9C7001B4E1189001FE414 /* Info.plist */,
 				1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */,
+				1A3015D51B4E5D4F00EB9965 /* system.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -332,6 +341,7 @@
 			files = (
 				1AD9C7071B4E1189001FE414 /* Main.storyboard in Resources */,
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
+				1A3015D61B4E5D4F00EB9965 /* system.plist in Resources */,
 				1A3015AB1B4E1F4100EB9965 /* YTPlayer.html in Resources */,
 				1AD9C7091B4E1189001FE414 /* Images.xcassets in Resources */,
 			);
@@ -401,12 +411,14 @@
 			files = (
 				1A3015C31B4E496F00EB9965 /* DB.swift in Sources */,
 				1A3015D21B4E587C00EB9965 /* FMDatabasePool.m in Sources */,
+				1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */,
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
 				1A3015D01B4E587C00EB9965 /* FMDatabase.m in Sources */,
 				1A3015D41B4E587C00EB9965 /* FMResultSet.m in Sources */,
 				1A3015D11B4E587C00EB9965 /* FMDatabaseAdditions.m in Sources */,
+				1A3015D91B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

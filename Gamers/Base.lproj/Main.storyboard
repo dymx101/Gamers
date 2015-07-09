@@ -18,12 +18,38 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNU-OO-oAw" customClass="YouTubePlayerView" customModule="YouTubePlayer">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y91-dQ-4DC">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Send Message">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendMessage:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aWA-6I-M5F"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ijQ-Zg-K0D">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Disconnect">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onclickConnect:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="W8c-o0-ICF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Y91-dQ-4DC" firstAttribute="centerX" secondItem="DNU-OO-oAw" secondAttribute="centerX" id="150-eu-LrD"/>
                             <constraint firstItem="DNU-OO-oAw" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="1Ko-Jc-KFS"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="ijQ-Zg-K0D" secondAttribute="bottom" constant="259" id="E5Z-M0-xxc">
+                                <variation key="heightClass=regular-widthClass=compact" constant="267"/>
+                            </constraint>
+                            <constraint firstItem="ijQ-Zg-K0D" firstAttribute="top" secondItem="Y91-dQ-4DC" secondAttribute="bottom" constant="50" id="Nfu-dw-C0I">
+                                <variation key="heightClass=regular-widthClass=compact" constant="42"/>
+                            </constraint>
+                            <constraint firstItem="ijQ-Zg-K0D" firstAttribute="centerX" secondItem="Y91-dQ-4DC" secondAttribute="centerX" id="Wef-aY-QmF"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="DNU-OO-oAw" secondAttribute="bottom" constant="520" id="gZz-qS-c6G">
                                 <variation key="heightClass=regular-widthClass=compact" constant="500"/>
                             </constraint>
@@ -33,27 +59,41 @@
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="DNU-OO-oAw"/>
+                                <exclude reference="Y91-dQ-4DC"/>
+                                <exclude reference="ijQ-Zg-K0D"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="E5Z-M0-xxc"/>
+                                <exclude reference="gZz-qS-c6G"/>
+                                <exclude reference="150-eu-LrD"/>
+                                <exclude reference="Nfu-dw-C0I"/>
+                                <exclude reference="Wef-aY-QmF"/>
                                 <exclude reference="1Ko-Jc-KFS"/>
                                 <exclude reference="xu9-dk-apf"/>
                                 <exclude reference="yzY-dH-17b"/>
-                                <exclude reference="gZz-qS-c6G"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="DNU-OO-oAw"/>
+                                <include reference="Y91-dQ-4DC"/>
+                                <include reference="ijQ-Zg-K0D"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="E5Z-M0-xxc"/>
+                                <include reference="gZz-qS-c6G"/>
+                                <include reference="150-eu-LrD"/>
+                                <include reference="Nfu-dw-C0I"/>
+                                <include reference="Wef-aY-QmF"/>
                                 <include reference="1Ko-Jc-KFS"/>
                                 <include reference="xu9-dk-apf"/>
                                 <include reference="yzY-dH-17b"/>
-                                <include reference="gZz-qS-c6G"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="connect" destination="ijQ-Zg-K0D" id="VM9-qo-dsK"/>
+                        <outlet property="message" destination="Y91-dQ-4DC" id="KKA-D4-bmq"/>
                         <outlet property="playerView" destination="DNU-OO-oAw" id="uf7-P0-HRG"/>
                     </connections>
                 </viewController>
