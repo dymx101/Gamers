@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>WebSocketURL</key>
-	<string></string>
+	<string>ws://127.0.0.1/</string>
 	<key>APIURL</key>
 	<string>http://127.0.0.1/api</string>
-	<key>Version</key>
+	<key>UpdateVersion</key>
 	<string>1</string>
 </dict>
 </plist>
