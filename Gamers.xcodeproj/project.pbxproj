@@ -18,6 +18,8 @@
 		1A3015D61B4E5D4F00EB9965 /* system.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A3015D51B4E5D4F00EB9965 /* system.plist */; };
 		1A3015D91B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */; };
 		1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */; };
+		1A44B3F21B53770D007E42B7 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A44B3F11B53770D007E42B7 /* HomeController.swift */; };
+		1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */; };
 		1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7011B4E1189001FE414 /* AppDelegate.swift */; };
 		1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7031B4E1189001FE414 /* ViewController.swift */; };
 		1AD9C7071B4E1189001FE414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD9C7051B4E1189001FE414 /* Main.storyboard */; };
@@ -57,6 +59,8 @@
 		1A3015D51B4E5D4F00EB9965 /* system.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = system.plist; sourceTree = "<group>"; };
 		1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMDatabaseAdditionsVariadic.swift; path = ../FMDatabaseAdditionsVariadic.swift; sourceTree = "<group>"; };
 		1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMDatabaseVariadic.swift; path = ../FMDatabaseVariadic.swift; sourceTree = "<group>"; };
+		1A44B3F11B53770D007E42B7 /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsExtensions.swift; sourceTree = "<group>"; };
 		1AD9C6FC1B4E1189001FE414 /* Gamers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gamers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD9C7001B4E1189001FE414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AD9C7011B4E1189001FE414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			children = (
 				1A3015C41B4E587C00EB9965 /* fmdb */,
 				1A3015C21B4E496F00EB9965 /* DB.swift */,
+				1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 		1A3015A31B4E16BA00EB9965 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1A44B3F11B53770D007E42B7 /* HomeController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -308,6 +314,7 @@
 				TargetAttributes = {
 					1AD9C6FB1B4E1189001FE414 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = FRXE6H33GD;
 					};
 					1AD9C7101B4E1189001FE414 = {
 						CreatedOnToolsVersion = 6.4;
@@ -412,11 +419,13 @@
 				1A3015C31B4E496F00EB9965 /* DB.swift in Sources */,
 				1A3015D21B4E587C00EB9965 /* FMDatabasePool.m in Sources */,
 				1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */,
+				1A44B3F21B53770D007E42B7 /* HomeController.swift in Sources */,
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
 				1A3015D01B4E587C00EB9965 /* FMDatabase.m in Sources */,
 				1A3015D41B4E587C00EB9965 /* FMResultSet.m in Sources */,
+				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
 				1A3015D11B4E587C00EB9965 /* FMDatabaseAdditions.m in Sources */,
 				1A3015D91B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift in Sources */,
 			);
@@ -547,6 +556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -561,6 +571,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

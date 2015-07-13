@@ -1,9 +1,9 @@
 //
 //  DB.swift
-//  Sqlite-2
+//  Gamers
 //
 //  Created by 虚空之翼 on 15/6/23.
-//  Copyright (c) 2015年 虚空之翼. All rights reserved.
+//  Copyright (c) 2015年 Freedom. All rights reserved.
 //
 
 import Foundation
