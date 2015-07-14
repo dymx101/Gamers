@@ -53,7 +53,10 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/Alamofire.framework'
+  install_framework 'Pods/Bolts.framework'
   install_framework 'Pods/MJRefresh.framework'
+  install_framework 'Pods/Realm.framework'
+  install_framework 'Pods/RealmSwift.framework'
   install_framework 'Pods/SDCycleScrollView.framework'
   install_framework 'Pods/Starscream.framework'
   install_framework 'Pods/SwiftyJSON.framework'
@@ -61,7 +64,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/Alamofire.framework'
+  install_framework 'Pods/Bolts.framework'
   install_framework 'Pods/MJRefresh.framework'
+  install_framework 'Pods/Realm.framework'
+  install_framework 'Pods/RealmSwift.framework'
   install_framework 'Pods/SDCycleScrollView.framework'
   install_framework 'Pods/Starscream.framework'
   install_framework 'Pods/SwiftyJSON.framework'

@@ -5,7 +5,7 @@
 	<key>WebSocketURL</key>
 	<string>ws://127.0.0.1/</string>
 	<key>APIURL</key>
-	<string>http://127.0.0.1/api</string>
+	<string>http://api.freedom.cn/api</string>
 	<key>UpdateVersion</key>
 	<string>1</string>
 </dict>
