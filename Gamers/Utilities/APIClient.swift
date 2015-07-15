@@ -27,35 +27,39 @@ extension APIClient {
         return fetchVideos(URLRequest: URLRequest)
     }
     
+    static func getSlider(#channel: String?) -> BFTask {
+        var URLRequest = Router.Slider(channel: channel)
+        
+        return fetchVideos(URLRequest: URLRequest)
+    }
+    
     private static func fetchVideos(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
+                //println(JSONDictionary)
                 // Save in background
                 var result: [String: AnyObject]!
-                var videos = [Video]()
-                var nextPageToken: String?
+                var sliders = [Slider]()
                 
-                if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    videos = Video.collection(json: json)
+                
+                //if let JSONDictionary: AnyObject = JSONDictionary {
+                    let json = JSON(JSONDictionary!)
+                //println(json)
+                    sliders = Slider.collection(json: json)
                     
-                    if let pageToken = json["nextPageToken"].string {
-                        nextPageToken = pageToken
-                    }
-                }
+                    
+                //}
                 
-                result = ["videos": videos]
+                result = ["sliders": sliders]
                 
-                if let nextPageToken = nextPageToken {
-                    result["nextPageToken"] = nextPageToken
-                }
                 
-                source.setResult(result)
+                
+                source.setResult(JSONDictionary)
                 
             } else {
+                println(error)
                 source.setError(error)
             }
         }

@@ -9,6 +9,10 @@
 import UIKit
 import SDCycleScrollView
 import MJRefresh
+import Alamofire
+import SwiftyJSON
+import Bolts
+
 
 class HomeController: UIViewController, SDCycleScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
@@ -17,8 +21,12 @@ class HomeController: UIViewController, SDCycleScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        
+        
         scrollView.header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            NSLog("1111111")
+            //NSLog("1111111")
         })
         
         scrollView.header.autoChangeAlpha = true;
@@ -35,29 +43,28 @@ class HomeController: UIViewController, SDCycleScrollViewDelegate {
         // 轮播
         let cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
 
-        
-        var titles = ["The International 2015", "The International 2014", "轮播广告"];
-        var imagesURLStrings = [
-        "http://cdn2.gamers.tm/slider/041486869386dcc6015e74e34808b212.png",
-        "http://cdn2.gamers.tm/slider/bab7b566f5727106103b303fa41306ab.jpg",
-        "http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
-        ];
-        
+        var titles: [String] = []
+        var imagesURLStrings: [String]  = [];
+        // 轮播视图的基本属性
         cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
         cycleScrollView.infiniteLoop = true;
         cycleScrollView.delegate = self
-        cycleScrollView.titlesGroup = titles
         cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
-        //cycleScrollView.placeholderImage = [UIImage imageNamed:@"placeholder"]
-        //cycleScrollView.imageURLStringsGroup = imagesURLStrings;
         cycleScrollView.autoScrollTimeInterval = 4.0
-        
-        var minseconds = 1 * Double(NSEC_PER_MSEC)
-        var dtime = dispatch_time(DISPATCH_TIME_NOW, Int64(minseconds))
-        dispatch_after(dtime, dispatch_get_main_queue()) {
-             cycleScrollView.imageURLStringsGroup = imagesURLStrings;
-        }
-        
+
+        let dao = SliderDao()
+        dao.fetchSlider(refresh: true).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            println(task.result)
+            for (index, value) in JSON(task.result) {
+                titles.append(value["title"].string!)
+                imagesURLStrings.append(value["image_small"].string!)
+            }
+            
+            cycleScrollView.titlesGroup = titles
+            cycleScrollView.imageURLStringsGroup = imagesURLStrings
+            
+            return nil
+        })
         contentView.addSubview(cycleScrollView)
         
         // 添加新手推荐部分

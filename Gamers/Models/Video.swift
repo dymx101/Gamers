@@ -82,7 +82,7 @@ class Video: Object {
     // MARK: - Override
     
     override class func primaryKey() -> String {
-        return "itemId"
+        return "id"
     }
     
     // MARK: - Private

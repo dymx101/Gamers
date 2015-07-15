@@ -17,7 +17,8 @@ class ViewController: UIViewController, WebSocketDelegate {
     @IBOutlet weak var playerView: YouTubePlayerView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let plistPath = NSBundle.mainBundle().pathForResource("team", ofType: "plist")
+
         // 1、测试视频播放
         playerView.playerVars = ["playsinline": "1"]
         playerView.loadVideoID("yRRABRn0JTc")
@@ -55,11 +56,20 @@ class ViewController: UIViewController, WebSocketDelegate {
 
 //
         // 5、测试WebSocket
-        socket.delegate = self
-        socket.connect()
+        //socket.delegate = self
+        //socket.connect()
         
         
         var socket2 = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
+        
+        
+        let dao = SliderDao()
+        dao.fetchSlider(refresh: true)
+        
+        
+        
+        
+        
         
     }
     

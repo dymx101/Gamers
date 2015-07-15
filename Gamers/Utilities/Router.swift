@@ -13,19 +13,26 @@ enum Router: URLRequestConvertible {
 //    static let baseURLString = "https://www.googleapis.com/youtube/v3"
 //    static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
-    static let baseURLString = "https://api.freedom.cn/"
+    static let baseURLString = "http://api.freedom.cn/index"
     static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
-    // github.com/Alamofire/Alamofire#api-parameter-abstraction
+    // 
+    // Alamofire请求路由，参考 github.com/Alamofire/Alamofire#api-parameter-abstraction
+    //
     case MostPopular(pageToken: String?)
     case Search(query: String?, pageToken: String?)
+    case Slider(channel: String?)
     
-    // MARK: URLRequestConvertible
-    
+    // MARK: URL格式转换
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
-            
             switch self {
+            case .Slider(let channel):  //首页顶部轮播
+                var parameters: [String: AnyObject] = [
+                    "channel": "home",
+                ]
+                return (.GET, "/sliders", parameters)
+                
             case .MostPopular(let pageToken):
                 var parameters: [String: AnyObject] = [
                     "key": Router.kGoogleAPIKey,
@@ -66,6 +73,7 @@ enum Router: URLRequestConvertible {
             }
             }()
         
+        // 组合成请求路径
         let encoding = Alamofire.ParameterEncoding.URL
         let URL = NSURL(string: Router.baseURLString)!
         let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
