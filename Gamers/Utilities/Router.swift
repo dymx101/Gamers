@@ -21,7 +21,9 @@ enum Router: URLRequestConvertible {
     //
     case MostPopular(pageToken: String?)
     case Search(query: String?, pageToken: String?)
+    
     case Slider(channel: String?)
+    case Channel(channelType: String?)
     
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
@@ -32,6 +34,18 @@ enum Router: URLRequestConvertible {
                     "channel": "home",
                 ]
                 return (.GET, "/sliders", parameters)
+            case .Channel(let channelType):
+                var parameters: [String: AnyObject] = [
+                    "apitoken": "freedom",
+                ]
+
+                
+                if channelType != nil {
+                    parameters["type"] = channelType
+                }
+                
+                
+                return (.GET, "/channel", parameters)
                 
             case .MostPopular(let pageToken):
                 var parameters: [String: AnyObject] = [

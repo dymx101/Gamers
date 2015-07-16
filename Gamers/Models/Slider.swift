@@ -21,72 +21,61 @@ class Slider: Object {
     dynamic var link = ""                   //介绍说明地址
     dynamic var itemDescription = ""        //描述
     dynamic var priority = 0                //优先级
-
+    
     class func collection(#json: JSON) -> [Slider] {
         let realm = Realm()
         var collection = [Slider]()
-        //println(json)
         
-        for (index, value) in json {
-            let sliderItem = Slider.modelFromJSON(value)
-            //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-            //realm.add(videoItem, update: true)
-            collection.append(sliderItem)
+        if let items = json.array {
+            //realm.beginWrite()
+            
+            for item in items {
+                let sliderItem = Slider.modelFromJSON(item)
+                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
+                //realm.add(videoItem, update: true)
+                collection.append(sliderItem)
+            }
+            
+            //realm.commitWrite()
         }
-        
-//        if let items = json.array {
-//            realm.beginWrite()
-//            
-//            for item in items {
-//                let sliderItem = Slider.modelFromJSON(item)
-//                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-//                //realm.add(videoItem, update: true)
-//                collection.append(sliderItem)
-//            }
-//            
-//            realm.commitWrite()
-//        }
         
         return collection
     }
     
-    
+    // 把JSON数据转换为对象
     class func modelFromJSON(json: JSON) -> Slider {
         let model = Slider()
         
-        // videos api
         if let itemId = json["id"].string {
-            model.id = itemId
-            
-            // search api
-        } else if let itemId = json["id"]["videoId"].string {
             model.id = itemId
         }
         
-        if let title = json["snippet"]["title"].string {
+        if let imageHq = json["image_hq"].string {
+            model.imageHq = imageHq
+        }
+        
+        if let imageSmall = json["image_small"].string {
+            model.imageHq = imageSmall
+        }
+        
+        if let title = json["title"].string {
             model.title = title
         }
         
-        if let description = json["snippet"]["description"].string {
-            //model.itemDescription = description
+        if let youtubeVideo = json["youtube_video"].string {
+            model.youtubeVideo = youtubeVideo
         }
         
-        if let dateString = json["snippet"]["publishedAt"].string {
-            //let dateFormatter = Video.dateFormatter()
-            
-            //if let publishedAt = dateFormatter.dateFromString(dateString) {
-                //model.publishedAt = publishedAt
-            //}
+        if let link = json["link"].string {
+            model.link = link
         }
         
-        let thumbnails = json["snippet"]["thumbnails"]
+        if let itemDescription = json["description"].string {
+            model.itemDescription = itemDescription
+        }
         
-        if thumbnails.type == Type.Dictionary {
-            
-            for (key: String, subJson: JSON) in thumbnails {
-                let thumbnail = Thumbnail.modelFromJSON(subJson, resolution: key)
-                //model.thumbnails.addObject(thumbnail)
-            }
+        if let priority = json["priority"].int {
+            model.priority = priority
         }
         
         return model

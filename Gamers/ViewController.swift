@@ -15,6 +15,8 @@ import Starscream
 class ViewController: UIViewController, WebSocketDelegate {
 
     @IBOutlet weak var playerView: YouTubePlayerView!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let plistPath = NSBundle.mainBundle().pathForResource("team", ofType: "plist")
@@ -60,13 +62,18 @@ class ViewController: UIViewController, WebSocketDelegate {
         //socket.connect()
         
         
-        var socket2 = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
+        //var socket2 = WebSocket(url: NSURL(string: "ws://localhost:8080/")!, protocols: ["chat", "superchat"])
         
+        //self.tabView.layer.cornerRadius = 5;
         
-        let dao = SliderDao()
-        dao.fetchSlider(refresh: true)
-        
-        
+//        self.tabView.layer.borderWidth = 0.3
+//        self.tabView.layer.borderColor = UIColor.grayColor().CGColor
+//        self.tabView.layer.shadowColor = UIColor.grayColor().CGColor
+//        self.tabView.layer.shadowOpacity = 1.0
+//        self.tabView.layer.shadowRadius = 7.0
+//        self.tabView.layer.shadowOffset = CGSizeMake(0, 4)
+//        
+
         
         
         
