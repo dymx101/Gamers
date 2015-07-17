@@ -22,6 +22,10 @@ class Slider: Object {
     dynamic var itemDescription = ""        //描述
     dynamic var priority = 0                //优先级
     
+//    override static func primaryKey() -> String? {
+//        return "id"
+//    }
+    
     class func collection(#json: JSON) -> [Slider] {
         let realm = Realm()
         var collection = [Slider]()

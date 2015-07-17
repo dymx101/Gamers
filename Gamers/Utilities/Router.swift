@@ -22,30 +22,44 @@ enum Router: URLRequestConvertible {
     case MostPopular(pageToken: String?)
     case Search(query: String?, pageToken: String?)
     
-    case Slider(channel: String?)
-    case Channel(channelType: String?)
+    case Slider(channel: String?)                   //首页顶部轮播
+    case Channel(channelType: String?)              //首页推荐频道：新手、游戏大咖
+    case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
+    case Game(gameName: String?, type: String?)
     
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
             switch self {
-            case .Slider(let channel):  //首页顶部轮播
-                var parameters: [String: AnyObject] = [
-                    "channel": "home",
-                ]
+            case .Slider(let channel):
+                var parameters: [String: AnyObject] = ["channel": "home"]
+                
                 return (.GET, "/sliders", parameters)
+                
             case .Channel(let channelType):
-                var parameters: [String: AnyObject] = [
-                    "apitoken": "freedom",
-                ]
-
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
                 if channelType != nil {
                     parameters["type"] = channelType
                 }
-                
-                
+
                 return (.GET, "/channel", parameters)
+            case .RecommendGame():
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                
+                return (.GET, "/recommendgame", parameters)
+                
+            case .Game(let name, let type):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                
+                if name != nil {
+                    parameters["name"] = name
+                }
+                if type != nil {
+                    parameters["type"] = type
+                }
+                
+                return (.GET, "/game", parameters)
                 
             case .MostPopular(let pageToken):
                 var parameters: [String: AnyObject] = [

@@ -23,6 +23,10 @@ class Channel: Object {
     dynamic var videos = 0          //视频总数
     dynamic var play = 0            //播放次数
     
+//    override static func primaryKey() -> String? {
+//        return "id"
+//    }
+    
     class func collection(#json: JSON) -> [Channel] {
         let realm = Realm()
         var collection = [Channel]()

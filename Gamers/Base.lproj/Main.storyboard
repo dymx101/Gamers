@@ -39,6 +39,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNU-OO-oAw" customClass="YouTubePlayerView" customModule="YouTubePlayer">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6m-QW-a2J">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="46" y="630" width="42" height="21"/>
+                                </variation>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="112" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="r3w-KN-BoC">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,6 +100,7 @@
                                 <exclude reference="Y91-dQ-4DC"/>
                                 <exclude reference="ijQ-Zg-K0D"/>
                                 <exclude reference="DNU-OO-oAw"/>
+                                <exclude reference="u6m-QW-a2J"/>
                                 <exclude reference="r3w-KN-BoC"/>
                             </mask>
                             <mask key="constraints">
@@ -109,6 +119,7 @@
                                 <include reference="Y91-dQ-4DC"/>
                                 <include reference="ijQ-Zg-K0D"/>
                                 <include reference="DNU-OO-oAw"/>
+                                <include reference="u6m-QW-a2J"/>
                                 <include reference="r3w-KN-BoC"/>
                             </mask>
                             <mask key="constraints">
