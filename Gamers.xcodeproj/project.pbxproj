@@ -30,6 +30,13 @@
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
 		1A975F261B579C0C003B8327 /* ChannelBLDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F251B579C0C003B8327 /* ChannelBLDelegate.swift */; };
+		1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */; };
+		1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */; };
+		1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AED1B5C8C5D007C5D2A /* GameController.swift */; };
+		1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */; };
+		1AB21AF21B5C8CE4007C5D2A /* SeachController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */; };
+		1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF61B5C9445007C5D2A /* GameCell.swift */; };
+		1AB21AF91B5CAC24007C5D2A /* LiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF81B5CAC24007C5D2A /* LiveCell.swift */; };
 		1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317551B56165F00B6C176 /* SliderBL.swift */; };
 		1AB317581B56172400B6C176 /* SliderBLDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317571B56172400B6C176 /* SliderBLDelegate.swift */; };
 		1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3175A1B56187400B6C176 /* SliderDao.swift */; };
@@ -90,6 +97,13 @@
 		1A975F211B579947003B8327 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		1A975F231B579BE9003B8327 /* ChannelBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBL.swift; sourceTree = "<group>"; };
 		1A975F251B579C0C003B8327 /* ChannelBLDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBLDelegate.swift; sourceTree = "<group>"; };
+		1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveController.swift; sourceTree = "<group>"; };
+		1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
+		1AB21AED1B5C8C5D007C5D2A /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
+		1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeachController.swift; sourceTree = "<group>"; };
+		1AB21AF61B5C9445007C5D2A /* GameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
+		1AB21AF81B5CAC24007C5D2A /* LiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveCell.swift; sourceTree = "<group>"; };
 		1AB317551B56165F00B6C176 /* SliderBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBL.swift; sourceTree = "<group>"; };
 		1AB317571B56172400B6C176 /* SliderBLDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBLDelegate.swift; sourceTree = "<group>"; };
 		1AB3175A1B56187400B6C176 /* SliderDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderDao.swift; sourceTree = "<group>"; };
@@ -160,17 +174,15 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		1A3015A01B4E16BA00EB9965 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		1A3015A11B4E16BA00EB9965 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				1A32FD1A1B54C1000040E94C /* HomeController.swift */,
+				1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */,
+				1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */,
+				1AB21AED1B5C8C5D007C5D2A /* GameController.swift */,
+				1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */,
+				1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,6 +205,15 @@
 				1A3015CF1B4E587C00EB9965 /* FMResultSet.m */,
 			);
 			path = fmdb;
+			sourceTree = "<group>";
+		};
+		1AB21AF51B5C9433007C5D2A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1AB21AF61B5C9445007C5D2A /* GameCell.swift */,
+				1AB21AF81B5CAC24007C5D2A /* LiveCell.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		1AB317541B5615CF00B6C176 /* Service */ = {
@@ -244,7 +265,7 @@
 				1AB317541B5615CF00B6C176 /* Service */,
 				1A30159E1B4E16BA00EB9965 /* Models */,
 				1A30159F1B4E16BA00EB9965 /* Utilities */,
-				1A3015A01B4E16BA00EB9965 /* ViewModels */,
+				1AB21AF51B5C9433007C5D2A /* ViewModels */,
 				1A3015A11B4E16BA00EB9965 /* Views */,
 				1AD9C7011B4E1189001FE414 /* AppDelegate.swift */,
 				1AD9C7031B4E1189001FE414 /* ViewController.swift */,
@@ -466,29 +487,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB21AF21B5C8CE4007C5D2A /* SeachController.swift in Sources */,
 				1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */,
+				1AB21AF91B5CAC24007C5D2A /* LiveCell.swift in Sources */,
 				1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */,
 				1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
 				1A3015C31B4E496F00EB9965 /* DB.swift in Sources */,
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
+				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
 				1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */,
 				1A3015D21B4E587C00EB9965 /* FMDatabasePool.m in Sources */,
 				1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */,
+				1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */,
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */,
 				1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */,
+				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */,
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
 				1A975F261B579C0C003B8327 /* ChannelBLDelegate.swift in Sources */,
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
 				1A3015D01B4E587C00EB9965 /* FMDatabase.m in Sources */,
+				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
 				1A3015D41B4E587C00EB9965 /* FMResultSet.m in Sources */,
 				1AB317581B56172400B6C176 /* SliderBLDelegate.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
+				1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */,
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
 				1A3015D11B4E587C00EB9965 /* FMDatabaseAdditions.m in Sources */,
