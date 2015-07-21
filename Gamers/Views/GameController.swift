@@ -36,7 +36,7 @@ class GameController: UICollectionViewController, UICollectionViewDataSource, UI
         //todo:设置高宽比例
         return CGSize(width: width, height: 200)
     }
-    //设置cell的间距
+    // 设置cell的间距
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
         return UIEdgeInsets(top:10, left: 10, bottom: 10, right: 10)
     }
