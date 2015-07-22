@@ -11,31 +11,22 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
-
 class ChannelBL: NSObject {
 
     var delegate: ChannelBLDelegate!
     
-    func findChannel(channelType : String) -> BFTask {
+    func getChannel(channelType : String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return ChannelDao.getSliders(channelType: channelType)
+            return ChannelDao.getChannels(channelType: channelType)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
-            if let dictionary = task.result as? [String: AnyObject] {
-                var items = [Channel]()
-                
-                if let channels = dictionary["channels"] as? [Channel] {
-                    for value in channels {
-                        items.append(value)
-                    }
-                }
-                println(items)
-                return BFTask(result: items)
+            if let channels = task.result as? [Channel] {
+                return BFTask(result: channels)
             }
-            
+
             return task
         })
         

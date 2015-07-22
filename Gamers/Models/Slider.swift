@@ -59,7 +59,7 @@ class Slider: Object {
         }
         
         if let imageSmall = json["image_small"].string {
-            model.imageHq = imageSmall
+            model.imageSmall = imageSmall
         }
         
         if let title = json["title"].string {

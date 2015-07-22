@@ -33,12 +33,11 @@ extension SliderDao {
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     let json = JSON(JSONDictionary)
                     sliders = Slider.collection(json: json)
-
                 }
-                
-                result = ["sliders": sliders]
+
                 //TODO: 返回该对象集合,view直接读取
-                source.setResult(JSONDictionary)
+                source.setResult(sliders)
+
             } else {
                 source.setError(error)
             }

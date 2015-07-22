@@ -11,43 +11,53 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
-
 class GameBL: NSObject {
+
+    func recommendGame() -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return GameDao.getRecommendGame()
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let games = task.result as? [Game] {
+                return BFTask(result: games)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
     
-    //var delegate: ChannelBLDelegate!
-    
-//    func RecommendGame() -> BFTask {
-//        var fetchTask = BFTask(result: nil)
-//        
-//        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-//            return GameDao.getRecommendGame()
-//        })
-//        
-//        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
-//            if let dictionary = task.result as? [String: AnyObject] {
-//                var items = [Channel]()
-//                
-//                if let channels = dictionary["channels"] as? [Channel] {
-//                    for value in channels {
-//                        items.append(value)
-//                    }
-//                }
-//                println(items)
-//                return BFTask(result: items)
-//            }
-//            
-//            return task
-//        })
-//        
-//        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-//            //self.loading = false
-//            
-//            return task
-//        })
-//        
-//        return fetchTask
-//    }
-//    
+    func getAllGame() -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return GameDao.getAllGame()
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let games = task.result as? [Game] {
+                return BFTask(result: games)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
     
     
     

@@ -28,17 +28,8 @@ class SliderBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
-            if let dictionary = task.result as? [String: AnyObject] {
-                var items = [Slider]()
-
-                if let sliders = dictionary["sliders"] as? [Slider] {
-                    for value in sliders {
-                        items.append(value)
-                    }
-                }
-                
-
-                return BFTask(result: items)
+            if let sliders = task.result as? [Slider] {
+                return BFTask(result: sliders)
             }
             
             return task

@@ -17,7 +17,10 @@ import Bolts
 class HomeController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
     @IBOutlet weak var contentView: UIView!         //滚动试图内容
-    
+    // 轮播视图
+    var cycleScrollView: SDCycleScrollView!
+    var cycleTitles: [String] = []
+    var cycleImagesURLStrings: [String]  = [];
     //新手推荐视图
     var newChannelView: UITableView!
     //游戏大咖视图
@@ -32,51 +35,90 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     var newGameView2: UITableView!
     var newGameView3: UITableView!
     
-    var newChannelObjects = NSMutableArray()
+    // 全局数据
+    var newChannel = [Channel]()
+    var featuredChannel = [Channel]()
+    //var hotGame = [Game]()
+    //var newGame = [Game]()
+    
+    // 刷新数据计数
+    var refresh = 0
+    // 停止刷新状态
+    func stopRefensh(){
+        self.refresh++
+        if self.refresh >= 3 {
+            self.scrollView.header.endRefreshing()
+            refresh = 0
+        }
+    }
+    
+    func loadNewData() {
+        // 新手频道推荐数据
+        let channelBL = ChannelBL()
+        channelBL.getChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.newChannel = (task.result as? [Channel])!
+            self!.newChannelView.reloadData()
+            self!.stopRefensh()
+            
+            return nil
+        })
+        // 游戏大咖频道推荐数据
+        channelBL.getChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.featuredChannel = (task.result as? [Channel])!
+            self!.featuredChannelView.reloadData()
+            self!.stopRefensh()
+            
+            return nil
+        })
+        // 后台进程获取数据
+        let sliderBL = SliderBL()
+        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if let sliders = task.result as? [Slider] {
+                for slider in sliders {
+                    self!.cycleTitles.append(slider.title)
+                    self!.cycleImagesURLStrings.append(slider.imageSmall)
+                }
+            }
+            self!.cycleScrollView.titlesGroup = self!.cycleTitles
+            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
+            self!.cycleTitles = []
+            self!.cycleImagesURLStrings = [];
+            
+            self!.stopRefensh()
+            
+            return nil
+        })
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 加载数据
+        self.loadNewData()
         
         
-        // 下拉刷新界面
-//        scrollView.header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-//            //NSLog("1111111")
-//        })
-//        
-//        scrollView.header.autoChangeAlpha = true;
-//        scrollView.header.beginRefreshing()
-//        
-//        NSOperationQueue().addOperationWithBlock {
-//            sleep(2)
-//            NSOperationQueue.mainQueue().addOperationWithBlock {
-//                self.scrollView.header.endRefreshing()
-//            }
-//        }
+
+
+        
+        
+        
+        
+        
+        // 下拉刷新数据
+        scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        scrollView.header.autoChangeAlpha = true;
         
         // 0、顶部轮播
-        let cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
-
-        var titles: [String] = []
-        var imagesURLStrings: [String]  = [];
+        cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
+        cycleScrollView.backgroundColor = UIColor.grayColor()
         // 轮播视图的基本属性
         cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
         cycleScrollView.infiniteLoop = true;
         cycleScrollView.delegate = self
         cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
         cycleScrollView.autoScrollTimeInterval = 4.0
-
-        let BL = SliderBL()
-        BL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            for (index, value) in JSON(task.result) {
-                titles.append(value["title"].string!)
-                imagesURLStrings.append(value["image_small"].string!)
-            }
-            
-            cycleScrollView.titlesGroup = titles
-            cycleScrollView.imageURLStringsGroup = imagesURLStrings
-            
-            return nil
-        })
+        cycleScrollView.placeholderImage = UIImage(named: "1.jgp")
 
         contentView.addSubview(cycleScrollView)
         
@@ -501,25 +543,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView3.tableFooterView = newGameView3FootView
         
         contentView.addSubview(newGameView3)
-        
-        //新手频道推荐数据
-        let channelBL = ChannelBL()
-        channelBL.findChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            for (index, value) in JSON(task.result) {
-                var item = [String: String]()
-                item["id"] = value["id"].string!
-                item["name"] = value["name"].string!
 
-                self!.newChannelObjects.addObject(item)
-            }
-
-            self!.newChannelView.reloadData()
-            self!.hotGameView1.reloadData()
-            return nil
-        })
-
-        
-        
     }
     
     // 一个分区
@@ -530,9 +554,9 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case newChannelView:
-            return newChannelObjects.count
+            return self.newChannel.count
         case featuredChannelView:
-            return 3
+            return self.featuredChannel.count
         case hotGameView1:
             return 3
         case hotGameView2:
@@ -561,89 +585,92 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         case newChannelView:
             // 指定identify进行重用提高性能
             let identify: String = "newChannelCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(identify, forIndexPath: indexPath) as! UITableViewCell
-            cell.accessoryType = UITableViewCellAccessoryType.None
+            //var cell = tableView.dequeueReusableCellWithIdentifier(identify, forIndexPath: indexPath) as! UITableViewCell //刷新重影bug
+            var cell = tableView.cellForRowAtIndexPath(indexPath)
             
-            //cell.textLabel?.text = newChannelObjects[indexPath.row]["name"] as? String
+            if cell == nil {
+                cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell!.accessoryType = UITableViewCellAccessoryType.None
+                
+                var imageView = UIImageView(image: UIImage(named: "1.jpg")!)
+                imageView.frame = CGRectMake(10, 10, 160, 80)
+                cell!.addSubview(imageView)
+                
+                var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
+                titleLabel.text = newChannel[indexPath.row].name
+                titleLabel.font = UIFont.systemFontOfSize(14)
+                //titleLabel.adjustsFontSizeToFitWidth = true
+                //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
+                titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                titleLabel.numberOfLines = 0
+                //titleLabel.backgroundColor = UIColor.grayColor()
+                
+                var channelLabel = UILabel(frame: CGRectMake(180, 50, view.bounds.size.width-222, 20))
+                channelLabel.text = newChannel[indexPath.row].details
+                channelLabel.font = UIFont.systemFontOfSize(14)
+                channelLabel.textColor = UIColor.grayColor()
+                
+                var detailLabel = UILabel(frame: CGRectMake(180, 70, view.bounds.size.width-222, 20))
+                detailLabel.text = String(newChannel[indexPath.row].videos)
+                detailLabel.font = UIFont.systemFontOfSize(14)
+                detailLabel.textColor = UIColor.grayColor()
+                
+                cell!.addSubview(titleLabel)
+                cell!.addSubview(channelLabel)
+                cell!.addSubview(detailLabel)
+                
+                var shareButton = UIButton(frame: CGRectMake(view.bounds.size.width-30, 10, 10, 25))
+                shareButton.backgroundColor = UIColor.redColor()
+                cell!.addSubview(shareButton)
+                
+            }
             
-            var imageView = UIImageView(image: UIImage(named: "1.jpg")!)
-            imageView.frame = CGRectMake(10, 10, 160, 80)
-            cell.addSubview(imageView)
-            
-            var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
-            titleLabel.font = UIFont.systemFontOfSize(14)
-            //titleLabel.adjustsFontSizeToFitWidth = true
-            //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
-            titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            titleLabel.numberOfLines = 0
-            //titleLabel.backgroundColor = UIColor.grayColor()
-            
-            var channelLabel = UILabel(frame: CGRectMake(180, 50, view.bounds.size.width-222, 20))
-            channelLabel.text = "星际青年笨哥"
-            channelLabel.font = UIFont.systemFontOfSize(14)
-            channelLabel.textColor = UIColor.grayColor()
-            
-            var detailLabel = UILabel(frame: CGRectMake(180, 70, view.bounds.size.width-222, 20))
-            detailLabel.text = "40万观看.2周前"
-            detailLabel.font = UIFont.systemFontOfSize(14)
-            detailLabel.textColor = UIColor.grayColor()
-            
-            cell.addSubview(titleLabel)
-            cell.addSubview(channelLabel)
-            cell.addSubview(detailLabel)
-            
-            var shareButton = UIButton(frame: CGRectMake(view.bounds.size.width-30, 10, 10, 25))
-            shareButton.backgroundColor = UIColor.redColor()
-            cell.addSubview(shareButton)
-            
-            
-            println("第\(indexPath.row)的数据：\(newChannelObjects[indexPath.row])")
-            
-            return cell
-
+            return cell!
         case featuredChannelView:
             // 指定identify进行重用提高性能
             let identify: String = "featuredChannelCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(identify, forIndexPath: indexPath) as! UITableViewCell
-            cell.accessoryType = UITableViewCellAccessoryType.None
+            //let cell = tableView.dequeueReusableCellWithIdentifier(identify, forIndexPath: indexPath) as! UITableViewCell
+            var cell = tableView.cellForRowAtIndexPath(indexPath)
             
-            //cell.textLabel?.text = newChannelObjects[indexPath.row]["name"] as? String
+            if cell == nil {
+                cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell!.accessoryType = UITableViewCellAccessoryType.None
+                
+                var imageView = UIImageView(image: UIImage(named: "2.jpg")!)
+                imageView.frame = CGRectMake(10, 10, 160, 80)
+                cell!.addSubview(imageView)
+                
+                // TODO: 两行多余省略号
+                var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
+                titleLabel.text = featuredChannel[indexPath.row].name
+                titleLabel.font = UIFont.systemFontOfSize(14)
+                //titleLabel.adjustsFontSizeToFitWidth = true
+                //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
+                titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                titleLabel.numberOfLines = 0
+                //titleLabel.backgroundColor = UIColor.grayColor()
+                
+                var channelLabel = UILabel(frame: CGRectMake(180, 50, view.bounds.size.width-222, 20))
+                channelLabel.text = featuredChannel[indexPath.row].details
+                channelLabel.font = UIFont.systemFontOfSize(14)
+                channelLabel.textColor = UIColor.grayColor()
+                
+                var detailLabel = UILabel(frame: CGRectMake(180, 70, view.bounds.size.width-222, 20))
+                detailLabel.text = String(featuredChannel[indexPath.row].videos)
+                detailLabel.font = UIFont.systemFontOfSize(14)
+                detailLabel.textColor = UIColor.grayColor()
+                
+                cell!.addSubview(titleLabel)
+                cell!.addSubview(channelLabel)
+                cell!.addSubview(detailLabel)
+                
+                var shareButton = UIButton(frame: CGRectMake(view.bounds.size.width-30, 10, 10, 25))
+                shareButton.backgroundColor = UIColor.redColor()
+                cell!.addSubview(shareButton)
+                
+            }
             
-            var imageView = UIImageView(image: UIImage(named: "2.jpg")!)
-            imageView.frame = CGRectMake(10, 10, 160, 80)
-            cell.addSubview(imageView)
-            
-            // TODO: 两行多余省略号
-            var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "好可愛的鼻酸 | Garry's Mod 躲貓貓 #01"
-            titleLabel.font = UIFont.systemFontOfSize(14)
-            //titleLabel.adjustsFontSizeToFitWidth = true
-            //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
-            titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            titleLabel.numberOfLines = 0
-            //titleLabel.backgroundColor = UIColor.grayColor()
-            
-            var channelLabel = UILabel(frame: CGRectMake(180, 50, view.bounds.size.width-222, 20))
-            channelLabel.text = "老皮"
-            channelLabel.font = UIFont.systemFontOfSize(14)
-            channelLabel.textColor = UIColor.grayColor()
-            
-            var detailLabel = UILabel(frame: CGRectMake(180, 70, view.bounds.size.width-222, 20))
-            detailLabel.text = "22万观看.1周前"
-            detailLabel.font = UIFont.systemFontOfSize(14)
-            detailLabel.textColor = UIColor.grayColor()
-            
-            cell.addSubview(titleLabel)
-            cell.addSubview(channelLabel)
-            cell.addSubview(detailLabel)
-            
-            var shareButton = UIButton(frame: CGRectMake(view.bounds.size.width-30, 10, 10, 25))
-            shareButton.backgroundColor = UIColor.redColor()
-            cell.addSubview(shareButton)
-            
-            return cell
-
+            return cell!
         case hotGameView1:
             // 指定identify进行重用提高性能
             let identify: String = "hotGame1Cell"
@@ -960,14 +987,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     }
     
-    
-    
-    
-    
-    
-    
-
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -983,12 +1002,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     
 }
-
-//extension HomeController: ChannelBLDelegate {
-//    func findChannel(channelType: String) -> BFTask {
-//        
-//    }
-//}
 
 // 顶部轮播的代理方法
 extension HomeController: SDCycleScrollViewDelegate {

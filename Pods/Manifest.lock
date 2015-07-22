@@ -6,7 +6,7 @@ PODS:
   - Bolts/AppLinks (1.2.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
-  - MJRefresh (2.2.0)
+  - MJRefresh (2.3.2)
   - Realm (0.93.2):
     - Realm/Headers (= 0.93.2)
   - Realm/Headers (0.93.2)
@@ -30,7 +30,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
-  MJRefresh: 65a2bf14abb6feeaed8696aa1551f70e15ab0a08
+  MJRefresh: 0f6f5e8387970607c26080b44058b229a23065d7
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
   SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
@@ -38,4 +38,4 @@ SPEC CHECKSUMS:
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
   YouTubePlayer: f0afebef31a1793cce734220a5a311ba29ca4a7f
 
-COCOAPODS: 0.38.0.beta.2
+COCOAPODS: 0.38.0

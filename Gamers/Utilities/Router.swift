@@ -25,6 +25,7 @@ enum Router: URLRequestConvertible {
     case Slider(channel: String?)                   //首页顶部轮播
     case Channel(channelType: String?)              //首页推荐频道：新手、游戏大咖
     case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
+    case AllGame()                                  //所有游戏
     case Game(gameName: String?, type: String?)
     
     // MARK: URL格式转换
@@ -35,7 +36,6 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = ["channel": "home"]
                 
                 return (.GET, "/sliders", parameters)
-                
             case .Channel(let channelType):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
@@ -46,9 +46,12 @@ enum Router: URLRequestConvertible {
                 return (.GET, "/channel", parameters)
             case .RecommendGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                
+
                 return (.GET, "/recommendgame", parameters)
+            case .AllGame():
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
+                return (.GET, "/allgame", parameters)
             case .Game(let name, let type):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
@@ -60,7 +63,6 @@ enum Router: URLRequestConvertible {
                 }
                 
                 return (.GET, "/game", parameters)
-                
             case .MostPopular(let pageToken):
                 var parameters: [String: AnyObject] = [
                     "key": Router.kGoogleAPIKey,
