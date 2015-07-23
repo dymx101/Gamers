@@ -11,6 +11,8 @@ import UIKit
 class UserController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSLog("UserController")
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     

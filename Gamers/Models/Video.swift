@@ -27,14 +27,10 @@ class Video: Object {
     dynamic var likes = 0               //分享次数（？）
     dynamic var featured = false        //是否属于特殊
     
-    
-    
     // MARK: - Relation
-    
     //dynamic var thumbnails = RLMArray(objectClassName: Thumbnail.className())
     
     // MARK: - Initialization
-    
     // Custom initializer is not supported yet (github.com/realm/realm-cocoa/issues/1101)
     // init(json: JSON) {}
     
@@ -44,37 +40,60 @@ class Video: Object {
         // videos api
         if let itemId = json["id"].string {
             model.id = itemId
-            
-            // search api
-        } else if let itemId = json["id"]["videoId"].string {
-            model.id = itemId
+        }
+        if let playListId = json["playlist_id"].string {
+            model.playListId = playListId
+        }
+        if let videoId = json["video_id"].string {
+            model.videoId = videoId
+        }
+        if let userID = json["user_id"].string {
+            model.userID = userID
+        }
+        if let imageSource = json["image_source"].string {
+            model.id = imageSource
         }
         
-        if let title = json["snippet"]["title"].string {
-            model.videoTitle = title
+        if let videoTitle = json["video_title"].string {
+            model.videoTitle = videoTitle
+        }
+        if let owner = json["owner"].string {
+            model.owner = owner
+        }
+        if let ownerId = json["owner_id"].string {
+            model.ownerId = ownerId
+        }
+        if let views = json["views"].int {
+            model.views = views
+        }
+        if let comments = json["comments"].int {
+            model.comments = comments
         }
         
-        if let description = json["snippet"]["description"].string {
-            //model.itemDescription = description
+        if let likes = json["likes"].int {
+            model.likes = likes
+        }
+        if let featured = json["featured"].bool {
+            model.featured = featured
         }
         
-        if let dateString = json["snippet"]["publishedAt"].string {
-            let dateFormatter = Video.dateFormatter()
-            
-            if let publishedAt = dateFormatter.dateFromString(dateString) {
-                //model.publishedAt = publishedAt
-            }
-        }
+//        if let dateString = json["snippet"]["publishedAt"].string {
+//            let dateFormatter = Video.dateFormatter()
+//            
+//            if let publishedAt = dateFormatter.dateFromString(dateString) {
+//                //model.publishedAt = publishedAt
+//            }
+//        }
         
-        let thumbnails = json["snippet"]["thumbnails"]
-        
-        if thumbnails.type == Type.Dictionary {
-            
-            for (key: String, subJson: JSON) in thumbnails {
-                let thumbnail = Thumbnail.modelFromJSON(subJson, resolution: key)
-                //model.thumbnails.addObject(thumbnail)
-            }
-        }
+//        let thumbnails = json["snippet"]["thumbnails"]
+//        
+//        if thumbnails.type == Type.Dictionary {
+//            
+//            for (key: String, subJson: JSON) in thumbnails {
+//                let thumbnail = Thumbnail.modelFromJSON(subJson, resolution: key)
+//                //model.thumbnails.addObject(thumbnail)
+//            }
+//        }
         
         return model
     }
@@ -104,17 +123,17 @@ class Video: Object {
         let realm = Realm()
         var collection = [Video]()
         
-        if let items = json["items"].array {
-            realm.beginWrite()
+        if let items = json.array {
+            //realm.beginWrite()
             
             for item in items {
                 let videoItem = Video.modelFromJSON(item)
                 //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-                realm.add(videoItem, update: true)
+                //realm.add(videoItem, update: true)
                 collection.append(videoItem)
             }
             
-            realm.commitWrite()
+            //realm.commitWrite()
         }
         
         return collection

@@ -52,6 +52,7 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
                 return (.GET, "/allgame", parameters)
+                
             case .Game(let name, let type):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 

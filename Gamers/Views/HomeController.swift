@@ -12,6 +12,7 @@ import MJRefresh
 import Alamofire
 import SwiftyJSON
 import Bolts
+import RealmSwift
 
 
 class HomeController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -35,11 +36,18 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     var newGameView2: UITableView!
     var newGameView3: UITableView!
     
-    // 全局数据
-    var newChannel = [Channel]()
-    var featuredChannel = [Channel]()
-    //var hotGame = [Game]()
-    //var newGame = [Game]()
+    // 全局数据 //todo 整合在一起
+    var newChannelData = [Channel]()
+    var featuredChannelData = [Channel]()
+    var hotGameData = [Game]()
+    var newGameData = [Game]()
+    var hotGameVideo1Data = [Video]()
+    var hotGameVideo2Data = [Video]()
+    var hotGameVideo3Data = [Video]()
+    var hotGameVideo4Data = [Video]()
+    var newGameVideo1Data = [Video]()
+    var newGameVideo2Data = [Video]()
+    var newGameVideo3Data = [Video]()
     
     // 刷新数据计数
     var refresh = 0
@@ -56,7 +64,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 新手频道推荐数据
         let channelBL = ChannelBL()
         channelBL.getChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.newChannel = (task.result as? [Channel])!
+            self!.newChannelData = (task.result as? [Channel])!
             self!.newChannelView.reloadData()
             self!.stopRefensh()
             
@@ -64,7 +72,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         })
         // 游戏大咖频道推荐数据
         channelBL.getChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.featuredChannel = (task.result as? [Channel])!
+            self!.featuredChannelData = (task.result as? [Channel])!
             self!.featuredChannelView.reloadData()
             self!.stopRefensh()
             
@@ -98,10 +106,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.loadNewData()
         
         
-
-
         
         
+        let gameBL = GameBL()
+
         
         
         
@@ -241,7 +249,9 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView1HeaderView.addSubview(hotGameView1HeaderImageView)
         // 表格头部的标题
         let hotGameView1HeaderTitle = UILabel(frame: CGRectMake(56, 6, 300, 38))
-        hotGameView1HeaderTitle.text = "热门游戏1"
+        if !self.hotGameData.isEmpty {
+            hotGameView1HeaderTitle.text = self.hotGameData[0].nameZh
+        }
         hotGameView1HeaderView.addSubview(hotGameView1HeaderTitle)
         // 表格头部的分割线
         let hotGameView1HeaderLineVIew = UIView(frame: CGRectMake(0, 50, view.bounds.size.width, 1))
@@ -266,6 +276,9 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView1.tableFooterView = hotGameView1FootView
         
         contentView.addSubview(hotGameView1)
+        
+        
+
 
         
         // 4、热门游戏2
@@ -543,6 +556,71 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView3.tableFooterView = newGameView3FootView
         
         contentView.addSubview(newGameView3)
+        
+        
+    
+        let realm = Realm()
+        gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+            if let games = task.result as? [Game] {
+
+                for game in games {
+                    if game.type == 1 {
+                        self!.hotGameData.append(game)
+                    } else {
+                        self!.newGameData.append(game)
+                    }
+                }
+                
+                println(self!.newGameData)
+                
+                if !self!.hotGameData.isEmpty {
+                    hotGameView1HeaderTitle.text = self!.hotGameData[0].nameZh
+                    var videoId = self!.hotGameData[0].videos.substringToIndex(advance(self!.hotGameData[0].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    var video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.hotGameVideo1Data.extend(video)
+                    self!.hotGameView1.reloadData()
+                    
+                    hotGameView2HeaderTitle.text = self!.hotGameData[1].nameZh
+                    videoId = self!.hotGameData[1].videos.substringToIndex(advance(self!.hotGameData[1].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.hotGameVideo2Data.extend(video)
+                    self!.hotGameView2.reloadData()
+                    
+                    hotGameView3HeaderTitle.text = self!.hotGameData[2].nameZh
+                    videoId = self!.hotGameData[2].videos.substringToIndex(advance(self!.hotGameData[2].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.hotGameVideo3Data.extend(video)
+                    self!.hotGameView3.reloadData()
+                    
+                    hotGameView4HeaderTitle.text = self!.hotGameData[3].nameZh
+                    videoId = self!.hotGameData[3].videos.substringToIndex(advance(self!.hotGameData[3].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.hotGameVideo4Data.extend(video)
+                    self!.hotGameView4.reloadData()
+                    
+                    newGameView1HeaderTitle.text = self!.newGameData[0].nameZh
+                    videoId = self!.newGameData[0].videos.substringToIndex(advance(self!.newGameData[0].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.newGameVideo1Data.extend(video)
+                    self!.newGameView1.reloadData()
+                    
+                    newGameView2HeaderTitle.text = self!.newGameData[1].nameZh
+                    videoId = self!.newGameData[1].videos.substringToIndex(advance(self!.newGameData[1].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.newGameVideo2Data.extend(video)
+                    self!.newGameView2.reloadData()
+                    
+                    newGameView3HeaderTitle.text = self!.newGameData[2].nameZh
+                    videoId = self!.newGameData[2].videos.substringToIndex(advance(self!.newGameData[2].videos.endIndex, -1)).componentsSeparatedByString(",")
+                    video = realm.objects(Video).filter("id in %@", videoId)
+                    self!.newGameVideo3Data.extend(video)
+                    self!.newGameView3.reloadData()
+                }
+                
+                //println(self!.gameVideoData)
+            }
+            return nil
+        })
 
     }
     
@@ -554,23 +632,23 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case newChannelView:
-            return self.newChannel.count
+            return self.newChannelData.count
         case featuredChannelView:
-            return self.featuredChannel.count
+            return self.featuredChannelData.count
         case hotGameView1:
-            return 3
+            return hotGameVideo1Data.count
         case hotGameView2:
-            return 3
+            return hotGameVideo2Data.count
         case hotGameView3:
-            return 3
+            return hotGameVideo3Data.count
         case hotGameView4:
-            return 3
+            return hotGameVideo4Data.count
         case newGameView1:
-            return 3
+            return newGameVideo1Data.count
         case newGameView2:
-            return 3
+            return newGameVideo2Data.count
         case newGameView3:
-            return 3
+            return newGameVideo3Data.count
         default :
             return 0
         }
@@ -597,7 +675,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell!.addSubview(imageView)
                 
                 var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-                titleLabel.text = newChannel[indexPath.row].name
+                titleLabel.text = newChannelData[indexPath.row].name
                 titleLabel.font = UIFont.systemFontOfSize(14)
                 //titleLabel.adjustsFontSizeToFitWidth = true
                 //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -606,12 +684,12 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                 //titleLabel.backgroundColor = UIColor.grayColor()
                 
                 var channelLabel = UILabel(frame: CGRectMake(180, 50, view.bounds.size.width-222, 20))
-                channelLabel.text = newChannel[indexPath.row].details
+                channelLabel.text = newChannelData[indexPath.row].details
                 channelLabel.font = UIFont.systemFontOfSize(14)
                 channelLabel.textColor = UIColor.grayColor()
                 
                 var detailLabel = UILabel(frame: CGRectMake(180, 70, view.bounds.size.width-222, 20))
-                detailLabel.text = String(newChannel[indexPath.row].videos)
+                detailLabel.text = String(newChannelData[indexPath.row].videos)
                 detailLabel.font = UIFont.systemFontOfSize(14)
                 detailLabel.textColor = UIColor.grayColor()
                 
@@ -642,7 +720,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 // TODO: 两行多余省略号
                 var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-                titleLabel.text = featuredChannel[indexPath.row].name
+                titleLabel.text = featuredChannelData[indexPath.row].name
                 titleLabel.font = UIFont.systemFontOfSize(14)
                 //titleLabel.adjustsFontSizeToFitWidth = true
                 //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -651,12 +729,12 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                 //titleLabel.backgroundColor = UIColor.grayColor()
                 
                 var channelLabel = UILabel(frame: CGRectMake(180, 50, view.bounds.size.width-222, 20))
-                channelLabel.text = featuredChannel[indexPath.row].details
+                channelLabel.text = featuredChannelData[indexPath.row].details
                 channelLabel.font = UIFont.systemFontOfSize(14)
                 channelLabel.textColor = UIColor.grayColor()
                 
                 var detailLabel = UILabel(frame: CGRectMake(180, 70, view.bounds.size.width-222, 20))
-                detailLabel.text = String(featuredChannel[indexPath.row].videos)
+                detailLabel.text = String(featuredChannelData[indexPath.row].videos)
                 detailLabel.font = UIFont.systemFontOfSize(14)
                 detailLabel.textColor = UIColor.grayColor()
                 
@@ -684,7 +762,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = hotGameVideo1Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -728,7 +806,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = hotGameVideo2Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -772,7 +850,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = hotGameVideo3Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -816,7 +894,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = hotGameVideo4Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -860,7 +938,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = newGameVideo1Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -904,7 +982,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = newGameVideo2Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -947,7 +1025,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.addSubview(imageView)
             
             var titleLabel = UILabel(frame: CGRectMake(180, 10, view.bounds.size.width-222, 40))
-            titleLabel.text = "星际青年笨哥 2015KeSPA杯S2 8强soO vs herO 上 8强soO vs herO 上"
+            titleLabel.text = newGameVideo3Data[indexPath.row].videoTitle
             titleLabel.font = UIFont.systemFontOfSize(14)
             //titleLabel.adjustsFontSizeToFitWidth = true
             //titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
@@ -991,7 +1069,9 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    /**
+    初始化全局尺寸
+    */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // iphone4s:3820，iphone5s:3730，iphone6:3630，iphone6p:3560   +180
@@ -999,14 +1079,24 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 3810)
         self.view.backgroundColor = UIColor.lightGrayColor()
     }
-
-    
+    /**
+    点击触发
+    */
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //
+        //var gameController = segue.destinationViewController as! GameController
+        NSLog("点击了表格行");
+        
+        //NSLog(segue.identifier!)
+    }
 }
 
 // 顶部轮播的代理方法
 extension HomeController: SDCycleScrollViewDelegate {
     func cycleScrollView(cycleScrollView: SDCycleScrollView!, didSelectItemAtIndex index: Int) {
         NSLog("---点击了第%ld张图片", index);
+        var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
+        self.navigationController?.pushViewController(view!, animated: true)
     }
 }
 

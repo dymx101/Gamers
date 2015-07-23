@@ -25,6 +25,7 @@
 		1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD131B54BD170040E94C /* ModelSerializable.swift */; };
 		1A32FD161B54BD660040E94C /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD151B54BD660040E94C /* Slider.swift */; };
 		1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD1A1B54C1000040E94C /* HomeController.swift */; };
+		1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7A583A1B60EB7300464510 /* SliderController.swift */; };
 		1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */; };
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
@@ -92,6 +93,7 @@
 		1A32FD131B54BD170040E94C /* ModelSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSerializable.swift; sourceTree = "<group>"; };
 		1A32FD151B54BD660040E94C /* Slider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
 		1A32FD1A1B54C1000040E94C /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		1A7A583A1B60EB7300464510 /* SliderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderController.swift; sourceTree = "<group>"; };
 		1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsExtensions.swift; sourceTree = "<group>"; };
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
 		1A975F211B579947003B8327 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				1AB21AED1B5C8C5D007C5D2A /* GameController.swift */,
 				1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */,
 				1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */,
+				1A7A583A1B60EB7300464510 /* SliderController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */,
 				1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */,
+				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */,
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,

@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class GameBL: NSObject {
 
-    func recommendGame() -> BFTask {
+    func getRecommendGame() -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
@@ -24,7 +24,7 @@ class GameBL: NSObject {
             if let games = task.result as? [Game] {
                 return BFTask(result: games)
             }
-            
+
             return task
         })
         
