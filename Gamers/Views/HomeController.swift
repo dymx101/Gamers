@@ -100,6 +100,13 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    func pushChannel(sender: AnyObject) {
+        NSLog("跳转")
+        var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
+        self.navigationController?.pushViewController(view!, animated: true)
+        println(sender.tag)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 加载数据
@@ -110,8 +117,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let gameBL = GameBL()
 
-        
-        
+
         
         // 下拉刷新数据
         scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
@@ -177,8 +183,14 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         newChannelView.tableFooterView = newChannelFootView
         
+        // 点击触发跳转事件
+        newChannelFootButton.tag = 100
+        newChannelFootButton.addTarget(self, action: "pushChannel:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         // 添加新手推荐视图
+        newChannelView.tag = 1
         contentView.addSubview(newChannelView)
+        
 
         
         // 2、添加大咖推荐部分
@@ -225,6 +237,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         featuredChannelFootView.addSubview(featuredChannelFootLineVIew)
 
         featuredChannelView.tableFooterView = featuredChannelFootView
+        
+        // 点击触发跳转事件
+        featuredChannelFootButton.tag = 101
+        featuredChannelFootButton.addTarget(self, action: "pushChannel:", forControlEvents: UIControlEvents.TouchUpInside)
         
         contentView.addSubview(featuredChannelView)
         
@@ -557,6 +573,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         contentView.addSubview(newGameView3)
         
+
         
     
         let realm = Realm()
@@ -1075,7 +1092,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // iphone4s:3820，iphone5s:3730，iphone6:3630，iphone6p:3560   +180
-        self.view.frame = CGRectMake(0, 0, self.view.frame.width, 3810)
+        self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 3810)
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 3810)
         self.view.backgroundColor = UIColor.lightGrayColor()
     }
@@ -1089,7 +1106,16 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //NSLog(segue.identifier!)
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //
+        if tableView.isEqual(newChannelView) {
+            NSLog("111")
+        }
+        NSLog("点击了表格\(tableView.tag) 的行\(indexPath.row)");
+    }
 }
+
 
 // 顶部轮播的代理方法
 extension HomeController: SDCycleScrollViewDelegate {

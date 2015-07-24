@@ -6,7 +6,6 @@
 //  Copyright (c) 2015年 Freedom. All rights reserved.
 //
 
-
 import Foundation
 import RealmSwift
 import SwiftyJSON

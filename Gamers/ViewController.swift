@@ -45,15 +45,15 @@ class ViewController: UIViewController, WebSocketDelegate {
 //        db.executeUpdate(sql, withArgumentsInArray: [1,"version",1,1,"开发第一版"])
 //        db.close()
         
-        let sql = "SELECT * FROM SYSTEM"
-        let db = DB.getDb()
-        db.open()
-        let rs = db.executeQuery(sql, withArgumentsInArray: [1])
-
-        while rs.next() {
-            println(rs.stringForColumn("IOS"))
-        }
-        db.close()
+//        let sql = "SELECT * FROM SYSTEM"
+//        let db = DB.getDb()
+//        db.open()
+//        let rs = db.executeQuery(sql, withArgumentsInArray: [1])
+//
+//        while rs.next() {
+//            println(rs.stringForColumn("IOS"))
+//        }
+//        db.close()
         
 
 //

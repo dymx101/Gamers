@@ -10,14 +10,6 @@
 		1A0351FC1B54CB7A007372F8 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0351FB1B54CB7A007372F8 /* News.swift */; };
 		1A3015AB1B4E1F4100EB9965 /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A3015AA1B4E1F4100EB9965 /* YTPlayer.html */; };
 		1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */; };
-		1A3015C31B4E496F00EB9965 /* DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015C21B4E496F00EB9965 /* DB.swift */; };
-		1A3015D01B4E587C00EB9965 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015C61B4E587C00EB9965 /* FMDatabase.m */; };
-		1A3015D11B4E587C00EB9965 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015C81B4E587C00EB9965 /* FMDatabaseAdditions.m */; };
-		1A3015D21B4E587C00EB9965 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015CA1B4E587C00EB9965 /* FMDatabasePool.m */; };
-		1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015CC1B4E587C00EB9965 /* FMDatabaseQueue.m */; };
-		1A3015D41B4E587C00EB9965 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015CF1B4E587C00EB9965 /* FMResultSet.m */; };
-		1A3015D91B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */; };
-		1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */; };
 		1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0B1B54B8090040E94C /* APIClient.swift */; };
 		1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0D1B54B91D0040E94C /* Router.swift */; };
 		1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0F1B54B9BA0040E94C /* NSDateExtensions.swift */; };
@@ -41,6 +33,11 @@
 		1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317551B56165F00B6C176 /* SliderBL.swift */; };
 		1AB317581B56172400B6C176 /* SliderBLDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317571B56172400B6C176 /* SliderBLDelegate.swift */; };
 		1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3175A1B56187400B6C176 /* SliderDao.swift */; };
+		1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE061B61E68800BC7907 /* VideoDao.swift */; };
+		1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE081B61E6AB00BC7907 /* UserDao.swift */; };
+		1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */; };
+		1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */; };
+		1ABEFE111B61E71F00BC7907 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE101B61E71F00BC7907 /* User.swift */; };
 		1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7011B4E1189001FE414 /* AppDelegate.swift */; };
 		1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7031B4E1189001FE414 /* ViewController.swift */; };
 		1AD9C7071B4E1189001FE414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AD9C7051B4E1189001FE414 /* Main.storyboard */; };
@@ -72,20 +69,6 @@
 		1A3015AA1B4E1F4100EB9965 /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = YTPlayer.html; sourceTree = "<group>"; };
 		1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Gamers-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		1A3015C21B4E496F00EB9965 /* DB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DB.swift; path = ../DB.swift; sourceTree = "<group>"; };
-		1A3015C51B4E587C00EB9965 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		1A3015C61B4E587C00EB9965 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		1A3015C71B4E587C00EB9965 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		1A3015C81B4E587C00EB9965 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		1A3015C91B4E587C00EB9965 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		1A3015CA1B4E587C00EB9965 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		1A3015CB1B4E587C00EB9965 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		1A3015CC1B4E587C00EB9965 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		1A3015CD1B4E587C00EB9965 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		1A3015CE1B4E587C00EB9965 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		1A3015CF1B4E587C00EB9965 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMDatabaseAdditionsVariadic.swift; path = ../FMDatabaseAdditionsVariadic.swift; sourceTree = "<group>"; };
-		1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FMDatabaseVariadic.swift; path = ../FMDatabaseVariadic.swift; sourceTree = "<group>"; };
 		1A32FD0B1B54B8090040E94C /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		1A32FD0D1B54B91D0040E94C /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1A32FD0F1B54B9BA0040E94C /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
@@ -109,6 +92,11 @@
 		1AB317551B56165F00B6C176 /* SliderBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBL.swift; sourceTree = "<group>"; };
 		1AB317571B56172400B6C176 /* SliderBLDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBLDelegate.swift; sourceTree = "<group>"; };
 		1AB3175A1B56187400B6C176 /* SliderDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderDao.swift; sourceTree = "<group>"; };
+		1ABEFE061B61E68800BC7907 /* VideoDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDao.swift; sourceTree = "<group>"; };
+		1ABEFE081B61E6AB00BC7907 /* UserDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
+		1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBL.swift; sourceTree = "<group>"; };
+		1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBL.swift; sourceTree = "<group>"; };
+		1ABEFE101B61E71F00BC7907 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1AD9C6FC1B4E1189001FE414 /* Gamers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gamers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD9C7001B4E1189001FE414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AD9C7011B4E1189001FE414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -159,6 +147,7 @@
 				1A0351FB1B54CB7A007372F8 /* News.swift */,
 				1A975F211B579947003B8327 /* Channel.swift */,
 				1AFC1A0F1B58F9C4006D9667 /* Game.swift */,
+				1ABEFE101B61E71F00BC7907 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -166,8 +155,6 @@
 		1A30159F1B4E16BA00EB9965 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1A3015C41B4E587C00EB9965 /* fmdb */,
-				1A3015C21B4E496F00EB9965 /* DB.swift */,
 				1A32FD0B1B54B8090040E94C /* APIClient.swift */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
 				1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */,
@@ -190,26 +177,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		1A3015C41B4E587C00EB9965 /* fmdb */ = {
-			isa = PBXGroup;
-			children = (
-				1A3015D71B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift */,
-				1A3015D81B4E60C400EB9965 /* FMDatabaseVariadic.swift */,
-				1A3015C51B4E587C00EB9965 /* FMDatabase.h */,
-				1A3015C61B4E587C00EB9965 /* FMDatabase.m */,
-				1A3015C71B4E587C00EB9965 /* FMDatabaseAdditions.h */,
-				1A3015C81B4E587C00EB9965 /* FMDatabaseAdditions.m */,
-				1A3015C91B4E587C00EB9965 /* FMDatabasePool.h */,
-				1A3015CA1B4E587C00EB9965 /* FMDatabasePool.m */,
-				1A3015CB1B4E587C00EB9965 /* FMDatabaseQueue.h */,
-				1A3015CC1B4E587C00EB9965 /* FMDatabaseQueue.m */,
-				1A3015CD1B4E587C00EB9965 /* FMDB.h */,
-				1A3015CE1B4E587C00EB9965 /* FMResultSet.h */,
-				1A3015CF1B4E587C00EB9965 /* FMResultSet.m */,
-			);
-			path = fmdb;
-			sourceTree = "<group>";
-		};
 		1AB21AF51B5C9433007C5D2A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +194,8 @@
 				1A975F231B579BE9003B8327 /* ChannelBL.swift */,
 				1A975F251B579C0C003B8327 /* ChannelBLDelegate.swift */,
 				1AFC1A0D1B58F92B006D9667 /* GameBL.swift */,
+				1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */,
+				1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -237,6 +206,8 @@
 				1AB3175A1B56187400B6C176 /* SliderDao.swift */,
 				1A975F1F1B57960A003B8327 /* ChannelDao.swift */,
 				1AFC1A0B1B58F3C2006D9667 /* GameDao.swift */,
+				1ABEFE061B61E68800BC7907 /* VideoDao.swift */,
+				1ABEFE081B61E6AB00BC7907 /* UserDao.swift */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -494,28 +465,26 @@
 				1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */,
 				1AB21AF91B5CAC24007C5D2A /* LiveCell.swift in Sources */,
 				1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */,
+				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
 				1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */,
+				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
-				1A3015C31B4E496F00EB9965 /* DB.swift in Sources */,
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
 				1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */,
-				1A3015D21B4E587C00EB9965 /* FMDatabasePool.m in Sources */,
-				1A3015DA1B4E60C400EB9965 /* FMDatabaseVariadic.swift in Sources */,
 				1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */,
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */,
 				1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */,
 				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
-				1A3015D31B4E587C00EB9965 /* FMDatabaseQueue.m in Sources */,
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
 				1A975F261B579C0C003B8327 /* ChannelBLDelegate.swift in Sources */,
+				1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */,
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
-				1A3015D01B4E587C00EB9965 /* FMDatabase.m in Sources */,
 				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
-				1A3015D41B4E587C00EB9965 /* FMResultSet.m in Sources */,
+				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
 				1AB317581B56172400B6C176 /* SliderBLDelegate.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
@@ -523,11 +492,10 @@
 				1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */,
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
-				1A3015D11B4E587C00EB9965 /* FMDatabaseAdditions.m in Sources */,
 				1A0351FC1B54CB7A007372F8 /* News.swift in Sources */,
-				1A3015D91B4E60C400EB9965 /* FMDatabaseAdditionsVariadic.swift in Sources */,
 				1AFC1A0C1B58F3C2006D9667 /* GameDao.swift in Sources */,
 				1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */,
+				1ABEFE111B61E71F00BC7907 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
