@@ -588,7 +588,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                     }
                 }
                 
-                println(self!.newGameData)
+                //println(self!.newGameData)
                 
                 if !self!.hotGameData.isEmpty {
                     hotGameView1HeaderTitle.text = self!.hotGameData[0].nameZh
@@ -1104,7 +1104,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         //var gameController = segue.destinationViewController as! GameController
         NSLog("点击了表格行");
         
-        //NSLog(segue.identifier!)
+        NSLog(segue.identifier!)
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

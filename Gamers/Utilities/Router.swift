@@ -13,7 +13,7 @@ enum Router: URLRequestConvertible {
 //    static let baseURLString = "https://www.googleapis.com/youtube/v3"
 //    static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
-    static let baseURLString = "http://api.freedom.cn/index"
+    static let baseURLString = "http://freedom.oyss.info"
     static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
     // 
@@ -35,7 +35,7 @@ enum Router: URLRequestConvertible {
             case .Slider(let channel):
                 var parameters: [String: AnyObject] = ["channel": "home"]
                 
-                return (.GET, "/sliders", parameters)
+                return (.GET, "/index/sliders", parameters)
             case .Channel(let channelType):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
@@ -43,15 +43,15 @@ enum Router: URLRequestConvertible {
                     parameters["type"] = channelType
                 }
 
-                return (.GET, "/channel", parameters)
+                return (.GET, "/channel/recommend", parameters)
             case .RecommendGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
 
-                return (.GET, "/recommendgame", parameters)
+                return (.GET, "/index/recommendgame", parameters)
             case .AllGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
-                return (.GET, "/allgame", parameters)
+                return (.GET, "/game/games", parameters)
                 
             case .Game(let name, let type):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -63,7 +63,7 @@ enum Router: URLRequestConvertible {
                     parameters["type"] = type
                 }
                 
-                return (.GET, "/game", parameters)
+                return (.GET, "/game/seachgame", parameters)
             case .MostPopular(let pageToken):
                 var parameters: [String: AnyObject] = [
                     "key": Router.kGoogleAPIKey,

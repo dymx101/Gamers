@@ -15,8 +15,9 @@ pod 'SDCycleScrollView','~> 1.3'
 pod 'MJRefresh'
 ## 低层第三方异步组件
 pod 'Bolts'
-#pod 'BoltsSwift'
+pod 'BoltsSwift'
 ## 缓存组件，主要用于图片
+pod 'Kingfisher'
 #pod 'HanekeSwift'
 ## Facebook的异步组件
 #pod 'AsyncDisplayKit'

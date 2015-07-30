@@ -20,7 +20,7 @@ class Channel: Object {
     
     dynamic var subscribes = 0      //订阅数
     dynamic var videos = 0          //视频总数
-    dynamic var play = 0            //播放次数
+    dynamic var views = 0           //播放次数
     
 //    override static func primaryKey() -> String? {
 //        return "id"
@@ -79,8 +79,8 @@ class Channel: Object {
             model.videos = videos
         }
         
-        if let play = json["play"].int {
-            model.play = play
+        if let views = json["views"].int {
+            model.views = views
         }
         
         return model

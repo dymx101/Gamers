@@ -9,6 +9,8 @@
 import UIKit
 
 class VideoListController: UITableViewController {
+    
+    var gameData: Game!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,17 @@ class VideoListController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gameVideoList:", name: "GameVideoListNotification", object: nil)
+        
+        println(self.gameData)
+        
+    }
+    
+    func gameVideoList(notification: NSNotification) {
+        println(notification.userInfo)
+        println("111")
+        //self.navigationItem.title = notification.userInfo["game"]
     }
 
     override func didReceiveMemoryWarning() {
