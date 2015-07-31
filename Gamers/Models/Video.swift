@@ -51,7 +51,7 @@ class Video: Object {
             model.userID = userID
         }
         if let imageSource = json["image_source"].string {
-            model.id = imageSource
+            model.imageSource = imageSource
         }
         
         if let videoTitle = json["video_title"].string {

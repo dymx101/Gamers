@@ -16,8 +16,10 @@ import RealmSwift
 
 
 class HomeController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
     @IBOutlet weak var contentView: UIView!         //滚动试图内容
+    
     // 轮播视图
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []

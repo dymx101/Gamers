@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class SliderBL: NSObject {
     
-    var delegate: SliderBLDelegate!
+    //var delegate: SliderBLDelegate!
     
     //查询所有数据方法 成功
     func findAllNotesFinished(list : NSMutableArray) {
@@ -42,8 +42,6 @@ class SliderBL: NSObject {
         })
         
         return fetchTask
-        
-        
     }
     
 

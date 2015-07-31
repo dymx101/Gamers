@@ -28,6 +28,8 @@ enum Router: URLRequestConvertible {
     case AllGame()                                  //所有游戏
     case Game(gameName: String?, type: String?)
     
+    case GameVideo(name: String?, offset: Int?, count: Int?)    //获取游戏视频
+    
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
@@ -52,7 +54,6 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
                 return (.GET, "/game/games", parameters)
-                
             case .Game(let name, let type):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
@@ -64,6 +65,25 @@ enum Router: URLRequestConvertible {
                 }
                 
                 return (.GET, "/game/seachgame", parameters)
+            case .GameVideo(let name, let offset, let count):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if name != nil {
+                    parameters["name"] = name
+                }
+                
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                
+                return (.GET, "/game/gamevideo", parameters)
+                
+                
+                
+                
+                
+                
+                
+                
+                
             case .MostPopular(let pageToken):
                 var parameters: [String: AnyObject] = [
                     "key": Router.kGoogleAPIKey,

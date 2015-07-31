@@ -91,14 +91,15 @@ class GameController: UICollectionViewController, UICollectionViewDataSource, UI
         
     }
     
-    // 跳转传值
+    // 跳转传值，当使用storyboard时候才可以使用改方法，要不然不会触发，纯代码可以使用didSelectItemAtIndexPath触发
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //
+        // 定义列表控制器
         var videoListController = segue.destinationViewController as! VideoListController
-        
+        // 提取选中的游戏，把值传给列表页面
         var cell = sender as! UICollectionViewCell
         var indexPath = self.gameView.indexPathForCell(cell)!
         var select = indexPath.section * 2 + indexPath.row
+        
         videoListController.gameData = self.gameData[select]
 
     }

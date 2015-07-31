@@ -12,7 +12,8 @@ import Bolts
 import SwiftyJSON
 
 class GameBL: NSObject {
-
+    
+    // 首页推荐游戏
     func getRecommendGame() -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -36,6 +37,7 @@ class GameBL: NSObject {
         return fetchTask
     }
     
+    // 所有游戏列表
     func getAllGame() -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -59,6 +61,29 @@ class GameBL: NSObject {
         return fetchTask
     }
     
+    // 游戏的视频列表
+    func getGameVideo(name: String, offset: Int?, count: Int?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return GameDao.getGameVideo(name: name, offset: offset, count: count)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let videos = task.result as? [Video] {
+                return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
     
     
 }

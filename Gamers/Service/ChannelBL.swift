@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class ChannelBL: NSObject {
 
-    var delegate: ChannelBLDelegate!
+    //var delegate: ChannelBLDelegate!
     
     func getChannel(channelType : String) -> BFTask {
         var fetchTask = BFTask(result: nil)

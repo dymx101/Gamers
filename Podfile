@@ -21,3 +21,5 @@ pod 'Kingfisher'
 #pod 'HanekeSwift'
 ## Facebook的异步组件
 #pod 'AsyncDisplayKit'
+## 标签页切换
+pod 'MXSegmentedPager'

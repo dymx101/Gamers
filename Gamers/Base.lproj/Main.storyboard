@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -69,13 +70,13 @@
                                         <exclude reference="MGE-D4-GsA"/>
                                     </mask>
                                     <mask key="constraints">
+                                        <exclude reference="LTS-GS-0o0"/>
+                                        <exclude reference="plG-CX-iez"/>
+                                        <exclude reference="poq-qE-X1L"/>
                                         <exclude reference="BYs-dX-h7l"/>
                                         <exclude reference="LtG-h1-sMf"/>
                                         <exclude reference="Rxn-fu-cqC"/>
                                         <exclude reference="tYL-17-NlK"/>
-                                        <exclude reference="LTS-GS-0o0"/>
-                                        <exclude reference="plG-CX-iez"/>
-                                        <exclude reference="poq-qE-X1L"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -84,13 +85,13 @@
                                         <include reference="MGE-D4-GsA"/>
                                     </mask>
                                     <mask key="constraints">
+                                        <include reference="LTS-GS-0o0"/>
+                                        <include reference="plG-CX-iez"/>
+                                        <include reference="poq-qE-X1L"/>
                                         <include reference="BYs-dX-h7l"/>
                                         <include reference="LtG-h1-sMf"/>
                                         <include reference="Rxn-fu-cqC"/>
                                         <include reference="tYL-17-NlK"/>
-                                        <include reference="LTS-GS-0o0"/>
-                                        <include reference="plG-CX-iez"/>
-                                        <include reference="poq-qE-X1L"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -105,7 +106,9 @@
                             <outlet property="delegate" destination="pJ6-qc-UZz" id="NEe-Ms-8IP"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="游戏分类" id="TVq-3d-E3f"/>
+                    <navigationItem key="navigationItem" title="游戏分类" id="TVq-3d-E3f">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="V12-cc-Zgj"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="gameView" destination="cpR-e3-3IG" id="AzX-CV-Esh"/>
                     </connections>
@@ -114,11 +117,11 @@
             </objects>
             <point key="canvasLocation" x="3225" y="1162.5"/>
         </scene>
-        <!--Dota2-->
+        <!--游戏名-->
         <scene sceneID="x3f-On-hSm">
             <objects>
-                <tableViewController storyboardIdentifier="VideoListView" id="pxq-mP-Laa" customClass="VideoListController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="181" sectionHeaderHeight="22" sectionFooterHeight="22" id="uhc-4j-eJL">
+                <tableViewController storyboardIdentifier="VideoListView" hidesBottomBarWhenPushed="YES" id="pxq-mP-Laa" customClass="VideoListController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="uhc-4j-eJL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -128,31 +131,31 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eip-FQ-mBD" id="wiU-eZ-IWa">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQ5-fY-YgZ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQ5-fY-YgZ">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                                <rect key="frame" x="180" y="10" width="212" height="40"/>
+                                                <rect key="frame" x="180" y="10" width="184" height="40"/>
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pQ7-n8-7XT">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                                <rect key="frame" x="178" y="53" width="42" height="21"/>
+                                                <rect key="frame" x="178" y="53" width="186" height="21"/>
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OUS-mx-cDY">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                                <rect key="frame" x="178" y="69" width="42" height="21"/>
+                                                <rect key="frame" x="178" y="69" width="186" height="21"/>
                                             </variation>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nav-FJ-n0u">
@@ -184,6 +187,7 @@
                                     <outlet property="videoImage" destination="Nav-FJ-n0u" id="4ac-tP-kbW"/>
                                     <outlet property="videoTitle" destination="uQ5-fY-YgZ" id="BBv-u8-hBf"/>
                                     <outlet property="videoViews" destination="OUS-mx-cDY" id="1K1-Zi-di2"/>
+                                    <segue destination="wV8-l1-Puq" kind="show" id="Zik-qc-r1f"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -192,16 +196,21 @@
                             <outlet property="delegate" destination="pxq-mP-Laa" id="QtT-Ag-tq0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Dota2" id="hrh-uF-ubh"/>
+                    <navigationItem key="navigationItem" title="游戏名" id="hrh-uF-ubh">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="sg1-mw-jyN"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="videoTableView" destination="uhc-4j-eJL" id="G24-cC-fLx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dtQ-8n-TaX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4243.5" y="1162.5"/>
+            <point key="canvasLocation" x="4180.5" y="1162.5"/>
         </scene>
         <!--Player View Controller-->
         <scene sceneID="PHk-2D-pTa">
             <objects>
-                <viewController id="wV8-l1-Puq" customClass="PlayerViewController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerView" hidesBottomBarWhenPushed="YES" id="wV8-l1-Puq" customClass="PlayerViewController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0VN-qN-COy"/>
                         <viewControllerLayoutGuide type="bottom" id="bV6-yB-X5t"/>
@@ -213,27 +222,58 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vGN-I6-Vso" customClass="YouTubePlayerView" customModule="YouTubePlayer">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="320"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vGN-I6-Vso" secondAttribute="height" multiplier="16:9" id="MJP-1g-9gd"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="MJP-1g-9gd"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="MJP-1g-9gd"/>
+                                    </mask>
                                 </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="vGN-I6-Vso" secondAttribute="trailing" constant="-16" id="Gna-9C-MIm"/>
+                            <constraint firstItem="vGN-I6-Vso" firstAttribute="top" secondItem="0VN-qN-COy" secondAttribute="bottom" id="ODX-TO-8PS"/>
+                            <constraint firstItem="vGN-I6-Vso" firstAttribute="leading" secondItem="aj7-g2-Bgq" secondAttribute="leadingMargin" constant="-16" id="qyd-No-mjX"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="vGN-I6-Vso"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="Gna-9C-MIm"/>
+                                <exclude reference="ODX-TO-8PS"/>
+                                <exclude reference="qyd-No-mjX"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="vGN-I6-Vso"/>
                             </mask>
+                            <mask key="constraints">
+                                <include reference="Gna-9C-MIm"/>
+                                <include reference="ODX-TO-8PS"/>
+                                <include reference="qyd-No-mjX"/>
+                            </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="ugN-E1-tc7">
+                        <barButtonItem key="backBarButtonItem" title="返回" id="dAD-gz-sk5"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="plaverView" destination="vGN-I6-Vso" id="2IV-Df-f3S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Bz-Vh-lj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5272.5" y="1162.5"/>
+            <point key="canvasLocation" x="5169" y="1162.5"/>
         </scene>
         <!--Freedom-->
         <scene sceneID="S11-qj-oTO">
@@ -598,19 +638,19 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ba-sj-I2c">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkL-aI-iWI">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZk-rq-7AL">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -784,7 +824,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Bea-iw-D4b">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="" footerTitle="" id="2u7-cC-LP0">
                                 <cells>
@@ -800,7 +840,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxC-1G-Cgt">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -861,7 +901,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jsz-X5-fFj">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="66" y="11" width="199" height="21"/>
@@ -891,7 +931,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="历史" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="34c-Hx-GL1">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="66" y="11" width="199" height="21"/>
@@ -921,7 +961,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RTn-My-nDB">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="65" y="11" width="199" height="21"/>
@@ -951,7 +991,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-wL-Wap">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="66" y="11" width="199" height="21"/>
@@ -985,7 +1025,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新游戏推荐" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9g-ML-vnQ">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="67" y="11" width="199" height="21"/>
@@ -1223,7 +1263,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="zyn-MB-MPV">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection id="OkT-36-Lh0">
                                 <cells>

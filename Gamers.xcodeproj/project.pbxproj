@@ -22,7 +22,6 @@
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
-		1A975F261B579C0C003B8327 /* ChannelBLDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F251B579C0C003B8327 /* ChannelBLDelegate.swift */; };
 		1A9FBBB81B6A170C005B7D51 /* BoltsSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */; };
 		1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */; };
 		1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */; };
@@ -32,7 +31,6 @@
 		1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF61B5C9445007C5D2A /* GameCell.swift */; };
 		1AB21AF91B5CAC24007C5D2A /* LiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF81B5CAC24007C5D2A /* LiveCell.swift */; };
 		1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317551B56165F00B6C176 /* SliderBL.swift */; };
-		1AB317581B56172400B6C176 /* SliderBLDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317571B56172400B6C176 /* SliderBLDelegate.swift */; };
 		1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3175A1B56187400B6C176 /* SliderDao.swift */; };
 		1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE061B61E68800BC7907 /* VideoDao.swift */; };
 		1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE081B61E6AB00BC7907 /* UserDao.swift */; };
@@ -86,7 +84,6 @@
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
 		1A975F211B579947003B8327 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		1A975F231B579BE9003B8327 /* ChannelBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBL.swift; sourceTree = "<group>"; };
-		1A975F251B579C0C003B8327 /* ChannelBLDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBLDelegate.swift; sourceTree = "<group>"; };
 		1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoltsSwift.framework; path = "Pods/../build/Debug-iphoneos/BoltsSwift.framework"; sourceTree = "<group>"; };
 		1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveController.swift; sourceTree = "<group>"; };
 		1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
@@ -96,7 +93,6 @@
 		1AB21AF61B5C9445007C5D2A /* GameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
 		1AB21AF81B5CAC24007C5D2A /* LiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveCell.swift; sourceTree = "<group>"; };
 		1AB317551B56165F00B6C176 /* SliderBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBL.swift; sourceTree = "<group>"; };
-		1AB317571B56172400B6C176 /* SliderBLDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBLDelegate.swift; sourceTree = "<group>"; };
 		1AB3175A1B56187400B6C176 /* SliderDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderDao.swift; sourceTree = "<group>"; };
 		1ABEFE061B61E68800BC7907 /* VideoDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDao.swift; sourceTree = "<group>"; };
 		1ABEFE081B61E6AB00BC7907 /* UserDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
@@ -205,9 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				1AB317551B56165F00B6C176 /* SliderBL.swift */,
-				1AB317571B56172400B6C176 /* SliderBLDelegate.swift */,
 				1A975F231B579BE9003B8327 /* ChannelBL.swift */,
-				1A975F251B579C0C003B8327 /* ChannelBLDelegate.swift */,
 				1AFC1A0D1B58F92B006D9667 /* GameBL.swift */,
 				1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */,
 				1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */,
@@ -499,12 +493,10 @@
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,
 				1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
-				1A975F261B579C0C003B8327 /* ChannelBLDelegate.swift in Sources */,
 				1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */,
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
 				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
 				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
-				1AB317581B56172400B6C176 /* SliderBLDelegate.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
