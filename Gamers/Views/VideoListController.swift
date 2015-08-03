@@ -34,11 +34,21 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
         videoTableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         videoTableView.footer.autoChangeAlpha = true
 
-        // 子页面PlayerView的导航栏返回按钮文字，可为空
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "返回", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+
+
         
         loadNewData()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.translucent = false
+    }
+    
     /**
     刷新数据
     */

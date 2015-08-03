@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
+
 ## Websocket组件
 pod 'Starscream', '~> 0.9.2'
 ## SQLite第三方数据扩展
@@ -8,7 +9,10 @@ pod 'Starscream', '~> 0.9.2'
 pod 'RealmSwift'
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
-pod 'YouTubePlayer'
+## YouTube播放器
+#pod 'YouTubePlayer'
+pod 'youtube-ios-player-helper'
+
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入
 #pod 'Google/SignIn'
@@ -22,4 +26,6 @@ pod 'Kingfisher'
 ## Facebook的异步组件
 #pod 'AsyncDisplayKit'
 ## 标签页切换
-pod 'MXSegmentedPager'
+#pod 'MXSegmentedPager'//todo类似这种效果
+#pod 'SwiftPages'
+pod 'PagingMenuController'

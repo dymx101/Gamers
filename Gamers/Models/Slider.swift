@@ -46,41 +46,20 @@ class Slider: Object {
         return collection
     }
     
+    
     // 把JSON数据转换为对象
     class func modelFromJSON(json: JSON) -> Slider {
         let model = Slider()
         
-        if let itemId = json["id"].string {
-            model.id = itemId
-        }
+        if let itemId = json["id"].string { model.id = itemId }
+        if let imageHq = json["image_hq"].string { model.imageHq = imageHq }
+        if let imageSmall = json["image_small"].string { model.imageSmall = imageSmall }
+        if let title = json["title"].string { model.title = title }
+        if let youtubeVideo = json["youtube_video"].string { model.youtubeVideo = youtubeVideo }
         
-        if let imageHq = json["image_hq"].string {
-            model.imageHq = imageHq
-        }
-        
-        if let imageSmall = json["image_small"].string {
-            model.imageSmall = imageSmall
-        }
-        
-        if let title = json["title"].string {
-            model.title = title
-        }
-        
-        if let youtubeVideo = json["youtube_video"].string {
-            model.youtubeVideo = youtubeVideo
-        }
-        
-        if let link = json["link"].string {
-            model.link = link
-        }
-        
-        if let itemDescription = json["description"].string {
-            model.itemDescription = itemDescription
-        }
-        
-        if let priority = json["priority"].int {
-            model.priority = priority
-        }
+        if let link = json["link"].string { model.link = link }
+        if let itemDescription = json["description"].string { model.itemDescription = itemDescription }
+        if let priority = json["priority"].int { model.priority = priority }
         
         return model
     }

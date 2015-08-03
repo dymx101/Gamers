@@ -51,38 +51,20 @@ class Channel: Object {
     class func modelFromJSON(json: JSON) -> Channel {
         let model = Channel()
 
-        if let itemId = json["id"].string {
-            model.id = itemId
-        }
+        if let itemId = json["id"].string { model.id = itemId }
+        if let name = json["name"].string { model.name = name }
+        if let details = json["details"].string { model.details = details }
+        if let mark = json["mark"].string { model.mark = mark }
+        if let image = json["image"].string { model.image = image }
         
-        if let name = json["name"].string {
-            model.name = name
-        }
-        
-        if let details = json["details"].string {
-            model.details = details
-        }
-        
-        if let mark = json["mark"].string {
-            model.mark = mark
-        }
-        
-        if let image = json["image"].string {
-            model.image = image
-        }
-        
-        if let subscribes = json["subscribes"].int {
-            model.subscribes = subscribes
-        }
-        
-        if let videos = json["videos"].int {
-            model.videos = videos
-        }
-        
-        if let views = json["views"].int {
-            model.views = views
-        }
+        if let subscribes = json["subscribes"].int { model.subscribes = subscribes }
+        if let videos = json["videos"].int { model.videos = videos }
+        if let views = json["views"].int { model.views = views }
         
         return model
     }
+    
+    
+    
+    
 }

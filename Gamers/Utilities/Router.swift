@@ -13,7 +13,8 @@ enum Router: URLRequestConvertible {
 //    static let baseURLString = "https://www.googleapis.com/youtube/v3"
 //    static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
-    static let baseURLString = "http://freedom.oyss.info"
+    //static let baseURLString = "http://freedom.oyss.info"
+    static let baseURLString = "http://api.freedom.cn"
     static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
     // 
@@ -23,59 +24,86 @@ enum Router: URLRequestConvertible {
     case Search(query: String?, pageToken: String?)
     
     case Slider(channel: String?)                   //首页顶部轮播
-    case Channel(channelType: String?)              //首页推荐频道：新手、游戏大咖
+    case RecommendChannel(channelType: String?)     //首页推荐频道：新手、游戏大咖
     case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
     case AllGame()                                  //所有游戏
     case Game(gameName: String?, type: String?)
     
-    case GameVideo(name: String?, offset: Int?, count: Int?)    //获取游戏视频
+    case GameVideo(name: String?, offset: Int?, count: Int?)        //获取游戏视频
+    case VideoRelate(videoId: String?)              //相关视频
+    case VideoComment(videoId: String?, offset: Int?, count: Int?)  //视频相关评论
+    
+    case ChannelInfo(channelId: String?)                //频道信息
+    
+    
+    
+    
     
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
             switch self {
+            //首页顶部轮播
             case .Slider(let channel):
                 var parameters: [String: AnyObject] = ["channel": "home"]
                 
                 return (.GET, "/index/sliders", parameters)
-            case .Channel(let channelType):
+            //首页推荐频道：新手、游戏大咖
+            case .RecommendChannel(let channelType):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                
-                if channelType != nil {
-                    parameters["type"] = channelType
-                }
+                if channelType != nil { parameters["type"] = channelType }
 
                 return (.GET, "/channel/recommend", parameters)
+            //首页推荐游戏：4个热门游戏、3个新游戏
             case .RecommendGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
 
                 return (.GET, "/index/recommendgame", parameters)
+            //所有游戏
             case .AllGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 
                 return (.GET, "/game/games", parameters)
             case .Game(let name, let type):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                
-                if name != nil {
-                    parameters["name"] = name
-                }
-                if type != nil {
-                    parameters["type"] = type
-                }
+                if name != nil { parameters["name"] = name }
+                if type != nil { parameters["type"] = type }
                 
                 return (.GET, "/game/seachgame", parameters)
+            //获取游戏视频
             case .GameVideo(let name, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if name != nil {
-                    parameters["name"] = name
-                }
+                if name != nil { parameters["name"] = name }
                 
                 parameters["offset"] = offset != nil ? offset : 0
                 parameters["count"] = count != nil ? count : 20
                 
                 return (.GET, "/game/gamevideo", parameters)
+            //相关视频
+            case .VideoRelate(let videoId):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if videoId != nil { parameters["videoid"] = videoId }
                 
+                return (.GET, "/video/relate", parameters)
+            //视频相关评论
+            case .VideoComment(let videoId, let offset, let count):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if videoId != nil { parameters["videoid"] = videoId }
+                
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                
+                return (.GET, "/video/comment", parameters)
+            //频道信息
+            case .ChannelInfo(let channelId):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if channelId != nil { parameters["channelid"] = channelId }
+                
+                return (.GET, "/channel/info", parameters)
+                
+         
+                
+            
                 
                 
                 

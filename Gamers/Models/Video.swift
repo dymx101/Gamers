@@ -37,45 +37,20 @@ class Video: Object {
     class func modelFromJSON(json: JSON) -> Video {
         let model = Video()
         
-        // videos api
-        if let itemId = json["id"].string {
-            model.id = itemId
-        }
-        if let playListId = json["playlist_id"].string {
-            model.playListId = playListId
-        }
-        if let videoId = json["video_id"].string {
-            model.videoId = videoId
-        }
-        if let userID = json["user_id"].string {
-            model.userID = userID
-        }
-        if let imageSource = json["image_source"].string {
-            model.imageSource = imageSource
-        }
+        if let itemId = json["id"].string { model.id = itemId }
+        if let playListId = json["playlist_id"].string { model.playListId = playListId }
+        if let videoId = json["video_id"].string { model.videoId = videoId }
+        if let userID = json["user_id"].string { model.userID = userID }
+        if let imageSource = json["image_source"].string { model.imageSource = imageSource }
         
-        if let videoTitle = json["video_title"].string {
-            model.videoTitle = videoTitle
-        }
-        if let owner = json["owner"].string {
-            model.owner = owner
-        }
-        if let ownerId = json["owner_id"].string {
-            model.ownerId = ownerId
-        }
-        if let views = json["views"].int {
-            model.views = views
-        }
-        if let comments = json["comments"].int {
-            model.comments = comments
-        }
+        if let videoTitle = json["video_title"].string { model.videoTitle = videoTitle }
+        if let owner = json["owner"].string { model.owner = owner }
+        if let ownerId = json["owner_id"].string { model.ownerId = ownerId }
+        if let views = json["views"].int { model.views = views }
+        if let comments = json["comments"].int { model.comments = comments }
         
-        if let likes = json["likes"].int {
-            model.likes = likes
-        }
-        if let featured = json["featured"].bool {
-            model.featured = featured
-        }
+        if let likes = json["likes"].int { model.likes = likes }
+        if let featured = json["featured"].bool { model.featured = featured }
         
 //        if let dateString = json["snippet"]["publishedAt"].string {
 //            let dateFormatter = Video.dateFormatter()

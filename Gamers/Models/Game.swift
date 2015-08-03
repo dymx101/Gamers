@@ -44,34 +44,14 @@ class Game: Object {
     class func modelFromJSON(json: JSON) -> Game {
         let model = Game()
         
-        if let itemId = json["id"].string {
-            model.id = itemId
-        }
+        if let itemId = json["id"].string { model.id = itemId }
+        if let name = json["name"].string { model.name = name }
+        if let details = json["details"].string { model.details = details }
+        if let nameZh = json["nameZh"].string { model.nameZh = nameZh }
+        if let image = json["image"].string { model.image = image }
+        if let type = json["type"].int { model.type = type }
         
-        if let name = json["name"].string {
-            model.name = name
-        }
-        
-        if let details = json["details"].string {
-            model.details = details
-        }
-        
-        if let nameZh = json["nameZh"].string {
-            model.nameZh = nameZh
-        }
-        
-        if let image = json["image"].string {
-            model.image = image
-        }
-        
-        if let type = json["type"].int {
-            model.type = type
-        }
-        
-        // 测试
-        if let videos = json["videos"].string {
-            model.videos = videos
-        }
+        if let videos = json["videos"].string { model.videos = videos }
         
         return model
     }

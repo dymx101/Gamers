@@ -14,12 +14,36 @@ import SwiftyJSON
 struct ChannelDao {}
 
 extension ChannelDao {
+    /**
+    获取推荐的频道列表
+    
+    :param: channelType 频道类型：新手、大咖
+    
+    :returns: return 频道列表
+    */
     static func getChannels(#channelType: String?) -> BFTask {
-        var URLRequest = Router.Channel(channelType: channelType)
+        var URLRequest = Router.RecommendChannel(channelType: channelType)
         
         return fetchChannel(URLRequest: URLRequest)
     }
     
+    /**
+    获取频道信息
+    */
+    static func getChannelInfo(#channelId: String) -> BFTask {
+        var URLRequest = Router.ChannelInfo(channelId: channelId)
+        
+        return fetchChannel(URLRequest: URLRequest)
+        
+    }
+    
+    
+    
+    
+    
+    /**
+    解析频道列表的JSON数据
+    */
     private static func fetchChannel(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         

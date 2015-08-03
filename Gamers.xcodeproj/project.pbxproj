@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F40D1B6F20AA0042480B /* VideoCommentCell.swift */; };
+		1A01F4101B6F20C50042480B /* VideoRelateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F40F1B6F20C50042480B /* VideoRelateCell.swift */; };
+		1A01F4121B6F210B0042480B /* VideoRelateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4111B6F210B0042480B /* VideoRelateController.swift */; };
+		1A01F4141B6F212A0042480B /* VideoCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4131B6F212A0042480B /* VideoCommentController.swift */; };
+		1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4151B6F214D0042480B /* VideoInfoController.swift */; };
+		1A01F4181B6F479A0042480B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4171B6F479A0042480B /* Comment.swift */; };
+		1A01F41A1B6F5CFE0042480B /* SwiftPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4191B6F5CFE0042480B /* SwiftPages.swift */; };
 		1A0351FC1B54CB7A007372F8 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0351FB1B54CB7A007372F8 /* News.swift */; };
-		1A3015AB1B4E1F4100EB9965 /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A3015AA1B4E1F4100EB9965 /* YTPlayer.html */; };
+		1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */; };
 		1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */; };
 		1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0B1B54B8090040E94C /* APIClient.swift */; };
 		1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0D1B54B91D0040E94C /* Router.swift */; };
@@ -68,8 +75,15 @@
 
 /* Begin PBXFileReference section */
 		13C9A99EAE8865D0018A7B3F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A01F40D1B6F20AA0042480B /* VideoCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCommentCell.swift; sourceTree = "<group>"; };
+		1A01F40F1B6F20C50042480B /* VideoRelateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRelateCell.swift; sourceTree = "<group>"; };
+		1A01F4111B6F210B0042480B /* VideoRelateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRelateController.swift; sourceTree = "<group>"; };
+		1A01F4131B6F212A0042480B /* VideoCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCommentController.swift; sourceTree = "<group>"; };
+		1A01F4151B6F214D0042480B /* VideoInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoInfoController.swift; sourceTree = "<group>"; };
+		1A01F4171B6F479A0042480B /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		1A01F4191B6F5CFE0042480B /* SwiftPages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPages.swift; sourceTree = "<group>"; };
 		1A0351FB1B54CB7A007372F8 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
-		1A3015AA1B4E1F4100EB9965 /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = YTPlayer.html; sourceTree = "<group>"; };
+		1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 		1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Gamers-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		1A32FD0B1B54B8090040E94C /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -155,6 +169,7 @@
 				1A975F211B579947003B8327 /* Channel.swift */,
 				1AFC1A0F1B58F9C4006D9667 /* Game.swift */,
 				1ABEFE101B61E71F00BC7907 /* User.swift */,
+				1A01F4171B6F479A0042480B /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -162,6 +177,7 @@
 		1A30159F1B4E16BA00EB9965 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1A01F4191B6F5CFE0042480B /* SwiftPages.swift */,
 				1A32FD0B1B54B8090040E94C /* APIClient.swift */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
 				1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */,
@@ -182,6 +198,9 @@
 				1A7A583A1B60EB7300464510 /* SliderController.swift */,
 				1AE56FD91B65EB690088BFE8 /* VideoListController.swift */,
 				1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */,
+				1A01F4111B6F210B0042480B /* VideoRelateController.swift */,
+				1A01F4131B6F212A0042480B /* VideoCommentController.swift */,
+				1A01F4151B6F214D0042480B /* VideoInfoController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,6 +212,8 @@
 				1AB21AF81B5CAC24007C5D2A /* LiveCell.swift */,
 				1AE56FD71B65E2A70088BFE8 /* SeachCell.swift */,
 				1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */,
+				1A01F40D1B6F20AA0042480B /* VideoCommentCell.swift */,
+				1A01F40F1B6F20C50042480B /* VideoRelateCell.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -264,7 +285,7 @@
 		1AD9C6FF1B4E1189001FE414 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1A3015AA1B4E1F4100EB9965 /* YTPlayer.html */,
+				1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */,
 				1AD9C7001B4E1189001FE414 /* Info.plist */,
 				1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */,
 			);
@@ -404,7 +425,7 @@
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
 				1AFC1A0A1B58EDA2006D9667 /* 2.jpg in Resources */,
 				1AFC1A091B58EDA2006D9667 /* 1.jpg in Resources */,
-				1A3015AB1B4E1F4100EB9965 /* YTPlayer.html in Resources */,
+				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,
 				1AD9C7091B4E1189001FE414 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,11 +494,13 @@
 			files = (
 				1AB21AF21B5C8CE4007C5D2A /* SeachController.swift in Sources */,
 				1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */,
+				1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */,
 				1AB21AF91B5CAC24007C5D2A /* LiveCell.swift in Sources */,
 				1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */,
 				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
 				1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */,
 				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
+				1A01F41A1B6F5CFE0042480B /* SwiftPages.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
@@ -485,11 +508,15 @@
 				1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */,
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */,
+				1A01F4121B6F210B0042480B /* VideoRelateController.swift in Sources */,
+				1A01F4141B6F212A0042480B /* VideoCommentController.swift in Sources */,
 				1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */,
 				1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */,
 				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
 				1AE56FDA1B65EB690088BFE8 /* VideoListController.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
+				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
+				1A01F4101B6F20C50042480B /* VideoRelateCell.swift in Sources */,
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,
 				1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
@@ -497,6 +524,7 @@
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
 				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
 				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
+				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
@@ -637,10 +665,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -656,10 +681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
