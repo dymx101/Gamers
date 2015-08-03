@@ -13,7 +13,6 @@
 		1A01F4141B6F212A0042480B /* VideoCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4131B6F212A0042480B /* VideoCommentController.swift */; };
 		1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4151B6F214D0042480B /* VideoInfoController.swift */; };
 		1A01F4181B6F479A0042480B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4171B6F479A0042480B /* Comment.swift */; };
-		1A01F41A1B6F5CFE0042480B /* SwiftPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4191B6F5CFE0042480B /* SwiftPages.swift */; };
 		1A0351FC1B54CB7A007372F8 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0351FB1B54CB7A007372F8 /* News.swift */; };
 		1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */; };
 		1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */; };
@@ -29,7 +28,6 @@
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
-		1A9FBBB81B6A170C005B7D51 /* BoltsSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */; };
 		1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */; };
 		1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */; };
 		1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AED1B5C8C5D007C5D2A /* GameController.swift */; };
@@ -81,7 +79,6 @@
 		1A01F4131B6F212A0042480B /* VideoCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCommentController.swift; sourceTree = "<group>"; };
 		1A01F4151B6F214D0042480B /* VideoInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoInfoController.swift; sourceTree = "<group>"; };
 		1A01F4171B6F479A0042480B /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		1A01F4191B6F5CFE0042480B /* SwiftPages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPages.swift; sourceTree = "<group>"; };
 		1A0351FB1B54CB7A007372F8 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 		1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Gamers-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -142,7 +139,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A9FBBB81B6A170C005B7D51 /* BoltsSwift.framework in Frameworks */,
 				1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */,
 				BFB65631586F7D1AC2F31F2A /* Pods.framework in Frameworks */,
 			);
@@ -177,7 +173,6 @@
 		1A30159F1B4E16BA00EB9965 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1A01F4191B6F5CFE0042480B /* SwiftPages.swift */,
 				1A32FD0B1B54B8090040E94C /* APIClient.swift */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
 				1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */,
@@ -500,7 +495,6 @@
 				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
 				1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */,
 				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
-				1A01F41A1B6F5CFE0042480B /* SwiftPages.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,

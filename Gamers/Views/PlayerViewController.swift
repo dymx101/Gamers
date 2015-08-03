@@ -17,7 +17,6 @@ class PlayerViewController: UIViewController {
     // 导航条默认隐藏
     var isflage = true
 
-    @IBOutlet weak var pagesView: SwiftPages!
     @IBOutlet weak var playerView: YTPlayerView!
 
     
@@ -25,7 +24,7 @@ class PlayerViewController: UIViewController {
         super.viewDidLoad()
 
         //println(videoData)
-        
+        println("在viewDidLoad中触发了")
         
         // 设置顶部导航条样式，透明
         //self.navigationItem.title = videoData.videoTitle
@@ -38,22 +37,8 @@ class PlayerViewController: UIViewController {
         //plaverView.loadVideoID(videoData.videoId)
         var playerVars = ["playsinline": 1, "showinfo": 1]
 
-        playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
+        //playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
         //playerView.loadWithVideoId("2rj2dIXrXW8")
-        
-        // 标签切换页面swiftpage
-//        var VCIDs : [String] = ["VideoInfoVC", "VideoRelateVC", "VideoCommentVC"]
-//        var buttonTitles : [String] = ["详情", "相关视频", "评论"]
-//        //pagesView.initializeWithVCIDsArrayAndButtonTitlesArray(VCIDs, buttonTitlesArray: buttonTitles)
-//        
-//        pagesView.initializeWithVCIDsArrayAndButtonTitlesArray(VCIDs, buttonTitlesArray: buttonTitles)
-//        
-//        pagesView.setOriginY(0)
-//        pagesView.enableAeroEffectInTopBar(false)
-//        pagesView.setButtonsTextColor(UIColor.orangeColor())
-//        pagesView.setAnimatedBarColor(UIColor.orangeColor())
-//        pagesView.setTopBarHeight(32)
-//        pagesView.setButtonsTextFontAndSize(UIFont.systemFontOfSize(16))
         
         // 标签切换页面
         let VideoInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoInfoVC") as! VideoInfoController
@@ -61,7 +46,7 @@ class PlayerViewController: UIViewController {
         VideoInfoVC.videoData = videoData
         let VideoRelateVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoRelateVC") as! VideoRelateController
         VideoRelateVC.title = "相关视频"
-        
+        VideoRelateVC.videoData = videoData
         let VideoCommentVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoCommentVC") as! VideoCommentController
         VideoCommentVC.title = "评论"
         
@@ -77,12 +62,21 @@ class PlayerViewController: UIViewController {
         
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
-        //pagingMenuController.delegate = self
+        pagingMenuController.delegate = self
         pagingMenuController.setup(viewControllers: viewControllers, options: options)
-        
+
 
     }
 
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        println("在viewWillAppear中触发了")
+        //playerView.loadWithVideoId("WbKjKgsxXnY")
+
+        //self.view.removeFromSuperview()
+    
+    }
+    
     /**
     点击屏幕触发
     
@@ -116,4 +110,15 @@ class PlayerViewController: UIViewController {
     }
     */
 
+}
+
+extension PlayerViewController: PagingMenuControllerDelegate {
+    
+    func willMoveToMenuPage(page: Int) {
+        //println("触发willMoveToMenuPage事件")
+    }
+    
+    func didMoveToMenuPage(page: Int) {
+        //println("触发didMoveToMenuPage事件")
+    }
 }

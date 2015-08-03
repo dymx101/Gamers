@@ -25,7 +25,7 @@ class VideoInfoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println("数据： \(videoData)")
+        //println("数据： \(videoData)")
 
         // 设置属性
         channelName.text = videoData.owner
