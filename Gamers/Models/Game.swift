@@ -28,10 +28,10 @@ class Game: Object {
             //realm.beginWrite()
             
             for item in items {
-                let sliderItem = Game.modelFromJSON(item)
+                let gameItem = Game.modelFromJSON(item)
                 //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
                 //realm.add(videoItem, update: true)
-                collection.append(sliderItem)
+                collection.append(gameItem)
             }
             
             //realm.commitWrite()

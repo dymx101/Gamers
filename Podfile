@@ -10,7 +10,7 @@ pod 'RealmSwift'
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
 ## YouTube播放器
-#pod 'YouTubePlayer'
+pod 'YouTubePlayer'
 pod 'youtube-ios-player-helper'
 
 pod 'SDCycleScrollView','~> 1.3'
@@ -29,3 +29,7 @@ pod 'Kingfisher'
 #pod 'MXSegmentedPager'//todo类似这种效果
 #pod 'SwiftPages'
 pod 'PagingMenuController'
+## 加载中的插件
+pod 'SwiftSpinner'
+#pod 'JGProgressHUD'
+pod 'MBProgressHUD'

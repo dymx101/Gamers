@@ -13,33 +13,53 @@ import Kingfisher
 
 class GameController: UICollectionViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    let gameBL = GameBL()
+    
     var gameData = [Game]()
     
     @IBOutlet var gameView: UICollectionView!
-    
-    func loadNewData() {
-        let gameBL = GameBL()
-        gameBL.getAllGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.gameData = (task.result as? [Game])!
-            self?.collectionView!.reloadData()
-            self?.collectionView?.header.endRefreshing()
-            //println(self!.gameData)
-            return nil
-        })
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 下拉刷新数据
         self.collectionView!.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.collectionView!.header.autoChangeAlpha = true;
+        self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
+        self.collectionView!.footer.autoChangeAlpha = true
         
         self.loadNewData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    /**
+    下拉刷新数据
+    */
+    func loadNewData() {
+        gameBL.getAllGame(0, count: 20).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.gameData = (task.result as? [Game])!
+            self?.collectionView!.reloadData()
+            self?.collectionView?.header.endRefreshing()
+            //println(self!.gameData)
+            
+            return nil
+        })
+    }
+    /**
+    上拉加载更多数据
+    */
+    func loadMoreData() {
+        gameBL.getAllGame(0, count: 20).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.gameData = (task.result as? [Game])!
+            self?.collectionView!.reloadData()
+            
+            self?.collectionView?.footer.endRefreshing()
+            
+            return nil
+        })
     }
     
     

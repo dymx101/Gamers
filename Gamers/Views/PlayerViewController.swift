@@ -8,6 +8,7 @@
 
 import UIKit
 import youtube_ios_player_helper
+//import YouTubePlayer
 import PagingMenuController
 
 class PlayerViewController: UIViewController {
@@ -37,8 +38,15 @@ class PlayerViewController: UIViewController {
         //plaverView.loadVideoID(videoData.videoId)
         var playerVars = ["playsinline": 1, "showinfo": 1]
 
-        //playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
+        playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
         //playerView.loadWithVideoId("2rj2dIXrXW8")
+        
+        //playerView.playerVars = ["playsinline": "1"]
+        //playerView.loadVideoID("2rj2dIXrXW8")
+        
+        // 添加加载新视频数据的监听器
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPlayerView:", name: "reloadPlayerViewNotification", object: nil)
+        
         
         // 标签切换页面
         let VideoInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoInfoVC") as! VideoInfoController
@@ -49,7 +57,7 @@ class PlayerViewController: UIViewController {
         VideoRelateVC.videoData = videoData
         let VideoCommentVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoCommentVC") as! VideoCommentController
         VideoCommentVC.title = "评论"
-        
+        VideoCommentVC.videoData = videoData
         let viewControllers = [VideoInfoVC, VideoRelateVC, VideoCommentVC]
         
         let options = PagingMenuOptions()
@@ -71,10 +79,18 @@ class PlayerViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
         println("在viewWillAppear中触发了")
-        //playerView.loadWithVideoId("WbKjKgsxXnY")
+        //playerView.loadVideoID("Zm8wVHL9KEg")
 
         //self.view.removeFromSuperview()
     
+    }
+    
+    func reloadPlayerView(notification: NSNotification) {
+        let userInfo = notification.userInfo!
+        let newVideoData = userInfo["data"] as! Video
+
+        //playerView.loadVideoID("Zm8wVHL9KEg")
+        playerView.loadWithVideoId(newVideoData.videoId)
     }
     
     /**

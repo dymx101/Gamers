@@ -30,18 +30,31 @@ extension VideoDao {
     视频的评论内容
     
     :param: videoId 视频ID
+    :param: offset  偏移量
+    :param: count   总数
     
-    :returns: 评论列表
+    :returns: 视频列表
     */
     static func getVideoComment(#videoId: String, offset: Int?, count: Int?) -> BFTask {
         var URLRequest = Router.VideoComment(videoId: videoId, offset: offset, count: count)
-        
+
         return fetchComment(URLRequest: URLRequest)
     }
     
     
+    /**
+    获取直播视频列表
     
+    :param: offset 偏移量
+    :param: count  总数
     
+    :returns: 直播视频列表
+    */
+    static func getLiveVideo(#offset: Int?, count: Int?) -> BFTask {
+        var URLRequest = Router.LiveVideo(offset: offset, count: count)
+        
+        return fetchVideo(URLRequest: URLRequest)
+    }
     
     
     /**
@@ -55,15 +68,15 @@ extension VideoDao {
                 
                 // 保存数据到本地
                 var result: [String: AnyObject]!
-                var videos = [Video]()
+                var comments = [Comment]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     let json = JSON(JSONDictionary)
-                    videos = Video.collection(json: json)
+                    comments = Comment.collection(json: json)
                 }
                 
                 //TODO: 返回该对象集合,view直接读取
-                source.setResult(videos)
+                source.setResult(comments)
                 
             } else {
                 source.setError(error)

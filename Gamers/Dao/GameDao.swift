@@ -32,8 +32,8 @@ extension GameDao {
     
     :returns: 游戏列表
     */
-    static func getAllGame() -> BFTask {
-        var URLRequest = Router.AllGame()
+    static func getAllGame(#offset: Int?, count: Int?) -> BFTask {
+        var URLRequest = Router.AllGame(offset: offset, count: count)
         
         return fetchGame(URLRequest: URLRequest)
     }

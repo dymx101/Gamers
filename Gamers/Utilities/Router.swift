@@ -13,8 +13,8 @@ enum Router: URLRequestConvertible {
 //    static let baseURLString = "https://www.googleapis.com/youtube/v3"
 //    static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
-    //static let baseURLString = "http://freedom.oyss.info"
-    static let baseURLString = "http://api.freedom.cn"
+    static let baseURLString = "http://freedom.oyss.info"
+    //static let baseURLString = "http://api.freedom.cn"
     static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
     
     // 
@@ -26,16 +26,15 @@ enum Router: URLRequestConvertible {
     case Slider(channel: String?)                   //首页顶部轮播
     case RecommendChannel(channelType: String?)     //首页推荐频道：新手、游戏大咖
     case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
-    case AllGame()                                  //所有游戏
-    case Game(gameName: String?, type: String?)
     
-    case GameVideo(name: String?, offset: Int?, count: Int?)        //获取游戏视频
-    case VideoRelate(videoId: String?)              //相关视频
-    case VideoComment(videoId: String?, offset: Int?, count: Int?)  //视频相关评论
+    case AllGame(offset: Int?, count: Int?)         //所有游戏
+    case SeachGame(gameName: String?, type: String?, offset: Int?, count: Int?)  //获取游戏
+    case GameVideo(name: String?, offset: Int?, count: Int?)                     //获取游戏视频
+    case VideoRelate(videoId: String?)                                           //相关视频
+    case VideoComment(videoId: String?, offset: Int?, count: Int?)               //视频相关评论
+    case ChannelInfo(channelId: String?)            //频道信息
     
-    case ChannelInfo(channelId: String?)                //频道信息
-    
-    
+    case LiveVideo(offset: Int?, count: Int?)       //直播频道视频
     
     
     
@@ -60,21 +59,25 @@ enum Router: URLRequestConvertible {
 
                 return (.GET, "/index/recommendgame", parameters)
             //所有游戏
-            case .AllGame():
+            case .AllGame(let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
                 
                 return (.GET, "/game/games", parameters)
-            case .Game(let name, let type):
+            //获取游戏
+            case .SeachGame(let name, let type, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if name != nil { parameters["name"] = name }
+                if name != nil { parameters["keyword"] = name }
                 if type != nil { parameters["type"] = type }
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
                 
                 return (.GET, "/game/seachgame", parameters)
             //获取游戏视频
             case .GameVideo(let name, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if name != nil { parameters["name"] = name }
-                
                 parameters["offset"] = offset != nil ? offset : 0
                 parameters["count"] = count != nil ? count : 20
                 
@@ -89,17 +92,24 @@ enum Router: URLRequestConvertible {
             case .VideoComment(let videoId, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if videoId != nil { parameters["videoid"] = videoId }
-                
                 parameters["offset"] = offset != nil ? offset : 0
                 parameters["count"] = count != nil ? count : 20
-                
-                return (.GET, "/video/comment", parameters)
+                println("222222")
+                return (.GET, "/video/comments", parameters)
             //频道信息
             case .ChannelInfo(let channelId):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if channelId != nil { parameters["channelid"] = channelId }
                 
                 return (.GET, "/channel/info", parameters)
+            //直播频道
+            case .LiveVideo(let offset, let count):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                
+                return (.GET, "/live/video", parameters)
+                
                 
          
                 

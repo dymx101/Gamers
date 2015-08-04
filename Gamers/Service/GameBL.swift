@@ -38,11 +38,11 @@ class GameBL: NSObject {
     }
     
     // 所有游戏列表
-    func getAllGame() -> BFTask {
+    func getAllGame(offset: Int?, count: Int?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return GameDao.getAllGame()
+            return GameDao.getAllGame(offset: offset, count: count)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in

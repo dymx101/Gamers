@@ -34,10 +34,10 @@ class Channel: Object {
             //realm.beginWrite()
             
             for item in items {
-                let sliderItem = Channel.modelFromJSON(item)
+                let channelItem = Channel.modelFromJSON(item)
                 //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
                 //realm.add(videoItem, update: true)
-                collection.append(sliderItem)
+                collection.append(channelItem)
             }
             
             //realm.commitWrite()

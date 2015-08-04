@@ -31,7 +31,8 @@ class VideoInfoController: UIViewController {
         channelName.text = videoData.owner
         
         
-        
+        // 重新加载视频评论监听器
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoInfo:", name: "reloadVideoInfoNotification", object: nil)
         
         
         
@@ -40,6 +41,10 @@ class VideoInfoController: UIViewController {
         
     }
 
+    func reloadVideoInfo(notification: NSNotification) {
+        println("刷新视频信息")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

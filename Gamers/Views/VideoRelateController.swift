@@ -35,6 +35,7 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
         })
 
         
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,7 +57,7 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
         return videoRelateData.count
     }
 
-    
+    // 设置单元格
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoRelateCell", forIndexPath: indexPath) as! VideoRelateCell
         
@@ -74,9 +75,14 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
         //
         println("选中了：\(indexPath.row)")
         
-        var playerView = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as? PlayerViewController
-        playerView?.viewWillAppear(true)
+        //var playerView = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as? PlayerViewController
+        //playerView?.viewWillAppear(true)
         
+        //playerView!.reloadPlayerView()
+        var dataDict = ["data": videoRelateData[indexPath.row]]
+        NSNotificationCenter.defaultCenter().postNotificationName("reloadPlayerViewNotification", object: nil, userInfo: dataDict)
+        NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoCommentNotification", object: nil, userInfo: dataDict)
+        NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoInfoNotification", object: nil, userInfo: dataDict)
         
     }
 

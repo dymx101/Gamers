@@ -22,6 +22,26 @@ class Comment: Object {
     dynamic var userName = ""   //评论人名称
 
     
+    class func collection(#json: JSON) -> [Comment] {
+        let realm = Realm()
+        var collection = [Comment]()
+        
+        if let items = json.array {
+            //realm.beginWrite()
+            
+            for item in items {
+                let commentItem = Comment.modelFromJSON(item)
+                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
+                //realm.add(videoItem, update: true)
+                collection.append(commentItem)
+            }
+            
+            //realm.commitWrite()
+        }
+        
+        return collection
+    }
+    
     // 把JSON数据转换为对象
     class func modelFromJSON(json: JSON) -> Comment {
         let model = Comment()
@@ -33,7 +53,7 @@ class Comment: Object {
         if let videoId = json["videoid"].string { model.videoId = videoId }
         
         if let userId = json["userid"].string { model.userId = userId }
-        if let userName = json["userName"].string { model.userName = userName }
+        if let userName = json["username"].string { model.userName = userName }
         
         return model
     }

@@ -60,6 +60,31 @@ class VideoBL: NSObject {
         
         return fetchTask
     }
+    
+    // 直播视频
+    func getLiveVideo(offset: Int, count: Int?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return VideoDao.getLiveVideo(offset: offset, count: count)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let liveVideos = task.result as? [Video] {
+                return BFTask(result: liveVideos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
 
 
 

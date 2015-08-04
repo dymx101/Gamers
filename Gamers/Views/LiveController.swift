@@ -7,16 +7,151 @@
 //
 
 import UIKit
+import Bolts
+import MJRefresh
+import SwiftSpinner
+import MBProgressHUD
 
 class LiveController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    let videoBL = VideoBL()
+    
+    var liveVideoData = [Video]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // 刷新插件
+        self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        self.tableView.header.autoChangeAlpha = true
+        self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
+        self.tableView.footer.autoChangeAlpha = true
+        
+        
+        //self.demoSpinner()
+
+//        let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
+//        hud.textLabel.text = "加载中..."
+//        hud.showInView(self.navigationController!.view)
+//        hud.dismissAfterDelay(3)
+        
+        
+        
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        //hub.mode = MBProgressHUDMode.AnnularDeterminate
+        hub.labelText = "加载中..."
+            
+
+
+        delay(seconds: 5.0, completion: {
+            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
+        })
+        
+            
+            
+            
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+//            // Do something...
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [MBProgressHUD hideHUDForView:self.view animated:YES];
+//                });
+//            });
+        
+//        JGProgressHUD *HUD = [JGProgressHUD progressHUDWithStyle:JGProgressHUDStyleDark];
+//        HUD.textLabel.text = @"Loading";
+//        [HUD showInView:self.view];
+//        [HUD dismissAfterDelay:3.0];
+        
+        
+        
+        // 子页面TwitchPlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func delay(#seconds: Double, completion:()->()) {
+        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
+        
+        dispatch_after(popTime, dispatch_get_main_queue()) {
+            completion()
+        }
+    }
+    func demoSpinner() {
+        
+        SwiftSpinner.showWithDelay(2.0, title: "It's taking longer than expected")
+        
+        delay(seconds: 2.0, completion: {
+            SwiftSpinner.show("Connecting \nto satellite...").addTapHandler({
+                println("tapped")
+                SwiftSpinner.hide()
+                }, subtitle: "Tap to hide while connecting! This will affect only the current operation.")
+        })
+        
+        delay(seconds: 6.0, completion: {
+            SwiftSpinner.show("Authenticating user account")
+        })
+        
+        delay(seconds: 10.0, completion: {
+            SwiftSpinner.show("Failed to connect, waiting...", animated: false)
+        })
+        
+        delay(seconds: 14.0, completion: {
+            SwiftSpinner.setTitleFont(UIFont(name: "Futura", size: 22.0))
+            SwiftSpinner.show("Retrying to authenticate")
+        })
+        
+        delay(seconds: 18.0, completion: {
+            SwiftSpinner.show("Connecting...")
+        })
+        
+        delay(seconds: 21.0, completion: {
+            SwiftSpinner.setTitleFont(nil)
+            SwiftSpinner.show("Connected", animated: false)
+        })
+        
+        delay(seconds: 22.0, completion: {
+            SwiftSpinner.hide()
+        })
+        
+        delay(seconds: 28.0, completion: {
+           // self.demoSpinner()
+        })
+    }
+    
+    /**
+    刷新数据
+    */
+    func loadNewData() {
+        videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveVideoData = (task.result as? [Video])!
+            
+            self?.tableView.reloadData()
+            self?.tableView.header.endRefreshing()
+            
+            return nil
+        })
+    }
+    /**
+    加载更多数据
+    */
+    func loadMoreData() {
+        videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveVideoData = (task.result as? [Video])!
+            
+            self?.tableView.reloadData()
+            //self?.videoTableView.footer.endRefreshing()
+            self?.tableView.footer.noticeNoMoreData()
+            return nil
+        })
+        
+        NSLog("more data")
     }
     
     
@@ -26,7 +161,7 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     }
     // 设置表格行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 13
+        return liveVideoData.count
     }
     // 设置行高
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -40,14 +175,14 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     // 设置表格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 指定identify进行重用提高性能
-        let identify: String = "liveCell"
-        //let cell = tableView.dequeueReusableCellWithIdentifier(identify, forIndexPath: indexPath) as! LiveCell
+        let liveCellIdentify: String = "LiveCell"
+        
         var cell = tableView.cellForRowAtIndexPath(indexPath)
         // 分隔线右边距
         tableView.separatorInset.right = 20
-        //解决重影问题
+        // 解决重影问题
         if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: liveCellIdentify)
             if indexPath.row < 5 {
                 let image = UIImage(named: "1.jpg")
                 let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: view.bounds.size.width-20, height: 120))
@@ -84,18 +219,26 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
                 cell!.addSubview(imageView2)
             }
         }
-
-        
-        NSLog("执行了第%ld个游戏", indexPath.row)
         
         return cell!
+
     }
-    
+    // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-         NSLog("点击了第%ld个游戏", indexPath.row)
+        NSLog("点击了第%ld个游戏", indexPath.row)
+        var view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
+        view?.videoData = self.liveVideoData[indexPath.row]
+        
+        self.navigationController?.pushViewController(view!, animated: true)
     }
+
     
-    
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.translucent = false
+    }
     
     
 }
