@@ -13,8 +13,12 @@ import SwiftyJSON
 
 class ChannelBL: NSObject {
 
-    //var delegate: ChannelBLDelegate!
+    /**
+    获取频道列表
     
+    :param: channelType 频道类型
+    :returns: 频道列表
+    */
     func getChannel(channelType : String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -31,7 +35,6 @@ class ChannelBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            //self.loading = false
             
             return task
         })
@@ -39,6 +42,37 @@ class ChannelBL: NSObject {
         return fetchTask
     }
     
+    /**
+    获取频道的视频
+    
+    :param: channelId 频道ID
+    :param: offset    分页偏移量
+    :param: count     分页总数
+    
+    :returns: 视频列表
+    */
+    func getChannelVideo(channelId: String, offset: Int?, count: Int?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return ChannelDao.getChannelVideo(channelId: channelId, offset: offset, count: count)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let videos = task.result as? [Video] {
+                return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
     
 
 

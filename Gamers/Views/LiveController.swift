@@ -44,7 +44,7 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
             
 
 
-        delay(seconds: 5.0, completion: {
+        delay(seconds: 1.0, completion: {
             MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
         })
         

@@ -26,13 +26,14 @@
 		1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A4181A11B708E5000927C21 /* TwitchPlayerView.html */; };
 		1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A4181A31B709B4D00927C21 /* Main.storyboard */; };
 		1A4181A71B709BA900927C21 /* TwitchPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */; };
+		1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181DB1B71A94000927C21 /* FreedomController.swift */; };
+		1A4181DE1B71B12900927C21 /* FreedomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181DD1B71B12900927C21 /* FreedomCell.swift */; };
 		1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7A583A1B60EB7300464510 /* SliderController.swift */; };
 		1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */; };
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
 		1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */; };
-		1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */; };
 		1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AED1B5C8C5D007C5D2A /* GameController.swift */; };
 		1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */; };
 		1AB21AF21B5C8CE4007C5D2A /* SeachController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */; };
@@ -94,6 +95,8 @@
 		1A4181A11B708E5000927C21 /* TwitchPlayerView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = TwitchPlayerView.html; sourceTree = "<group>"; };
 		1A4181A41B709B4D00927C21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitchPlayerController.swift; sourceTree = "<group>"; };
+		1A4181DB1B71A94000927C21 /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
+		1A4181DD1B71B12900927C21 /* FreedomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomCell.swift; sourceTree = "<group>"; };
 		1A7A583A1B60EB7300464510 /* SliderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderController.swift; sourceTree = "<group>"; };
 		1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsExtensions.swift; sourceTree = "<group>"; };
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
@@ -101,7 +104,6 @@
 		1A975F231B579BE9003B8327 /* ChannelBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBL.swift; sourceTree = "<group>"; };
 		1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoltsSwift.framework; path = "Pods/../build/Debug-iphoneos/BoltsSwift.framework"; sourceTree = "<group>"; };
 		1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveController.swift; sourceTree = "<group>"; };
-		1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
 		1AB21AED1B5C8C5D007C5D2A /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeachController.swift; sourceTree = "<group>"; };
@@ -187,9 +189,9 @@
 			isa = PBXGroup;
 			children = (
 				1A32FD1A1B54C1000040E94C /* HomeController.swift */,
+				1A4181DB1B71A94000927C21 /* FreedomController.swift */,
 				1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */,
 				1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */,
-				1AB21AEB1B5C8C3B007C5D2A /* FreedomController.swift */,
 				1AB21AED1B5C8C5D007C5D2A /* GameController.swift */,
 				1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */,
 				1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */,
@@ -211,6 +213,7 @@
 				1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */,
 				1A01F40D1B6F20AA0042480B /* VideoCommentCell.swift */,
 				1A01F40F1B6F20C50042480B /* VideoRelateCell.swift */,
+				1A4181DD1B71B12900927C21 /* FreedomCell.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				1AE56FDA1B65EB690088BFE8 /* VideoListController.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
+				1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */,
 				1A01F4101B6F20C50042480B /* VideoRelateCell.swift in Sources */,
 				1A4181A71B709BA900927C21 /* TwitchPlayerController.swift in Sources */,
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,
@@ -524,9 +528,9 @@
 				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
 				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
+				1A4181DE1B71B12900927C21 /* FreedomCell.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
-				1AB21AEC1B5C8C3B007C5D2A /* FreedomController.swift in Sources */,
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
 				1A0351FC1B54CB7A007372F8 /* News.swift in Sources */,

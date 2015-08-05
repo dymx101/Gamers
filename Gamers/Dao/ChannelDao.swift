@@ -23,7 +23,6 @@ extension ChannelDao {
     */
     static func getChannels(#channelType: String?) -> BFTask {
         var URLRequest = Router.RecommendChannel(channelType: channelType)
-        
         return fetchChannel(URLRequest: URLRequest)
     }
     
@@ -32,16 +31,14 @@ extension ChannelDao {
     */
     static func getChannelInfo(#channelId: String) -> BFTask {
         var URLRequest = Router.ChannelInfo(channelId: channelId)
-        
         return fetchChannel(URLRequest: URLRequest)
-        
     }
     
-//    static func getLiveChannel(offset: Int?, count: Int?) -> BFTask {
-//        var URLRequest = Router.LiveChannel(offset: offset, count: count)
-//        
-//        return fetchChannel(URLRequest: URLRequest)
-//    }
+    static func getChannelVideo(#channelId: String, offset: Int?, count: Int?) -> BFTask {
+        var URLRequest = Router.ChannelVideo(channelId: channelId, offset: offset, count: count)
+        return fetchVideo(URLRequest: URLRequest)
+    }
+
     
     
     
@@ -65,6 +62,35 @@ extension ChannelDao {
                 
                 //TODO: 返回该对象集合,view直接读取
                 source.setResult(channels)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
+    /**
+    解析游戏视频列表的JSON数据
+    */
+    private static func fetchVideo(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                
+                // 保存数据到本地
+                var result: [String: AnyObject]!
+                var videos = [Video]()
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    let json = JSON(JSONDictionary)
+                    videos = Video.collection(json: json)
+                }
+                
+                //TODO: 返回该对象集合,view直接读取
+                source.setResult(videos)
                 
             } else {
                 source.setError(error)

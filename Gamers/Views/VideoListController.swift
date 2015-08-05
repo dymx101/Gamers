@@ -29,6 +29,7 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.navigationItem.title = self.gameData.nameZh
         
+        // 刷新功能
         videoTableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         videoTableView.header.autoChangeAlpha = true
         videoTableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
@@ -53,7 +54,6 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
     刷新数据
     */
     func loadNewData() {
-
         gameBL.getGameVideo(self.gameData.name, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
             
@@ -67,7 +67,6 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
     加载更多数据
     */
     func loadMoreData() {
-        
         gameBL.getGameVideo(self.gameData.name, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
             
@@ -128,7 +127,6 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
         // 提取选中的游戏视频，把值传给列表页面
         var indexPath = self.tableView.indexPathForSelectedRow()!
         playerViewController.videoData =  videoData[indexPath.row]
-
     }
     
     
