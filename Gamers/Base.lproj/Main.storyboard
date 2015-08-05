@@ -859,24 +859,6 @@
             </objects>
             <point key="canvasLocation" x="3225" y="-284.25"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="6bK-q1-jqf">
-            <objects>
-                <viewController id="uiO-OZ-APb" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="7qh-GT-dMm"/>
-                        <viewControllerLayoutGuide type="bottom" id="KB1-zv-8eG"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Lcw-0q-n5Z">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Z0S-gi-AfN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4171.5" y="-284.25"/>
-        </scene>
         <!--实况咖-->
         <scene sceneID="rx1-M1-bKP">
             <objects>
@@ -956,32 +938,68 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cV5-Ys-Uu7">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="328" width="400" height="472"/>
-                                </variation>
                             </textView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xU5-rP-fzO" customClass="YouTubePlayerView" customModule="YouTubePlayer">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xU5-rP-fzO" customClass="YTPlayerView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="320"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="xU5-rP-fzO" secondAttribute="height" multiplier="16:9" id="dWN-Ad-6O5"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dWN-Ad-6O5"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="dWN-Ad-6O5"/>
+                                    </mask>
                                 </variation>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="cV5-Ys-Uu7" secondAttribute="trailing" constant="-16" id="Bg7-T5-SHu"/>
+                            <constraint firstItem="xU5-rP-fzO" firstAttribute="leading" secondItem="7E8-yr-bhc" secondAttribute="leadingMargin" constant="-16" id="E3B-fX-sTx"/>
+                            <constraint firstItem="D2I-Jf-2ZJ" firstAttribute="top" secondItem="cV5-Ys-Uu7" secondAttribute="bottom" id="FZJ-jA-QmR"/>
+                            <constraint firstItem="cV5-Ys-Uu7" firstAttribute="top" secondItem="xU5-rP-fzO" secondAttribute="bottom" id="PSI-Tc-HD7"/>
+                            <constraint firstItem="xU5-rP-fzO" firstAttribute="top" secondItem="Yc5-U6-bdk" secondAttribute="bottom" id="hE3-U3-B0N">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-44"/>
+                            </constraint>
+                            <constraint firstItem="cV5-Ys-Uu7" firstAttribute="leading" secondItem="7E8-yr-bhc" secondAttribute="leadingMargin" constant="-16" id="uaf-4b-CAQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xU5-rP-fzO" secondAttribute="trailing" constant="-16" id="voL-9W-KlZ"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="cV5-Ys-Uu7"/>
                                 <exclude reference="xU5-rP-fzO"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="E3B-fX-sTx"/>
+                                <exclude reference="hE3-U3-B0N"/>
+                                <exclude reference="voL-9W-KlZ"/>
+                                <exclude reference="Bg7-T5-SHu"/>
+                                <exclude reference="PSI-Tc-HD7"/>
+                                <exclude reference="uaf-4b-CAQ"/>
+                                <exclude reference="FZJ-jA-QmR"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="cV5-Ys-Uu7"/>
                                 <include reference="xU5-rP-fzO"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="E3B-fX-sTx"/>
+                                <include reference="hE3-U3-B0N"/>
+                                <include reference="voL-9W-KlZ"/>
+                                <include reference="Bg7-T5-SHu"/>
+                                <include reference="PSI-Tc-HD7"/>
+                                <include reference="uaf-4b-CAQ"/>
+                                <include reference="FZJ-jA-QmR"/>
                             </mask>
                         </variation>
                     </view>
@@ -1313,7 +1331,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e7Q-Z4-47p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3225" y="-1792.5"/>
+            <point key="canvasLocation" x="5169" y="-284.25"/>
         </scene>
         <!--Home-->
         <scene sceneID="Tzo-jM-iQD">
@@ -1350,7 +1368,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b5p-NJ-3Rv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2248.5" y="-1792.5"/>
+            <point key="canvasLocation" x="4191" y="-284.25"/>
         </scene>
         <!--Games-->
         <scene sceneID="KAq-LJ-YMo">
@@ -2073,6 +2091,6 @@
         <image name="1.jpg" width="1920" height="1200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="v8F-0d-jwi"/>
+        <segue reference="1p2-Li-oK0"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -18,9 +18,13 @@ class TwitchPlayerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //去掉webview加载顶部空白
-        self.automaticallyAdjustsScrollViewInsets = false;
-
+        //去掉webview加载顶部空白,禁止滚屏滑动
+        self.automaticallyAdjustsScrollViewInsets = false
+        twitchPlayerView.allowsInlineMediaPlayback = true
+        twitchPlayerView.scrollView.scrollEnabled = false
+        twitchChatView.allowsInlineMediaPlayback = true
+        twitchChatView.scrollView.scrollEnabled = false
+        
         let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.twitch.tv/XaKoH/popout")!) //popout、embed
         twitchPlayerView.loadRequest(videoRequest)
        

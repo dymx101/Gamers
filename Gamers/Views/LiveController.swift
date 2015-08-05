@@ -9,7 +9,6 @@
 import UIKit
 import Bolts
 import MJRefresh
-import SwiftSpinner
 import MBProgressHUD
 
 class LiveController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
@@ -28,26 +27,10 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         self.tableView.footer.autoChangeAlpha = true
         
-        
-        //self.demoSpinner()
-
-//        let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
-//        hud.textLabel.text = "加载中..."
-//        hud.showInView(self.navigationController!.view)
-//        hud.dismissAfterDelay(3)
-        
-        
-        
-        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        //hub.mode = MBProgressHUDMode.AnnularDeterminate
-        hub.labelText = "加载中..."
+        // 初始化数据
+        loadInitData()
             
 
-
-        delay(seconds: 1.0, completion: {
-            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
-        })
-        
             
             
             
@@ -75,53 +58,22 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func delay(#seconds: Double, completion:()->()) {
-        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
+
+    /**
+    启动初始化数据
+    */
+    func loadInitData() {
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = "加载中..."
         
-        dispatch_after(popTime, dispatch_get_main_queue()) {
-            completion()
-        }
-    }
-    func demoSpinner() {
-        
-        SwiftSpinner.showWithDelay(2.0, title: "It's taking longer than expected")
-        
-        delay(seconds: 2.0, completion: {
-            SwiftSpinner.show("Connecting \nto satellite...").addTapHandler({
-                println("tapped")
-                SwiftSpinner.hide()
-                }, subtitle: "Tap to hide while connecting! This will affect only the current operation.")
-        })
-        
-        delay(seconds: 6.0, completion: {
-            SwiftSpinner.show("Authenticating user account")
-        })
-        
-        delay(seconds: 10.0, completion: {
-            SwiftSpinner.show("Failed to connect, waiting...", animated: false)
-        })
-        
-        delay(seconds: 14.0, completion: {
-            SwiftSpinner.setTitleFont(UIFont(name: "Futura", size: 22.0))
-            SwiftSpinner.show("Retrying to authenticate")
-        })
-        
-        delay(seconds: 18.0, completion: {
-            SwiftSpinner.show("Connecting...")
-        })
-        
-        delay(seconds: 21.0, completion: {
-            SwiftSpinner.setTitleFont(nil)
-            SwiftSpinner.show("Connected", animated: false)
-        })
-        
-        delay(seconds: 22.0, completion: {
-            SwiftSpinner.hide()
-        })
-        
-        delay(seconds: 28.0, completion: {
-           // self.demoSpinner()
+        videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveVideoData = (task.result as? [Video])!
+            
+            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            
+            self?.tableView.reloadData()
+            
+            return nil
         })
     }
     
@@ -143,15 +95,20 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     */
     func loadMoreData() {
         videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.liveVideoData = (task.result as? [Video])!
+            let newData = (task.result as? [Video])!
             
-            self?.tableView.reloadData()
-            //self?.videoTableView.footer.endRefreshing()
-            self?.tableView.footer.noticeNoMoreData()
+            // 如果没有数据显示加载完成，否则继续
+            if newData.isEmpty {
+                self?.tableView.footer.noticeNoMoreData()
+            } else{
+                self?.tableView.footer.endRefreshing()
+                self!.liveVideoData += newData
+                
+                self?.tableView.reloadData()
+            }
+            
             return nil
         })
-        
-        NSLog("more data")
     }
     
     
@@ -231,7 +188,6 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         
         self.navigationController?.pushViewController(view!, animated: true)
     }
-
     
     override func viewWillAppear(animated: Bool) {
         // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下

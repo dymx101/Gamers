@@ -114,7 +114,8 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 加载数据
         self.loadNewData()
         
-        
+        // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         
         
         let gameBL = GameBL()
@@ -1088,6 +1089,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     /**
     初始化全局尺寸
     */
@@ -1098,15 +1100,24 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 3810)
         self.view.backgroundColor = UIColor.lightGrayColor()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.translucent = false
+    }
+    
+    
     /**
     点击触发
     */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //
         //var gameController = segue.destinationViewController as! GameController
-        NSLog("点击了表格行");
-        
-        NSLog(segue.identifier!)
+//        NSLog("点击了表格行");
+//        
+//        NSLog(segue.identifier!)
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

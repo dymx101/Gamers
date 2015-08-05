@@ -22,7 +22,12 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
     let channelBL = ChannelBL()
     let sliderBL = SliderBL()
     
-    var videoListData  = [Video]()
+    var videoListData  = [Video]()  //视频列表
+    var videoPageOffset = ""        //分页偏移量，默认为上次最后一个视频ID
+    var videoPageCount = 20         //每页视频总数
+    
+    var refresh = 0     // 刷新数据计数
+    let channelId = "freedom"  //freedom的ID
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +98,7 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        channelBL.getChannelVideo("freedoom", offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getChannelVideo(channelId, offset: 0, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self?.tableView.reloadData()
             
@@ -124,16 +129,22 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
     刷新数据
     */
     func loadNewData() {
-        channelBL.getChannelVideo("freedoom", offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getChannelVideo(channelId, offset: 0, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             
             self?.tableView.reloadData()
-            self?.tableView.header.endRefreshing()
+            
+            // 所有获取完后结束刷新动画
+            self!.refresh = self!.refresh + 1
+            if self!.refresh == 2 { //self!.refresh++ == 2 不行？
+                self?.tableView.header.endRefreshing()
+                self!.refresh = 0
+            }
             
             return nil
         })
 
-        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        sliderBL.getSliders(channel: "freedoom").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
@@ -145,12 +156,17 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             self!.cycleTitles = []
             self!.cycleImagesURLStrings = [];
             
-            //self!.stopRefensh()
-            self?.tableView.header.endRefreshing()
+            // 所有获取完后结束刷新动画
+            self!.refresh = self!.refresh + 1
+            if self!.refresh == 2 {
+                self?.tableView.header.endRefreshing()
+                self!.refresh = 0
+            }
             
             return nil
         })
     }
+    
     /**
     加载更多数据
     */
@@ -164,16 +180,14 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             } else{
                 self?.tableView.footer.endRefreshing()
                 self!.videoListData += newData
+                
+                self?.tableView.reloadData()
             }
 
-            self?.tableView.reloadData()
-            
             return nil
         })
     }
     
-    
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

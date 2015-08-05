@@ -8,23 +8,26 @@
 
 import UIKit
 import YouTubePlayer
+import youtube_ios_player_helper
 
 class SliderController: UIViewController {
 
-    @IBOutlet weak var playerView: YouTubePlayerView!
+    @IBOutlet weak var playerView: YTPlayerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSLog("222222")
 
 //        UIScrollView *scrollView = (UIScrollView *)[[webView subviews] objectAtIndex:0];
 //        scrollView.bounces = NO;
         //禁止滚动
             
-
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(),forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
         
-        playerView.playerVars = ["playsinline": "1"]
-        playerView.loadVideoID("yRRABRn0JTc")
+        var playerVars = ["playsinline": 1, "showinfo": 1]
+        playerView.loadWithVideoId("2rj2dIXrXW8", playerVars: playerVars)
+        //playerView.loadWithVideoId("2rj2dIXrXW8")
         
         // Do any additional setup after loading the view.
     }
