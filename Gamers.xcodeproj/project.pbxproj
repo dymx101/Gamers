@@ -14,6 +14,17 @@
 		1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4151B6F214D0042480B /* VideoInfoController.swift */; };
 		1A01F4181B6F479A0042480B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4171B6F479A0042480B /* Comment.swift */; };
 		1A0351FC1B54CB7A007372F8 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0351FB1B54CB7A007372F8 /* News.swift */; };
+		1A1D2C701B72FFF300112A4F /* NewGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */; };
+		1A1D2C721B73002200112A4F /* NewGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C711B73002200112A4F /* NewGameCell.swift */; };
+		1A1D2C741B73134300112A4F /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C731B73134300112A4F /* SystemController.swift */; };
+		1A1D2C761B73190B00112A4F /* UserHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C751B73190B00112A4F /* UserHistoryController.swift */; };
+		1A1D2C781B73198700112A4F /* UserHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C771B73198700112A4F /* UserHistoryCell.swift */; };
+		1A1D2C7A1B731C5600112A4F /* UserFollowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C791B731C5600112A4F /* UserFollowController.swift */; };
+		1A1D2C7C1B731C7E00112A4F /* UserFollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7B1B731C7E00112A4F /* UserFollowCell.swift */; };
+		1A1D2C7E1B7322A600112A4F /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7D1B7322A600112A4F /* UserInfoController.swift */; };
+		1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7F1B7346FD00112A4F /* LoginController.swift */; };
+		1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C811B73478000112A4F /* RegisterController.swift */; };
+		1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C831B73550200112A4F /* ForgetPWDController.swift */; };
 		1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */; };
 		1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */; };
 		1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0B1B54B8090040E94C /* APIClient.swift */; };
@@ -82,6 +93,17 @@
 		1A01F4151B6F214D0042480B /* VideoInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoInfoController.swift; sourceTree = "<group>"; };
 		1A01F4171B6F479A0042480B /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		1A0351FB1B54CB7A007372F8 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameController.swift; sourceTree = "<group>"; };
+		1A1D2C711B73002200112A4F /* NewGameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameCell.swift; sourceTree = "<group>"; };
+		1A1D2C731B73134300112A4F /* SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemController.swift; sourceTree = "<group>"; };
+		1A1D2C751B73190B00112A4F /* UserHistoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHistoryController.swift; sourceTree = "<group>"; };
+		1A1D2C771B73198700112A4F /* UserHistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHistoryCell.swift; sourceTree = "<group>"; };
+		1A1D2C791B731C5600112A4F /* UserFollowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFollowController.swift; sourceTree = "<group>"; };
+		1A1D2C7B1B731C7E00112A4F /* UserFollowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFollowCell.swift; sourceTree = "<group>"; };
+		1A1D2C7D1B7322A600112A4F /* UserInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
+		1A1D2C7F1B7346FD00112A4F /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		1A1D2C811B73478000112A4F /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		1A1D2C831B73550200112A4F /* ForgetPWDController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPWDController.swift; sourceTree = "<group>"; };
 		1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 		1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Gamers-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -193,7 +215,6 @@
 				1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */,
 				1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */,
 				1AB21AED1B5C8C5D007C5D2A /* GameController.swift */,
-				1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */,
 				1AB21AF11B5C8CE4007C5D2A /* SeachController.swift */,
 				1A7A583A1B60EB7300464510 /* SliderController.swift */,
 				1AE56FD91B65EB690088BFE8 /* VideoListController.swift */,
@@ -201,6 +222,15 @@
 				1A01F4111B6F210B0042480B /* VideoRelateController.swift */,
 				1A01F4131B6F212A0042480B /* VideoCommentController.swift */,
 				1A01F4151B6F214D0042480B /* VideoInfoController.swift */,
+				1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */,
+				1A1D2C7D1B7322A600112A4F /* UserInfoController.swift */,
+				1A1D2C791B731C5600112A4F /* UserFollowController.swift */,
+				1A1D2C751B73190B00112A4F /* UserHistoryController.swift */,
+				1A1D2C731B73134300112A4F /* SystemController.swift */,
+				1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */,
+				1A1D2C7F1B7346FD00112A4F /* LoginController.swift */,
+				1A1D2C811B73478000112A4F /* RegisterController.swift */,
+				1A1D2C831B73550200112A4F /* ForgetPWDController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -214,6 +244,9 @@
 				1A01F40D1B6F20AA0042480B /* VideoCommentCell.swift */,
 				1A01F40F1B6F20C50042480B /* VideoRelateCell.swift */,
 				1A4181DD1B71B12900927C21 /* FreedomCell.swift */,
+				1A1D2C711B73002200112A4F /* NewGameCell.swift */,
+				1A1D2C771B73198700112A4F /* UserHistoryCell.swift */,
+				1A1D2C7B1B731C7E00112A4F /* UserFollowCell.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -494,25 +527,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A1D2C721B73002200112A4F /* NewGameCell.swift in Sources */,
 				1AB21AF21B5C8CE4007C5D2A /* SeachController.swift in Sources */,
 				1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */,
 				1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */,
 				1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */,
 				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
+				1A1D2C741B73134300112A4F /* SystemController.swift in Sources */,
 				1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */,
 				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
+				1A1D2C7E1B7322A600112A4F /* UserInfoController.swift in Sources */,
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
+				1A1D2C761B73190B00112A4F /* UserHistoryController.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
 				1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */,
 				1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */,
+				1A1D2C701B72FFF300112A4F /* NewGameController.swift in Sources */,
 				1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */,
 				1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */,
 				1A01F4121B6F210B0042480B /* VideoRelateController.swift in Sources */,
 				1A01F4141B6F212A0042480B /* VideoCommentController.swift in Sources */,
 				1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */,
+				1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */,
 				1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */,
+				1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */,
+				1A1D2C781B73198700112A4F /* UserHistoryCell.swift in Sources */,
 				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
+				1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */,
 				1AE56FDA1B65EB690088BFE8 /* VideoListController.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
@@ -525,9 +567,11 @@
 				1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */,
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
 				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
+				1A1D2C7C1B731C7E00112A4F /* UserFollowCell.swift in Sources */,
 				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
 				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
+				1A1D2C7A1B731C5600112A4F /* UserFollowController.swift in Sources */,
 				1A4181DE1B71B12900927C21 /* FreedomCell.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,

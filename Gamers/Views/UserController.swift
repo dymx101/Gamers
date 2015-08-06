@@ -9,11 +9,26 @@
 import UIKit
 
 class UserController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    let user = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSLog("UserController")
+
+
         
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
+        
+        
+        user.setObject("Freedom", forKey: "user")
+        
+        println(user.objectForKey("user"))
+        
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -21,15 +36,29 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-//    // 设置分区
-//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        return 3
-//    }
-//    // 设置行数
-//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 8
-//    }
-//    
+    
+    // 点击触发
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        
+        println(user.objectForKey("user"))
+        
+        
+        if user.objectForKey("user") == nil {
+            let loginView = self.storyboard!.instantiateViewControllerWithIdentifier("LoginVC") as? LoginController
+            self.navigationController?.pushViewController(loginView!, animated: true)
+        } else {
+            let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("UserInfoVC") as? UserInfoController
+            self.navigationController?.pushViewController(userInfoView!, animated: true)
+        }
+        
+        
+        //user.removeObjectForKey("user")
+        
+        
+        
+        
+    }
     
     
     

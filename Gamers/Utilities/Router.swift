@@ -38,7 +38,7 @@ enum Router: URLRequestConvertible {
     
     case LiveVideo(offset: Int?, count: Int?)       //直播频道视频
     
-    
+    case UserLogin(userName: String?, password: String?)  //用户本地登入
     
     
     // MARK: URL格式转换
@@ -120,10 +120,13 @@ enum Router: URLRequestConvertible {
                 parameters["count"] = count != nil ? count : 20
 
                 return (.GET, "/channel/videos", parameters)
-         
-                
-            
-                
+            //本地用户登入
+            case .UserLogin(let userName, let password):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if userName != nil { parameters["username"] = userName }
+                if password != nil { parameters["password"] = password }
+
+                return (.GET, "/user/login", parameters)
                 
                 
                 

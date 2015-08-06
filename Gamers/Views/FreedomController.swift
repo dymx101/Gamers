@@ -129,7 +129,7 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
     刷新数据
     */
     func loadNewData() {
-        channelBL.getChannelVideo(channelId, offset: 0, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getChannelVideo(channelId, offset: 110, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             
             self?.tableView.reloadData()
@@ -212,10 +212,13 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
         if videoListData.isEmpty {
             // 没有数据时候显示提醒
             let cell = tableView.dequeueReusableCellWithIdentifier("FreedomNoDataCell", forIndexPath: indexPath) as! UITableViewCell
+            cell.selectionStyle = UITableViewCellSelectionStyle.None        //不可选
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.None   //删除下划线
             
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("FreedomCell", forIndexPath: indexPath) as! FreedomCell
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             
             let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
