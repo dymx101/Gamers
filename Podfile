@@ -12,7 +12,6 @@ pod 'SwiftyJSON', '~> 2.2.0'
 ## YouTube播放器
 ##pod 'YouTubePlayer'
 pod 'youtube-ios-player-helper'
-
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入
 #pod 'Google/SignIn'
@@ -33,3 +32,7 @@ pod 'PagingMenuController'
 pod 'SwiftSpinner'
 #pod 'JGProgressHUD'
 pod 'MBProgressHUD'
+## 界面布局
+pod 'SnapKit'
+## Facebook Pop的动画效果
+#pod 'pop'

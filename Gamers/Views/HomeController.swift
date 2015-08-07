@@ -13,6 +13,7 @@ import Alamofire
 import SwiftyJSON
 import Bolts
 import RealmSwift
+import SnapKit
 
 
 class HomeController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -196,6 +197,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
 
         
+        
+        
+        
+        
         // 2、添加大咖推荐部分
         // 创建表视图
         featuredChannelView = UITableView(frame: CGRectMake(6, 560, self.view.frame.width-12, 380), style: UITableViewStyle.Plain)
@@ -246,6 +251,17 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         featuredChannelFootButton.addTarget(self, action: "pushChannel:", forControlEvents: UIControlEvents.TouchUpInside)
         
         contentView.addSubview(featuredChannelView)
+        
+        
+        
+        newChannelView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(cycleScrollView.snp_bottom).offset(6)
+            make.left.equalTo(contentView).offset(6)
+            make.right.equalTo(contentView).offset(-32)
+            make.height.equalTo(380)
+
+        }
+        
         
 
         // 3、热门游戏1

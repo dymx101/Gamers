@@ -183,7 +183,7 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         NSLog("点击了第%ld个游戏", indexPath.row)
-        var view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
+        let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
         view?.videoData = self.liveVideoData[indexPath.row]
         
         self.navigationController?.pushViewController(view!, animated: true)
