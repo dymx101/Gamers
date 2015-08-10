@@ -14,6 +14,8 @@
 		1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4151B6F214D0042480B /* VideoInfoController.swift */; };
 		1A01F4181B6F479A0042480B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01F4171B6F479A0042480B /* Comment.swift */; };
 		1A0351FC1B54CB7A007372F8 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0351FB1B54CB7A007372F8 /* News.swift */; };
+		1A0836CA1B78D40A00286911 /* GameHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0836C81B78D40A00286911 /* GameHeaderCell.swift */; };
+		1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0836C91B78D40A00286911 /* GameHeaderCell.xib */; };
 		1A1D2C701B72FFF300112A4F /* NewGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */; };
 		1A1D2C721B73002200112A4F /* NewGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C711B73002200112A4F /* NewGameCell.swift */; };
 		1A1D2C741B73134300112A4F /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C731B73134300112A4F /* SystemController.swift */; };
@@ -99,6 +101,8 @@
 		1A01F4151B6F214D0042480B /* VideoInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoInfoController.swift; sourceTree = "<group>"; };
 		1A01F4171B6F479A0042480B /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		1A0351FB1B54CB7A007372F8 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		1A0836C81B78D40A00286911 /* GameHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHeaderCell.swift; sourceTree = "<group>"; };
+		1A0836C91B78D40A00286911 /* GameHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameHeaderCell.xib; sourceTree = "<group>"; };
 		1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameController.swift; sourceTree = "<group>"; };
 		1A1D2C711B73002200112A4F /* NewGameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameCell.swift; sourceTree = "<group>"; };
 		1A1D2C731B73134300112A4F /* SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemController.swift; sourceTree = "<group>"; };
@@ -262,6 +266,8 @@
 				1A1D2C7B1B731C7E00112A4F /* UserFollowCell.swift */,
 				1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */,
 				1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */,
+				1A0836C81B78D40A00286911 /* GameHeaderCell.swift */,
+				1A0836C91B78D40A00286911 /* GameHeaderCell.xib */,
 				1AEECF711B7727640022B69B /* HomeVideoCell.swift */,
 				1AEECF721B7727640022B69B /* HomeVideoCell.xib */,
 				1AEECF751B773CCA0022B69B /* TableFooterCell.swift */,
@@ -482,6 +488,7 @@
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
 				1AFC1A0A1B58EDA2006D9667 /* 2.jpg in Resources */,
 				1AFC1A091B58EDA2006D9667 /* 1.jpg in Resources */,
+				1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */,
 				1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */,
 				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,
 				1AD9C7091B4E1189001FE414 /* Images.xcassets in Resources */,
@@ -604,6 +611,7 @@
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
 				1A0351FC1B54CB7A007372F8 /* News.swift in Sources */,
+				1A0836CA1B78D40A00286911 /* GameHeaderCell.swift in Sources */,
 				1AFC1A0C1B58F3C2006D9667 /* GameDao.swift in Sources */,
 				1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */,
 				1AE56FD81B65E2A70088BFE8 /* SeachCell.swift in Sources */,

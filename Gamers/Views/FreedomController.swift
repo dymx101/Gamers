@@ -34,9 +34,7 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
 
         // 上拉下拉刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        self.tableView.header.autoChangeAlpha = true
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-        self.tableView.footer.autoChangeAlpha = true
         
         // 顶部轮播
         cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)

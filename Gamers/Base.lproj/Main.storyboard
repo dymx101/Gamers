@@ -894,18 +894,18 @@
                         <viewControllerLayoutGuide type="top" id="aQC-8R-0hT"/>
                         <viewControllerLayoutGuide type="bottom" id="TuK-ge-pdp"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8yU-Gj-udE">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="8yU-Gj-udE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRN-2E-e6I">
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRN-2E-e6I">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O0D-D0-fab">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="0.0" y="0.0" width="400" height="3810"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="400" height="10000"/>
                                         </variation>
                                     </view>
                                 </subviews>
@@ -941,6 +941,8 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="800"/>
                     <connections>
                         <outlet property="contentView" destination="O0D-D0-fab" id="Epa-bV-gez"/>
                         <outlet property="scrollView" destination="jRN-2E-e6I" id="RWF-fB-p2r"/>

@@ -24,9 +24,7 @@ class GameController: UICollectionViewController, UICollectionViewDataSource, UI
         
         // 下拉上拉刷新数据
         self.collectionView!.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        self.collectionView!.header.autoChangeAlpha = true;
         self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-        self.collectionView!.footer.autoChangeAlpha = true
         
         self.loadNewData()
     }

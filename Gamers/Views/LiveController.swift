@@ -23,9 +23,7 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         
         // 刷新插件
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        self.tableView.header.autoChangeAlpha = true
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-        self.tableView.footer.autoChangeAlpha = true
         
         // 初始化数据
         loadInitData()

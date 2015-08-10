@@ -13,9 +13,9 @@ PODS:
     - Bolts (~> 1.2.0)
   - BoltsSwift/iOS (0.1.1):
     - BoltsSwift/Common
-  - Kingfisher (1.4.2)
+  - Kingfisher (1.4.4)
   - MBProgressHUD (0.9.1)
-  - MJRefresh (2.3.2)
+  - MJRefresh (2.4.2)
   - PagingMenuController (0.4.4)
   - Realm (0.94.0):
     - Realm/Headers (= 0.94.0)
@@ -49,9 +49,9 @@ SPEC CHECKSUMS:
   Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   BoltsSwift: 2a45ba45c3564d686a8ff8c01abc64a1037b1312
-  Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
+  Kingfisher: 4485c912f845b9349b4619d4f3f3400d177b6647
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  MJRefresh: 0f6f5e8387970607c26080b44058b229a23065d7
+  MJRefresh: 092462f45199b6ee4db358447a02a5e9e3355ed7
   PagingMenuController: 83ecd1959044b332b91b914f6a1aac7742e8f205
   Realm: a046149653e0ca220b65b5783da907aa5b74d86c
   RealmSwift: 5efbbf1a5c179a7237e4d428594e41619fa167ba

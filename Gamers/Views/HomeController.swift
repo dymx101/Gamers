@@ -21,6 +21,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
     @IBOutlet weak var contentView: UIView!         //滚动试图内容
     
+    let channelBL = ChannelBL()
+    let gameBL = GameBL()
+    let sliderBL = SliderBL()
+    
     // 轮播视图
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
@@ -52,6 +56,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     var newGameVideo2Data = [Video]()
     var newGameVideo3Data = [Video]()
     
+ 
+    var videoData = [Int: [Object]]()
+    
+    // 表格展开状态标记
+    var expansionStatus = [ 101: false, 102: false, 103: false, 104: false, 105: false, 106: false, 107: false, 108: false, 109: false ]
+    // 表格移动状态标记
+    var moveStatus = [ 101: 0, 102: 0, 103: 0, 104: 0, 105: 0, 106: 0, 107: 0, 108: 0, 109: 0 ]
+    
+    
     // 刷新数据计数
     var refresh = 0
     // 停止刷新状态
@@ -63,9 +76,40 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    func loadInitData() {
+        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if let sliders = task.result as? [Slider] {
+                for slider in sliders {
+                    self!.cycleTitles.append(slider.title)
+                    self!.cycleImagesURLStrings.append(slider.imageSmall)
+                }
+            }
+            self!.cycleScrollView.titlesGroup = self!.cycleTitles
+            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
+            self!.cycleTitles = []
+            self!.cycleImagesURLStrings = [];
+
+            return nil
+        })
+
+        channelBL.getChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[101] = (task.result as? [Channel])
+            self!.newChannelView.reloadData()
+
+            return nil
+        })
+        channelBL.getChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[102] = (task.result as? [Channel])
+            self!.featuredChannelView.reloadData()
+            
+            return nil
+        })
+    }
+    
+    
     func loadNewData() {
+        
         // 新手频道推荐数据
-        let channelBL = ChannelBL()
         channelBL.getChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.newChannelData = (task.result as? [Channel])!
             self!.newChannelView.reloadData()
@@ -82,7 +126,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             return nil
         })
         // 后台进程获取数据
-        let sliderBL = SliderBL()
         sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
@@ -103,45 +146,26 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    func pushChannel(sender: AnyObject) {
-        NSLog("跳转")
-//        var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
-//        self.navigationController?.pushViewController(view!, animated: true)
-        newChannelData = newChannelData+newChannelData
-        
-        newChannelView.reloadData()
-        
-        // 移动动画
-        UIView.animateWithDuration(2, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-            self.newChannelView.frame.size.height = 760                             //重设高度
-            //self.newChannelView.transform = CGAffineTransformMakeTranslation(0, 50) //位置下移
-
-
-        }, completion: nil)
-
-        
-
-        
-        
-        println(sender.tag)
-    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 加载数据
-        self.loadNewData()
+        self.loadInitData()
         
         // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
-        
-        
-        let gameBL = GameBL()
-
 
         // 下拉刷新数据
         scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        scrollView.header.autoChangeAlpha = true;
+        
+        videoData[101] = [Channel]()
+        videoData[102] = [Channel]()
+        videoData[103] = [Video]()
+        videoData[104] = [Video]()
+        videoData[105] = [Video]()
+        videoData[106] = [Video]()
+        videoData[107] = [Video]()
+        videoData[108] = [Video]()
+        videoData[109] = [Video]()
         
         // 0、顶部轮播
         cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
@@ -161,8 +185,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 1、添加新手推荐部分
         newChannelView = UITableView()
         newChannelView.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        newChannelView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newChannelCell")
         // 设置边框
         newChannelView.layer.borderWidth = 0.3
         newChannelView.layer.borderColor = UIColor.grayColor().CGColor
@@ -184,7 +206,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newChannelView.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
         
         // 添加新手推荐视图
-        newChannelView.tag = 1
+        newChannelView.tag = 101
         contentView.addSubview(newChannelView)
         // 位置布局
         newChannelView.snp_makeConstraints { (make) -> Void in
@@ -193,14 +215,12 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
         }
-        
+
         
         // 2、添加大咖推荐部分
         // 创建表视图
         featuredChannelView = UITableView()
         featuredChannelView.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        featuredChannelView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "featuredChannelCell")
         featuredChannelView.layer.borderWidth = 0.3
         featuredChannelView.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -221,10 +241,12 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         featuredChannelView.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
         
         // 添加大咖推荐视图
+        featuredChannelView.tag = 102
         contentView.addSubview(featuredChannelView)
         // 位置布局
         featuredChannelView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(newChannelView.snp_bottom).offset(6)
+            //make.top.equalTo(newChannelView.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(576)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -233,8 +255,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 3、热门游戏1
         hotGameView1 = UITableView()
         hotGameView1.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        hotGameView1.registerClass(UITableViewCell.self, forCellReuseIdentifier: "hotGame1Cell")
         hotGameView1.layer.borderWidth = 0.3
         hotGameView1.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -251,14 +271,16 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 注册自定义的Cell
         hotGameView1.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        hotGameView1.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        hotGameView1.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView1.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
 
-        //
+        // 添加热门游戏1视频
+        hotGameView1.tag = 103
         contentView.addSubview(hotGameView1)
         // 位置布局
         hotGameView1.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(featuredChannelView.snp_bottom).offset(6)
+            //make.top.equalTo(featuredChannelView.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(982)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -267,8 +289,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 4、热门游戏2
         hotGameView2 = UITableView()
         hotGameView2.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        hotGameView2.registerClass(UITableViewCell.self, forCellReuseIdentifier: "hotGame2Cell")
         hotGameView2.layer.borderWidth = 0.3
         hotGameView2.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -285,13 +305,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 注册自定义的Cell
         hotGameView2.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        hotGameView2.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        hotGameView2.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView2.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
 
+        hotGameView2.tag = 104
         contentView.addSubview(hotGameView2)
         // 位置布局
         hotGameView2.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(hotGameView1.snp_bottom).offset(6)
+            //make.top.equalTo(hotGameView1.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(1388)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -301,8 +323,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 5、热门游戏3
         hotGameView3 = UITableView()
         hotGameView3.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        hotGameView3.registerClass(UITableViewCell.self, forCellReuseIdentifier: "hotGame3Cell")
         hotGameView3.layer.borderWidth = 0.3
         hotGameView3.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -319,13 +339,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 注册自定义的Cell
         hotGameView3.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        hotGameView3.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        hotGameView3.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView3.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
 
+        hotGameView3.tag = 105
         contentView.addSubview(hotGameView3)
         // 位置布局
         hotGameView3.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(hotGameView2.snp_bottom).offset(6)
+            //make.top.equalTo(hotGameView2.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(1794)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -334,8 +356,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 6、热门游戏4
         hotGameView4 = UITableView()
         hotGameView4.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        hotGameView4.registerClass(UITableViewCell.self, forCellReuseIdentifier: "hotGame4Cell")
         hotGameView4.layer.borderWidth = 0.3
         hotGameView4.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -352,13 +372,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 注册自定义的Cell
         hotGameView4.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        hotGameView4.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        hotGameView4.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView4.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
         
+        hotGameView4.tag = 106
         contentView.addSubview(hotGameView4)
         // 位置布局
         hotGameView4.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(hotGameView3.snp_bottom).offset(6)
+            //make.top.equalTo(hotGameView3.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(2200)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -367,8 +389,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 7、最新游戏1
         newGameView1 = UITableView()
         newGameView1.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        newGameView1.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newGame1Cell")
         newGameView1.layer.borderWidth = 0.3
         newGameView1.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -385,13 +405,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 注册自定义的Cell
         newGameView1.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        newGameView1.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        newGameView1.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         newGameView1.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
 
+        newGameView1.tag = 107
         contentView.addSubview(newGameView1)
         // 位置布局
         newGameView1.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(hotGameView4.snp_bottom).offset(6)
+            //make.top.equalTo(hotGameView4.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(2606)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -401,8 +423,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 8、最新游戏2
         newGameView2 = UITableView()
         newGameView2.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        newGameView2.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newGame2Cell")
         newGameView2.layer.borderWidth = 0.3
         newGameView2.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -418,13 +438,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView2.dataSource = self
         // 注册自定义的Cell
         newGameView2.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        newGameView2.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        newGameView2.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         newGameView2.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
         
+        newGameView2.tag = 108
         contentView.addSubview(newGameView2)
         // 位置布局
         newGameView2.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(newGameView1.snp_bottom).offset(6)
+            //make.top.equalTo(newGameView1.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(3012)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -434,8 +456,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 9、最新游戏3
         newGameView3 = UITableView()
         newGameView3.scrollEnabled = false
-        // 创建一个重用的单元格，减少内存消耗
-        newGameView3.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newGame3Cell")
         newGameView3.layer.borderWidth = 0.3
         newGameView3.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
@@ -452,13 +472,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // 注册自定义的Cell
         newGameView3.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
-        newGameView3.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
+        newGameView3.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         newGameView3.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
         
+        newGameView3.tag = 109
         contentView.addSubview(newGameView3)
         // 位置布局
         newGameView3.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(newGameView2.snp_bottom).offset(6)
+            //make.top.equalTo(newGameView2.snp_bottom).offset(6)
+            make.top.equalTo(contentView).offset(3418)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-32)
             make.height.equalTo(400)
@@ -529,6 +551,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             return nil
         })
+        
+        
+        
+
 
     }
     
@@ -536,30 +562,14 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    // 设置表格行数
+    // 设置表格行数，展开和不展开两种情况
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch tableView {
-        case newChannelView:
-            return self.newChannelData.count + 2
-        case featuredChannelView:
-            return self.featuredChannelData.count + 2
-        case hotGameView1:
-            return hotGameVideo1Data.count + 2
-        case hotGameView2:
-            return hotGameVideo2Data.count + 2
-        case hotGameView3:
-            return hotGameVideo3Data.count + 2
-        case hotGameView4:
-            return hotGameVideo4Data.count + 2
-        case newGameView1:
-            return newGameVideo1Data.count + 2
-        case newGameView2:
-            return newGameVideo2Data.count + 2
-        case newGameView3:
-            return newGameVideo3Data.count + 2
-        default :
-            return 0
+        if expansionStatus[tableView.tag]! {
+            return self.videoData[tableView.tag]!.count + 2
+        } else {
+            return 5
         }
+
     }
     // 设置行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -573,182 +583,97 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 设置单元格的内容（创建参数indexPath指定的单元）
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch tableView {
-        case newChannelView:
-            // 表格头部
-            if indexPath.row == 0 {
+        let viewTag = tableView.tag
+        
+        // 表格头部
+        if indexPath.row == 0 {
+            if tableView.isEqual(newChannelView) {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+                cell.hearderTitle.text = "新手推荐"
+                
+                return cell
+            } else if tableView.isEqual(featuredChannelView) {
+                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+                cell.hearderTitle.text = "实况大咖"
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
+                //cell.hearderTitle.text = "实况大咖"
+                
+                return cell
+            }
+        }
+        
+        // 表格底部
+        if indexPath.row == 4 && !expansionStatus[viewTag]! {
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
+            
+            return cell
+        } else if indexPath.row == videoData[viewTag]!.count+1 && expansionStatus[viewTag]! {
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
+            
+            return cell
+        }
 
-                return cell
-            // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-            // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-        case featuredChannelView:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-        case hotGameView1:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-
-        case hotGameView2:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-        case hotGameView3:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-        case hotGameView4:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-
-        case newGameView1:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-        case newGameView2:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-        case newGameView3:
-            // 表格头部
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                
-                return cell
-                // 表格底部
-            } else if indexPath.row == newChannelData.count + 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-                
-                return cell
-                // 中间视频列表
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-                
-                return cell
-            }
-
-        default :
-            // TODO: 默认值需要设计？
-            let cell = tableView.dequeueReusableCellWithIdentifier("11") as! UITableViewCell
+        // 中间部分
+        if tableView.isEqual(newChannelView) || tableView.isEqual(featuredChannelView)  {
+            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
+            
             return cell
         }
         
+        
+    
 
     }
     
     /**
-    点击触发
+    点击触发，第1个无反应，中间跳转到播放页面，最后一个展开或者跳转到全部视频
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let viewTag = tableView.tag
         
-        
-        
-        
-        
+        if indexPath.row == 0 {
+             println("无反应")
+        } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
+            // 移动动画
+            moveView(tableView)
+            let dataView = self.view.viewWithTag(viewTag) as! UITableView
+            dataView.reloadData()
+        } else if indexPath.row == videoData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
+             println("跳转到全部列表页面")
+        } else {
+             println("播放页面")
+        }
+
     }
+    
+    func moveView(tableView: UITableView) {
+        let viewTag = tableView.tag
+        // 该tableView以及扩展
+        expansionStatus[viewTag] = true
+        // 扩展动画
+        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.view.viewWithTag(viewTag)?.frame.size.height = 700
+            // 后面tableview都下移
+            for var index = viewTag + 1; index <= 109; index++ {
+                var moveHeight = (self.moveStatus[index]! + 1) * 300
+                self.moveStatus[index]! += 1
+                
+                self.view.viewWithTag(index)?.transform = CGAffineTransformMakeTranslation(0, CGFloat(moveHeight))
+            }
+            
+            self.view.viewWithTag(viewTag)!.snp_updateConstraints(closure: { (make) -> Void in
+                make.height.equalTo(700)
+            })
+        }, completion: nil)
+    }
+    
     // cell分割线的边距
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if cell.respondsToSelector("setSeparatorInset:") {
@@ -769,10 +694,22 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+
+        var total = 0
+        for (_, item) in expansionStatus {
+            if item { total = total + 1 }
+        }
+
+        println("尺寸变化\(total)")
+        
+        let height = 4040 + total * 300
         // iphone4s:3820，iphone5s:3730，iphone6:3630，iphone6p:3560   +180
-        self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 4020)
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 4020)
+        self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height) )
+        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGFloat(height))
         self.view.backgroundColor = UIColor.lightGrayColor()
+
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -780,6 +717,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
         self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
         self.navigationController?.navigationBar.translucent = false
+        
     }
     
     
@@ -795,6 +733,7 @@ extension HomeController: SDCycleScrollViewDelegate {
         NSLog("---点击了第%ld张图片", index);
         var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
         self.navigationController?.pushViewController(view!, animated: true)
+        
     }
 }
 

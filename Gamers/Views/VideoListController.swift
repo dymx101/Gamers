@@ -22,18 +22,11 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.navigationItem.title = self.gameData.nameZh
         
         // 刷新功能
         videoTableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        videoTableView.header.autoChangeAlpha = true
         videoTableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-        videoTableView.footer.autoChangeAlpha = true
 
         // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
