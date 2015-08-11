@@ -74,6 +74,33 @@ class ChannelBL: NSObject {
         return fetchTask
     }
     
-
+    /**
+    首页推荐频道视频
+    
+    :param: channelType 推荐类型
+    :returns: 视频列表
+    */
+    func getRecommendChannel(channelType : String) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return ChannelDao.getRecommendChannel(channelType : channelType)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let videos = task.result as? [Video] {
+                return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
 
 }

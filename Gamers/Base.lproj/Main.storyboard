@@ -210,7 +210,7 @@
         <!--Player View Controller-->
         <scene sceneID="PHk-2D-pTa">
             <objects>
-                <viewController storyboardIdentifier="PlayerView" hidesBottomBarWhenPushed="YES" id="wV8-l1-Puq" customClass="PlayerViewController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayerViewVC" hidesBottomBarWhenPushed="YES" id="wV8-l1-Puq" customClass="PlayerViewController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0VN-qN-COy"/>
                         <viewControllerLayoutGuide type="bottom" id="bV6-yB-X5t"/>
@@ -864,7 +864,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DEu-rD-nYL" customClass="SeachController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4yO-6h-ia1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -895,7 +895,7 @@
                         <viewControllerLayoutGuide type="bottom" id="TuK-ge-pdp"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="8yU-Gj-udE">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRN-2E-e6I">
@@ -904,33 +904,82 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O0D-D0-fab">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="0.0" y="0.0" width="400" height="10000"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10000" id="wDH-UW-hXk"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="wDH-UW-hXk"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="-200" y="5000" width="400" height="10000"/>
+                                            <mask key="constraints">
+                                                <include reference="wDH-UW-hXk"/>
+                                            </mask>
                                         </variation>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="O0D-D0-fab" firstAttribute="centerX" secondItem="jRN-2E-e6I" secondAttribute="centerX" id="5gd-Fb-Z0W"/>
+                                    <constraint firstAttribute="bottom" secondItem="O0D-D0-fab" secondAttribute="bottom" constant="-9200" id="JG9-0k-Pwk"/>
+                                    <constraint firstItem="O0D-D0-fab" firstAttribute="top" secondItem="jRN-2E-e6I" secondAttribute="top" id="VvG-ep-tZB"/>
+                                    <constraint firstAttribute="trailing" secondItem="O0D-D0-fab" secondAttribute="trailing" id="oE1-XO-JUL"/>
+                                    <constraint firstItem="O0D-D0-fab" firstAttribute="leading" secondItem="jRN-2E-e6I" secondAttribute="leading" id="qsJ-jq-rdu"/>
+                                </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="O0D-D0-fab"/>
                                     </mask>
+                                    <mask key="constraints">
+                                        <exclude reference="5gd-Fb-Z0W"/>
+                                        <exclude reference="JG9-0k-Pwk"/>
+                                        <exclude reference="VvG-ep-tZB"/>
+                                        <exclude reference="oE1-XO-JUL"/>
+                                        <exclude reference="qsJ-jq-rdu"/>
+                                    </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
+                                <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="subviews">
                                         <include reference="O0D-D0-fab"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <include reference="5gd-Fb-Z0W"/>
+                                        <include reference="JG9-0k-Pwk"/>
+                                        <include reference="VvG-ep-tZB"/>
+                                        <include reference="oE1-XO-JUL"/>
+                                        <include reference="qsJ-jq-rdu"/>
                                     </mask>
                                 </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jRN-2E-e6I" firstAttribute="top" secondItem="8yU-Gj-udE" secondAttribute="top" id="0ba-hH-4J8"/>
+                            <constraint firstItem="jRN-2E-e6I" firstAttribute="leading" secondItem="8yU-Gj-udE" secondAttribute="leading" id="1uC-CP-9Np"/>
+                            <constraint firstAttribute="bottom" secondItem="jRN-2E-e6I" secondAttribute="bottom" id="cPH-vO-RQF"/>
+                            <constraint firstAttribute="trailing" secondItem="jRN-2E-e6I" secondAttribute="trailing" id="rCx-f2-yj0"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="jRN-2E-e6I"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="0ba-hH-4J8"/>
+                                <exclude reference="1uC-CP-9Np"/>
+                                <exclude reference="cPH-vO-RQF"/>
+                                <exclude reference="rCx-f2-yj0"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="jRN-2E-e6I"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="0ba-hH-4J8"/>
+                                <include reference="1uC-CP-9Np"/>
+                                <include reference="cPH-vO-RQF"/>
+                                <include reference="rCx-f2-yj0"/>
                             </mask>
                         </variation>
                     </view>
@@ -1041,10 +1090,10 @@
             </objects>
             <point key="canvasLocation" x="4180.5" y="-1029"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Channel List Controller-->
         <scene sceneID="LAw-ey-pwN">
             <objects>
-                <tableViewController id="WoX-EC-pMm" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ChannelListVC" hidesBottomBarWhenPushed="YES" id="WoX-EC-pMm" customClass="ChannelListController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="q6Z-VW-9fz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1229,7 +1278,7 @@
         <scene sceneID="Tzo-jM-iQD">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="03U-hP-9wb" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" id="tX9-d9-QFv"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home.png" id="tX9-d9-QFv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="neq-8P-Bvf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2284,8 +2333,11 @@
             <point key="canvasLocation" x="4180.5" y="-284.25"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="home.png" width="44" height="44"/>
+    </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="1p2-Li-oK0"/>
         <segue reference="Crt-mh-e89"/>
-        <segue reference="v8F-0d-jwi"/>
     </inferredMetricsTieBreakers>
 </document>

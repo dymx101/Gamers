@@ -68,6 +68,11 @@
 		1AE56FDA1B65EB690088BFE8 /* VideoListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FD91B65EB690088BFE8 /* VideoListController.swift */; };
 		1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */; };
 		1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */; };
+		1AEB2F991B79FB7D005F0A3F /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F981B79FB7D005F0A3F /* home.png */; };
+		1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */; };
+		1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */; };
+		1AEB2F9F1B7A3AD6005F0A3F /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9E1B7A3AD6005F0A3F /* share.png */; };
+		1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */; };
 		1AEECF6F1B7724040022B69B /* ChannelHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */; };
 		1AEECF701B7724040022B69B /* ChannelHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */; };
 		1AEECF731B7727640022B69B /* HomeVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEECF711B7727640022B69B /* HomeVideoCell.swift */; };
@@ -162,6 +167,11 @@
 		1AE56FD91B65EB690088BFE8 /* VideoListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoListController.swift; sourceTree = "<group>"; };
 		1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
 		1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		1AEB2F981B79FB7D005F0A3F /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home.png; path = "../../../../Downloads/gamers-mobile-icon/2. Toolbar and navigation bar icon/home.png"; sourceTree = "<group>"; };
+		1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableFooterAllCell.swift; sourceTree = "<group>"; };
+		1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterAllCell.xib; sourceTree = "<group>"; };
+		1AEB2F9E1B7A3AD6005F0A3F /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
 		1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelHeaderCell.swift; sourceTree = "<group>"; };
 		1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChannelHeaderCell.xib; sourceTree = "<group>"; };
 		1AEECF711B7727640022B69B /* HomeVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVideoCell.swift; sourceTree = "<group>"; };
@@ -228,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				1A32FD1A1B54C1000040E94C /* HomeController.swift */,
+				1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */,
 				1A4181DB1B71A94000927C21 /* FreedomController.swift */,
 				1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */,
 				1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */,
@@ -272,6 +283,8 @@
 				1AEECF721B7727640022B69B /* HomeVideoCell.xib */,
 				1AEECF751B773CCA0022B69B /* TableFooterCell.swift */,
 				1AEECF761B773CCA0022B69B /* TableFooterCell.xib */,
+				1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */,
+				1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -371,6 +384,8 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1AEB2F9E1B7A3AD6005F0A3F /* share.png */,
+				1AEB2F981B79FB7D005F0A3F /* home.png */,
 				1AFC1A071B58EDA2006D9667 /* 1.jpg */,
 				1AFC1A081B58EDA2006D9667 /* 2.jpg */,
 			);
@@ -484,11 +499,14 @@
 				1AEECF741B7727640022B69B /* HomeVideoCell.xib in Resources */,
 				1AEECF701B7724040022B69B /* ChannelHeaderCell.xib in Resources */,
 				1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */,
+				1AEB2F9F1B7A3AD6005F0A3F /* share.png in Resources */,
 				1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */,
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
 				1AFC1A0A1B58EDA2006D9667 /* 2.jpg in Resources */,
 				1AFC1A091B58EDA2006D9667 /* 1.jpg in Resources */,
 				1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */,
+				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
+				1AEB2F991B79FB7D005F0A3F /* home.png in Resources */,
 				1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */,
 				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,
 				1AD9C7091B4E1189001FE414 /* Images.xcassets in Resources */,
@@ -572,6 +590,7 @@
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
 				1A1D2C761B73190B00112A4F /* UserHistoryController.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
+				1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */,
 				1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */,
 				1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */,
 				1A1D2C701B72FFF300112A4F /* NewGameController.swift in Sources */,
@@ -584,6 +603,7 @@
 				1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */,
 				1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */,
 				1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */,
+				1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */,
 				1A1D2C781B73198700112A4F /* UserHistoryCell.swift in Sources */,
 				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
 				1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */,
@@ -745,7 +765,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/build/Debug-iphoneos";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -761,10 +781,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

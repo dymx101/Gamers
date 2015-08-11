@@ -18,8 +18,9 @@ class Game: Object {
     dynamic var details = ""    //简介
     dynamic var type = 0        //类型：1热门、2新游戏推荐
     
-    dynamic var videos = ""     //JSON视频数据（临时测试）
-
+    //dynamic var videos = ""     //JSON视频数据（临时测试）
+    dynamic var videos = [Video]()
+    
     class func collection(#json: JSON) -> [Game] {
         let realm = Realm()
         var collection = [Game]()
@@ -51,7 +52,8 @@ class Game: Object {
         if let image = json["image"].string { model.image = image }
         if let type = json["type"].int { model.type = type }
         
-        if let videos = json["videos"].string { model.videos = videos }
+        model.videos = Video.collection(json: json["videos"])
+        
         
         return model
     }

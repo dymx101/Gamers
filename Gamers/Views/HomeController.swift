@@ -44,21 +44,12 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     var newGameView3: UITableView!
     
     // 全局数据 //todo 整合在一起
-    var newChannelData = [Channel]()
-    var featuredChannelData = [Channel]()
     var hotGameData = [Game]()
     var newGameData = [Game]()
-    var hotGameVideo1Data = [Video]()
-    var hotGameVideo2Data = [Video]()
-    var hotGameVideo3Data = [Video]()
-    var hotGameVideo4Data = [Video]()
-    var newGameVideo1Data = [Video]()
-    var newGameVideo2Data = [Video]()
-    var newGameVideo3Data = [Video]()
     
- 
-    var videoData = [Int: [Object]]()
-    
+    var videoData = [Int: [Video]]()
+    var gamesName  = [ 101: "", 102: "", 103: "", 104: "", 105: "", 106: "", 107: "", 108: "", 109: "" ]
+
     // 表格展开状态标记
     var expansionStatus = [ 101: false, 102: false, 103: false, 104: false, 105: false, 106: false, 107: false, 108: false, 109: false ]
     // 表格移动状态标记
@@ -91,40 +82,25 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
             return nil
         })
-
-        channelBL.getChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[101] = (task.result as? [Channel])
+        
+        channelBL.getRecommendChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[101] = (task.result as? [Video])
             self!.newChannelView.reloadData()
-
+            
             return nil
         })
-        channelBL.getChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[102] = (task.result as? [Channel])
+        channelBL.getRecommendChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[102] = (task.result as? [Video])
             self!.featuredChannelView.reloadData()
             
             return nil
         })
+
     }
     
     
     func loadNewData() {
         
-        // 新手频道推荐数据
-        channelBL.getChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.newChannelData = (task.result as? [Channel])!
-            self!.newChannelView.reloadData()
-            self!.stopRefensh()
-            
-            return nil
-        })
-        // 游戏大咖频道推荐数据
-        channelBL.getChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.featuredChannelData = (task.result as? [Channel])!
-            self!.featuredChannelView.reloadData()
-            self!.stopRefensh()
-            
-            return nil
-        })
         // 后台进程获取数据
         sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
@@ -143,6 +119,58 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             return nil
         })
         
+        // 新手频道推荐数据
+        channelBL.getRecommendChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[101] = (task.result as? [Video])
+            self!.newChannelView.reloadData()
+            self!.stopRefensh()
+            
+            return nil
+        })
+        // 游戏大咖频道推荐数据
+        channelBL.getRecommendChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[102] = (task.result as? [Video])
+            self!.newChannelView.reloadData()
+            self!.stopRefensh()
+            
+            return nil
+        })
+        
+        // 推荐游戏数据
+        gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+            if let games = task.result as? [Game] {
+                
+                for game in games {
+                    if game.type == 1 {
+                        self!.hotGameData.append(game)
+                    } else {
+                        self!.newGameData.append(game)
+                    }
+                }
+                
+                // 热门游戏
+                for index in 103...106 {
+                    self!.videoData[index]? = games[index-103].videos
+                    self!.gamesName[index] = self!.hotGameData[index-103].nameZh
+                    
+                    let view = self!.view.viewWithTag(index) as! UITableView
+                    view.reloadData()
+                }
+                // 新游戏
+                for index in 107...109 {
+                    self!.videoData[index]? = games[index-103].videos
+                    self!.gamesName[index] = self!.newGameData[index-107].nameZh
+                    
+                    let view = self!.view.viewWithTag(index) as! UITableView
+                    view.reloadData()
+                }
+                
+                
+                //println("数据：\(self?.videoData)")
+            }
+            return nil
+        })
+        
         
     }
     
@@ -157,8 +185,8 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 下拉刷新数据
         scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         
-        videoData[101] = [Channel]()
-        videoData[102] = [Channel]()
+        videoData[101] = [Video]()
+        videoData[102] = [Video]()
         videoData[103] = [Video]()
         videoData[104] = [Video]()
         videoData[105] = [Video]()
@@ -204,6 +232,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newChannelView.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         newChannelView.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
         newChannelView.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        newChannelView.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
         
         // 添加新手推荐视图
         newChannelView.tag = 101
@@ -212,7 +241,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newChannelView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(cycleScrollView.snp_bottom).offset(6)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
 
@@ -224,11 +253,11 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         featuredChannelView.layer.borderWidth = 0.3
         featuredChannelView.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
-        if newChannelView.respondsToSelector("setSeparatorInset:") {
-            newChannelView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        if featuredChannelView.respondsToSelector("setSeparatorInset:") {
+            featuredChannelView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
         }
-        if newChannelView.respondsToSelector("setLayoutMargins:") {
-            newChannelView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        if featuredChannelView.respondsToSelector("setLayoutMargins:") {
+            featuredChannelView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
         // 继承代理和数据源协议
@@ -239,6 +268,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         featuredChannelView.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         featuredChannelView.registerNib(UINib(nibName: "ChannelHeaderCell", bundle:nil), forCellReuseIdentifier: "ChannelHeaderCell")
         featuredChannelView.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        featuredChannelView.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
         
         // 添加大咖推荐视图
         featuredChannelView.tag = 102
@@ -248,7 +278,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(newChannelView.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(576)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
 
@@ -258,11 +288,11 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView1.layer.borderWidth = 0.3
         hotGameView1.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
-        if newChannelView.respondsToSelector("setSeparatorInset:") {
-            newChannelView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        if hotGameView1.respondsToSelector("setSeparatorInset:") {
+            hotGameView1.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
         }
-        if newChannelView.respondsToSelector("setLayoutMargins:") {
-            newChannelView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        if hotGameView1.respondsToSelector("setLayoutMargins:") {
+            hotGameView1.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
         // 继承代理和数据源协议
@@ -273,6 +303,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView1.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         hotGameView1.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView1.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        hotGameView1.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
 
         // 添加热门游戏1视频
         hotGameView1.tag = 103
@@ -282,7 +313,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(featuredChannelView.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(982)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
         
@@ -292,11 +323,11 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView2.layer.borderWidth = 0.3
         hotGameView2.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
-        if newChannelView.respondsToSelector("setSeparatorInset:") {
-            newChannelView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        if hotGameView2.respondsToSelector("setSeparatorInset:") {
+            hotGameView2.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
         }
-        if newChannelView.respondsToSelector("setLayoutMargins:") {
-            newChannelView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        if hotGameView2.respondsToSelector("setLayoutMargins:") {
+            hotGameView2.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
         // 继承代理和数据源协议
@@ -307,6 +338,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView2.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         hotGameView2.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView2.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        hotGameView2.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
 
         hotGameView2.tag = 104
         contentView.addSubview(hotGameView2)
@@ -315,7 +347,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(hotGameView1.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(1388)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
         
@@ -341,6 +373,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView3.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         hotGameView3.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView3.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        hotGameView3.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
 
         hotGameView3.tag = 105
         contentView.addSubview(hotGameView3)
@@ -349,7 +382,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(hotGameView2.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(1794)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
         
@@ -374,6 +407,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         hotGameView4.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         hotGameView4.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         hotGameView4.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        hotGameView4.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
         
         hotGameView4.tag = 106
         contentView.addSubview(hotGameView4)
@@ -382,7 +416,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(hotGameView3.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(2200)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
         
@@ -407,6 +441,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView1.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         newGameView1.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         newGameView1.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        newGameView1.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
 
         newGameView1.tag = 107
         contentView.addSubview(newGameView1)
@@ -415,7 +450,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(hotGameView4.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(2606)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
         
@@ -426,11 +461,11 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView2.layer.borderWidth = 0.3
         newGameView2.layer.borderColor = UIColor.grayColor().CGColor
         // cell分割线边距，ios8处理
-        if hotGameView4.respondsToSelector("setSeparatorInset:") {
-            hotGameView4.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        if newGameView2.respondsToSelector("setSeparatorInset:") {
+            newGameView2.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
         }
-        if hotGameView4.respondsToSelector("setLayoutMargins:") {
-            hotGameView4.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        if newGameView2.respondsToSelector("setLayoutMargins:") {
+            newGameView2.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
         // 继承代理和数据源协议
@@ -440,6 +475,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView2.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         newGameView2.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         newGameView2.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        newGameView2.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
         
         newGameView2.tag = 108
         contentView.addSubview(newGameView2)
@@ -448,7 +484,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(newGameView1.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(3012)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
 
@@ -474,6 +510,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         newGameView3.registerNib(UINib(nibName: "HomeVideoCell", bundle:nil), forCellReuseIdentifier: "HomeVideoCell")
         newGameView3.registerNib(UINib(nibName: "GameHeaderCell", bundle:nil), forCellReuseIdentifier: "GameHeaderCell")
         newGameView3.registerNib(UINib(nibName: "TableFooterCell", bundle:nil), forCellReuseIdentifier: "TableFooterCell")
+        newGameView3.registerNib(UINib(nibName: "TableFooterAllCell", bundle:nil), forCellReuseIdentifier: "TableFooterAllCell")
         
         newGameView3.tag = 109
         contentView.addSubview(newGameView3)
@@ -482,75 +519,11 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             //make.top.equalTo(newGameView2.snp_bottom).offset(6)
             make.top.equalTo(contentView).offset(3418)
             make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-32)
+            make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
 
-
         
-    
-        let realm = Realm()
-        gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
-            if let games = task.result as? [Game] {
-
-                for game in games {
-                    if game.type == 1 {
-                        self!.hotGameData.append(game)
-                    } else {
-                        self!.newGameData.append(game)
-                    }
-                }
-                
-                //println(self!.newGameData)
-                
-                if !self!.hotGameData.isEmpty {
-                    //hotGameView1HeaderTitle.text = self!.hotGameData[0].nameZh
-                    var videoId = self!.hotGameData[0].videos.substringToIndex(advance(self!.hotGameData[0].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    var video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.hotGameVideo1Data.extend(video)
-                    self!.hotGameView1.reloadData()
-                    
-                    //hotGameView2HeaderTitle.text = self!.hotGameData[1].nameZh
-                    videoId = self!.hotGameData[1].videos.substringToIndex(advance(self!.hotGameData[1].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.hotGameVideo2Data.extend(video)
-                    self!.hotGameView2.reloadData()
-                    
-                    //hotGameView3HeaderTitle.text = self!.hotGameData[2].nameZh
-                    videoId = self!.hotGameData[2].videos.substringToIndex(advance(self!.hotGameData[2].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.hotGameVideo3Data.extend(video)
-                    self!.hotGameView3.reloadData()
-                    
-                    //hotGameView4HeaderTitle.text = self!.hotGameData[3].nameZh
-                    videoId = self!.hotGameData[3].videos.substringToIndex(advance(self!.hotGameData[3].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.hotGameVideo4Data.extend(video)
-                    self!.hotGameView4.reloadData()
-                    
-                    //newGameView1HeaderTitle.text = self!.newGameData[0].nameZh
-                    videoId = self!.newGameData[0].videos.substringToIndex(advance(self!.newGameData[0].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.newGameVideo1Data.extend(video)
-                    self!.newGameView1.reloadData()
-                    
-                    //newGameView2HeaderTitle.text = self!.newGameData[1].nameZh
-                    videoId = self!.newGameData[1].videos.substringToIndex(advance(self!.newGameData[1].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.newGameVideo2Data.extend(video)
-                    self!.newGameView2.reloadData()
-                    
-                    //newGameView3HeaderTitle.text = self!.newGameData[2].nameZh
-                    videoId = self!.newGameData[2].videos.substringToIndex(advance(self!.newGameData[2].videos.endIndex, -1)).componentsSeparatedByString(",")
-                    video = realm.objects(Video).filter("id in %@", videoId)
-                    self!.newGameVideo3Data.extend(video)
-                    self!.newGameView3.reloadData()
-                }
-                
-                //println(self!.gameVideoData)
-            }
-            return nil
-        })
         
         
         
@@ -564,6 +537,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     // 设置表格行数，展开和不展开两种情况
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.videoData[tableView.tag]!.count == 0 {
+            return 0
+        }
+        
         if expansionStatus[tableView.tag]! {
             return self.videoData[tableView.tag]!.count + 2
         } else {
@@ -575,6 +552,10 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 50
+        } else if indexPath.row == 4 && !expansionStatus[tableView.tag]! {
+            return 50
+        } else if indexPath.row == videoData[tableView.tag]!.count+1 && expansionStatus[tableView.tag]! {
+            return 50
         } else {
             return 100
         }
@@ -584,53 +565,47 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     // 设置单元格的内容（创建参数indexPath指定的单元）
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let viewTag = tableView.tag
-        
-        // 表格头部
-        if indexPath.row == 0 {
-            if tableView.isEqual(newChannelView) {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                cell.hearderTitle.text = "新手推荐"
-                
-                return cell
-            } else if tableView.isEqual(featuredChannelView) {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-                cell.hearderTitle.text = "实况大咖"
-                
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
-                //cell.hearderTitle.text = "实况大咖"
-                
-                return cell
-            }
-        }
-        
-        // 表格底部
-        if indexPath.row == 4 && !expansionStatus[viewTag]! {
+        println(indexPath.row)
+        switch indexPath.row {
+        // 表格头0行处理
+        case 0 where tableView.isEqual(newChannelView):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.hearderTitle.text = "新手推荐"
+            
+            return cell
+        case 0 where tableView.isEqual(featuredChannelView):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.hearderTitle.text = "实况大咖"
+            
+            return cell
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
+            cell.gameName.text = gamesName[viewTag]
+            cell.gameDetail.text = "游戏推荐"
+            
+            return cell
+        // 表格底部最后行处理
+        case 4 where !expansionStatus[viewTag]!:
             let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
             
             return cell
-        } else if indexPath.row == videoData[viewTag]!.count+1 && expansionStatus[viewTag]! {
-            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
+        case videoData[viewTag]!.count+1 where expansionStatus[viewTag]!:
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterAllCell", forIndexPath: indexPath) as! TableFooterAllCell
             
             return cell
-        }
-
         // 中间部分
-        if tableView.isEqual(newChannelView) || tableView.isEqual(featuredChannelView)  {
+        default:
             let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
+            cell.channelName.text = self.videoData[viewTag]![indexPath.row-1].owner
+            cell.videoTitle.text = self.videoData[viewTag]![indexPath.row-1].videoTitle
             
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
+            let imageUrl = self.videoData[viewTag]![indexPath.row-1].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
             
             return cell
         }
         
-        
-    
-
-    }
+     }
     
     /**
     点击触发，第1个无反应，中间跳转到播放页面，最后一个展开或者跳转到全部视频
@@ -646,9 +621,17 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             let dataView = self.view.viewWithTag(viewTag) as! UITableView
             dataView.reloadData()
         } else if indexPath.row == videoData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
-             println("跳转到全部列表页面")
+            println("跳转到全部列表页面")
+            let view = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
+            //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+            
+            self.navigationController?.pushViewController(view!, animated: true)
+            
         } else {
-             println("播放页面")
+            let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
+            view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+            
+            self.navigationController?.pushViewController(view!, animated: true)
         }
 
     }
@@ -703,7 +686,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         println("尺寸变化\(total)")
         
-        let height = 4040 + total * 300
+        let height = 3825 + total * 300
         // iphone4s:3820，iphone5s:3730，iphone6:3630，iphone6p:3560   +180
         self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height) )
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGFloat(height))

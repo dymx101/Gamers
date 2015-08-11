@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,8 +17,18 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lC2-pa-cfM">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                            <rect key="frame" x="10" y="6" width="38" height="38"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="38" id="tK5-go-Vtq"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="tK5-go-Vtq"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="tK5-go-Vtq"/>
+                            </mask>
                         </variation>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJ2-6z-ByO">
@@ -25,15 +36,34 @@
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
-                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                            <rect key="frame" x="56" y="6" width="300" height="38"/>
-                        </variation>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="lC2-pa-cfM" secondAttribute="bottom" constant="-3" id="2Ec-3q-nKm"/>
+                    <constraint firstItem="lC2-pa-cfM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-2" id="4lL-Ec-eOf"/>
+                    <constraint firstItem="hJ2-6z-ByO" firstAttribute="bottom" secondItem="lC2-pa-cfM" secondAttribute="bottom" id="MeR-yd-tMw"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="hJ2-6z-ByO" secondAttribute="trailing" constant="29" id="Vis-MX-6jK">
+                        <variation key="heightClass=regular-widthClass=compact" constant="36"/>
+                    </constraint>
+                    <constraint firstItem="hJ2-6z-ByO" firstAttribute="leading" secondItem="lC2-pa-cfM" secondAttribute="trailing" constant="8" symbolic="YES" id="lzu-A4-IcK"/>
+                    <constraint firstItem="hJ2-6z-ByO" firstAttribute="top" secondItem="lC2-pa-cfM" secondAttribute="top" id="moe-GA-b80"/>
+                    <constraint firstItem="lC2-pa-cfM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-5" id="pB3-1c-gAv">
+                        <variation key="heightClass=regular-widthClass=compact" constant="2"/>
+                    </constraint>
+                </constraints>
                 <variation key="default">
                     <mask key="subviews">
                         <exclude reference="lC2-pa-cfM"/>
                         <exclude reference="hJ2-6z-ByO"/>
+                    </mask>
+                    <mask key="constraints">
+                        <exclude reference="2Ec-3q-nKm"/>
+                        <exclude reference="4lL-Ec-eOf"/>
+                        <exclude reference="pB3-1c-gAv"/>
+                        <exclude reference="MeR-yd-tMw"/>
+                        <exclude reference="Vis-MX-6jK"/>
+                        <exclude reference="lzu-A4-IcK"/>
+                        <exclude reference="moe-GA-b80"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -41,12 +71,22 @@
                         <include reference="lC2-pa-cfM"/>
                         <include reference="hJ2-6z-ByO"/>
                     </mask>
+                    <mask key="constraints">
+                        <include reference="2Ec-3q-nKm"/>
+                        <include reference="4lL-Ec-eOf"/>
+                        <include reference="pB3-1c-gAv"/>
+                        <include reference="MeR-yd-tMw"/>
+                        <include reference="Vis-MX-6jK"/>
+                        <include reference="lzu-A4-IcK"/>
+                        <include reference="moe-GA-b80"/>
+                    </mask>
                 </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="headerImage" destination="lC2-pa-cfM" id="mSZ-bj-ULv"/>
                 <outlet property="hearderTitle" destination="hJ2-6z-ByO" id="TtQ-mF-P3a"/>
             </connections>
+            <point key="canvasLocation" x="471" y="456"/>
         </tableViewCell>
     </objects>
 </document>

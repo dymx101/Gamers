@@ -27,7 +27,7 @@ enum Router: URLRequestConvertible {
     case RecommendChannel(channelType: String?)     //首页推荐频道：新手、游戏大咖
     case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
     
-    case AllGame(offset: Int?, count: Int?)         //所有游戏
+    case AllGame(offset: Int?, count: Int?)                                      //所有游戏
     case SeachGame(gameName: String?, type: String?, offset: Int?, count: Int?)  //获取游戏
     case GameVideo(name: String?, offset: Int?, count: Int?)                     //获取游戏视频
     case VideoRelate(videoId: String?)                                           //相关视频
@@ -36,7 +36,7 @@ enum Router: URLRequestConvertible {
     case ChannelInfo(channelId: String?)                                //频道信息
     case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
     
-    case LiveVideo(offset: Int?, count: Int?)       //直播频道视频
+    case LiveVideo(offset: Int?, count: Int?)             //直播频道视频
     
     case UserLogin(userName: String?, password: String?)  //用户本地登入
     
@@ -55,7 +55,7 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if channelType != nil { parameters["type"] = channelType }
 
-                return (.GET, "/channel/recommend", parameters)
+                return (.GET, "/index/recommendchannel", parameters)
             //首页推荐游戏：4个热门游戏、3个新游戏
             case .RecommendGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -172,7 +172,7 @@ enum Router: URLRequestConvertible {
                 
                 return (.GET, "/search", parameters)
             }
-            }()
+        }()
         
         // 组合成请求路径
         let encoding = Alamofire.ParameterEncoding.URL

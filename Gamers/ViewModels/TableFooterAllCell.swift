@@ -1,21 +1,15 @@
 //
-//  GameHeaderCell.swift
+//  TableFooterAllCell.swift
 //  Gamers
 //
-//  Created by 虚空之翼 on 15/8/10.
+//  Created by 虚空之翼 on 15/8/11.
 //  Copyright (c) 2015年 Freedom. All rights reserved.
 //
 
 import UIKit
 
-class GameHeaderCell: UITableViewCell {
+class TableFooterAllCell: UITableViewCell {
 
-    @IBOutlet weak var gameImage: UIImageView!
-    @IBOutlet weak var gameName: UILabel!
-    @IBOutlet weak var gameDetail: UILabel!
- 
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -94,7 +94,7 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
 //        return 100
 //    }
     
-    
+    // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoListCell", forIndexPath: indexPath) as! VideoListCell
 

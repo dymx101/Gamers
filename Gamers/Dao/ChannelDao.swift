@@ -18,7 +18,6 @@ extension ChannelDao {
     获取推荐的频道列表
     
     :param: channelType 频道类型：新手、大咖
-    
     :returns: return 频道列表
     */
     static func getChannels(#channelType: String?) -> BFTask {
@@ -28,17 +27,39 @@ extension ChannelDao {
     
     /**
     获取频道信息
+    
+    :param: channelId 频道ID
+    :returns: 频道信息
     */
     static func getChannelInfo(#channelId: String) -> BFTask {
         var URLRequest = Router.ChannelInfo(channelId: channelId)
         return fetchChannel(URLRequest: URLRequest)
     }
     
+    /**
+    获取频道下的视频列表
+    
+    :param: channelId 频道ID
+    :param: offset    分页偏移量
+    :param: count     每次总数
+    
+    :returns: 视频列表
+    */
     static func getChannelVideo(#channelId: String, offset: Int?, count: Int?) -> BFTask {
         var URLRequest = Router.ChannelVideo(channelId: channelId, offset: offset, count: count)
         return fetchVideo(URLRequest: URLRequest)
     }
-
+    
+    /**
+    首页推荐频道视频
+    
+    :param: channelType 推荐类型
+    :returns: 视频列表
+    */
+    static func getRecommendChannel(#channelType: String?) -> BFTask {
+        var URLRequest = Router.RecommendChannel(channelType: channelType)
+        return fetchVideo(URLRequest: URLRequest)
+    }
     
     
     
@@ -79,7 +100,6 @@ extension ChannelDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
                 // 保存数据到本地
                 var result: [String: AnyObject]!
                 var videos = [Video]()
@@ -89,7 +109,6 @@ extension ChannelDao {
                     videos = Video.collection(json: json)
                 }
                 
-                //TODO: 返回该对象集合,view直接读取
                 source.setResult(videos)
                 
             } else {

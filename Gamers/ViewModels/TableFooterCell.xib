@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,19 +17,50 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LMn-EL-OKg">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                            <rect key="frame" x="180" y="10" width="40" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="TQB-Ed-yi2"/>
+                            <constraint firstAttribute="width" constant="40" id="VfB-2p-JCs"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="TQB-Ed-yi2"/>
+                                <exclude reference="VfB-2p-JCs"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="TQB-Ed-yi2"/>
+                                <include reference="VfB-2p-JCs"/>
+                            </mask>
                         </variation>
                     </imageView>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="LMn-EL-OKg" secondAttribute="bottom" constant="12" id="K1X-kc-1lA"/>
+                    <constraint firstAttribute="centerY" secondItem="LMn-EL-OKg" secondAttribute="centerY" id="LMa-ks-5WB"/>
+                    <constraint firstItem="LMn-EL-OKg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="12" id="W5F-BP-3QI"/>
+                    <constraint firstAttribute="centerX" secondItem="LMn-EL-OKg" secondAttribute="centerX" id="gVI-Qx-7O7"/>
+                </constraints>
                 <variation key="default">
                     <mask key="subviews">
                         <exclude reference="LMn-EL-OKg"/>
+                    </mask>
+                    <mask key="constraints">
+                        <exclude reference="K1X-kc-1lA"/>
+                        <exclude reference="LMa-ks-5WB"/>
+                        <exclude reference="W5F-BP-3QI"/>
+                        <exclude reference="gVI-Qx-7O7"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
                     <mask key="subviews">
                         <include reference="LMn-EL-OKg"/>
+                    </mask>
+                    <mask key="constraints">
+                        <exclude reference="K1X-kc-1lA"/>
+                        <include reference="LMa-ks-5WB"/>
+                        <exclude reference="W5F-BP-3QI"/>
+                        <include reference="gVI-Qx-7O7"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
