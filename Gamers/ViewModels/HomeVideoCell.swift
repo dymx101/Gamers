@@ -50,12 +50,12 @@ class HomeVideoCell: UITableViewCell {
 //        UITableViewCell *cell = (UITableViewCell *)[v1 superview];//获取cell
 //        NSIndexPath *indexPathAll = [self.tableView indexPathForCell:cell];//获取cell对应的section
 //        NSLog(@"indexPath:--------%@",indexPathAll);
-        let v = sender.superview
-        let v1 = sender.superview
-        
-        let cell: UITableViewCell = v1.superview as? UITableViewCell
-        
-        let indexPathAll =
+//        let v = sender.superview
+//        let v1 = sender.superview
+//        
+//        let cell: UITableViewCell = v1.superview as? UITableViewCell
+//        
+//        let indexPathAll =
         
         
         
