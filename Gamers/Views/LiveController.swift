@@ -13,9 +13,9 @@ import MBProgressHUD
 
 class LiveController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
     
-    let videoBL = VideoBL()
+    let liveBL = LiveBL()
     
-    var liveVideoData = [Video]()
+    var liveData = [Live]()
     
     
     override func viewDidLoad() {
@@ -25,30 +25,23 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         
+        
+        
         // 初始化数据
         loadInitData()
             
+        self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
 
-            
-            
-            
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-//            // Do something...
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [MBProgressHUD hideHUDForView:self.view animated:YES];
-//                });
-//            });
-        
-//        JGProgressHUD *HUD = [JGProgressHUD progressHUDWithStyle:JGProgressHUDStyleDark];
-//        HUD.textLabel.text = @"Loading";
-//        [HUD showInView:self.view];
-//        [HUD dismissAfterDelay:3.0];
-        
-        
         
         // 子页面TwitchPlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        // cell分割线边距，ios8处理
+        if self.tableView.respondsToSelector("setSeparatorInset:") {
+            self.tableView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+        if self.tableView.respondsToSelector("setLayoutMargins:") {
+            self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
 
     }
     
@@ -64,8 +57,12 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.liveVideoData = (task.result as? [Video])!
+        liveBL.getLive(offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveData = (task.result as? [Live])!
+            //self!.liveVideoData = self!.liveVideoData + self!.liveVideoData + self!.liveVideoData
+            
+            println(self!.liveData)
+            
             
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
@@ -79,12 +76,12 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     刷新数据
     */
     func loadNewData() {
-        videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.liveVideoData = (task.result as? [Video])!
-            
+        liveBL.getLive(offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveData = (task.result as? [Live])!
+
             self?.tableView.reloadData()
             self?.tableView.header.endRefreshing()
-            
+
             return nil
         })
     }
@@ -92,97 +89,73 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     加载更多数据
     */
     func loadMoreData() {
-        videoBL.getLiveVideo(0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            let newData = (task.result as? [Video])!
-            
+        liveBL.getLive(offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            let newData = (task.result as? [Live])!
+            println(newData.count)
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
             } else{
                 self?.tableView.footer.endRefreshing()
-                self!.liveVideoData += newData
+                //self!.liveData += newData
                 
                 self?.tableView.reloadData()
             }
-            
+
             return nil
         })
     }
     
     
     // 设置分区
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
+//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//        return 1
+//    }
     // 设置表格行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return liveVideoData.count
+        return liveData.count
     }
     // 设置行高
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row < 5 {
-            return 140
+            return 224
         } else {
-            return 64
+            return 73
         }
     }
     
     // 设置表格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 指定identify进行重用提高性能
-        let liveCellIdentify: String = "LiveCell"
-        
-        var cell = tableView.cellForRowAtIndexPath(indexPath)
-        // 分隔线右边距
-        tableView.separatorInset.right = 20
-        // 解决重影问题
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: liveCellIdentify)
-            if indexPath.row < 5 {
-                let image = UIImage(named: "1.jpg")
-                let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: view.bounds.size.width-20, height: 120))
-                imageView.image = image
-                
-                // 添加名称
-                let name = UILabel(frame: CGRectMake(10, 100, view.bounds.size.width-20, 10))
-                name.text = "老皮"
-                name.textColor = UIColor.whiteColor()
-                //cell.addSubview(name)
-                
-                // 添加在线人数
-                let online = UILabel(frame: CGRectMake(10, 110, view.bounds.size.width-20, 10))
-                online.text = "99人"
-                online.textColor = UIColor.whiteColor()
-                
-                cell!.addSubview(imageView)
 
-            } else {
-                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                
-                let imageView2 = UIView(frame: CGRectMake(10, 6, 100, 50))
-                imageView2.backgroundColor = UIColor.grayColor()
-                
-                let name1 = UILabel(frame: CGRectMake(120, 6, view.bounds.size.width-130, 30))
-                name1.text = "老皮"
-                
-                let name2 = UILabel(frame: CGRectMake(120, 30, view.bounds.size.width-130, 30))
-                name2.text = "99人"
-                
-                cell!.addSubview(name1)
-                cell!.addSubview(name2)
+        if indexPath.row < 5 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("LiveLargeCell", forIndexPath: indexPath) as! LiveLargeCell
 
-                cell!.addSubview(imageView2)
-            }
+            cell.channelName.text = liveData[indexPath.row].user.userName
+            cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
+            
+            let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
+
+            cell.channelName.text = liveData[indexPath.row].user.userName
+            cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
+            
+            let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+
+            return cell
         }
-        
-        return cell!
 
     }
     // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         NSLog("点击了第%ld个游戏", indexPath.row)
         let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
-        view?.videoData = self.liveVideoData[indexPath.row]
+        //view?.videoData = self.liveData[indexPath.row]
         
         self.navigationController?.pushViewController(view!, animated: true)
     }
@@ -192,6 +165,16 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
         self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
         self.navigationController?.navigationBar.translucent = false
+    }
+    
+    // cell分割线的边距
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if cell.respondsToSelector("setSeparatorInset:") {
+            cell.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+        if cell.respondsToSelector("setLayoutMargins:") {
+            cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
     }
     
     

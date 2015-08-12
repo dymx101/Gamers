@@ -178,7 +178,8 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // 加载数据
         self.loadInitData()
-        
+        // 设定启动界面时间
+        NSThread.sleepForTimeInterval(1.0)//延长3秒
         // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
 
@@ -565,7 +566,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     // 设置单元格的内容（创建参数indexPath指定的单元）
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let viewTag = tableView.tag
-        println(indexPath.row)
+
         switch indexPath.row {
         // 表格头0行处理
         case 0 where tableView.isEqual(newChannelView):
@@ -601,6 +602,9 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             let imageUrl = self.videoData[viewTag]![indexPath.row-1].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            
+            cell.delegate = self
+            cell.tag = viewTag + indexPath.row + 100
             
             return cell
         }
@@ -677,21 +681,17 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
 
         var total = 0
         for (_, item) in expansionStatus {
             if item { total = total + 1 }
         }
-
-        println("尺寸变化\(total)")
         
         let height = 3825 + total * 300
         // iphone4s:3820，iphone5s:3730，iphone6:3630，iphone6p:3560   +180
         self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height) )
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGFloat(height))
         self.view.backgroundColor = UIColor.lightGrayColor()
-
 
     }
     
@@ -703,9 +703,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    
-    
-
     
 }
 
@@ -719,11 +716,47 @@ extension HomeController: SDCycleScrollViewDelegate {
         
     }
 }
+// 表格行Cell代理
+extension HomeController: MyCellDelegate {
+    
+    
+    func clickCellButton(sender: UITableViewCell) {
 
 
+        
+        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
+        var index: NSIndexPath = table.indexPathForCell(sender)!
+        
+        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+
+        
+        
+        
+        
+        
+        
+        
+        var actionSheetController: UIAlertController = UIAlertController()
+
+        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            NSLog("Tap 取消 Button")
+        })
+        actionSheetController.addAction(UIAlertAction(title: "破坏性按钮", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            NSLog("Tap 破坏性按钮 Button")
+        })
+
+        actionSheetController.addAction(UIAlertAction(title: "新浪微博", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            NSLog("Tap 新浪微博 Button")
+        })
+        
+        //显示
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+        
+        
+    }
 
 
-
+}
 
 
 

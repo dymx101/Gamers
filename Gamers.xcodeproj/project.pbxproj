@@ -58,6 +58,12 @@
 		1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */; };
 		1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */; };
 		1ABEFE111B61E71F00BC7907 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE101B61E71F00BC7907 /* User.swift */; };
+		1ACBAF761B7AF3F200D8910C /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBAF751B7AF3F200D8910C /* arrow.png */; };
+		1ACBAF781B7B046200D8910C /* LiveLargeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBAF771B7B046200D8910C /* LiveLargeCell.swift */; };
+		1ACBAF7A1B7B047300D8910C /* LiveSmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBAF791B7B047300D8910C /* LiveSmallCell.swift */; };
+		1ACBAF7C1B7B268F00D8910C /* Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBAF7B1B7B268F00D8910C /* Live.swift */; };
+		1ACBAF7E1B7B33C000D8910C /* LiveDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBAF7D1B7B33C000D8910C /* LiveDao.swift */; };
+		1ACBAF801B7B34BE00D8910C /* LiveBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBAF7F1B7B34BE00D8910C /* LiveBL.swift */; };
 		1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7011B4E1189001FE414 /* AppDelegate.swift */; };
 		1AD9C7041B4E1189001FE414 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD9C7031B4E1189001FE414 /* ViewController.swift */; };
 		1AD9C7091B4E1189001FE414 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD9C7081B4E1189001FE414 /* Images.xcassets */; };
@@ -152,6 +158,12 @@
 		1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBL.swift; sourceTree = "<group>"; };
 		1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBL.swift; sourceTree = "<group>"; };
 		1ABEFE101B61E71F00BC7907 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1ACBAF751B7AF3F200D8910C /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		1ACBAF771B7B046200D8910C /* LiveLargeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveLargeCell.swift; sourceTree = "<group>"; };
+		1ACBAF791B7B047300D8910C /* LiveSmallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveSmallCell.swift; sourceTree = "<group>"; };
+		1ACBAF7B1B7B268F00D8910C /* Live.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Live.swift; sourceTree = "<group>"; };
+		1ACBAF7D1B7B33C000D8910C /* LiveDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveDao.swift; sourceTree = "<group>"; };
+		1ACBAF7F1B7B34BE00D8910C /* LiveBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveBL.swift; sourceTree = "<group>"; };
 		1AD88AF41B74BC59002FAA8C /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = "Pods/../build/Debug-iphoneos/SnapKit.framework"; sourceTree = "<group>"; };
 		1AD9C6FC1B4E1189001FE414 /* Gamers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gamers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD9C7001B4E1189001FE414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -219,6 +231,7 @@
 				1AFC1A0F1B58F9C4006D9667 /* Game.swift */,
 				1ABEFE101B61E71F00BC7907 /* User.swift */,
 				1A01F4171B6F479A0042480B /* Comment.swift */,
+				1ACBAF7B1B7B268F00D8910C /* Live.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -285,6 +298,8 @@
 				1AEECF761B773CCA0022B69B /* TableFooterCell.xib */,
 				1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */,
 				1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */,
+				1ACBAF771B7B046200D8910C /* LiveLargeCell.swift */,
+				1ACBAF791B7B047300D8910C /* LiveSmallCell.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -297,6 +312,7 @@
 				1AFC1A0D1B58F92B006D9667 /* GameBL.swift */,
 				1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */,
 				1ABEFE0E1B61E6E000BC7907 /* UserBL.swift */,
+				1ACBAF7F1B7B34BE00D8910C /* LiveBL.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -309,6 +325,7 @@
 				1AFC1A0B1B58F3C2006D9667 /* GameDao.swift */,
 				1ABEFE061B61E68800BC7907 /* VideoDao.swift */,
 				1ABEFE081B61E6AB00BC7907 /* UserDao.swift */,
+				1ACBAF7D1B7B33C000D8910C /* LiveDao.swift */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -384,6 +401,7 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1ACBAF751B7AF3F200D8910C /* arrow.png */,
 				1AEB2F9E1B7A3AD6005F0A3F /* share.png */,
 				1AEB2F981B79FB7D005F0A3F /* home.png */,
 				1AFC1A071B58EDA2006D9667 /* 1.jpg */,
@@ -509,6 +527,7 @@
 				1AEB2F991B79FB7D005F0A3F /* home.png in Resources */,
 				1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */,
 				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,
+				1ACBAF761B7AF3F200D8910C /* arrow.png in Resources */,
 				1AD9C7091B4E1189001FE414 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -589,6 +608,7 @@
 				1A1D2C7E1B7322A600112A4F /* UserInfoController.swift in Sources */,
 				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
 				1A1D2C761B73190B00112A4F /* UserHistoryController.swift in Sources */,
+				1ACBAF7A1B7B047300D8910C /* LiveSmallCell.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
 				1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */,
 				1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */,
@@ -603,6 +623,7 @@
 				1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */,
 				1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */,
 				1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */,
+				1ACBAF801B7B34BE00D8910C /* LiveBL.swift in Sources */,
 				1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */,
 				1A1D2C781B73198700112A4F /* UserHistoryCell.swift in Sources */,
 				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
@@ -611,6 +632,7 @@
 				1AEECF771B773CCA0022B69B /* TableFooterCell.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
+				1ACBAF7C1B7B268F00D8910C /* Live.swift in Sources */,
 				1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */,
 				1A01F4101B6F20C50042480B /* VideoRelateCell.swift in Sources */,
 				1A4181A71B709BA900927C21 /* TwitchPlayerController.swift in Sources */,
@@ -625,9 +647,11 @@
 				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
 				1A1D2C7A1B731C5600112A4F /* UserFollowController.swift in Sources */,
+				1ACBAF7E1B7B33C000D8910C /* LiveDao.swift in Sources */,
 				1A4181DE1B71B12900927C21 /* FreedomCell.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
+				1ACBAF781B7B046200D8910C /* LiveLargeCell.swift in Sources */,
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
 				1A0351FC1B54CB7A007372F8 /* News.swift in Sources */,
@@ -763,6 +787,7 @@
 			baseConfigurationReference = B650F3B2EE9521FF09385F5C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -779,6 +804,7 @@
 			baseConfigurationReference = 95CE501D2FE999EB726937C3 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";

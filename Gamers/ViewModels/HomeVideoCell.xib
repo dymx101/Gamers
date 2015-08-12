@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -121,12 +122,6 @@
                         <exclude reference="Hlq-LT-prr"/>
                     </mask>
                     <mask key="constraints">
-                        <exclude reference="V6j-o3-iVy"/>
-                        <exclude reference="fzK-v1-wMu"/>
-                        <exclude reference="gEC-Cu-EKL"/>
-                        <exclude reference="H3l-Xc-Z0K"/>
-                        <exclude reference="Hs0-OM-4QE"/>
-                        <exclude reference="RFf-lD-Wzw"/>
                         <exclude reference="FjV-sy-3mD"/>
                         <exclude reference="tVQ-hm-Ecb"/>
                         <exclude reference="yJI-5q-fEK"/>
@@ -134,8 +129,14 @@
                         <exclude reference="cvz-1n-ohQ"/>
                         <exclude reference="e1g-Dd-nCT"/>
                         <exclude reference="yrc-9x-G8d"/>
+                        <exclude reference="H3l-Xc-Z0K"/>
+                        <exclude reference="Hs0-OM-4QE"/>
+                        <exclude reference="RFf-lD-Wzw"/>
                         <exclude reference="bFW-AO-M2i"/>
                         <exclude reference="hAm-Gj-1uc"/>
+                        <exclude reference="V6j-o3-iVy"/>
+                        <exclude reference="fzK-v1-wMu"/>
+                        <exclude reference="gEC-Cu-EKL"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -147,12 +148,6 @@
                         <include reference="Hlq-LT-prr"/>
                     </mask>
                     <mask key="constraints">
-                        <include reference="V6j-o3-iVy"/>
-                        <include reference="fzK-v1-wMu"/>
-                        <include reference="gEC-Cu-EKL"/>
-                        <include reference="H3l-Xc-Z0K"/>
-                        <include reference="Hs0-OM-4QE"/>
-                        <include reference="RFf-lD-Wzw"/>
                         <include reference="FjV-sy-3mD"/>
                         <include reference="tVQ-hm-Ecb"/>
                         <include reference="yJI-5q-fEK"/>
@@ -160,8 +155,14 @@
                         <include reference="cvz-1n-ohQ"/>
                         <include reference="e1g-Dd-nCT"/>
                         <include reference="yrc-9x-G8d"/>
+                        <include reference="H3l-Xc-Z0K"/>
+                        <include reference="Hs0-OM-4QE"/>
+                        <include reference="RFf-lD-Wzw"/>
                         <include reference="bFW-AO-M2i"/>
                         <include reference="hAm-Gj-1uc"/>
+                        <include reference="V6j-o3-iVy"/>
+                        <include reference="fzK-v1-wMu"/>
+                        <include reference="gEC-Cu-EKL"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
@@ -171,7 +172,7 @@
                 <outlet property="videoTitle" destination="alm-4x-imB" id="vNz-n0-Knq"/>
                 <outlet property="videoViews" destination="Hxv-T3-RnU" id="A7H-Id-vc6"/>
             </connections>
-            <point key="canvasLocation" x="289" y="470"/>
+            <point key="canvasLocation" x="558" y="450"/>
         </tableViewCell>
     </objects>
 </document>

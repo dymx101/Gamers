@@ -37,4 +37,4 @@ pod 'SnapKit'
 ## Facebook Pop的动画效果
 #pod 'pop'
 
-pod 'SwiftyDrop'
+#pod 'SwiftyDrop'

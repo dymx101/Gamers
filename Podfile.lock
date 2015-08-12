@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (1.3.0)
+  - Alamofire (1.3.1)
   - Bolts (1.2.0):
     - Bolts/AppLinks (= 1.2.0)
     - Bolts/Tasks (= 1.2.0)
@@ -15,13 +15,13 @@ PODS:
     - BoltsSwift/Common
   - Kingfisher (1.4.4)
   - MBProgressHUD (0.9.1)
-  - MJRefresh (2.4.2)
+  - MJRefresh (2.4.4)
   - PagingMenuController (0.4.4)
-  - Realm (0.94.0):
-    - Realm/Headers (= 0.94.0)
-  - Realm/Headers (0.94.0)
-  - RealmSwift (0.94.0):
-    - Realm (= 0.94.0)
+  - Realm (0.94.1):
+    - Realm/Headers (= 0.94.1)
+  - Realm/Headers (0.94.1)
+  - RealmSwift (0.94.1):
+    - Realm (= 0.94.1)
   - SDCycleScrollView (1.3)
   - SnapKit (0.13.0)
   - Starscream (0.9.4)
@@ -46,15 +46,15 @@ DEPENDENCIES:
   - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
-  Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
+  Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   BoltsSwift: 2a45ba45c3564d686a8ff8c01abc64a1037b1312
   Kingfisher: 4485c912f845b9349b4619d4f3f3400d177b6647
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  MJRefresh: 092462f45199b6ee4db358447a02a5e9e3355ed7
+  MJRefresh: cacdfe7844f1368c2e7f168e1cd345efd279fc24
   PagingMenuController: 83ecd1959044b332b91b914f6a1aac7742e8f205
-  Realm: a046149653e0ca220b65b5783da907aa5b74d86c
-  RealmSwift: 5efbbf1a5c179a7237e4d428594e41619fa167ba
+  Realm: d999a6cf0b41577a077349c9cc9d496cc62a7d17
+  RealmSwift: 06b60ff5b1338755654d39aab44ac38001600f76
   SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
   SnapKit: 69fe274c71511df89a5591c11437a8b826bfa9eb
   Starscream: 0ad8f312bb826c3d7610bd842d66528eee34ad81

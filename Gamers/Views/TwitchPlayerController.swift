@@ -25,10 +25,11 @@ class TwitchPlayerController: UIViewController {
         twitchChatView.allowsInlineMediaPlayback = true
         twitchChatView.scrollView.scrollEnabled = false
         
-        let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.twitch.tv/cdewx/popout")!) //popout、embed
+        //let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.twitch.tv/cdewx/popout")!) //popout、embed
+        let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embed/mrkokosfly?autoplay=true")!) //popout、embed
         twitchPlayerView.loadRequest(videoRequest)
        
-        let chatRequest = NSURLRequest(URL: NSURL(string: "http://www.twitch.tv/cdewx/chat")!)
+        let chatRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embedchat/mrkokosfly")!)
         twitchChatView.loadRequest(chatRequest)
         //twitchChatView.backgroundColor = UIColor.redColor()
 
