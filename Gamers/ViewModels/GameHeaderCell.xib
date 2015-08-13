@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -82,9 +83,6 @@
                         <exclude reference="JED-C7-ol8"/>
                     </mask>
                     <mask key="constraints">
-                        <exclude reference="Xfd-hE-izI"/>
-                        <exclude reference="dR5-V0-CbP"/>
-                        <exclude reference="ldE-Ey-WcW"/>
                         <exclude reference="4cG-O7-qqc"/>
                         <exclude reference="Nx4-hz-zUF"/>
                         <exclude reference="glb-W2-urb"/>
@@ -92,6 +90,9 @@
                         <exclude reference="PkS-Tz-ijN"/>
                         <exclude reference="UOm-5Z-4l2"/>
                         <exclude reference="sTW-UN-eMZ"/>
+                        <exclude reference="Xfd-hE-izI"/>
+                        <exclude reference="dR5-V0-CbP"/>
+                        <exclude reference="ldE-Ey-WcW"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -101,9 +102,6 @@
                         <include reference="JED-C7-ol8"/>
                     </mask>
                     <mask key="constraints">
-                        <include reference="Xfd-hE-izI"/>
-                        <include reference="dR5-V0-CbP"/>
-                        <include reference="ldE-Ey-WcW"/>
                         <include reference="4cG-O7-qqc"/>
                         <include reference="Nx4-hz-zUF"/>
                         <include reference="glb-W2-urb"/>
@@ -111,6 +109,9 @@
                         <include reference="PkS-Tz-ijN"/>
                         <include reference="UOm-5Z-4l2"/>
                         <include reference="sTW-UN-eMZ"/>
+                        <include reference="Xfd-hE-izI"/>
+                        <include reference="dR5-V0-CbP"/>
+                        <include reference="ldE-Ey-WcW"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

@@ -8,11 +8,6 @@
 
 import UIKit
 
-// cell的代理协议
-protocol MyCellDelegate {
-    func clickCellButton(cell: UITableViewCell)
-}
-
 class HomeVideoCell: UITableViewCell {
 
     @IBOutlet weak var videoImage: UIImageView!
@@ -24,7 +19,7 @@ class HomeVideoCell: UITableViewCell {
     
     // 点击触发自己的代理方法
     @IBAction func clickShare(sender: AnyObject) {
-        self.delegate.clickCellButton(self)
+        self.delegate.clickCellButton!(self)
 
     }
     

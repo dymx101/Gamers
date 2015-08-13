@@ -46,6 +46,14 @@ class Channel: Object {
         return collection
     }
     
+    class func Info(#json: JSON) -> Channel {
+        let realm = Realm()
+        
+        var info: Channel = Channel.modelFromJSON(json)
+        
+        return info
+    }
+    
     
     // 把JSON数据转换为对象
     class func modelFromJSON(json: JSON) -> Channel {

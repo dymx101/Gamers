@@ -67,7 +67,7 @@ class PlayerViewController: UIViewController {
         options.selectedTextColor = UIColor.orangeColor()
         options.menuItemMode = PagingMenuOptions.MenuItemMode.Underline(height: 2, color: UIColor.whiteColor(), selectedColor: UIColor.orangeColor())
         options.textColor = UIColor.blackColor()
-        
+        options.defaultPage = 1
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
         pagingMenuController.delegate = self

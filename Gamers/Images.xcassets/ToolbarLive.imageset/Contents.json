@@ -2,20 +2,24 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "live-active-3.png"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "live-active-2.png"
     },
     {
       "idiom" : "iphone",
+      "filename" : "live-active-1.png",
       "subtype" : "retina4",
       "scale" : "2x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "live-active.png"
     }
   ],
   "info" : {

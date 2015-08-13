@@ -83,13 +83,15 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             return nil
         })
         
-        channelBL.getRecommendChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        
+        channelBL.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[101] = (task.result as? [Video])
             self!.newChannelView.reloadData()
             
             return nil
         })
-        channelBL.getRecommendChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        
+        channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[102] = (task.result as? [Video])
             self!.featuredChannelView.reloadData()
             
@@ -100,6 +102,20 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func loadNewData() {
+        //刷新插件BUG，临时方案，没解决
+        scrollView.bringSubviewToFront(featuredChannelView)
+        scrollView.bringSubviewToFront(newChannelView)
+        scrollView.bringSubviewToFront(hotGameView1)
+        scrollView.bringSubviewToFront(hotGameView2)
+        scrollView.bringSubviewToFront(hotGameView3)
+        scrollView.bringSubviewToFront(hotGameView4)
+        scrollView.bringSubviewToFront(newGameView1)
+        scrollView.bringSubviewToFront(newGameView2)
+        scrollView.bringSubviewToFront(newGameView3)
+        
+//        for index in 101...109 {
+//            scrollView.bringSubviewToFront(self.view.viewWithTag(index)!)
+//        }
         
         // 后台进程获取数据
         sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -120,19 +136,19 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         })
         
         // 新手频道推荐数据
-        channelBL.getRecommendChannel("new").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[101] = (task.result as? [Video])
             self!.newChannelView.reloadData()
             self!.stopRefensh()
-            
+
             return nil
         })
         // 游戏大咖频道推荐数据
-        channelBL.getRecommendChannel("featured").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[102] = (task.result as? [Video])
             self!.newChannelView.reloadData()
             self!.stopRefensh()
-            
+ 
             return nil
         })
         
@@ -152,7 +168,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                 for index in 103...106 {
                     self!.videoData[index]? = games[index-103].videos
                     self!.gamesName[index] = self!.hotGameData[index-103].nameZh
-                    
+
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
                 }
@@ -171,6 +187,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             return nil
         })
         
+
         
     }
     
@@ -185,6 +202,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 下拉刷新数据
         scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        
         
         videoData[101] = [Video]()
         videoData[102] = [Video]()
@@ -244,6 +262,16 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
+        }
+        
+        
+        let footView = UIView()
+        newChannelView.tableFooterView = footView
+        footView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(contentView).offset(6)
+            make.left.equalTo(contentView).offset(6)
+            make.right.equalTo(contentView).offset(-6)
+            make.height.equalTo(20)
         }
 
         
@@ -616,7 +644,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let viewTag = tableView.tag
-        
+        println("点击触发")
         if indexPath.row == 0 {
              println("无反应")
         } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
@@ -625,12 +653,23 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             let dataView = self.view.viewWithTag(viewTag) as! UITableView
             dataView.reloadData()
         } else if indexPath.row == videoData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
-            println("跳转到全部列表页面")
-            let view = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
-            //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
-            
-            self.navigationController?.pushViewController(view!, animated: true)
-            
+            // 跳转到不同的全部界面
+            if viewTag == 101 || viewTag == 102 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
+                //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else if viewTag >= 103 && viewTag <= 106 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = hotGameData[viewTag - 103]
+
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = newGameData[viewTag - 107]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            }
         } else {
             let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
             view?.videoData = self.videoData[viewTag]![indexPath.row-1]
@@ -644,6 +683,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         let viewTag = tableView.tag
         // 该tableView以及扩展
         expansionStatus[viewTag] = true
+
         // 扩展动画
         UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
             self.view.viewWithTag(viewTag)?.frame.size.height = 700
@@ -722,19 +762,11 @@ extension HomeController: MyCellDelegate {
     
     func clickCellButton(sender: UITableViewCell) {
 
-
-        
         let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
         var index: NSIndexPath = table.indexPathForCell(sender)!
         
         println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
 
-        
-        
-        
-        
-        
-        
         
         var actionSheetController: UIAlertController = UIAlertController()
 

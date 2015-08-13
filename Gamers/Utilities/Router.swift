@@ -24,8 +24,8 @@ enum Router: URLRequestConvertible {
     case Search(query: String?, pageToken: String?)
 
     case Slider(channel: String?)                   //首页顶部轮播
-    case RecommendChannel(channelType: String?)     //首页推荐频道：新手、游戏大咖
     case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
+    case RecommendChannel(channelType: String?, offset: Int?, count: Int?, order: String?)     //首页推荐频道：新手、游戏大咖
 
     case AllGame(offset: Int?, count: Int?)                                      //所有游戏
     case SeachGame(gameName: String?, type: String?, offset: Int?, count: Int?)  //获取游戏
@@ -35,12 +35,14 @@ enum Router: URLRequestConvertible {
 
     case ChannelInfo(channelId: String?)                                //频道信息
     case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
-
+    
     case LiveVideo(offset: Int?, count: Int?)             //直播频道视频
 
     case UserLogin(userName: String?, password: String?)  //用户本地登入
 
-
+    case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)
+    case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)
+    
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
@@ -51,9 +53,12 @@ enum Router: URLRequestConvertible {
 
                 return (.GET, "/index/sliders", parameters)
             //首页推荐频道：新手、游戏大咖
-            case .RecommendChannel(let channelType):
+            case .RecommendChannel(let channelType, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if channelType != nil { parameters["type"] = channelType }
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                parameters["order"] = order != nil ? order : "date"
 
                 return (.GET, "/index/recommendchannel", parameters)
             //首页推荐游戏：4个热门游戏、3个新游戏
@@ -105,13 +110,6 @@ enum Router: URLRequestConvertible {
                 if channelId != nil { parameters["channelid"] = channelId }
                 
                 return (.GET, "/channel/info", parameters)
-            //直播频道列表
-            case .LiveVideo(let offset, let count):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
-                
-                return (.GET, "/live/video", parameters)
             //频道视频列表
             case .ChannelVideo(let channelId, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -120,6 +118,13 @@ enum Router: URLRequestConvertible {
                 parameters["count"] = count != nil ? count : 20
 
                 return (.GET, "/channel/videos", parameters)
+            //直播频道列表
+            case .LiveVideo(let offset, let count):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                
+                return (.GET, "/live/video", parameters)
             //本地用户登入
             case .UserLogin(let userName, let password):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -127,7 +132,24 @@ enum Router: URLRequestConvertible {
                 if password != nil { parameters["password"] = password }
 
                 return (.GET, "/user/login", parameters)
+            //搜索视频
+            case .SearchVideo(let keyword, let offset, let count, let order):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if keyword != nil { parameters["keyword"] = keyword }
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                parameters["order"] = order != nil ? order : "date"
                 
+                return (.GET, "/video/search", parameters)
+            //搜索频道
+            case .SearchChannel(let keyword, let offset, let count, let order):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if keyword != nil { parameters["keyword"] = keyword }
+                parameters["offset"] = offset != nil ? offset : 0
+                parameters["count"] = count != nil ? count : 20
+                parameters["order"] = order != nil ? order : "date"
+                
+                return (.GET, "/channel/search", parameters)
                 
                 
                 

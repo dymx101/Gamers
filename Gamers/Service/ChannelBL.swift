@@ -19,11 +19,11 @@ class ChannelBL: NSObject {
     :param: channelType 频道类型
     :returns: 频道列表
     */
-    func getChannel(channelType : String) -> BFTask {
+    func getChannel(#channelType : String, offset: Int?, count: Int?, order: String?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return ChannelDao.getChannels(channelType: channelType)
+            return ChannelDao.getChannels(channelType: channelType, offset: offset, count: count, order: order)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
@@ -80,16 +80,49 @@ class ChannelBL: NSObject {
     :param: channelType 推荐类型
     :returns: 视频列表
     */
-    func getRecommendChannel(channelType : String) -> BFTask {
+    func getRecommendChannel(#channelType : String, offset: Int?, count: Int?, order: String?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return ChannelDao.getRecommendChannel(channelType : channelType)
+            return ChannelDao.getRecommendChannel(channelType : channelType, offset: offset, count: count, order: order)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let videos = task.result as? [Video] {
                 return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
+    /**
+    搜索频道
+    
+    :param: keyword 搜索关键字
+    :param: offset  分页偏移量
+    :param: count   分页总数
+    :param: order   排序
+    
+    :returns: 频道列表
+    */
+    func getSearchChannel(#keyword: String, offset: Int?, count: Int?, order: String?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return ChannelDao.getSearchChannel(keyword: keyword, offset: offset, count: count, order: order)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let channels = task.result as? [Channel] {
+                return BFTask(result: channels)
             }
             
             return task

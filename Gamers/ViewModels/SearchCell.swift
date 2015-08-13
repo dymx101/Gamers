@@ -8,14 +8,20 @@
 
 import UIKit
 
-class SeachCell: UITableViewCell {
+class SearchCell: UITableViewCell {
     
     @IBOutlet weak var videoImage: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var videoChannel: UILabel!
     @IBOutlet weak var videoViews: UILabel!
     
-
+    @IBAction func clickShare(sender: AnyObject) {
+        self.delegate.clickCellButton!(self)
+    }
+    
+    
+    var delegate: MyCellDelegate!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,4 +33,12 @@ class SeachCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        
+        if highlighted {
+            self.delegate.hideKeyboard!(self)
+        }
+
+    }
 }

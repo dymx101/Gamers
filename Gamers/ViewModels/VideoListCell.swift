@@ -15,6 +15,11 @@ class VideoListCell: UITableViewCell {
     @IBOutlet weak var videoChannel: UILabel!
     @IBOutlet weak var videoViews: UILabel!
     
+    var delegate: MyCellDelegate!
+    
+    @IBAction func clickShare(sender: AnyObject) {
+        self.delegate.clickCellButton!(self)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

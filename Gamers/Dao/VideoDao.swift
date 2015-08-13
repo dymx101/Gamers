@@ -41,7 +41,6 @@ extension VideoDao {
         return fetchComment(URLRequest: URLRequest)
     }
     
-    
     /**
     获取直播视频列表
     
@@ -55,6 +54,23 @@ extension VideoDao {
         
         return fetchVideo(URLRequest: URLRequest)
     }
+    
+    /**
+    搜索视频
+    
+    :param: keyword 搜索关键字
+    :param: offset  分页偏移量
+    :param: count   分页总数
+    :param: order   排序
+    
+    :returns: 视频列表
+    */
+    static func getSearchVideo(#keyword: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+        var URLRequest = Router.SearchVideo(keyword: keyword, offset: offset, count: count, order: order)
+        
+        return fetchVideo(URLRequest: URLRequest)
+    }
+    
     
     
     /**

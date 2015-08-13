@@ -223,7 +223,7 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("FreedomCell", forIndexPath: indexPath) as! FreedomCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("FreedomCell", forIndexPath: indexPath) as! VideoListCell
             tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             
             let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -231,6 +231,8 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             cell.videoTitle.text = self.videoListData[indexPath.row].videoTitle
             cell.videoChannel.text = self.videoListData[indexPath.row].owner
             cell.videoViews.text = String(self.videoListData[indexPath.row].views)
+            
+            cell.delegate = self
             
             return cell
         }
@@ -267,5 +269,35 @@ extension FreedomController: SDCycleScrollViewDelegate {
         NSLog("---点击了第%ld张图片", index);
         var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
         self.navigationController?.pushViewController(view!, animated: true)
+    }
+}
+// 表格行Cell代理
+extension FreedomController: MyCellDelegate {
+    // 分享按钮
+    func clickCellButton(sender: UITableViewCell) {
+        
+        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
+        var index: NSIndexPath = table.indexPathForCell(sender)!
+        
+        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        
+        
+        var actionSheetController: UIAlertController = UIAlertController()
+        
+        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            NSLog("Tap 取消 Button")
+            })
+        actionSheetController.addAction(UIAlertAction(title: "破坏性按钮", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            NSLog("Tap 破坏性按钮 Button")
+            })
+        
+        actionSheetController.addAction(UIAlertAction(title: "新浪微博", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            NSLog("Tap 新浪微博 Button")
+            })
+        
+        //显示
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+        
+        
     }
 }

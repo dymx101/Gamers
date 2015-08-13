@@ -15,13 +15,14 @@ struct ChannelDao {}
 
 extension ChannelDao {
     /**
-    获取推荐的频道列表
+    获取推荐的频道列表，暂时采用getRecommendChannel，获取新手频道的视频为主
     
     :param: channelType 频道类型：新手、大咖
     :returns: return 频道列表
     */
-    static func getChannels(#channelType: String?) -> BFTask {
-        var URLRequest = Router.RecommendChannel(channelType: channelType)
+    static func getChannels(#channelType: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+        var URLRequest = Router.RecommendChannel(channelType: channelType, offset: offset, count: count, order: order)
+        
         return fetchChannel(URLRequest: URLRequest)
     }
     
@@ -33,6 +34,7 @@ extension ChannelDao {
     */
     static func getChannelInfo(#channelId: String) -> BFTask {
         var URLRequest = Router.ChannelInfo(channelId: channelId)
+        
         return fetchChannel(URLRequest: URLRequest)
     }
     
@@ -47,21 +49,71 @@ extension ChannelDao {
     */
     static func getChannelVideo(#channelId: String, offset: Int?, count: Int?) -> BFTask {
         var URLRequest = Router.ChannelVideo(channelId: channelId, offset: offset, count: count)
+        
         return fetchVideo(URLRequest: URLRequest)
     }
     
     /**
-    首页推荐频道视频
+    首页推荐频道视频,一人一个
     
     :param: channelType 推荐类型
+    :param: offset      分页偏移
+    :param: count       分页总数
+    :param: order       排序
+    
     :returns: 视频列表
     */
-    static func getRecommendChannel(#channelType: String?) -> BFTask {
-        var URLRequest = Router.RecommendChannel(channelType: channelType)
+    static func getRecommendChannel(#channelType: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+        var URLRequest = Router.RecommendChannel(channelType: channelType, offset: offset, count: count, order: order)
+        
         return fetchVideo(URLRequest: URLRequest)
     }
     
+    /**
+    搜索频道
     
+    :param: keyword 搜索关键字
+    :param: offset  分页偏移量
+    :param: count   分页总数
+    :param: order   排序
+    
+    :returns: 频道列表
+    */
+    static func getSearchChannel(#keyword: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+        var URLRequest = Router.SearchChannel(keyword: keyword, offset: offset, count: count, order: order)
+        
+        return fetchChannel(URLRequest: URLRequest)
+    }
+    
+    
+    
+    /**
+    解析游戏视频列表的JSON数据
+    */
+    private static func fetchChannelInfo(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                // 保存数据到本地
+                var result: [String: AnyObject]!
+                var user: Channel!
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    let json = JSON(JSONDictionary)
+                    user = Channel.Info(json: json)
+                }
+                
+                //TODO: 返回该对象集合,view直接读取
+                source.setResult(user)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
     
     /**
     解析频道列表的JSON数据
