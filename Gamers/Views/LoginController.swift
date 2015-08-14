@@ -9,11 +9,13 @@
 import UIKit
 import Bolts
 import MBProgressHUD
+import QuartzCore
 
 class LoginController: UIViewController {
 
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+
     
     let user = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     let userBL = UserBL()
@@ -27,23 +29,11 @@ class LoginController: UIViewController {
         userBL.UserLogin("freedom", password: "123456").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let userInfo = (task.result as? User)!
             
-            println(userInfo)
-            
             return nil
         })
         
-        var alertController: UIAlertController = UIAlertController(title: "123", message: "name", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        alertController.addAction(UIAlertAction(title: "no", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
-            //
-            NSLog("no")
-        }))
-        alertController.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
-            //
-            NSLog("yes")
-        }))
-        self.presentViewController(alertController, animated: true, completion: nil)
-        
-        
+        //userNameField.frame.size.height = 160
+
         println("本地登入--帐号：\(userName)，密码：\(password)")
     }
 
@@ -53,11 +43,29 @@ class LoginController: UIViewController {
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+//        var rect: CGRect = userNameField.frame;
+//        rect.size.height = 150;
+//        userNameField.frame = rect;
+        
+        userNameField.borderStyle = UITextBorderStyle.RoundedRect
+        userNameField.layer.borderColor = UIColor.blackColor().CGColor
 
-        // Do any additional setup after loading the view.
+        
+        passwordField.borderStyle = UITextBorderStyle.RoundedRect
+        
+        
+        userNameField.leftView = UIImageView(image: UIImage(named: "Icon-task"))
+        userNameField.leftViewMode = UITextFieldViewMode.Always
+        
+        
+        //userNameField.layer.cornerRadius = 5.0
+
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,6 +73,6 @@ class LoginController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
 
 }

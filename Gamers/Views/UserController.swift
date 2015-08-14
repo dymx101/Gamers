@@ -40,24 +40,18 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
     // 点击触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        
-        println(user.objectForKey("user"))
-        
-        
-        if user.objectForKey("user") == nil {
-            let loginView = self.storyboard!.instantiateViewControllerWithIdentifier("LoginVC") as? LoginController
-            self.navigationController?.pushViewController(loginView!, animated: true)
-        } else {
-            let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("UserInfoVC") as? UserInfoController
-            self.navigationController?.pushViewController(userInfoView!, animated: true)
+        if indexPath.section == 0 {
+            
+            if user.objectForKey("user") != nil {
+                let loginView = self.storyboard!.instantiateViewControllerWithIdentifier("LoginVC") as? LoginController
+                
+                self.navigationController?.pushViewController(loginView!, animated: true)
+            } else {
+                let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("UserInfoVC") as? UserInfoController
+                
+                self.navigationController?.pushViewController(userInfoView!, animated: true)
+            }
         }
-        
-        
-        //user.removeObjectForKey("user")
-        
-        
-        
-        
     }
     
     

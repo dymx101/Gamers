@@ -11,6 +11,8 @@ import UIKit
 let reuseIdentifier = "NewGameCell"
 
 class NewGameController: UICollectionViewController {
+    
+    var gameData = [Game]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +21,7 @@ class NewGameController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
     }

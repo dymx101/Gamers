@@ -7,91 +7,86 @@
 //
 
 import UIKit
+import MJRefresh
+import Bolts
+import MBProgressHUD
 
 class UserHistoryController: UITableViewController {
+    
+    var videoData = [Video]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        // 上拉下拉刷新功能
+        self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
+        
+        
+        // 删除多余的分割线
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        // cell分割线边距，ios8处理
+        if self.tableView.respondsToSelector("setSeparatorInset:") {
+            self.tableView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+        if self.tableView.respondsToSelector("setLayoutMargins:") {
+            self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+
     }
+    
+    
+    // 初始化数据
+    func loadInitData() {
+        
+    }
+    // 下拉刷新数据
+    func loadNewData() {
+        
+    }
+    // 上拉获取更多数据
+    func loadMoreData() {
+        
+    }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
+}
+// MARK: - Table view data source
+extension UserHistoryController: UITableViewDataSource, UITableViewDelegate {
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        return 1
     }
-
+    // 设置总行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        return videoData.count
     }
-
-    /*
+    // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("UserHistoryCell", forIndexPath: indexPath) as! VideoListCell
+        
+        let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
+        cell.videoChannel.text = self.videoData[indexPath.row].owner
+        cell.videoViews.text = String(self.videoData[indexPath.row].views)
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+    // cell分割线的边距
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if cell.respondsToSelector("setSeparatorInset:") {
+            cell.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+        if cell.respondsToSelector("setLayoutMargins:") {
+            cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
