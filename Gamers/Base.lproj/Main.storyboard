@@ -10,7 +10,7 @@
         <!--游戏分类-->
         <scene sceneID="SEl-JJ-Hqo">
             <objects>
-                <collectionViewController id="pJ6-qc-UZz" customClass="GameController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="GameVC" id="pJ6-qc-UZz" customClass="GameController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="cpR-e3-3IG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1053,7 +1053,7 @@
         <!--搜索-->
         <scene sceneID="BrB-w7-ROJ">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DEu-rD-nYL" customClass="SearchController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SearchVC" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DEu-rD-nYL" customClass="SearchController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4yO-6h-ia1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1219,7 +1219,7 @@
         <!--实况咖-->
         <scene sceneID="rx1-M1-bKP">
             <objects>
-                <viewController storyboardIdentifier="Home" id="Cny-wo-R0L" customClass="HomeController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="Cny-wo-R0L" customClass="HomeController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aQC-8R-0hT"/>
                         <viewControllerLayoutGuide type="bottom" id="TuK-ge-pdp"/>
@@ -1333,7 +1333,7 @@
         <!--Slider Controller-->
         <scene sceneID="b8r-Yn-ZKz">
             <objects>
-                <viewController storyboardIdentifier="sliderView" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Whu-3S-lEi" customClass="SliderController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SliderVC" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Whu-3S-lEi" customClass="SliderController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yc5-U6-bdk"/>
                         <viewControllerLayoutGuide type="bottom" id="D2I-Jf-2ZJ"/>
@@ -1608,7 +1608,7 @@
         <!--实况-->
         <scene sceneID="5Kk-uo-g1F">
             <objects>
-                <tableViewController id="hrv-7i-md4" customClass="LiveController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="LiveVC" id="hrv-7i-md4" customClass="LiveController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="131" sectionHeaderHeight="22" sectionFooterHeight="22" id="dlw-cL-vEL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1975,7 +1975,7 @@
         <!--用户中心-->
         <scene sceneID="wOT-bt-Fiv">
             <objects>
-                <tableViewController storyboardIdentifier="User" id="Mev-iD-P4b" customClass="UserController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserVC" id="Mev-iD-P4b" customClass="UserController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Bea-iw-D4b">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2434,26 +2434,6 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFN-fl-k9n" customClass="GIDSignInButton">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="fFq-cE-Etc"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="fFq-cE-Etc"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="fFq-cE-Etc"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="googleLogin:" destination="wbO-Ho-qvm" eventType="valueChanged" id="1Gu-yq-b13"/>
-                                </connections>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZO-4k-JmQ">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -2477,6 +2457,23 @@
                                     <action selector="clickLogin:" destination="wbO-Ho-qvm" eventType="touchUpInside" id="Edz-aL-fZG"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFN-fl-k9n" customClass="GIDSignInButton">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="fFq-cE-Etc"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="fFq-cE-Etc"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="fFq-cE-Etc"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2512,8 +2509,8 @@
                                 <exclude reference="FRE-wm-pc0"/>
                                 <exclude reference="h6h-mo-fFJ"/>
                                 <exclude reference="Ydi-Ct-g1Y"/>
-                                <exclude reference="OFN-fl-k9n"/>
                                 <exclude reference="cZO-4k-JmQ"/>
+                                <exclude reference="OFN-fl-k9n"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="2MO-7G-Uxy"/>
@@ -2539,8 +2536,8 @@
                                 <include reference="FRE-wm-pc0"/>
                                 <include reference="h6h-mo-fFJ"/>
                                 <include reference="Ydi-Ct-g1Y"/>
-                                <include reference="OFN-fl-k9n"/>
                                 <include reference="cZO-4k-JmQ"/>
+                                <include reference="OFN-fl-k9n"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="2MO-7G-Uxy"/>
@@ -2574,6 +2571,7 @@
         <!--Register Controller-->
         <scene sceneID="txt-bn-j28">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uYX-nJ-zvE" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="RegisterVC" id="hBS-wl-GjZ" customClass="RegisterController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jVZ-VY-Lrg"/>
@@ -2585,14 +2583,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uYX-nJ-zvE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4180.5" y="2631"/>
         </scene>
         <!--ForgetPWD Controller-->
         <scene sceneID="fh0-KF-HZ5">
             <objects>
-                <viewController id="yKs-Fy-dje" customClass="ForgetPWDController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PNn-XP-0b5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="ForgetPWDVC" id="yKs-Fy-dje" customClass="ForgetPWDController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FWA-Tz-Tr0"/>
                         <viewControllerLayoutGuide type="bottom" id="9mo-Pg-JmB"/>
@@ -2603,14 +2601,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PNn-XP-0b5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5169" y="2631"/>
         </scene>
         <!--历史-->
         <scene sceneID="AW6-Bg-Sn1">
             <objects>
-                <tableViewController id="eM9-Gy-H4A" customClass="UserHistoryController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserHIstoryVC" id="eM9-Gy-H4A" customClass="UserHistoryController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="fio-KN-dxo">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2709,7 +2706,7 @@
         <!--设置-->
         <scene sceneID="5LZ-8c-KSU">
             <objects>
-                <tableViewController id="COz-2e-a0N" customClass="SystemController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SystemVC" id="COz-2e-a0N" customClass="SystemController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="FgU-c0-6Vd">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2873,23 +2870,6 @@
                             </tableViewSection>
                             <tableViewSection id="2mW-RW-2SE" userLabel="用户详情">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="a4D-Ri-tvF" style="IBUITableViewCellStyleDefault" id="OSd-vY-fdM">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OSd-vY-fdM" id="6L4-Lp-aDg">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="帐号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a4D-Ri-tvF">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    </variation>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="bhj-vc-JyK" style="IBUITableViewCellStyleDefault" id="u4E-r4-EJd">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u4E-r4-EJd" id="FaC-vB-62m">
@@ -2913,6 +2893,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="性别" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UmZ-R5-kQ5">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="a4D-Ri-tvF" style="IBUITableViewCellStyleDefault" id="OSd-vY-fdM">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OSd-vY-fdM" id="6L4-Lp-aDg">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="帐号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a4D-Ri-tvF">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2966,7 +2963,7 @@
                             </tableViewSection>
                             <tableViewSection id="DNy-xS-MDy" userLabel="用户点数">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="65f-9e-2Ip" style="IBUITableViewCellStyleDefault" id="0fn-2z-wWa">
+                                    <tableViewCell tag="501" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="65f-9e-2Ip" style="IBUITableViewCellStyleDefault" id="0fn-2z-wWa">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0fn-2z-wWa" id="L4t-D0-jLG">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -3001,7 +2998,7 @@
         <!--关注-->
         <scene sceneID="D2w-e8-4gf">
             <objects>
-                <tableViewController id="Lbb-1k-xAt" customClass="UserFollowController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserFollowVC" id="Lbb-1k-xAt" customClass="UserFollowController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="nPS-qi-QEH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3118,7 +3115,7 @@
         <!--新游戏推荐-->
         <scene sceneID="tk3-rX-oZV">
             <objects>
-                <collectionViewController id="ySa-z2-N2p" customClass="NewGameController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="NewGameVC" id="ySa-z2-N2p" customClass="NewGameController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="fYw-C1-zZV">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

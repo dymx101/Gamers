@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        // Initialize sign-in
+        // 初始化Google登入
         var configureErr: NSError?
         GGLContext.sharedInstance().configureWithError(&configureErr)
         if configureErr != nil {

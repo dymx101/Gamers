@@ -13,7 +13,7 @@ import SwiftyJSON
 class User: Object {
 
     dynamic var id = ""             //ID
-    dynamic var nameName = ""       //游戏英文名
+    dynamic var userName = ""       //
     dynamic var password = ""       //密码预留
     dynamic var nickName = ""       //别名
     dynamic var sex = ""            //性别
@@ -35,7 +35,7 @@ class User: Object {
         let model = User()
         
         if let itemId = json["id"].string { model.id = itemId }
-        if let nameName = json["name"].string { model.nameName = nameName }
+        if let userName = json["name"].string { model.userName = userName }
         if let password = json["password"].string { model.password = password }
         if let nickName = json["nickname"].string { model.nickName = nickName }
         if let sex = json["sex"].string { model.sex = sex }

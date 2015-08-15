@@ -11,7 +11,14 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
+private let _SingletonSharedInstanceLiveBL = LiveBL()
+
 class LiveBL: NSObject {
+    
+    // 单例模式
+    class var sharedInstance : LiveBL {
+        return _SingletonSharedInstanceLiveBL
+    }
     
     // 首页推荐游戏
     func getLive(#offset: Int?, count: Int?) -> BFTask {

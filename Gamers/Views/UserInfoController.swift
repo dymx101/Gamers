@@ -10,6 +10,9 @@ import UIKit
 
 class UserInfoController: UITableViewController {
 
+    let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    let userBL = UserBL()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,6 +21,13 @@ class UserInfoController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+        
+        
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,4 +36,20 @@ class UserInfoController: UITableViewController {
     }
 
     
+}
+
+extension UserInfoController: UITableViewDelegate, UITableViewDataSource {
+    
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 3 {
+            
+            GIDSignIn.sharedInstance().signOut()
+            
+            userInfo.removeObjectForKey("googleUserId")
+
+            
+        }
+
+    }
 }

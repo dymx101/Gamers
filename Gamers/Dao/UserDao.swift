@@ -25,11 +25,32 @@ extension UserDao {
     
     :returns: 用户数据
     */
-    static func userLogin(#userName: String?, password: String?) -> BFTask {
+    static func UserLogin(#userName: String?, password: String?) -> BFTask {
         var URLRequest = Router.UserLogin(userName: userName, password: password)
         
         return fetchUser(URLRequest: URLRequest)
     }
+    
+    /**
+    Google帐号登入，同步到后台数据库
+    
+    :param: userId   Google，用户ID
+    :param: userName Google，用户名称
+    :param: email    Google，EMail
+    :param: idToken  Google，token
+    
+    :returns: 用户数据
+    */
+    static func GoogleLogin(#userId: String, userName: String?, email: String?, idToken: String?) -> BFTask {
+        var URLRequest = Router.GoogleLogin(userId: userId, userName: userName, email: email, idToken: idToken)
+        
+        return fetchUser(URLRequest: URLRequest)
+    }
+    
+    
+    
+    
+    
 
     /**
     解析游戏视频列表的JSON数据

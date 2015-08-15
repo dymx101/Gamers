@@ -11,9 +11,14 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
+private let _SingletonSharedInstanceSliderBL = SliderBL()
+
 class SliderBL: NSObject {
     
-    //var delegate: SliderBLDelegate!
+    // 单例模式
+    class var sharedInstance : SliderBL {
+        return _SingletonSharedInstanceSliderBL
+    }
     
     //查询所有数据方法 成功
     func findAllNotesFinished(list : NSMutableArray) {

@@ -11,7 +11,14 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
+private let _SingletonSharedInstanceGameBL = GameBL()
+
 class GameBL: NSObject {
+    
+    // 单例模式
+    class var sharedInstance : GameBL {
+        return _SingletonSharedInstanceGameBL
+    }
     
     // 首页推荐游戏
     func getRecommendGame() -> BFTask {

@@ -10,7 +10,7 @@ import UIKit
 
 class UserController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
     
-    let user = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     
     
     override func viewDidLoad() {
@@ -23,9 +23,9 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
         
         
         
-        user.setObject("Freedom", forKey: "user")
+        //userInfo.setObject("Freedom", forKey: "user")
         
-        println(user.objectForKey("user"))
+        println(userInfo.objectForKey("googleUserId"))
         
         
         
@@ -39,10 +39,9 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
     
     // 点击触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
         if indexPath.section == 0 {
             
-            if user.objectForKey("user") != nil {
+            if userInfo.objectForKey("googleUserId") == nil {
                 let loginView = self.storyboard!.instantiateViewControllerWithIdentifier("LoginVC") as? LoginController
                 
                 self.navigationController?.pushViewController(loginView!, animated: true)

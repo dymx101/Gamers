@@ -11,7 +11,14 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
+private let _SingletonSharedInstanceVideoBL = VideoBL()
+
 class VideoBL: NSObject {
+    
+    // 单例模式
+    class var sharedInstance : VideoBL {
+        return _SingletonSharedInstanceVideoBL
+    }
 
     // 视频的相关视频列表
     func getVideoRelate(videoId: String, offset: Int?, count: Int?) -> BFTask {

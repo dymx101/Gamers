@@ -48,6 +48,7 @@
 		1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181DB1B71A94000927C21 /* FreedomController.swift */; };
 		1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */; };
 		1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */; };
+		1A4FAFB01B7F71CE0064B8A3 /* YouTubeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */; };
 		1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7A583A1B60EB7300464510 /* SliderController.swift */; };
 		1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */; };
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
@@ -152,6 +153,7 @@
 		1A4181DB1B71A94000927C21 /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
 		1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeRouter.swift; sourceTree = "<group>"; };
 		1A7A583A1B60EB7300464510 /* SliderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderController.swift; sourceTree = "<group>"; };
 		1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsExtensions.swift; sourceTree = "<group>"; };
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				1A30F7411B7CAEA900A2CADF /* ZLSwifthRefresh */,
 				1A32FD0B1B54B8090040E94C /* APIClient.swift */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
+				1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */,
 				1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */,
 				1A32FD0F1B54B9BA0040E94C /* NSDateExtensions.swift */,
 				1A32264F1B7D9411001F7C52 /* RoundImage.swift */,
@@ -672,6 +675,7 @@
 				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
 				1A30F7461B7CAEA900A2CADF /* ZLSwiftConstDefine.swift in Sources */,
+				1A4FAFB01B7F71CE0064B8A3 /* YouTubeRouter.swift in Sources */,
 				1AAC05581B7C5BCA0002AD8B /* MyCellDelegate.swift in Sources */,
 				1A1D2C7A1B731C5600112A4F /* UserFollowController.swift in Sources */,
 				1ACBAF7E1B7B33C000D8910C /* LiveDao.swift in Sources */,

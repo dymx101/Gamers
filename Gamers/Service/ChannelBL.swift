@@ -11,7 +11,14 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
+private let _SingletonSharedInstanceChannelBL = ChannelBL()
+
 class ChannelBL: NSObject {
+    
+    // 单例模式
+    class var sharedInstance : ChannelBL {
+        return _SingletonSharedInstanceChannelBL
+    }
 
     /**
     获取频道列表

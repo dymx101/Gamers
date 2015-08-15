@@ -16,35 +16,32 @@ class LoginController: UIViewController {
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
 
-    let user = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     let userBL = UserBL()
 
+    var googleUserId: String!
+    var googleName: String!
+    var googleEmail: String!
+    var googleIdToken: String!
+    
+    
     // 本地登入
     @IBAction func clickLogin(sender: AnyObject) {
-        
+
         var userName = userNameField.text
         var password = passwordField.text
         
-        userBL.UserLogin("freedom", password: "123456").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        userBL.UserLogin(userName: "freedom", password: "123456").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let userInfo = (task.result as? User)!
             
             return nil
         })
-        
-        //userNameField.frame.size.height = 160
 
-        println("本地登入--帐号：\(userName)，密码：\(password)")
     }
-
-    // 第三方Google登入
-    @IBAction func googleLogin(sender: AnyObject) {
-        println("Google登入")
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // 输入表单样式
         userNameField.borderStyle = UITextBorderStyle.RoundedRect
         userNameField.layer.borderColor = UIColor.blackColor().CGColor
 
@@ -53,7 +50,9 @@ class LoginController: UIViewController {
         userNameField.leftView = UIImageView(image: UIImage(named: "Icon-task"))
         userNameField.leftViewMode = UITextFieldViewMode.Always
         
-
+        
+        
+        // Google登入的代理协议
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
        
@@ -76,34 +75,36 @@ class LoginController: UIViewController {
 }
 
 extension LoginController: GIDSignInDelegate, GIDSignInUIDelegate {
-    // 登入
+    // 第三方Google登入
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
         if (error == nil) {
-            // User Successfully signed in.
-            //toggleAuthUI()
-            //statusText.text = "Signed in user:\n\(user.profile.name)"
-            
             println(user.userID)
+            googleUserId = user.userID
+            googleName = user.profile.name
+            googleEmail = user.profile.email
+            googleIdToken = user.authentication.idToken
             
+            userInfo.setObject(googleUserId, forKey: "googleUserId")
+            userInfo.setObject(googleName, forKey: "googleName")
+            userInfo.setObject(googleEmail, forKey: "googleEmail")
+            userInfo.setObject(googleIdToken, forKey: "googleIdToken")
             
-//            NSString *userId = user.userID;                  // For client-side use only!
-//            NSString *idToken = user.authentication.idToken; // Safe to send to the server
-//            NSString *name = user.profile.name;
-//            NSString *email = user.profile.email;
-            
-            println(user.profile.name)
-            
-            
+            userBL.GoogleLogin(userId: googleUserId, userName: googleName, email: googleEmail, idToken: googleIdToken).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                let userInfo = (task.result as? User)!
+                
+                
+                
+                return nil
+            })
+
         } else {
             println("\(error.localizedDescription)")
-            //toggleAuthUI()
         }
     }
     
-    // 连接
+    // 用户连接
     func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!, withError error: NSError!) {
-        //statusText.text = "User disconnected."
-        //toggleAuthUI()
+
     }
 }
 

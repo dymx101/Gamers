@@ -11,14 +11,21 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
+private let _SingletonSharedInstanceUserBL = UserBL()
+
 class UserBL: NSObject {
+    
+    // 单例模式
+    class var sharedInstance : UserBL {
+        return _SingletonSharedInstanceUserBL
+    }
 
     // 用户登入
-    func UserLogin(userName: String?, password: String?) -> BFTask {
+    func UserLogin(#userName: String?, password: String?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return UserDao.userLogin(userName: userName, password: password)
+            return UserDao.UserLogin(userName: userName, password: password)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
@@ -37,5 +44,29 @@ class UserBL: NSObject {
         return fetchTask
     }
 
+    
+    // Google用户登入
+    func GoogleLogin(#userId: String, userName: String?, email: String?, idToken: String?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return UserDao.GoogleLogin(userId: userId, userName: userName, email: email, idToken: idToken)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let user = task.result as? User {
+                return BFTask(result: user)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
 
 }

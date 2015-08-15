@@ -37,7 +37,8 @@ enum Router: URLRequestConvertible {
     
     case LiveVideo(offset: Int?, count: Int?)             //直播频道视频
 
-    case UserLogin(userName: String?, password: String?)  //用户本地登入
+    case UserLogin(userName: String?, password: String?)                                    //用户本地登入
+    case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)
@@ -131,6 +132,15 @@ enum Router: URLRequestConvertible {
                 if password != nil { parameters["password"] = password }
 
                 return (.GET, "/user/login", parameters)
+            //Google登入
+            case .GoogleLogin(let userId, let userName, let email, let idToken) :
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if userId != nil { parameters["userid"] = userId }
+                if userName != nil { parameters["username"] = userName }
+                if email != nil { parameters["email"] = email }
+                if idToken != nil { parameters["idtoken"] = idToken }
+
+                return (.GET, "/user/googlelogin", parameters)
             //搜索视频
             case .SearchVideo(let keyword, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -149,6 +159,8 @@ enum Router: URLRequestConvertible {
                 parameters["order"] = order != nil ? order : "date"
                 
                 return (.GET, "/channel/search", parameters)
+                
+                
                 
                 
                 
