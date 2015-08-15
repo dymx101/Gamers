@@ -46,6 +46,8 @@
 		1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A4181A31B709B4D00927C21 /* Main.storyboard */; };
 		1A4181A71B709BA900927C21 /* TwitchPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */; };
 		1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181DB1B71A94000927C21 /* FreedomController.swift */; };
+		1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */; };
+		1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */; };
 		1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7A583A1B60EB7300464510 /* SliderController.swift */; };
 		1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */; };
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
@@ -90,8 +92,6 @@
 		1AEECF741B7727640022B69B /* HomeVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEECF721B7727640022B69B /* HomeVideoCell.xib */; };
 		1AEECF771B773CCA0022B69B /* TableFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEECF751B773CCA0022B69B /* TableFooterCell.swift */; };
 		1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEECF761B773CCA0022B69B /* TableFooterCell.xib */; };
-		1AFC1A091B58EDA2006D9667 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC1A071B58EDA2006D9667 /* 1.jpg */; };
-		1AFC1A0A1B58EDA2006D9667 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1AFC1A081B58EDA2006D9667 /* 2.jpg */; };
 		1AFC1A0C1B58F3C2006D9667 /* GameDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC1A0B1B58F3C2006D9667 /* GameDao.swift */; };
 		1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC1A0D1B58F92B006D9667 /* GameBL.swift */; };
 		1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC1A0F1B58F9C4006D9667 /* Game.swift */; };
@@ -150,6 +150,8 @@
 		1A4181A41B709B4D00927C21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitchPlayerController.swift; sourceTree = "<group>"; };
 		1A4181DB1B71A94000927C21 /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
+		1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A7A583A1B60EB7300464510 /* SliderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderController.swift; sourceTree = "<group>"; };
 		1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsExtensions.swift; sourceTree = "<group>"; };
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
@@ -200,8 +202,6 @@
 		1AEECF721B7727640022B69B /* HomeVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeVideoCell.xib; sourceTree = "<group>"; };
 		1AEECF751B773CCA0022B69B /* TableFooterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableFooterCell.swift; sourceTree = "<group>"; };
 		1AEECF761B773CCA0022B69B /* TableFooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterCell.xib; sourceTree = "<group>"; };
-		1AFC1A071B58EDA2006D9667 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
-		1AFC1A081B58EDA2006D9667 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		1AFC1A0B1B58F3C2006D9667 /* GameDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDao.swift; sourceTree = "<group>"; };
 		1AFC1A0D1B58F92B006D9667 /* GameBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBL.swift; sourceTree = "<group>"; };
 		1AFC1A0F1B58F9C4006D9667 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -395,6 +395,7 @@
 		1AD9C6FF1B4E1189001FE414 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */,
 				1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */,
 				1AD9C7001B4E1189001FE414 /* Info.plist */,
 				1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */,
@@ -423,12 +424,11 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */,
 				1A3226511B7D9B29001F7C52 /* user.png */,
 				1ACBAF751B7AF3F200D8910C /* arrow.png */,
 				1AEB2F9E1B7A3AD6005F0A3F /* share.png */,
 				1A30F74A1B7CCA5A00A2CADF /* more.png */,
-				1AFC1A071B58EDA2006D9667 /* 1.jpg */,
-				1AFC1A081B58EDA2006D9667 /* 2.jpg */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -544,10 +544,10 @@
 				1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */,
 				1A30F74B1B7CCA5A00A2CADF /* more.png in Resources */,
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
-				1AFC1A0A1B58EDA2006D9667 /* 2.jpg in Resources */,
-				1AFC1A091B58EDA2006D9667 /* 1.jpg in Resources */,
 				1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */,
 				1A3226521B7D9B29001F7C52 /* user.png in Resources */,
+				1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */,
+				1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */,
 				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
 				1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */,
 				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,

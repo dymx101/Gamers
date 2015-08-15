@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+// @relates GIDAuthentication
+//
 // The callback block that takes an access token or an error if attempt to refresh was unsuccessful.
 typedef void (^GIDAccessTokenHandler)(NSString *accessToken, NSError *error);
 
@@ -28,9 +30,9 @@ typedef void (^GIDAccessTokenHandler)(NSString *accessToken, NSError *error);
 // The OAuth2 refresh token to exchange for new access tokens.
 @property(nonatomic, readonly) NSString *refreshToken;
 
-// A JSON Web Token identifying the user. Send this token to your server to authenticate the user on
-// the server. For more information on JWTs, see
-// https://developers.google.com/accounts/docs/OAuth2Login#obtainuserinfo
+// An OpenID Connect ID token that identifies the user. Send this token to your server to
+// authenticate the user there. For more information on this topic, see
+// https://developers.google.com/identity/sign-in/ios/backend-auth
 @property(nonatomic, readonly) NSString *idToken;
 
 // Gets the access token, which may be a new one from the refresh token if the original has already

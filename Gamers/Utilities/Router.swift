@@ -10,12 +10,11 @@ import Foundation
 import Alamofire
 
 enum Router: URLRequestConvertible {
-//    static let baseURLString = "https://www.googleapis.com/youtube/v3"
-//    static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
-    
+
     //static let baseURLString = "http://freedom.oyss.info"
     static let baseURLString = "http://api.freedom.cn"
-    static let kGoogleAPIKey = "AIzaSyBtW-zJkAl2Y7_2Z_AoJdmYovDWRJ1oGvE"
+    static let kGoogleAPIKey = "AIzaSyDjDe5F-JLx_abyX_sKDsjh2AXNyYLTHdo"
+    static let youTubeURLString = "https://www.googleapis.com/youtube/v3"
     
     // 
     // Alamofire请求路由，参考 github.com/Alamofire/Alamofire#api-parameter-abstraction

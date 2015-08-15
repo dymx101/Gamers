@@ -1,3 +1,8 @@
+2015-07-15 -- v2.2.0
+- Compatible with iOS 9 (beta).
+- Adds descriptive identifiers for GIDSignInButton's Auto Layout constraints.
+- |signInSilently| no longer requires setting |uiDelegate|.
+
 2015-06-17 -- v2.1.0
 - Fixes Auto Layout issues with GIDSignInButton.
 - Adds API to refresh access token in GIDAuthentication.
