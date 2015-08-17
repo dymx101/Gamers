@@ -15,6 +15,7 @@ class UserFollowController: UITableViewController {
 
     var videoData = [Video]()
     
+    let userBL = UserBL()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,14 @@ class UserFollowController: UITableViewController {
     }
     // 下拉刷新数据
     func loadNewData() {
-        
+        userBL.getSubscriptions(userId: "", userToken: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData = (task.result as? [Video])!
+            
+            self?.tableView.reloadData()
+            self?.tableView.header.endRefreshing()
+            
+            return nil
+        })
     }
     // 上拉获取更多数据
     func loadMoreData() {
@@ -76,6 +84,8 @@ extension UserFollowController: UITableViewDataSource, UITableViewDelegate {
         cell.videoChannel.text = self.videoData[indexPath.row].owner
         cell.videoViews.text = String(self.videoData[indexPath.row].views)
         
+        cell.delegate = self
+        
         return cell
     }
     // cell分割线的边距
@@ -89,7 +99,36 @@ extension UserFollowController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-
+// MARK: 表格行Cell代理
+extension UserFollowController: MyCellDelegate {
+    // 分享按钮
+    func clickCellButton(sender: UITableViewCell) {
+        
+        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
+        var index: NSIndexPath = table.indexPathForCell(sender)!
+        
+        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        
+        
+        var actionSheetController: UIAlertController = UIAlertController()
+        
+        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            NSLog("Tap 取消 Button")
+        })
+        actionSheetController.addAction(UIAlertAction(title: "破坏性按钮", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            NSLog("Tap 破坏性按钮 Button")
+        })
+        
+        actionSheetController.addAction(UIAlertAction(title: "新浪微博", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            NSLog("Tap 新浪微博 Button")
+        })
+        
+        //显示
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+        
+        
+    }
+}
 
 
 

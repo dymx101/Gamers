@@ -751,7 +751,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 extension HomeController: SDCycleScrollViewDelegate {
     func cycleScrollView(cycleScrollView: SDCycleScrollView!, didSelectItemAtIndex index: Int) {
         NSLog("---点击了第%ld张图片", index);
-        var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
+        var view = self.storyboard!.instantiateViewControllerWithIdentifier("SliderVC") as? SliderController
         self.navigationController?.pushViewController(view!, animated: true)
         
     }

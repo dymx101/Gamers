@@ -72,8 +72,17 @@ class PlayerViewController: UIViewController {
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
         pagingMenuController.delegate = self
         pagingMenuController.setup(viewControllers: viewControllers, options: options)
+        
+        
+        
+        //UIApplication.sharedApplication().setStatusBarHidden:true, withAnimation: UIStatusBarAnimation.None)
 
-
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+        
+        
+    
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -125,6 +134,46 @@ class PlayerViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    // 隐藏系统状态栏
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
+    }
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    func begainFullScreen() {
+        var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.allowRotation = true
+    }
+    
+    func endFullScreen() {
+        var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.allowRotation = false
+        
+        //强制归正：
+//        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+//            SEL selector = NSSelectorFromString(@"setOrientation:");
+//            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+//            [invocation setSelector:selector];
+//            [invocation setTarget:[UIDevice currentDevice]];
+//            int val =UIInterfaceOrientationPortrait;
+//            [invocation setArgument:&val atIndex:2];
+//            [invocation invoke];
+//        }
+        
+//        var currentDevice = UIDevice.respondsToSelector("setOrientation:")
+//        var selector = NSSelectorFromString("setOrientation:")
+////        var invocation = NSInvoca
+//        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+//            [[UIDevice currentDevice] performSelector:@selector(setOrientation:)
+//            withObject:(id)UIInterfaceOrientationLandscapeRight];
+//        }
+//
+//        
+        
+        
+    }
 
 }
 

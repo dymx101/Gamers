@@ -13,15 +13,10 @@ enum Router: URLRequestConvertible {
 
     //static let baseURLString = "http://freedom.oyss.info"
     static let baseURLString = "http://api.freedom.cn"
-    static let kGoogleAPIKey = "AIzaSyDjDe5F-JLx_abyX_sKDsjh2AXNyYLTHdo"
-    static let youTubeURLString = "https://www.googleapis.com/youtube/v3"
-    
+
     // 
     // Alamofire请求路由，参考 github.com/Alamofire/Alamofire#api-parameter-abstraction
     //
-    case MostPopular(pageToken: String?)
-    case Search(query: String?, pageToken: String?)
-
     case Slider(channel: String?)                   //首页顶部轮播
     case RecommendGame()                            //首页推荐游戏：4个热门游戏、3个新游戏
     case RecommendChannel(channelType: String?, offset: Int?, count: Int?, order: String?)     //首页推荐频道：新手、游戏大咖
@@ -39,9 +34,10 @@ enum Router: URLRequestConvertible {
 
     case UserLogin(userName: String?, password: String?)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
+    case Subscriptions(userId: String?, userToken: String?)
 
-    case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)
-    case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)
+    case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)       //搜索视频
+    case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)     //搜索频道
     
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
@@ -133,7 +129,7 @@ enum Router: URLRequestConvertible {
 
                 return (.GET, "/user/login", parameters)
             //Google登入
-            case .GoogleLogin(let userId, let userName, let email, let idToken) :
+            case .GoogleLogin(let userId, let userName, let email, let idToken):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if userId != nil { parameters["userid"] = userId }
                 if userName != nil { parameters["username"] = userName }
@@ -141,6 +137,12 @@ enum Router: URLRequestConvertible {
                 if idToken != nil { parameters["idtoken"] = idToken }
 
                 return (.GET, "/user/googlelogin", parameters)
+            case .Subscriptions(let userId, let userToken):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if userId != nil { parameters["userid"] = userId }
+                if userToken != nil { parameters["usertoken"] = userToken }
+                
+                return (.GET, "/user/subscriptions", parameters)
             //搜索视频
             case .SearchVideo(let keyword, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -167,43 +169,7 @@ enum Router: URLRequestConvertible {
                 
                 
                 
-            case .MostPopular(let pageToken):
-                var parameters: [String: AnyObject] = [
-                    "key": Router.kGoogleAPIKey,
-                    "part": "snippet",
-                    "chart": "mostPopular",
-                    "maxResults": 20,
-                ]
-                
-                if pageToken != nil {
-                    parameters["pageToken"] = pageToken
-                }
-                
-                let locale = NSLocale.currentLocale()
-                
-                if let countryCode = locale.objectForKey(NSLocaleCountryCode) as? String {
-                    parameters["regionCode"] = countryCode
-                }
-                
-                return (.GET, "/videos", parameters)
-                
-            case .Search(let query, let pageToken):
-                var parameters: [String: AnyObject] = [
-                    "key": Router.kGoogleAPIKey,
-                    "part": "snippet",
-                    "order": "date",
-                    "maxResults": 20,
-                ]
-                
-                if query != nil {
-                    parameters["q"] = query
-                }
-                
-                if pageToken != nil {
-                    parameters["pageToken"] = pageToken
-                }
-                
-                return (.GET, "/search", parameters)
+
             }
         }()
         

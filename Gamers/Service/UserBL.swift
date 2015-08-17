@@ -69,4 +69,28 @@ class UserBL: NSObject {
         return fetchTask
     }
 
+    
+    // 用户订阅频道的视频列表
+    func getSubscriptions(#userId: String?, userToken: String?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return UserDao.Subscriptions(userId: userId, userToken: userToken)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let videos = task.result as? [Video] {
+                return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
 }

@@ -15,6 +15,7 @@ class LoginController: UIViewController {
 
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var userImage: UIImageView!
 
     let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     let userBL = UserBL()
@@ -36,6 +37,8 @@ class LoginController: UIViewController {
             
             return nil
         })
+        
+        //self.navigationController?.popToRootViewControllerAnimated(true)
 
     }
     
@@ -61,6 +64,15 @@ class LoginController: UIViewController {
 //        GIDSignIn.sharedInstance().disconnect()
         
 //        if (GIDSignIn.sharedInstance().hasAuthInKeychain()){
+        
+        //设置圆角
+        userImage.clipsToBounds = true
+        userImage.layer.cornerRadius = 50
+        //边框
+        userImage.layer.borderWidth = 1
+        userImage.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7).CGColor
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,7 +104,7 @@ extension LoginController: GIDSignInDelegate, GIDSignInUIDelegate {
             userBL.GoogleLogin(userId: googleUserId, userName: googleName, email: googleEmail, idToken: googleIdToken).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
                 let userInfo = (task.result as? User)!
                 
-                
+                self?.userInfo.setObject(true, forKey: "isLogin")
                 
                 return nil
             })

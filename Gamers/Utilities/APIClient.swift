@@ -15,17 +15,17 @@ struct APIClient {}
 
 
 extension APIClient {
-    static func fetchMostPopularVideos(#pageToken: String?) -> BFTask {
-        var URLRequest = Router.MostPopular(pageToken: pageToken)
-        
-        return fetchVideos(URLRequest: URLRequest)
-    }
-    
-    static func searchVideos(#query: String?, pageToken: String?) -> BFTask {
-        var URLRequest = Router.Search(query: query, pageToken: pageToken)
-        
-        return fetchVideos(URLRequest: URLRequest)
-    }
+//    static func fetchMostPopularVideos(#pageToken: String?) -> BFTask {
+//        var URLRequest = Router.MostPopular(pageToken: pageToken)
+//        
+//        return fetchVideos(URLRequest: URLRequest)
+//    }
+//    
+//    static func searchVideos(#query: String?, pageToken: String?) -> BFTask {
+//        var URLRequest = Router.Search(query: query, pageToken: pageToken)
+//        
+//        return fetchVideos(URLRequest: URLRequest)
+//    }
     
     static func getSlider(#channel: String?) -> BFTask {
         var URLRequest = Router.Slider(channel: channel)

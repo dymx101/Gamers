@@ -10,10 +10,13 @@ import UIKit
 import MJRefresh
 import Bolts
 import MBProgressHUD
+import RealmSwift
 
 class UserHistoryController: UITableViewController {
     
-    var videoData = [Video]()
+    var HistoryData = [History]()
+    
+    let realm = Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +36,19 @@ class UserHistoryController: UITableViewController {
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
 
+        
+        
+        // 计算一星期前的时间
+        var now = NSDate()
+        var weekday = NSDate(timeInterval: -24*60*60*7, sinceDate: now)
+        
+        let predicate = NSPredicate(format: "date >= %@ ", weekday)
+        var history = realm.objects(History).filter(predicate)
+        
+        HistoryData.extend(history)
 
+        self.tableView.reloadData()
+        
     }
     
     
@@ -44,6 +59,7 @@ class UserHistoryController: UITableViewController {
     // 下拉刷新数据
     func loadNewData() {
         
+        self.tableView.header.endRefreshing()
     }
     // 上拉获取更多数据
     func loadMoreData() {
@@ -58,6 +74,7 @@ class UserHistoryController: UITableViewController {
     }
 
 }
+
 // MARK: - Table view data source
 extension UserHistoryController: UITableViewDataSource, UITableViewDelegate {
     
@@ -66,17 +83,17 @@ extension UserHistoryController: UITableViewDataSource, UITableViewDelegate {
     }
     // 设置总行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videoData.count
+        return HistoryData.count
     }
     // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("UserHistoryCell", forIndexPath: indexPath) as! VideoListCell
         
-        let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        let imageUrl = self.HistoryData[indexPath.row].video.imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
         cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-        cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
-        cell.videoChannel.text = self.videoData[indexPath.row].owner
-        cell.videoViews.text = String(self.videoData[indexPath.row].views)
+        cell.videoTitle.text = self.HistoryData[indexPath.row].video.videoTitle
+        cell.videoChannel.text = self.HistoryData[indexPath.row].video.owner
+        cell.videoViews.text = String(self.HistoryData[indexPath.row].video.views)
         
         return cell
     }
@@ -88,5 +105,13 @@ extension UserHistoryController: UITableViewDataSource, UITableViewDelegate {
         if cell.respondsToSelector("setLayoutMargins:") {
             cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
+    }
+    // 跳转传值
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // 定义列表控制器
+        var playerViewController = segue.destinationViewController as! PlayerViewController
+        // 提取选中的游戏视频，把值传给列表页面
+        var indexPath = self.tableView.indexPathForSelectedRow()!
+        playerViewController.videoData =  HistoryData[indexPath.row].video
     }
 }

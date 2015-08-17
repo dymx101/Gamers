@@ -76,7 +76,6 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
             self?.videoTableView.footer.noticeNoMoreData()
             return nil
         })
-        NSLog("more data")
     }
 
     override func didReceiveMemoryWarning() {

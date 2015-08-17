@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import SwiftyJSON
 
-class Live {
+class Live: Object {
     dynamic var user = Streamer()    //实况主
     dynamic var type = ""           //直播类型
     dynamic var stream = Stream()     //视频数据流

@@ -22,7 +22,7 @@ enum YouTubeRouter: URLRequestConvertible {
                 //首页顶部轮播
             case .MostPopular():
                 var parameters: [String: AnyObject] = [
-                    "key": Router.kGoogleAPIKey,
+                    "key": YouTubeRouter.kGoogleAPIKey,
                     "part": "snippet",
                     "order": "date",
                     "maxResults": 20,

@@ -7,33 +7,67 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SystemController: UITableViewController {
+    
+    let realm = Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        // 统计缓存总数
+        
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        
-        
-        // 删除多余的分割线
-        //self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
     }
 
     // 点击触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //
-        NSLog("选中了\(indexPath.section)的\(indexPath.row)")
+
+        switch indexPath.section {
+        case 0 :
+            systemClear()
+        case 1 where indexPath.row == 0 :
+            let storeUrl = "https://www.freedom.tm"
+            UIApplication.sharedApplication().openURL(NSURL(string: storeUrl)!)
+        case 1 where indexPath.row == 1 :
+            let storeUrl = "http://itunes.apple.com/us/app/apple-store/id375380948?mt=8"
+            UIApplication.sharedApplication().openURL(NSURL(string: storeUrl)!)
+        default:
+            println("abc")
+        }
+        
+
+    }
+    
+    // 清理系统缓存
+    func systemClear() {
+        
+        println("清理数据")
+        // 清理数据库
+        
+        let history = History()
+        
+        realm.write {
+            self.realm.deleteAll()
+            //self.realm.delete(history)
+        }
+        
+        // 提示
+        var alertController: UIAlertController = UIAlertController(title: "", message: "清理完毕", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            
+
+        })
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
     }
 
 }

@@ -26,7 +26,8 @@ class SliderController: UIViewController {
         self.navigationController?.navigationBar.translucent = true
         
         var playerVars = ["playsinline": 1, "showinfo": 1]
-        playerView.loadWithVideoId("2rj2dIXrXW8", playerVars: playerVars)
+        //playerView.loadWithVideoId("https://www.youtube.com/watch?v=owRjJdlWTls", playerVars: playerVars)
+        playerView.loadVideoByURL("https://www.youtube.com/watch?v=owRjJdlWTls", startSeconds: 10, suggestedQuality: YTPlaybackQuality.Default)
         //playerView.loadWithVideoId("2rj2dIXrXW8")
         
         // Do any additional setup after loading the view.
