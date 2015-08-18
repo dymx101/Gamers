@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var allowRotation: Bool?
+    var allowRotation: Bool = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // 初始化Google登入
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> Int {
-        if ((self.allowRotation) != nil) {
+        if allowRotation {
             return Int(UIInterfaceOrientationMask.All.rawValue)
         }
         return Int(UIInterfaceOrientationMask.Portrait.rawValue)

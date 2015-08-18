@@ -73,24 +73,18 @@ class PlayerViewController: UIViewController {
         pagingMenuController.delegate = self
         pagingMenuController.setup(viewControllers: viewControllers, options: options)
         
-        
-        
-        //UIApplication.sharedApplication().setStatusBarHidden:true, withAnimation: UIStatusBarAnimation.None)
-
+        // 隐藏系统状态栏
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         
-        
-    
+        // 播放全屏的监听事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
+        
+
+        
     }
 
     override func viewWillAppear(animated: Bool) {
-        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        println("在viewWillAppear中触发了")
-        //playerView.loadVideoID("Zm8wVHL9KEg")
-
-        //self.view.removeFromSuperview()
     
     }
     
@@ -102,22 +96,6 @@ class PlayerViewController: UIViewController {
         playerView.loadWithVideoId(newVideoData.videoId)
     }
     
-    /**
-    点击屏幕触发
-    
-    :param: touches touches description
-    :param: event   event description
-    */
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-//        if isflage {
-//            super.navigationController?.navigationBarHidden = true
-//        } else {
-//            super.navigationController?.navigationBarHidden = false
-//        }
-//        
-//        isflage = !isflage
-        
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -142,37 +120,23 @@ class PlayerViewController: UIViewController {
         return true
     }
     
+    // 横屏切换
     func begainFullScreen() {
         var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.allowRotation = true
+
     }
-    
     func endFullScreen() {
         var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.allowRotation = false
-        
+
         //强制归正：
-//        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-//            SEL selector = NSSelectorFromString(@"setOrientation:");
-//            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-//            [invocation setSelector:selector];
-//            [invocation setTarget:[UIDevice currentDevice]];
-//            int val =UIInterfaceOrientationPortrait;
-//            [invocation setArgument:&val atIndex:2];
-//            [invocation invoke];
-//        }
-        
-//        var currentDevice = UIDevice.respondsToSelector("setOrientation:")
-//        var selector = NSSelectorFromString("setOrientation:")
-////        var invocation = NSInvoca
-//        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-//            [[UIDevice currentDevice] performSelector:@selector(setOrientation:)
-//            withObject:(id)UIInterfaceOrientationLandscapeRight];
-//        }
-//
-//        
-        
-        
+        var sharedApplication: UIApplication = UIApplication.sharedApplication()
+        sharedApplication.setStatusBarOrientation(UIInterfaceOrientation.Portrait, animated: false)
+        var mvc: UIViewController = UIViewController()
+        self.presentViewController(mvc, animated: false, completion: nil)
+        self.dismissViewControllerAnimated(false, completion: nil)
+
     }
 
 }

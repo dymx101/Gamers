@@ -80,6 +80,7 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
         searchBar.tag = 601
         //searchBar.becomeFirstResponder()
         searchBarView.addSubview(searchBar)
+        
 
         //self.navigationController?.view.addSubview(searchBarView)
         self.navigationItem.titleView = searchBarView

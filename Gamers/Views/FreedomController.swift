@@ -11,8 +11,9 @@ import SDCycleScrollView
 import MJRefresh
 import Bolts
 import MBProgressHUD
+import Social
 
-class FreedomController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+class FreedomController: UITableViewController {
     // 轮播视图属性
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
@@ -23,11 +24,12 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
     let sliderBL = SliderBL()
     
     var videoListData  = [Video]()  //视频列表
-    var videoPageOffset = ""        //分页偏移量，默认为上次最后一个视频ID
+    var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
     var videoPageCount = 20         //每页视频总数
     
     var refresh = 0     // 刷新数据计数
     let channelId = "freedom"  //freedom的ID
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +40,14 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
         
         // 顶部轮播
         cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
-        cycleScrollView.backgroundColor = UIColor.grayColor()
+        //cycleScrollView.backgroundColor = UIColor.grayColor()
         // 轮播视图的基本属性
         cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
         cycleScrollView.infiniteLoop = true;
         cycleScrollView.delegate = self
         cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
         cycleScrollView.autoScrollTimeInterval = 4.0
-        cycleScrollView.placeholderImage = UIImage(named: "1.jgp")
+        cycleScrollView.placeholderImage = UIImage(named: "placeholder.png")
         
         self.tableView.tableHeaderView = cycleScrollView
 
@@ -97,6 +99,17 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
         }
     }
     
+
+    // 停止刷新状态
+    func stopRefensh(){
+        self.refresh++
+        if self.refresh >= 2 {
+            self.tableView.header.endRefreshing()
+            self.tableView.footer.resetNoMoreData()
+            
+            refresh = 0
+        }
+    }
     /**
     启动初始化数据
     */
@@ -104,15 +117,14 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        channelBL.getChannelVideo(channelId, offset: 0, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self?.tableView.reloadData()
             
             return nil
         })
-        
-        let sliderBL = SliderBL()
-        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+
+        sliderBL.getSliders(channel: channelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
@@ -122,7 +134,7 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             self!.cycleScrollView.titlesGroup = self!.cycleTitles
             self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
             self!.cycleTitles = []
-            self!.cycleImagesURLStrings = [];
+            self!.cycleImagesURLStrings = []
             
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
@@ -135,22 +147,20 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
     刷新数据
     */
     func loadNewData() {
-        channelBL.getChannelVideo(channelId, offset: 110, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoPageOffset = 0
+        channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
-            
-            self?.tableView.reloadData()
-            
+
             // 所有获取完后结束刷新动画
-            self!.refresh = self!.refresh + 1
-            if self!.refresh == 2 { //self!.refresh++ == 2 不行？
-                self?.tableView.header.endRefreshing()
-                self!.refresh = 0
-            }
+            self!.stopRefensh()
+
+            self!.videoPageOffset += self!.videoPageCount
+            self?.tableView.reloadData()
             
             return nil
         })
 
-        sliderBL.getSliders(channel: "freedoom").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        sliderBL.getSliders(channel: channelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
@@ -160,14 +170,10 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             self!.cycleScrollView.titlesGroup = self!.cycleTitles
             self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
             self!.cycleTitles = []
-            self!.cycleImagesURLStrings = [];
+            self!.cycleImagesURLStrings = []
             
             // 所有获取完后结束刷新动画
-            self!.refresh = self!.refresh + 1
-            if self!.refresh == 2 {
-                self?.tableView.header.endRefreshing()
-                self!.refresh = 0
-            }
+            self!.stopRefensh()
             
             return nil
         })
@@ -177,7 +183,7 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
     加载更多数据
     */
     func loadMoreData() {
-        channelBL.getChannelVideo("freedoom", offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Video])!
             
             // 如果没有数据显示加载完成，否则继续
@@ -194,12 +200,28 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
         })
     }
     
+    
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "FreedomPlayerSegue" {
+            // 定义列表控制器
+            var playerViewController = segue.destinationViewController as! PlayerViewController
+            // 提取选中的游戏视频，把值传给列表页面
+            var indexPath = self.tableView.indexPathForSelectedRow()!
+            playerViewController.videoData =  videoListData[indexPath.row]
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
+}
+
+// MARK: - 表格代理协议
+extension FreedomController: UITableViewDataSource, UITableViewDelegate {
     // 表格分区
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -236,8 +258,8 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             
             return cell
         }
-     }
-
+    }
+    
     // cell分割线的边距
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if cell.respondsToSelector("setSeparatorInset:") {
@@ -247,31 +269,29 @@ class FreedomController: UITableViewController, UITableViewDataSource, UITableVi
             cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
     }
-
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // 定义列表控制器
-        var playerViewController = segue.destinationViewController as! PlayerViewController
-        // 提取选中的游戏视频，把值传给列表页面
-        var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoListData[indexPath.row]
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if videoListData.isEmpty {
+            return view.frame.size.height - 20 - 44 - 160
+        } else {
+            return 100
+        }
     }
-
+    
+    
+    
 
 }
 
-// 顶部轮播的代理方法
+// MARK: - 顶部轮播的代理方法
 extension FreedomController: SDCycleScrollViewDelegate {
     func cycleScrollView(cycleScrollView: SDCycleScrollView!, didSelectItemAtIndex index: Int) {
-        NSLog("---点击了第%ld张图片", index);
-        var view = self.storyboard!.instantiateViewControllerWithIdentifier("sliderView") as? SliderController
+        var view = self.storyboard!.instantiateViewControllerWithIdentifier("SliderVC") as? SliderController
         self.navigationController?.pushViewController(view!, animated: true)
     }
 }
-// 表格行Cell代理
+
+// MARK: - 表格行Cell代理
 extension FreedomController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
@@ -281,22 +301,51 @@ extension FreedomController: MyCellDelegate {
         
         println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
         
-        
+        // 退出
         var actionSheetController: UIAlertController = UIAlertController()
-        
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
-            NSLog("Tap 取消 Button")
+            //code
             })
-        actionSheetController.addAction(UIAlertAction(title: "破坏性按钮", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            NSLog("Tap 破坏性按钮 Button")
+        // 关注频道
+        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            
+            
+            
+            })
+        // 分享到Facebook
+        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+            })
+        // 分享到Twitter
+        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
             })
         
-        actionSheetController.addAction(UIAlertAction(title: "新浪微博", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            NSLog("Tap 新浪微博 Button")
-            })
-        
-        //显示
+        // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)
+
         
         
     }

@@ -58,7 +58,7 @@ class ChannelBL: NSObject {
     
     :returns: 视频列表
     */
-    func getChannelVideo(channelId: String, offset: Int?, count: Int?) -> BFTask {
+    func getChannelVideo(#channelId: String, offset: Int?, count: Int?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in

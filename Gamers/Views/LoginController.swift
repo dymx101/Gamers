@@ -50,10 +50,11 @@ class LoginController: UIViewController {
 
         passwordField.borderStyle = UITextBorderStyle.RoundedRect
         
-        userNameField.leftView = UIImageView(image: UIImage(named: "Icon-task"))
+        userNameField.leftView = UIImageView(image: UIImage(named: "username.png"))
         userNameField.leftViewMode = UITextFieldViewMode.Always
-        
-        
+        passwordField.leftView = UIImageView(image: UIImage(named: "password.png"))
+        passwordField.leftViewMode = UITextFieldViewMode.Always
+
         
         // Google登入的代理协议
         GIDSignIn.sharedInstance().delegate = self
@@ -86,8 +87,9 @@ class LoginController: UIViewController {
 
 }
 
+// MARK: - 第三方Google登入
 extension LoginController: GIDSignInDelegate, GIDSignInUIDelegate {
-    // 第三方Google登入
+    // 用户登入
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
         if (error == nil) {
             println(user.userID)

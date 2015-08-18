@@ -25,6 +25,10 @@
 		1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7F1B7346FD00112A4F /* LoginController.swift */; };
 		1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C811B73478000112A4F /* RegisterController.swift */; };
 		1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C831B73550200112A4F /* ForgetPWDController.swift */; };
+		1A23D7851B833E9C001AAAAD /* password.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23D7831B833E9C001AAAAD /* password.png */; };
+		1A23D7861B833E9C001AAAAD /* username.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23D7841B833E9C001AAAAD /* username.png */; };
+		1A28D41C1B831D3B00F1424F /* sliders.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A28D41B1B831D3B00F1424F /* sliders.png */; };
+		1A28D41E1B831DE000F1424F /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A28D41D1B831DE000F1424F /* placeholder.png */; };
 		1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */; };
 		1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */; };
 		1A30F7461B7CAEA900A2CADF /* ZLSwiftConstDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30F7421B7CAEA900A2CADF /* ZLSwiftConstDefine.swift */; };
@@ -89,6 +93,7 @@
 		1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */; };
 		1AEB2F9F1B7A3AD6005F0A3F /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9E1B7A3AD6005F0A3F /* share.png */; };
 		1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */; };
+		1AEEBC901B82CEDD00880AA6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AEEBC8F1B82CEDD00880AA6 /* Social.framework */; };
 		1AEECF6F1B7724040022B69B /* ChannelHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */; };
 		1AEECF701B7724040022B69B /* ChannelHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */; };
 		1AEECF731B7727640022B69B /* HomeVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEECF711B7727640022B69B /* HomeVideoCell.swift */; };
@@ -131,6 +136,10 @@
 		1A1D2C7F1B7346FD00112A4F /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		1A1D2C811B73478000112A4F /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		1A1D2C831B73550200112A4F /* ForgetPWDController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPWDController.swift; sourceTree = "<group>"; };
+		1A23D7831B833E9C001AAAAD /* password.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = password.png; sourceTree = "<group>"; };
+		1A23D7841B833E9C001AAAAD /* username.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = username.png; sourceTree = "<group>"; };
+		1A28D41B1B831D3B00F1424F /* sliders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliders.png; sourceTree = "<group>"; };
+		1A28D41D1B831DE000F1424F /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 		1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Gamers-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -202,6 +211,7 @@
 		1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterAllCell.xib; sourceTree = "<group>"; };
 		1AEB2F9E1B7A3AD6005F0A3F /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
+		1AEEBC8F1B82CEDD00880AA6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelHeaderCell.swift; sourceTree = "<group>"; };
 		1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChannelHeaderCell.xib; sourceTree = "<group>"; };
 		1AEECF711B7727640022B69B /* HomeVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVideoCell.swift; sourceTree = "<group>"; };
@@ -220,6 +230,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AEEBC901B82CEDD00880AA6 /* Social.framework in Frameworks */,
 				1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */,
 				BFB65631586F7D1AC2F31F2A /* Pods.framework in Frameworks */,
 			);
@@ -433,6 +444,10 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1A23D7831B833E9C001AAAAD /* password.png */,
+				1A23D7841B833E9C001AAAAD /* username.png */,
+				1A28D41D1B831DE000F1424F /* placeholder.png */,
+				1A28D41B1B831D3B00F1424F /* sliders.png */,
 				1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */,
 				1A3226511B7D9B29001F7C52 /* user.png */,
 				1ACBAF751B7AF3F200D8910C /* arrow.png */,
@@ -445,6 +460,7 @@
 		4461925849268B25231F8378 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1AEEBC8F1B82CEDD00880AA6 /* Social.framework */,
 				1AD88AF41B74BC59002FAA8C /* SnapKit.framework */,
 				1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */,
 				1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */,
@@ -548,16 +564,20 @@
 			files = (
 				1AEECF741B7727640022B69B /* HomeVideoCell.xib in Resources */,
 				1AEECF701B7724040022B69B /* ChannelHeaderCell.xib in Resources */,
+				1A28D41C1B831D3B00F1424F /* sliders.png in Resources */,
 				1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */,
 				1AEB2F9F1B7A3AD6005F0A3F /* share.png in Resources */,
 				1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */,
 				1A30F74B1B7CCA5A00A2CADF /* more.png in Resources */,
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
+				1A28D41E1B831DE000F1424F /* placeholder.png in Resources */,
 				1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */,
 				1A3226521B7D9B29001F7C52 /* user.png in Resources */,
 				1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */,
 				1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */,
 				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
+				1A23D7851B833E9C001AAAAD /* password.png in Resources */,
+				1A23D7861B833E9C001AAAAD /* username.png in Resources */,
 				1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */,
 				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,
 				1ACBAF761B7AF3F200D8910C /* arrow.png in Resources */,

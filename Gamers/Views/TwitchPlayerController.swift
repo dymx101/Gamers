@@ -13,7 +13,7 @@ class TwitchPlayerController: UIViewController {
     @IBOutlet weak var twitchPlayerView: UIWebView!
     @IBOutlet weak var twitchChatView: UIWebView!
     
-    var videoData: Video!
+    var LiveData: Live!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +26,11 @@ class TwitchPlayerController: UIViewController {
         twitchChatView.scrollView.scrollEnabled = false
         
         //let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.twitch.tv/cdewx/popout")!) //popout、embed
-        let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embed/mrkokosfly?autoplay=true")!) //popout、embed
-        twitchPlayerView.loadRequest(videoRequest)
-       
-        let chatRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embedchat/mrkokosfly")!)
-        twitchChatView.loadRequest(chatRequest)
+//        let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embed/mrkokosfly?autoplay=true")!) //popout、embed
+//        twitchPlayerView.loadRequest(videoRequest)
+//       
+//        let chatRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embedchat/mrkokosfly")!)
+//        twitchChatView.loadRequest(chatRequest)
         //twitchChatView.backgroundColor = UIColor.redColor()
 
         // 设置顶部导航条样式，透明
@@ -44,6 +44,21 @@ class TwitchPlayerController: UIViewController {
 //        [HUD showInView:self.view];
 //        [HUD dismissAfterDelay:3.0];
         
+        //if LiveData.type == "twitch" {
+            let videoRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.streamUrl)!) //popout、embed
+            twitchPlayerView.loadRequest(videoRequest)
+            
+            let chatRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.chatUrl)!)
+            twitchChatView.loadRequest(chatRequest)
+        //}
+        
+        // 隐藏系统状态栏
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+        
+        // 播放全屏的监听事件
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,15 +66,31 @@ class TwitchPlayerController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // 隐藏系统状态栏
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
     }
-    */
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    // 横屏切换
+    func begainFullScreen() {
+        var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.allowRotation = true
+        
+    }
+    func endFullScreen() {
+        var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.allowRotation = false
+        
+        //强制归正：
+        var sharedApplication: UIApplication = UIApplication.sharedApplication()
+        sharedApplication.setStatusBarOrientation(UIInterfaceOrientation.Portrait, animated: false)
+        var mvc: UIViewController = UIViewController()
+        self.presentViewController(mvc, animated: false, completion: nil)
+        self.dismissViewControllerAnimated(false, completion: nil)
+        
+    }
 
 }

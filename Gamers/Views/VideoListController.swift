@@ -10,7 +10,7 @@ import UIKit
 import Bolts
 import MJRefresh
 
-class VideoListController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+class VideoListController: UITableViewController {
     
     var gameData: Game!
     var videoData = [Video]()
@@ -77,13 +77,25 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
             return nil
         })
     }
+    
+    // 跳转传值
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // 定义列表控制器
+        var playerViewController = segue.destinationViewController as! PlayerViewController
+        // 提取选中的游戏视频，把值传给列表页面
+        var indexPath = self.tableView.indexPathForSelectedRow()!
+        playerViewController.videoData =  videoData[indexPath.row]
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
+}
+
+// MARK: - Table view data source
+extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     // 一个分区
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -97,14 +109,14 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
         return videoData.count
     }
     // 设置行高
-//    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return 100
-//    }
+    //    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    //        return 100
+    //    }
     
     // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoListCell", forIndexPath: indexPath) as! VideoListCell
-
+        
         let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
         cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
         cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
@@ -118,15 +130,6 @@ class VideoListController: UITableViewController, UITableViewDataSource, UITable
         let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 30))
         //footerView.backgroundColor = UIColor.blackColor()
         return footerView
-    }
-    
-    // 跳转传值
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // 定义列表控制器
-        var playerViewController = segue.destinationViewController as! PlayerViewController
-        // 提取选中的游戏视频，把值传给列表页面
-        var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoData[indexPath.row]
     }
     
     // cell分割线的边距

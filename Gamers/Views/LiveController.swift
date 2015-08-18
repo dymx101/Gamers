@@ -16,7 +16,8 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     let liveBL = LiveBL()
     
     var liveData = [Live]()
-    
+    var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
+    var videoPageCount = 20         //每页视频总数
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +25,6 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         // 刷新插件
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-        
-        
-        
-        // 初始化数据
-        loadInitData()
-            
-        self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-
         
         // 子页面TwitchPlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
@@ -42,6 +35,11 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         if self.tableView.respondsToSelector("setLayoutMargins:") {
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
+        
+        // 初始化数据
+        loadInitData()
+        
+        self.tabBarItem.badgeValue = "22"
 
     }
     
@@ -57,15 +55,11 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        liveBL.getLive(offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveData = (task.result as? [Live])!
-            //self!.liveVideoData = self!.liveVideoData + self!.liveVideoData + self!.liveVideoData
-            
             println(self!.liveData)
             
-            
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
-            
             self?.tableView.reloadData()
             
             return nil
@@ -76,11 +70,13 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     刷新数据
     */
     func loadNewData() {
-        liveBL.getLive(offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoPageOffset = 0
+        liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveData = (task.result as? [Live])!
 
             self?.tableView.reloadData()
             self?.tableView.header.endRefreshing()
+            self?.tableView.footer.resetNoMoreData()
 
             return nil
         })
@@ -89,16 +85,17 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     加载更多数据
     */
     func loadMoreData() {
-        liveBL.getLive(offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Live])!
-            println(newData.count)
+
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
             } else{
                 self?.tableView.footer.endRefreshing()
-                //self!.liveData += newData
+                self!.liveData += newData
                 
+                self!.videoPageOffset += self!.videoPageCount
                 self?.tableView.reloadData()
             }
 
@@ -123,7 +120,6 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
             return 73
         }
     }
-    
     // 设置表格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 指定identify进行重用提高性能
@@ -155,7 +151,7 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         NSLog("点击了第%ld个游戏", indexPath.row)
         let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
-        //view?.videoData = self.liveData[indexPath.row]
+        view?.LiveData = self.liveData[indexPath.row]
         
         self.navigationController?.pushViewController(view!, animated: true)
     }
