@@ -44,6 +44,8 @@ class TwitchPlayerController: UIViewController {
 //        [HUD showInView:self.view];
 //        [HUD dismissAfterDelay:3.0];
         
+        println(LiveData)
+        
         //if LiveData.type == "twitch" {
             let videoRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.streamUrl)!) //popout、embed
             twitchPlayerView.loadRequest(videoRequest)

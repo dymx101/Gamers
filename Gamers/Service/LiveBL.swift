@@ -37,7 +37,7 @@ class LiveBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            
+
             return task
         })
         

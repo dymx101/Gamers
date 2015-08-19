@@ -10,8 +10,9 @@ import UIKit
 import Bolts
 import MJRefresh
 import MBProgressHUD
+import ReachabilitySwift
 
-class LiveController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+class LiveController: UITableViewController {
     
     let liveBL = LiveBL()
     
@@ -39,7 +40,9 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         // 初始化数据
         loadInitData()
         
-        self.tabBarItem.badgeValue = "22"
+        //self.tabBarItem.badgeValue = "22"
+        self.navigationController?.tabBarItem.badgeValue = nil  //=""，会有小红点
+
 
     }
     
@@ -57,13 +60,21 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         
         liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveData = (task.result as? [Live])!
-            println(self!.liveData)
+            //println(self!.liveData)
             
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             self?.tableView.reloadData()
             
             return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+                MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            }
+            
+            return nil
         })
+        
     }
     
     /**
@@ -73,13 +84,22 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         videoPageOffset = 0
         liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveData = (task.result as? [Live])!
-
+            
             self?.tableView.reloadData()
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
 
             return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+                self?.tableView.header.endRefreshing()
+            }
+            
+            return nil
         })
+        
+        
     }
     /**
     加载更多数据
@@ -98,16 +118,30 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
                 self!.videoPageOffset += self!.videoPageCount
                 self?.tableView.reloadData()
             }
-
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+                self?.tableView.footer.endRefreshing()
+            }
             return nil
         })
+        
+        
     }
-    
-    
-    // 设置分区
-//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        return 1
-//    }
+
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.translucent = false
+    }
+ 
+}
+
+// MARK: - 表格代理协议
+extension LiveController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return liveData.count
@@ -123,10 +157,10 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
     // 设置表格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 指定identify进行重用提高性能
-
+        
         if indexPath.row < 5 {
             let cell = tableView.dequeueReusableCellWithIdentifier("LiveLargeCell", forIndexPath: indexPath) as! LiveLargeCell
-
+            
             cell.channelName.text = liveData[indexPath.row].user.userName
             cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
             
@@ -136,16 +170,16 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
-
+            
             cell.channelName.text = liveData[indexPath.row].user.userName
             cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
             
             let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-
+            
             return cell
         }
-
+        
     }
     // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -155,14 +189,6 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
         
         self.navigationController?.pushViewController(view!, animated: true)
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
-        self.navigationController?.navigationBar.translucent = false
-    }
-    
     // cell分割线的边距
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if cell.respondsToSelector("setSeparatorInset:") {
@@ -172,6 +198,4 @@ class LiveController: UITableViewController, UITableViewDataSource, UITableViewD
             cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
     }
-    
-    
 }

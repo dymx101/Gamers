@@ -10,6 +10,7 @@ import UIKit
 import Bolts
 import MBProgressHUD
 import QuartzCore
+import BoltsSwift
 
 class LoginController: UIViewController {
 
@@ -38,7 +39,7 @@ class LoginController: UIViewController {
             return nil
         })
         
-        //self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewControllerAnimated(true)
 
     }
     
@@ -73,6 +74,8 @@ class LoginController: UIViewController {
         userImage.layer.borderWidth = 1
         userImage.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7).CGColor
         
+        
+
         
     }
 

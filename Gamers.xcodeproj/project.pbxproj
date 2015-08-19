@@ -25,6 +25,9 @@
 		1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7F1B7346FD00112A4F /* LoginController.swift */; };
 		1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C811B73478000112A4F /* RegisterController.swift */; };
 		1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C831B73550200112A4F /* ForgetPWDController.swift */; };
+		1A23C2B11B8463D700AF5860 /* game-front-cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2AE1B8463D700AF5860 /* game-front-cover.png */; };
+		1A23C2B21B8463D700AF5860 /* navigation-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2AF1B8463D700AF5860 /* navigation-bar.png */; };
+		1A23C2B31B8463D700AF5860 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2B01B8463D700AF5860 /* triangle.png */; };
 		1A23D7851B833E9C001AAAAD /* password.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23D7831B833E9C001AAAAD /* password.png */; };
 		1A23D7861B833E9C001AAAAD /* username.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23D7841B833E9C001AAAAD /* username.png */; };
 		1A28D41C1B831D3B00F1424F /* sliders.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A28D41B1B831D3B00F1424F /* sliders.png */; };
@@ -136,6 +139,9 @@
 		1A1D2C7F1B7346FD00112A4F /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		1A1D2C811B73478000112A4F /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		1A1D2C831B73550200112A4F /* ForgetPWDController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPWDController.swift; sourceTree = "<group>"; };
+		1A23C2AE1B8463D700AF5860 /* game-front-cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game-front-cover.png"; sourceTree = "<group>"; };
+		1A23C2AF1B8463D700AF5860 /* navigation-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation-bar.png"; sourceTree = "<group>"; };
+		1A23C2B01B8463D700AF5860 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		1A23D7831B833E9C001AAAAD /* password.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = password.png; sourceTree = "<group>"; };
 		1A23D7841B833E9C001AAAAD /* username.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = username.png; sourceTree = "<group>"; };
 		1A28D41B1B831D3B00F1424F /* sliders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliders.png; sourceTree = "<group>"; };
@@ -444,6 +450,9 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1A23C2AE1B8463D700AF5860 /* game-front-cover.png */,
+				1A23C2AF1B8463D700AF5860 /* navigation-bar.png */,
+				1A23C2B01B8463D700AF5860 /* triangle.png */,
 				1A23D7831B833E9C001AAAAD /* password.png */,
 				1A23D7841B833E9C001AAAAD /* username.png */,
 				1A28D41D1B831DE000F1424F /* placeholder.png */,
@@ -567,6 +576,7 @@
 				1A28D41C1B831D3B00F1424F /* sliders.png in Resources */,
 				1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */,
 				1AEB2F9F1B7A3AD6005F0A3F /* share.png in Resources */,
+				1A23C2B21B8463D700AF5860 /* navigation-bar.png in Resources */,
 				1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */,
 				1A30F74B1B7CCA5A00A2CADF /* more.png in Resources */,
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
@@ -574,10 +584,12 @@
 				1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */,
 				1A3226521B7D9B29001F7C52 /* user.png in Resources */,
 				1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */,
+				1A23C2B31B8463D700AF5860 /* triangle.png in Resources */,
 				1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */,
 				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
 				1A23D7851B833E9C001AAAAD /* password.png in Resources */,
 				1A23D7861B833E9C001AAAAD /* username.png in Resources */,
+				1A23C2B11B8463D700AF5860 /* game-front-cover.png in Resources */,
 				1AEECF781B773CCA0022B69B /* TableFooterCell.xib in Resources */,
 				1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */,
 				1ACBAF761B7AF3F200D8910C /* arrow.png in Resources */,

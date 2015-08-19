@@ -223,7 +223,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         cycleScrollView.delegate = self
         cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
         cycleScrollView.autoScrollTimeInterval = 4.0
-        cycleScrollView.placeholderImage = UIImage(named: "1.jgp")
+        cycleScrollView.placeholderImage = UIImage(named: "sliders.png")
 
         contentView.addSubview(cycleScrollView)
         
@@ -265,14 +265,14 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         
-        let footView = UIView()
-        newChannelView.tableFooterView = footView
-        footView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(contentView).offset(6)
-            make.left.equalTo(contentView).offset(6)
-            make.right.equalTo(contentView).offset(-6)
-            make.height.equalTo(20)
-        }
+//        let footView = UIView()
+//        newChannelView.tableFooterView = footView
+//        footView.snp_makeConstraints { (make) -> Void in
+//            make.top.equalTo(contentView).offset(6)
+//            make.left.equalTo(contentView).offset(6)
+//            make.right.equalTo(contentView).offset(-6)
+//            make.height.equalTo(20)
+//        }
 
         
         // 2、添加大咖推荐部分
@@ -552,6 +552,13 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
             make.height.equalTo(400)
         }
 
+        // 底部标签栏显示数字
+        var items = self.tabBarController?.tabBar.items as! [UITabBarItem]
+        items[2].badgeValue = "2"
+        
+        
+
+
 
     }
     
@@ -594,11 +601,13 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 表格头0行处理
         case 0 where tableView.isEqual(newChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.imageView?.image = UIImage(named: "Icon-recommend")
             cell.hearderTitle.text = "新手推荐"
             
             return cell
         case 0 where tableView.isEqual(featuredChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.imageView?.image = UIImage(named: "icon-great")
             cell.hearderTitle.text = "实况大咖"
             
             return cell
@@ -776,7 +785,7 @@ extension HomeController: MyCellDelegate {
             slComposerSheet.addImage(UIImage(named: "user.png"))
             slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
-            //SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {

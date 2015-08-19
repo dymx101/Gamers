@@ -16,7 +16,7 @@ pod 'Google/SignIn'
 pod 'MJRefresh'
 ## 低层第三方异步组件
 pod 'Bolts'
-pod 'BoltsSwift'
+#pod 'BoltsSwift'
 ## 缓存组件，主要用于图片
 pod 'Kingfisher'
 #pod 'HanekeSwift'
@@ -37,3 +37,5 @@ pod 'SnapKit'
 
 #pod 'SwiftyDrop'
 
+## 检测网络状态
+pod 'ReachabilitySwift'

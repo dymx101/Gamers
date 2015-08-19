@@ -30,7 +30,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="140" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FNK-bx-DRV">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="game-front-cover.png" translatesAutoresizingMaskIntoConstraints="NO" id="FNK-bx-DRV">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGE-D4-GsA">
@@ -360,9 +360,8 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BSz-7z-gS4">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="triangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="BSz-7z-gS4">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="XZg-dr-wDn"/>
                                 </constraints>
@@ -1624,9 +1623,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BIF-DU-Lg9" id="06A-iE-EYW">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uxG-s1-h3c">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default-player" translatesAutoresizingMaskIntoConstraints="NO" id="uxG-s1-h3c">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEp-S2-el4">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -1738,9 +1736,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hdx-qh-KPA" id="tZD-tl-1rU">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hsq-l1-6ys">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default-player" translatesAutoresizingMaskIntoConstraints="NO" id="Hsq-l1-6ys">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="118" id="B5v-hI-avk"/>
                                             </constraints>
@@ -3653,6 +3650,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Default-player" width="400" height="225"/>
         <image name="Icon-follow" width="32" height="32"/>
         <image name="Icon-games" width="32" height="32"/>
         <image name="Icon-history" width="32" height="32"/>
@@ -3662,10 +3660,12 @@
         <image name="ToolbarHome" width="24" height="24"/>
         <image name="ToolbarLive" width="24" height="24"/>
         <image name="ToolbarUser" width="24" height="24"/>
+        <image name="game-front-cover.png" width="272" height="380"/>
+        <image name="triangle.png" width="16" height="16"/>
         <image name="user.png" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TRi-UZ-lc4"/>
+        <segue reference="HLg-LQ-4lX"/>
         <segue reference="v8F-0d-jwi"/>
     </inferredMetricsTieBreakers>
 </document>

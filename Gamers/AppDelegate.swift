@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReachabilitySwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if configureErr != nil {
             println("Error configuring the Google context: \(configureErr)")
         }
+        // 网络检测
+//        let reachability = Reachability.reachabilityForInternetConnection()
+//        // 判断联网情况（写在view中）
+//        reachability.whenReachable = { reachability in
+//            if reachability.isReachableViaWiFi() {
+//                println("Reachable via WiFi")
+//            } else {
+//                println("Reachable via Cellular")
+//            }
+//        }
+//        reachability.whenUnreachable = { reachability in
+//            println("Not reachable")
+//        }
+//        // 全局通知事件
+//        reachability.startNotifier()
         
         return true
     }

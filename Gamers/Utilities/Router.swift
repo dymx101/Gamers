@@ -162,13 +162,8 @@ enum Router: URLRequestConvertible {
                 
                 return (.GET, "/channel/search", parameters)
                 
-                
-                
-                
-                
-                
-                
-                
+
+
 
             }
         }()
@@ -178,6 +173,10 @@ enum Router: URLRequestConvertible {
         let URL = NSURL(string: Router.baseURLString)!
         let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
         mutableURLRequest.HTTPMethod = method.rawValue
+        
+        // 用户令牌
+        let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+        mutableURLRequest.addValue(String(stringInterpolationSegment: userInfo.objectForKey("userToken")), forHTTPHeaderField: "Auth-token")
         
         return encoding.encode(mutableURLRequest, parameters: parameters).0
     }
