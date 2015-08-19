@@ -15,6 +15,7 @@ import Bolts
 import RealmSwift
 import SnapKit
 import Social
+import MBProgressHUD
 
 class HomeController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -58,50 +59,21 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 刷新数据计数
     var refresh = 0
+    var isStartUp = true
     // 停止刷新状态
     func stopRefensh(){
         self.refresh++
         if self.refresh >= 3 {
             self.scrollView.header.endRefreshing()
+            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
+            
             refresh = 0
         }
     }
     
-    func loadInitData() {
-        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if let sliders = task.result as? [Slider] {
-                for slider in sliders {
-                    self!.cycleTitles.append(slider.title)
-                    self!.cycleImagesURLStrings.append(slider.imageSmall)
-                }
-            }
-            self!.cycleScrollView.titlesGroup = self!.cycleTitles
-            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
-            self!.cycleTitles = []
-            self!.cycleImagesURLStrings = [];
-
-            return nil
-        })
-        
-        
-        channelBL.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[101] = (task.result as? [Video])
-            self!.newChannelView.reloadData()
-            
-            return nil
-        })
-        
-        channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[102] = (task.result as? [Video])
-            self!.featuredChannelView.reloadData()
-            
-            return nil
-        })
-
-    }
-    
-    
     func loadNewData() {
+        
+        
         //刷新插件BUG，临时方案，没解决
         scrollView.bringSubviewToFront(featuredChannelView)
         scrollView.bringSubviewToFront(newChannelView)
@@ -116,6 +88,16 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        for index in 101...109 {
 //            scrollView.bringSubviewToFront(self.view.viewWithTag(index)!)
 //        }
+        
+        
+        
+        
+        // 第一次启动使用MBProgressHUD
+        if isStartUp {
+            let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+            hub.labelText = "加载中..."
+            isStartUp = false
+        }
         
         // 后台进程获取数据
         sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -146,7 +128,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 游戏大咖频道推荐数据
         channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[102] = (task.result as? [Video])
-            self!.newChannelView.reloadData()
+            self!.featuredChannelView.reloadData()
             self!.stopRefensh()
  
             return nil
@@ -155,7 +137,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 推荐游戏数据
         gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             if let games = task.result as? [Game] {
-                
                 for game in games {
                     if game.type == 1 {
                         self!.hotGameData.append(game)
@@ -163,7 +144,6 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
                         self!.newGameData.append(game)
                     }
                 }
-                
                 // 热门游戏
                 for index in 103...106 {
                     self!.videoData[index]? = games[index-103].videos
@@ -193,8 +173,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 加载数据
-        self.loadInitData()
+        
         // 设定启动界面时间
         NSThread.sleepForTimeInterval(1.0)//延长3秒
         // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
@@ -558,7 +537,8 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         
 
-
+        // 加载数据
+        self.loadNewData()
 
     }
     

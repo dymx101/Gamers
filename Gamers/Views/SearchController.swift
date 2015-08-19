@@ -9,6 +9,7 @@
 import UIKit
 import MJRefresh
 import Bolts
+import MBProgressHUD
 
 class SearchController: UITableViewController, UITableViewDataSource, UITableViewDelegate  {
     
@@ -20,20 +21,32 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
     var tapGesture: UITapGestureRecognizer!
     
     let videoBL = VideoBL()
-
-    var keyword = ""
-    var offset = 0
-    var count = 20
-    var order = "date"
+    
+    // 搜索变量
     var videoData = [Video]()
+    var videoPageOffset = 0
+    var videoPageCount = 20
+    var order = "date"
+    var keyword = ""
+    
+    
     // 下拉刷新数据
     func loadNewData() {
         keyword = searchBar.text
-        offset = 0
+        videoPageOffset = 0
         
-        videoBL.getSearchVideo(keyword: keyword, offset: offset, count: count, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoBL.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
+            self!.videoPageOffset += self!.videoPageCount
+            
             self!.tableView.reloadData()
+            
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
             
@@ -43,18 +56,25 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
     // 上拉获取更多数据
     func loadMoreData() {
         keyword = searchBar.text
-        offset = offset + count
         
-        videoBL.getSearchVideo(keyword: keyword, offset: offset, count: count, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoBL.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
             } else {
                 self!.videoData = self!.videoData + newData
+                self!.videoPageOffset += self!.videoPageCount
+                
                 self!.tableView.reloadData()
                 self?.tableView.footer.endRefreshing()
             }
 
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            
             return nil
         })
     }
@@ -142,9 +162,7 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
             autocompleteView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
 
-        
     }
-
 
     // 卸载界面
     override func viewWillDisappear(animated: Bool) {
@@ -152,18 +170,39 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
         searchContentView.removeFromSuperview()
         searchBackgroundView.removeFromSuperview()
     }
+
+    // 跳转传值
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // 定义列表控制器
+        var playerViewController = segue.destinationViewController as! PlayerViewController
+        // 提取选中的游戏视频，把值传给列表页面
+        var indexPath = self.tableView.indexPathForSelectedRow()!
+        playerViewController.videoData =  videoData[indexPath.row]
+    }
+    
+
+    
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.translucent = false
+    }
+    
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        searchBar.resignFirstResponder()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         
     }
-
-    // MARK: 表格代理协议
-    // 分区
-//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        return 1
-//    }
+    
+}
+// MARK: - 表格代理协议
+extension SearchController: UITableViewDataSource, UITableViewDelegate {
+    
     // 表格行高度
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch tableView {
@@ -179,8 +218,6 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
     }
     // 单元格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        //
-        
         switch tableView {
         case autocompleteView:
             let cell = tableView.dequeueReusableCellWithIdentifier("autocompleteCell", forIndexPath: indexPath) as! UITableViewCell
@@ -195,25 +232,14 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
             
             let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-
+            
             cell.delegate = self
             
             return cell
             
         }
 
-
     }
-    
-    // 跳转传值
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // 定义列表控制器
-        var playerViewController = segue.destinationViewController as! PlayerViewController
-        // 提取选中的游戏视频，把值传给列表页面
-        var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoData[indexPath.row]
-    }
-    
     // cell分割线的边距
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if cell.respondsToSelector("setSeparatorInset:") {
@@ -223,22 +249,9 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
             cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
-        self.navigationController?.navigationBar.translucent = false
-    }
-    
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
-        searchBar.resignFirstResponder()
-    }
-    
-    
 }
 
-// MARK: 搜索代理
+// MARK: - 搜索代理
 extension SearchController: UISearchBarDelegate {
     // 第一响应者时触发
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
@@ -252,12 +265,25 @@ extension SearchController: UISearchBarDelegate {
     }
     // 点击搜索
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        keyword = searchBar.text
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = "加载中..."
         
-        videoBL.getSearchVideo(keyword: keyword, offset: offset, count: count, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        keyword = searchBar.text
+        videoPageOffset = 0
+        
+        videoBL.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
+            self!.videoPageOffset += self!.videoPageCount
+            
             self!.tableView.reloadData()
 
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            
             return nil
         })
         
@@ -284,7 +310,8 @@ extension SearchController: UISearchBarDelegate {
     }
     
 }
-// 表格行Cell代理
+
+// MARK: - 表格行Cell代理
 extension SearchController: MyCellDelegate {
     // 隐藏键盘
     func hideKeyboard(cell: UITableViewCell) {

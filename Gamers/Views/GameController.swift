@@ -10,11 +10,15 @@ import UIKit
 import Bolts
 import MJRefresh
 import Kingfisher
+import MBProgressHUD
 
 class GameController: UICollectionViewController {
     
     let gameBL = GameBL()
+    
     var gameListData = [Game]()
+    var gamePageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
+    var gamePageCount = 20         //每页视频总数
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,19 +27,52 @@ class GameController: UICollectionViewController {
         self.collectionView!.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         
-        self.loadNewData()
+        loadInitData()
         
+    }
+    
+    /**
+    初始化数据
+    */
+    func loadInitData() {
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = "加载中..."
+        
+        gameBL.getAllGame(offset: gamePageOffset, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.gameListData = (task.result as? [Game])!
+            self!.gamePageOffset += self!.gamePageCount
+            
+            self?.collectionView!.reloadData()
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            
+            return nil
+        })
     }
 
     /**
     下拉刷新数据
     */
     func loadNewData() {
-        gameBL.getAllGame(0, count: 20).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+        gamePageOffset = 0
+        gameBL.getAllGame(offset: gamePageOffset, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!
+            self!.gamePageOffset += self!.gamePageCount
+            
             self?.collectionView!.reloadData()
-            self?.collectionView?.header.endRefreshing()
-            //println(self!.gameData)
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            self?.collectionView!.header.endRefreshing()
+            self?.collectionView!.footer.resetNoMoreData()
             
             return nil
         })
@@ -44,17 +81,25 @@ class GameController: UICollectionViewController {
     上拉加载更多数据
     */
     func loadMoreData() {
-        gameBL.getAllGame(0, count: 20).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+        gameBL.getAllGame(offset: gamePageOffset, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Game])!
             
             if newData.isEmpty {
                 self?.collectionView?.footer.noticeNoMoreData()
             } else {
-                self!.gameListData = self!.gameListData + newData
-                self?.collectionView!.reloadData()
+                self!.gameListData += newData
+                self!.gamePageOffset += self!.gamePageCount
+                
                 self?.collectionView?.footer.endRefreshing()
+                self?.collectionView!.reloadData()
             }
             
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+
             return nil
         })
     }

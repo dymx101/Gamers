@@ -60,17 +60,16 @@ class LiveController: UITableViewController {
         
         liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveData = (task.result as? [Live])!
-            //println(self!.liveData)
-            
-            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            self!.videoPageOffset += self!.videoPageCount
+
             self?.tableView.reloadData()
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil {
                 println(task.error)
-                MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             }
+            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
         })
@@ -84,6 +83,7 @@ class LiveController: UITableViewController {
         videoPageOffset = 0
         liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveData = (task.result as? [Live])!
+            self!.videoPageOffset += self!.videoPageCount
             
             self?.tableView.reloadData()
             self?.tableView.header.endRefreshing()

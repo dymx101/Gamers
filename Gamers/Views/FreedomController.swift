@@ -100,13 +100,14 @@ class FreedomController: UITableViewController {
     }
     
 
-    // 停止刷新状态
+    /**
+    停止刷新状态
+    */
     func stopRefensh(){
         self.refresh++
         if self.refresh >= 2 {
             self.tableView.header.endRefreshing()
             self.tableView.footer.resetNoMoreData()
-            
             refresh = 0
         }
     }
@@ -119,6 +120,8 @@ class FreedomController: UITableViewController {
         
         channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
+            self!.videoPageOffset += self!.videoPageCount
+            
             self?.tableView.reloadData()
             
             return nil
@@ -135,6 +138,12 @@ class FreedomController: UITableViewController {
             self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
             self!.cycleTitles = []
             self!.cycleImagesURLStrings = []
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
             
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
@@ -150,12 +159,18 @@ class FreedomController: UITableViewController {
         videoPageOffset = 0
         channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
-
+            self!.videoPageOffset += self!.videoPageCount
+            
+            self?.tableView.reloadData()
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            
             // 所有获取完后结束刷新动画
             self!.stopRefensh()
-
-            self!.videoPageOffset += self!.videoPageCount
-            self?.tableView.reloadData()
             
             return nil
         })
@@ -172,11 +187,18 @@ class FreedomController: UITableViewController {
             self!.cycleTitles = []
             self!.cycleImagesURLStrings = []
             
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            
             // 所有获取完后结束刷新动画
             self!.stopRefensh()
             
             return nil
         })
+        
     }
     
     /**
@@ -190,11 +212,18 @@ class FreedomController: UITableViewController {
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
             } else{
-                self?.tableView.footer.endRefreshing()
                 self!.videoListData += newData
+                self!.videoPageOffset += self!.videoPageCount
                 
                 self?.tableView.reloadData()
             }
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                println(task.error)
+            }
+            self?.tableView.footer.endRefreshing()
 
             return nil
         })
@@ -277,9 +306,6 @@ extension FreedomController: UITableViewDataSource, UITableViewDelegate {
             return 100
         }
     }
-    
-    
-    
 
 }
 

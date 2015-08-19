@@ -45,7 +45,7 @@ class GameBL: NSObject {
     }
     
     // 所有游戏列表
-    func getAllGame(offset: Int?, count: Int?) -> BFTask {
+    func getAllGame(#offset: Int?, count: Int?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
