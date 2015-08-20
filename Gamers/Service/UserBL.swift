@@ -70,7 +70,7 @@ class UserBL: NSObject {
     }
 
     
-    // 用户订阅频道的视频列表
+    // 获取用户订阅频道的视频列表
     func getSubscriptions(#userId: String?, userToken: String?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -93,4 +93,31 @@ class UserBL: NSObject {
         
         return fetchTask
     }
+    
+    
+    // 用户订阅频道
+    func setSubscribe(#userId: String?, channelId: String?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return UserDao.Subscribe(userId: userId, channelId: channelId)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
+    
 }

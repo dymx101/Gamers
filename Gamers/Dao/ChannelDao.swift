@@ -35,7 +35,7 @@ extension ChannelDao {
     static func getChannelInfo(#channelId: String) -> BFTask {
         var URLRequest = Router.ChannelInfo(channelId: channelId)
         
-        return fetchChannel(URLRequest: URLRequest)
+        return fetchChannelInfo(URLRequest: URLRequest)
     }
     
     /**

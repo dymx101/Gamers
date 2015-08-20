@@ -20,6 +20,34 @@ class ChannelBL: NSObject {
         return _SingletonSharedInstanceChannelBL
     }
 
+    // 获取频道详情
+    func getChannelInfo(#channelId: String) -> BFTask {
+        
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return ChannelDao.getChannelInfo(channelId: channelId)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let channel = task.result as? Channel {
+                return BFTask(result: channel)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+
+    }
+    
+    
+    
     /**
     获取频道列表
     
@@ -145,4 +173,7 @@ class ChannelBL: NSObject {
         return fetchTask
     }
 
+    
+    
+    
 }

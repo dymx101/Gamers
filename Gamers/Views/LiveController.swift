@@ -144,41 +144,59 @@ class LiveController: UITableViewController {
 extension LiveController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return liveData.count
+        if liveData.isEmpty {
+            return 1
+        } else {
+            return liveData.count
+        }
+
     }
     // 设置行高
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row < 5 {
-            return 224
+        if liveData.isEmpty {
+            return view.frame.size.height - 20 - 44
         } else {
-            return 73
+            if indexPath.row < 5 {
+                return 224
+            } else {
+                return 73
+            }
         }
     }
     // 设置表格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 指定identify进行重用提高性能
-        
-        if indexPath.row < 5 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("LiveLargeCell", forIndexPath: indexPath) as! LiveLargeCell
-            
-            cell.channelName.text = liveData[indexPath.row].user.userName
-            cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
-            
-            let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        if liveData.isEmpty {
+            // 没有数据时候显示提醒
+            let cell = tableView.dequeueReusableCellWithIdentifier("LiveNoDataCell", forIndexPath: indexPath) as! UITableViewCell
+            cell.selectionStyle = UITableViewCellSelectionStyle.None        //不可选
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.None   //删除下划线
             
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
-            
-            cell.channelName.text = liveData[indexPath.row].user.userName
-            cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
-            
-            let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-            
-            return cell
+            if indexPath.row < 5 {
+                let cell = tableView.dequeueReusableCellWithIdentifier("LiveLargeCell", forIndexPath: indexPath) as! LiveLargeCell
+                
+                cell.channelName.text = liveData[indexPath.row].user.userName
+                cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
+                
+                let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
+                
+                cell.channelName.text = liveData[indexPath.row].user.userName
+                cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
+                
+                let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+                
+                return cell
+            }
         }
+        
         
     }
     // 点击跳转到播放页面

@@ -18,7 +18,11 @@ class VideoRelateCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        // 视频标题自动换行以及超出省略号
+        videoTitle.numberOfLines = 0
+        videoTitle.lineBreakMode = NSLineBreakMode.ByCharWrapping
+        videoTitle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

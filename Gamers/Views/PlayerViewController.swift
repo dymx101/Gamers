@@ -8,10 +8,13 @@
 
 import UIKit
 import youtube_ios_player_helper
-//import YouTubePlayer
 import PagingMenuController
+import Social
+import Bolts
 
 class PlayerViewController: UIViewController {
+    
+    let userBL = UserBL()
     
     var videoData: Video!
     
@@ -19,6 +22,61 @@ class PlayerViewController: UIViewController {
     var isflage = true
 
     @IBOutlet weak var playerView: YTPlayerView!
+    @IBOutlet weak var videoViews: UILabel!
+    @IBOutlet weak var subscribeButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
+    
+    // 跟随频道
+    @IBAction func clickSubscribe(sender: AnyObject) {
+        self.userSubscribe()
+    }
+    // 分享视频
+    @IBAction func clickShare(sender: AnyObject) {
+        // 退出
+        var actionSheetController: UIAlertController = UIAlertController()
+        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            //code
+        })
+        // 关注频道
+        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            self.userSubscribe()
+        })
+        // 分享到Facebook
+        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        })
+        // 分享到Twitter
+        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        })
+        
+        // 显示Sheet
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+
+    }
 
     
     override func viewDidLoad() {
@@ -26,9 +84,22 @@ class PlayerViewController: UIViewController {
 
         //println(videoData)
         println("在viewDidLoad中触发了")
+        videoViews.text = String(videoData.views) + " 次"
+        
+        shareButton.layer.masksToBounds = true
+        shareButton.layer.cornerRadius = 6
+        shareButton.layer.borderWidth = 1
+        shareButton.layer.borderColor = UIColor.orangeColor().CGColor
+        
+        subscribeButton.layer.masksToBounds = true
+        subscribeButton.layer.cornerRadius = 6
+        subscribeButton.layer.borderWidth = 1
+        subscribeButton.layer.borderColor = UIColor.orangeColor().CGColor
         
         // 设置顶部导航条样式，透明
-        //self.navigationItem.title = videoData.videoTitle
+//        self.navigationItem.title = videoData.videoTitle
+//        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "Heiti SC", size: 17.0)!]
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
@@ -80,10 +151,34 @@ class PlayerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         
-
+        
+        
+        
+        
+        
         
     }
 
+    // 用户订阅
+    func userSubscribe() {
+        userBL.setSubscribe(userId: "", channelId: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            let response = (task.result as? Response)!
+            var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
+
+            var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil {
+                
+            }
+            
+            return nil
+        })
+    }
+    
+    
     override func viewWillAppear(animated: Bool) {
     
     }
@@ -95,23 +190,7 @@ class PlayerViewController: UIViewController {
         //playerView.loadVideoID("Zm8wVHL9KEg")
         playerView.loadWithVideoId(newVideoData.videoId)
     }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     // 隐藏系统状态栏
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.Default
@@ -139,15 +218,22 @@ class PlayerViewController: UIViewController {
 
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 }
 
+// MARK: - 标签导航代理
 extension PlayerViewController: PagingMenuControllerDelegate {
     
     func willMoveToMenuPage(page: Int) {
+        //println(page)
         //println("触发willMoveToMenuPage事件")
     }
     
     func didMoveToMenuPage(page: Int) {
+        //println(page)
         //println("触发didMoveToMenuPage事件")
     }
 }

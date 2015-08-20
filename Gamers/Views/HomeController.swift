@@ -17,7 +17,7 @@ import SnapKit
 import Social
 import MBProgressHUD
 
-class HomeController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HomeController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
     @IBOutlet weak var contentView: UIView!         //滚动试图内容
@@ -56,120 +56,9 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
     // 表格移动状态标记
     var moveStatus = [ 101: 0, 102: 0, 103: 0, 104: 0, 105: 0, 106: 0, 107: 0, 108: 0, 109: 0 ]
     
-    
     // 刷新数据计数
     var refresh = 0
     var isStartUp = true
-    // 停止刷新状态
-    func stopRefensh(){
-        self.refresh++
-        if self.refresh >= 3 {
-            self.scrollView.header.endRefreshing()
-            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
-            
-            refresh = 0
-        }
-    }
-    
-    func loadNewData() {
-        
-        
-        //刷新插件BUG，临时方案，没解决
-        scrollView.bringSubviewToFront(featuredChannelView)
-        scrollView.bringSubviewToFront(newChannelView)
-        scrollView.bringSubviewToFront(hotGameView1)
-        scrollView.bringSubviewToFront(hotGameView2)
-        scrollView.bringSubviewToFront(hotGameView3)
-        scrollView.bringSubviewToFront(hotGameView4)
-        scrollView.bringSubviewToFront(newGameView1)
-        scrollView.bringSubviewToFront(newGameView2)
-        scrollView.bringSubviewToFront(newGameView3)
-        
-//        for index in 101...109 {
-//            scrollView.bringSubviewToFront(self.view.viewWithTag(index)!)
-//        }
-        
-        
-        
-        
-        // 第一次启动使用MBProgressHUD
-        if isStartUp {
-            let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-            hub.labelText = "加载中..."
-            isStartUp = false
-        }
-        
-        // 后台进程获取数据
-        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if let sliders = task.result as? [Slider] {
-                for slider in sliders {
-                    self!.cycleTitles.append(slider.title)
-                    self!.cycleImagesURLStrings.append(slider.imageSmall)
-                }
-            }
-            self!.cycleScrollView.titlesGroup = self!.cycleTitles
-            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
-            self!.cycleTitles = []
-            self!.cycleImagesURLStrings = [];
-            
-            self!.stopRefensh()
-            
-            return nil
-        })
-        
-        // 新手频道推荐数据
-        channelBL.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[101] = (task.result as? [Video])
-            self!.newChannelView.reloadData()
-            self!.stopRefensh()
-
-            return nil
-        })
-        // 游戏大咖频道推荐数据
-        channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[102] = (task.result as? [Video])
-            self!.featuredChannelView.reloadData()
-            self!.stopRefensh()
- 
-            return nil
-        })
-        
-        // 推荐游戏数据
-        gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
-            if let games = task.result as? [Game] {
-                for game in games {
-                    if game.type == 1 {
-                        self!.hotGameData.append(game)
-                    } else {
-                        self!.newGameData.append(game)
-                    }
-                }
-                // 热门游戏
-                for index in 103...106 {
-                    self!.videoData[index]? = games[index-103].videos
-                    self!.gamesName[index] = self!.hotGameData[index-103].nameZh
-
-                    let view = self!.view.viewWithTag(index) as! UITableView
-                    view.reloadData()
-                }
-                // 新游戏
-                for index in 107...109 {
-                    self!.videoData[index]? = games[index-103].videos
-                    self!.gamesName[index] = self!.newGameData[index-107].nameZh
-                    
-                    let view = self!.view.viewWithTag(index) as! UITableView
-                    view.reloadData()
-                }
-                
-                
-                //println("数据：\(self?.videoData)")
-            }
-            return nil
-        })
-        
-
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -205,8 +94,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         cycleScrollView.placeholderImage = UIImage(named: "sliders.png")
 
         contentView.addSubview(cycleScrollView)
-        
-        // MARK: 9个Table的视图界面布局
+
         
         // 1、添加新手推荐部分
         newChannelView = UITableView()
@@ -284,7 +172,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         featuredChannelView.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(newChannelView.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(576)
+            make.top.equalTo(contentView).offset(572)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -319,7 +207,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         hotGameView1.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(featuredChannelView.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(982)
+            make.top.equalTo(contentView).offset(980)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -353,7 +241,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         hotGameView2.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(hotGameView1.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(1388)
+            make.top.equalTo(contentView).offset(1383)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -388,7 +276,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         hotGameView3.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(hotGameView2.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(1794)
+            make.top.equalTo(contentView).offset(1790)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -422,7 +310,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         hotGameView4.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(hotGameView3.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(2200)
+            make.top.equalTo(contentView).offset(2196)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -456,7 +344,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         newGameView1.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(hotGameView4.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(2606)
+            make.top.equalTo(contentView).offset(2602)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -525,7 +413,7 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         // 位置布局
         newGameView3.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(newGameView2.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(3418)
+            make.top.equalTo(contentView).offset(3414)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -542,125 +430,123 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     }
     
-    // 一个分区
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    // 停止刷新状态
+    func stopRefensh(){
+        self.refresh++
+        if self.refresh >= 3 {
+            self.scrollView.header.endRefreshing()
+            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
+            
+            refresh = 0
+        }
     }
-    // 设置表格行数，展开和不展开两种情况
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.videoData[tableView.tag]!.count == 0 {
-            return 0
+    // 获取数据
+    func loadNewData() {
+        
+        
+        //刷新插件BUG，临时方案，没解决
+        scrollView.bringSubviewToFront(featuredChannelView)
+        scrollView.bringSubviewToFront(newChannelView)
+        scrollView.bringSubviewToFront(hotGameView1)
+        scrollView.bringSubviewToFront(hotGameView2)
+        scrollView.bringSubviewToFront(hotGameView3)
+        scrollView.bringSubviewToFront(hotGameView4)
+        scrollView.bringSubviewToFront(newGameView1)
+        scrollView.bringSubviewToFront(newGameView2)
+        scrollView.bringSubviewToFront(newGameView3)
+        
+        //        for index in 101...109 {
+        //            scrollView.bringSubviewToFront(self.view.viewWithTag(index)!)
+        //        }
+        
+        
+        
+        
+        // 第一次启动使用MBProgressHUD
+        if isStartUp {
+            let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+            hub.labelText = "加载中..."
+            isStartUp = false
         }
         
-        if expansionStatus[tableView.tag]! {
-            return self.videoData[tableView.tag]!.count + 2
-        } else {
-            return 5
-        }
-
-    }
-    // 设置行高
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 50
-        } else if indexPath.row == 4 && !expansionStatus[tableView.tag]! {
-            return 50
-        } else if indexPath.row == videoData[tableView.tag]!.count+1 && expansionStatus[tableView.tag]! {
-            return 50
-        } else {
-            return 100
-        }
-    }
-
-    
-    // 设置单元格的内容（创建参数indexPath指定的单元）
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let viewTag = tableView.tag
-
-        switch indexPath.row {
-        // 表格头0行处理
-        case 0 where tableView.isEqual(newChannelView):
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-            cell.imageView?.image = UIImage(named: "Icon-recommend")
-            cell.hearderTitle.text = "新手推荐"
-            
-            return cell
-        case 0 where tableView.isEqual(featuredChannelView):
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-            cell.imageView?.image = UIImage(named: "icon-great")
-            cell.hearderTitle.text = "实况大咖"
-            
-            return cell
-        case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
-            cell.gameName.text = gamesName[viewTag]
-            cell.gameDetail.text = "游戏推荐"
-            
-            return cell
-        // 表格底部最后行处理
-        case 4 where !expansionStatus[viewTag]!:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-            
-            return cell
-        case videoData[viewTag]!.count+1 where expansionStatus[viewTag]!:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterAllCell", forIndexPath: indexPath) as! TableFooterAllCell
-            
-            return cell
-        // 中间部分
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-            cell.channelName.text = self.videoData[viewTag]![indexPath.row-1].owner
-            cell.videoTitle.text = self.videoData[viewTag]![indexPath.row-1].videoTitle
-            
-            let imageUrl = self.videoData[viewTag]![indexPath.row-1].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-            
-            cell.delegate = self
-            cell.tag = viewTag + indexPath.row + 100
-            
-            return cell
-        }
-        
-     }
-    
-    /**
-    点击触发，第1个无反应，中间跳转到播放页面，最后一个展开或者跳转到全部视频
-    */
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let viewTag = tableView.tag
-        println("点击触发")
-        if indexPath.row == 0 {
-             println("无反应")
-        } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
-            // 移动动画
-            moveView(tableView)
-            let dataView = self.view.viewWithTag(viewTag) as! UITableView
-            dataView.reloadData()
-        } else if indexPath.row == videoData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
-            // 跳转到不同的全部界面
-            if viewTag == 101 || viewTag == 102 {
-                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
-                //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
-                
-                self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else if viewTag >= 103 && viewTag <= 106 {
-                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
-                viewVC?.gameData = hotGameData[viewTag - 103]
-
-                self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else {
-                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
-                viewVC?.gameData = newGameData[viewTag - 107]
-                
-                self.navigationController?.pushViewController(viewVC!, animated: true)
+        // 后台进程获取数据
+        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if let sliders = task.result as? [Slider] {
+                for slider in sliders {
+                    self!.cycleTitles.append(slider.title)
+                    self!.cycleImagesURLStrings.append(slider.imageSmall)
+                }
             }
-        } else {
-            let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
-            view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+            self!.cycleScrollView.titlesGroup = self!.cycleTitles
+            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
+            self!.cycleTitles = []
+            self!.cycleImagesURLStrings = [];
             
-            self.navigationController?.pushViewController(view!, animated: true)
-        }
-
+            return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                self!.stopRefensh()
+                
+                return nil
+                })
+        
+        // 新手频道推荐数据
+        channelBL.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[101] = (task.result as? [Video])
+            self!.newChannelView.reloadData()
+            
+            return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                self!.stopRefensh()
+                
+                return nil
+                })
+        // 游戏大咖频道推荐数据
+        channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData[102] = (task.result as? [Video])
+            self!.featuredChannelView.reloadData()
+            
+            return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                self!.stopRefensh()
+                
+                return nil
+                })
+        // 推荐游戏数据
+        gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+            if let games = task.result as? [Game] {
+                for game in games {
+                    if game.type == 1 {
+                        self!.hotGameData.append(game)
+                    } else {
+                        self!.newGameData.append(game)
+                    }
+                }
+                // 热门游戏
+                for index in 103...106 {
+                    self!.videoData[index]? = games[index-103].videos
+                    self!.gamesName[index] = self!.hotGameData[index-103].nameZh
+                    
+                    let view = self!.view.viewWithTag(index) as! UITableView
+                    view.reloadData()
+                }
+                // 新游戏
+                for index in 107...109 {
+                    self!.videoData[index]? = games[index-103].videos
+                    self!.gamesName[index] = self!.newGameData[index-107].nameZh
+                    
+                    let view = self!.view.viewWithTag(index) as! UITableView
+                    view.reloadData()
+                }
+                
+                //println("数据：\(self?.videoData)")
+            }
+            return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                self!.stopRefensh()
+                
+                return nil
+                })
+        
     }
     
     func moveView(tableView: UITableView) {
@@ -685,20 +571,8 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         }, completion: nil)
     }
     
-    // cell分割线的边距
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if cell.respondsToSelector("setSeparatorInset:") {
-            cell.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
-        }
-        if cell.respondsToSelector("setLayoutMargins:") {
-            cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
-        }
-    }
+
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     /**
     初始化全局尺寸
@@ -727,9 +601,141 @@ class HomeController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
 }
-
+// MARK: - 表格代理
+extension HomeController: UITableViewDelegate, UITableViewDataSource {
+    
+    // 设置表格行数，展开和不展开两种情况
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.videoData[tableView.tag]!.count == 0 {
+            return 0
+        }
+        
+        if expansionStatus[tableView.tag]! {
+            return self.videoData[tableView.tag]!.count + 2
+        } else {
+            return 5
+        }
+        
+    }
+    // 设置行高
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 50
+        } else if indexPath.row == 4 && !expansionStatus[tableView.tag]! {
+            return 50
+        } else if indexPath.row == videoData[tableView.tag]!.count+1 && expansionStatus[tableView.tag]! {
+            return 50
+        } else {
+            return 100
+        }
+    }
+    
+    
+    // 设置单元格的内容（创建参数indexPath指定的单元）
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let viewTag = tableView.tag
+        
+        switch indexPath.row {
+            // 表格头0行处理
+        case 0 where tableView.isEqual(newChannelView):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.imageView?.image = UIImage(named: "Icon-recommend")
+            cell.hearderTitle.text = "新手推荐"
+            
+            return cell
+        case 0 where tableView.isEqual(featuredChannelView):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.imageView?.image = UIImage(named: "icon-great")
+            cell.hearderTitle.text = "实况大咖"
+            
+            return cell
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
+            cell.gameName.text = gamesName[viewTag]
+            cell.gameDetail.text = "游戏推荐"
+            
+            return cell
+            // 表格底部最后行处理
+        case 4 where !expansionStatus[viewTag]!:
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
+            
+            return cell
+        case videoData[viewTag]!.count+1 where expansionStatus[viewTag]!:
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterAllCell", forIndexPath: indexPath) as! TableFooterAllCell
+            
+            return cell
+            // 中间部分
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
+            cell.channelName.text = self.videoData[viewTag]![indexPath.row-1].owner
+            cell.videoTitle.text = self.videoData[viewTag]![indexPath.row-1].videoTitle
+            
+            let imageUrl = self.videoData[viewTag]![indexPath.row-1].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            
+            cell.delegate = self
+            cell.tag = viewTag + indexPath.row + 100
+            
+            return cell
+        }
+        
+    }
+    /**
+    点击触发，第1个无反应，中间跳转到播放页面，最后一个展开或者跳转到全部视频
+    */
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let viewTag = tableView.tag
+        println("点击触发")
+        if indexPath.row == 0 {
+            println("无反应")
+        } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
+            // 移动动画
+            moveView(tableView)
+            let dataView = self.view.viewWithTag(viewTag) as! UITableView
+            dataView.reloadData()
+        } else if indexPath.row == videoData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
+            // 跳转到不同的全部界面
+            if viewTag == 101 || viewTag == 102 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
+                //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else if viewTag >= 103 && viewTag <= 106 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = hotGameData[viewTag - 103]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = newGameData[viewTag - 107]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            }
+        } else {
+            let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
+            view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+            
+            self.navigationController?.pushViewController(view!, animated: true)
+        }
+        
+    }
+    // cell分割线的边距
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if cell.respondsToSelector("setSeparatorInset:") {
+            cell.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+        if cell.respondsToSelector("setLayoutMargins:") {
+            cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+    }
+    
+}
 
 // MARK: - 顶部轮播的代理方法
 extension HomeController: SDCycleScrollViewDelegate {
@@ -738,6 +744,7 @@ extension HomeController: SDCycleScrollViewDelegate {
         self.navigationController?.pushViewController(view!, animated: true)
     }
 }
+
 // MARK: - 表格行Cell代理
 extension HomeController: MyCellDelegate {
     // 触发分享按钮事件
@@ -753,7 +760,7 @@ extension HomeController: MyCellDelegate {
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
 
             
             

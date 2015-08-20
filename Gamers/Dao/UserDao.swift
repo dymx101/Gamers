@@ -61,7 +61,48 @@ extension UserDao {
         return fetchVideo(URLRequest: URLRequest)
     }
     
+    /**
+    用户订阅频道
     
+    :param: userId    用户ID
+    :param: channelId 频道ID
+    
+    :returns: 返回结果
+    */
+    static func Subscribe(#userId: String?, channelId: String?) -> BFTask {
+        var URLRequest = Router.Subscribe(userId: userId, channelId: channelId)
+        
+        return fetchResponse(URLRequest: URLRequest)
+    }
+    
+    
+    
+    
+    /**
+    解析返回结果JSON数据结构
+    */
+    private static func fetchResponse(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var result: [String: AnyObject]!
+                var response: Response!
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    let json = JSON(JSONDictionary)
+                    response = Response.collection(json: json)
+                }
+                
+                //TODO: 返回该对象集合,view直接读取
+                source.setResult(response)
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
     
     /**
     解析游戏视频列表的JSON数据

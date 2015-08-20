@@ -34,7 +34,9 @@ enum Router: URLRequestConvertible {
 
     case UserLogin(userName: String?, password: String?)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
-    case Subscriptions(userId: String?, userToken: String?)
+    case Subscriptions(userId: String?, userToken: String?) //所有订阅列表
+    case Subscribe(userId: String?, channelId: String?)     //订阅
+    
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)       //搜索视频
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)     //搜索频道
@@ -161,10 +163,17 @@ enum Router: URLRequestConvertible {
                 parameters["order"] = order != nil ? order : "date"
                 
                 return (.GET, "/channel/search", parameters)
+            //订阅
+            case .Subscribe(let userId, let channelId):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if userId != nil { parameters["userid"] = userId }
+                if channelId != nil { parameters["channelid"] = channelId }
                 
+                return (.GET, "/user/subscribe", parameters)
 
-
-
+                
+                
+                
             }
         }()
         
@@ -176,7 +185,7 @@ enum Router: URLRequestConvertible {
         
         // 用户令牌
         let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-        mutableURLRequest.addValue(String(stringInterpolationSegment: userInfo.objectForKey("userToken")), forHTTPHeaderField: "Auth-token")
+        mutableURLRequest.addValue(String(stringInterpolationSegment: userInfo.objectForKey("userAuthToken")), forHTTPHeaderField: "Auth-token")
         
         return encoding.encode(mutableURLRequest, parameters: parameters).0
     }

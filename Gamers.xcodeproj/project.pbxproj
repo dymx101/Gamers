@@ -63,6 +63,7 @@
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
+		1AA0B9381B859C07001BFEB9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0B9371B859C07001BFEB9 /* Response.swift */; };
 		1AAC05581B7C5BCA0002AD8B /* MyCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC05571B7C5BCA0002AD8B /* MyCellDelegate.swift */; };
 		1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */; };
 		1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AED1B5C8C5D007C5D2A /* GameController.swift */; };
@@ -179,6 +180,7 @@
 		1A975F211B579947003B8327 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		1A975F231B579BE9003B8327 /* ChannelBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBL.swift; sourceTree = "<group>"; };
 		1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoltsSwift.framework; path = "Pods/../build/Debug-iphoneos/BoltsSwift.framework"; sourceTree = "<group>"; };
+		1AA0B9371B859C07001BFEB9 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1AAC05571B7C5BCA0002AD8B /* MyCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCellDelegate.swift; sourceTree = "<group>"; };
 		1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveController.swift; sourceTree = "<group>"; };
 		1AB21AED1B5C8C5D007C5D2A /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				1A01F4171B6F479A0042480B /* Comment.swift */,
 				1ACBAF7B1B7B268F00D8910C /* Live.swift */,
 				1A6467D61B8181EA00370C46 /* History.swift */,
+				1AA0B9371B859C07001BFEB9 /* Response.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -701,6 +704,7 @@
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
 				1ACBAF7C1B7B268F00D8910C /* Live.swift in Sources */,
+				1AA0B9381B859C07001BFEB9 /* Response.swift in Sources */,
 				1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */,
 				1A3226501B7D9411001F7C52 /* RoundImage.swift in Sources */,
 				1A01F4101B6F20C50042480B /* VideoRelateCell.swift in Sources */,
