@@ -12,6 +12,12 @@ import SnapKit
 
 class VideoInfoController: UIViewController {
 
+    let userBL = UserBL()
+    let channelBL = ChannelBL()
+    
+    var videoData: Video!
+    var channelData: Channel!
+    
     @IBOutlet weak var headerImage: UIImageView!
     @IBOutlet weak var channelName: UILabel!
     @IBOutlet weak var channelAutograph: UILabel!
@@ -36,12 +42,6 @@ class VideoInfoController: UIViewController {
             return nil
         })
     }
-
-    let userBL = UserBL()
-    let channelBL = ChannelBL()
-    
-    var videoData: Video!
-    var channelData: Channel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,49 +58,41 @@ class VideoInfoController: UIViewController {
         headerImage.layer.borderWidth = 1
         headerImage.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7).CGColor
         
-        // 设置属性
-        channelBL.getChannelInfo(channelId: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.channelData = (task.result as? Channel)!
-            
-            self?.channelSubscribers.text = String(self!.channelData.subscribes) + " 次"
-            self?.channelAutograph.text = String(self!.channelData.details)
-
-            let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            self?.headerImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-            
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
-            
-            return nil
-        })
-        
+        // 初始化数据
+        loadInitData()
         
         // 重新加载视频评论监听器
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoInfo:", name: "reloadVideoInfoNotification", object: nil)
 
     }
 
+    func loadInitData() {
+        // 设置属性
+        channelBL.getChannelInfo(channelId: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.channelData = (task.result as? Channel)!
+            
+            self?.channelSubscribers.text = String(self!.channelData.subscribes) + " 次"
+            self?.channelAutograph.text = String(self!.channelData.details)
+            
+            let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            self?.headerImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+
+            return nil
+        })
+    }
+    
     func reloadVideoInfo(notification: NSNotification) {
-        println("刷新视频信息")
+        println("重新加载了视频信息")
+        loadInitData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
+
 
 }

@@ -9,24 +9,25 @@
 import UIKit
 import Bolts
 import MJRefresh
+import MBProgressHUD
 
 class VideoListController: UITableViewController {
     
-    var gameData: Game!
-    var videoData = [Video]()
-
     let gameBL = GameBL()
     
-    @IBOutlet var videoTableView: UITableView!
-    
+    var gameData: Game!
+    var videoData = [Video]()
+    var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
+    var videoPageCount = 20         //每页视频总数
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.title = self.gameData.nameZh
         
         // 刷新功能
-        videoTableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        videoTableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
+        self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
 
         // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
@@ -40,8 +41,8 @@ class VideoListController: UITableViewController {
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
 
-        
-        loadNewData()
+        // 加载初始化数据
+        loadInitData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -51,16 +52,37 @@ class VideoListController: UITableViewController {
         self.navigationController?.navigationBar.translucent = false
     }
     
+    // 初始化数据
+    func loadInitData() {
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = "加载中..."
+        
+        videoPageOffset = 0
+        gameBL.getGameVideo(self.gameData.name, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoData = (task.result as? [Video])!
+            
+            self?.tableView.reloadData()
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            
+            return nil
+        })
+    }
     /**
     刷新数据
     */
     func loadNewData() {
-        gameBL.getGameVideo(self.gameData.name, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoPageOffset = 0
+        gameBL.getGameVideo(self.gameData.name, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
-            
-            self?.videoTableView.reloadData()
-            self?.videoTableView.header.endRefreshing()
+            self?.tableView.reloadData()
 
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self?.tableView.header.endRefreshing()
+            
             return nil
         })
     }
@@ -68,12 +90,23 @@ class VideoListController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        gameBL.getGameVideo(self.gameData.name, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
+        gameBL.getGameVideo(self.gameData.name, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            var newData = (task.result as? [Video])!
             
-            self?.videoTableView.reloadData()
-            //self?.videoTableView.footer.endRefreshing()
-            self?.videoTableView.footer.noticeNoMoreData()
+            // 如果没有数据显示加载完成，否则继续
+            if newData.isEmpty {
+                self?.tableView.footer.noticeNoMoreData()
+            } else{
+                self!.videoData += newData
+                self!.videoPageOffset += self!.videoPageCount
+                
+                self?.tableView.reloadData()
+            }
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self?.tableView.footer.endRefreshing()
+            
             return nil
         })
     }

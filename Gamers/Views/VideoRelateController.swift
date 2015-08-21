@@ -21,12 +21,6 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
         videoBL.getVideoRelate(videoData.videoId, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoRelateData = (task.result as? [Video])!
             self?.tableView.reloadData()
@@ -84,7 +78,6 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
 
     // 点击视频触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //
         println("选中了：\(indexPath.row)")
         
         //var playerView = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as? PlayerViewController
@@ -92,9 +85,10 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
         
         //playerView!.reloadPlayerView()
         var dataDict = ["data": videoRelateData[indexPath.row]]
+        
         NSNotificationCenter.defaultCenter().postNotificationName("reloadPlayerViewNotification", object: nil, userInfo: dataDict)
-        NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoCommentNotification", object: nil, userInfo: dataDict)
         NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoInfoNotification", object: nil, userInfo: dataDict)
+        NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoCommentNotification", object: nil, userInfo: dataDict)
         
     }
     

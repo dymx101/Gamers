@@ -66,6 +66,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/Starscream.framework'
   install_framework 'Pods/SwiftSpinner.framework'
   install_framework 'Pods/SwiftyJSON.framework'
+  install_framework 'Pods/YouTubePlayer.framework'
   install_framework 'Pods/youtube_ios_player_helper.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -83,5 +84,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/Starscream.framework'
   install_framework 'Pods/SwiftSpinner.framework'
   install_framework 'Pods/SwiftyJSON.framework'
+  install_framework 'Pods/YouTubePlayer.framework'
   install_framework 'Pods/youtube_ios_player_helper.framework'
 fi

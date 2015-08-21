@@ -81,9 +81,6 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //println(videoData)
-        println("在viewDidLoad中触发了")
         videoViews.text = String(videoData.views) + " 次"
         
         shareButton.layer.masksToBounds = true
@@ -189,6 +186,9 @@ class PlayerViewController: UIViewController {
 
         //playerView.loadVideoID("Zm8wVHL9KEg")
         playerView.loadWithVideoId(newVideoData.videoId)
+        
+        videoViews.text = String(newVideoData.views) + " 次"
+        
     }
 
     // 隐藏系统状态栏

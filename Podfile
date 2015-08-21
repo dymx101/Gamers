@@ -8,7 +8,7 @@ pod 'RealmSwift'
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
 ## YouTube播放器
-##pod 'YouTubePlayer'
+pod 'YouTubePlayer'
 pod 'youtube-ios-player-helper'
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入
@@ -39,3 +39,5 @@ pod 'SnapKit'
 
 ## 检测网络状态
 pod 'ReachabilitySwift'
+## 表格行自动行高处理
+#pod 'UITableView+FDTemplateLayoutCell', '~> 1.3'
