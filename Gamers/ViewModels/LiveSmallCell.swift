@@ -11,9 +11,9 @@ import UIKit
 class LiveSmallCell: UITableViewCell {
 
     @IBOutlet weak var videoImage: UIImageView!
-    @IBOutlet weak var channelName: UILabel!
-    @IBOutlet weak var videoViews: UILabel!
-    
+    @IBOutlet weak var videoTitle: UILabel!
+    @IBOutlet weak var videoChannel: UILabel!
+
     
     override func awakeFromNib() {
         super.awakeFromNib()

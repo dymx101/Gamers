@@ -15,9 +15,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more.png" translatesAutoresizingMaskIntoConstraints="NO" id="Cvm-DH-KNi">
-                        <rect key="frame" x="16" y="15" width="40" height="20"/>
+                        <rect key="frame" x="16" y="15" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="ukL-Pn-QKc"/>
+                            <constraint firstAttribute="width" constant="20" id="ukL-Pn-QKc"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="显示全部" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDZ-Uk-eMe">
@@ -34,7 +34,7 @@
                     <constraint firstItem="BDZ-Uk-eMe" firstAttribute="centerY" secondItem="Cvm-DH-KNi" secondAttribute="centerY" id="Pty-sJ-Wqh"/>
                     <constraint firstAttribute="trailingMargin" secondItem="BDZ-Uk-eMe" secondAttribute="trailing" constant="112" id="UcB-i0-gSK"/>
                     <constraint firstAttribute="bottomMargin" secondItem="BDZ-Uk-eMe" secondAttribute="bottom" constant="1" id="egb-cJ-gfB"/>
-                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="leading" secondItem="Cvm-DH-KNi" secondAttribute="trailing" constant="64" id="nQT-sM-hlb"/>
+                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="leading" secondItem="Cvm-DH-KNi" secondAttribute="trailing" constant="84" id="nQT-sM-hlb"/>
                 </constraints>
             </tableViewCellContentView>
         </tableViewCell>

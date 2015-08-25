@@ -12,7 +12,7 @@ pod 'YouTubePlayer'
 pod 'youtube-ios-player-helper'
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入
-pod 'Google/SignIn'
+#pod 'Google/SignIn'
 pod 'MJRefresh'
 ## 低层第三方异步组件
 pod 'Bolts'
@@ -41,3 +41,5 @@ pod 'SnapKit'
 pod 'ReachabilitySwift'
 ## 表格行自动行高处理
 #pod 'UITableView+FDTemplateLayoutCell', '~> 1.3'
+
+#pod 'UIImage+SVG'

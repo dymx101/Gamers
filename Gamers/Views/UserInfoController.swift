@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 class UserInfoController: UITableViewController {
 
-    let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     let userBL = UserBL()
-    
+    var userData: User!
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var nickNameLabel: UILabel!
@@ -25,16 +26,7 @@ class UserInfoController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        
-//        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:1]; 
-        
-
+//        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:1];
         //设置圆角
         userImage.clipsToBounds = true
         userImage.layer.cornerRadius = 32
@@ -42,9 +34,29 @@ class UserInfoController: UITableViewController {
         userImage.layer.borderWidth = 1
         userImage.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7).CGColor
         
+        println(userDefaults.stringForKey("userId")!)
+        
+        let realm = Realm()
+        let predicate = NSPredicate(format: "userId = %@", userDefaults.stringForKey("userId")!)
+        userData = realm.objects(User).filter(predicate).first! as User
+
+        if !userData.firstName.isEmpty { nickNameLabel.text = userData.firstName + " " + userData.lastName }
+        if !userData.gender.isEmpty {
+            sexLabel.text = userData.gender == "M" ? "男" : "女"
+        }
+        if !userData.email.isEmpty { emailLabel.text = userData.email }
+        if !userData.mobilePhone.isEmpty { integralLabel.text = userData.mobilePhone }
+        
+        var range: NSRange = NSMakeRange(NSString(string: userData.avatar).length-3, 3)
+        var imageFormat = NSString(string: userData.avatar).substringWithRange(range)
+        if imageFormat != "svg" {
+            let imageUrl = "http://beta.gamers.tm/" + userData.avatar
+            userImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        }
+        
         
         self.tableView.reloadData()
-        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,9 +73,9 @@ extension UserInfoController: UITableViewDelegate, UITableViewDataSource {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 3 {
             // 退出操作
-            GIDSignIn.sharedInstance().signOut()
+            //GIDSignIn.sharedInstance().signOut()
 
-            userInfo.removeObjectForKey("isLogin")
+            userDefaults.removeObjectForKey("isLogin")
             
             // 清空用用户数据
             
@@ -82,13 +94,31 @@ extension UserInfoController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     // 设定单元格样式
-    override func viewDidLayoutSubviews() {
-        var nickNameIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 1)
-        var nickNameCell = self.tableView.cellForRowAtIndexPath(nickNameIndexPath)
-        if userInfo.objectForKey("nickName") != nil {
+    override func viewDidLayoutSubviews() {       
+        var nickNameCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1))
+        if  !userData.userName.isEmpty {
             nickNameCell?.accessoryType = UITableViewCellAccessoryType.None
         }
         
+        var genderCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1))
+        if  !userData.gender.isEmpty {
+            genderCell?.accessoryType = UITableViewCellAccessoryType.None
+        }
+        
+        var emailCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1))
+        if  !userData.email.isEmpty {
+            emailCell?.accessoryType = UITableViewCellAccessoryType.None
+        }
+        
+        var mobilePhoneCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 1))
+        if  !userData.mobilePhone.isEmpty {
+            mobilePhoneCell?.accessoryType = UITableViewCellAccessoryType.None
+        }
+        
     }
+    
+//    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        //
+//    }
 
 }

@@ -10,7 +10,6 @@ import UIKit
 import Bolts
 import MBProgressHUD
 import QuartzCore
-import BoltsSwift
 
 class LoginController: UIViewController {
 
@@ -58,8 +57,8 @@ class LoginController: UIViewController {
 
         
         // Google登入的代理协议
-        GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().uiDelegate = self
+//        GIDSignIn.sharedInstance().delegate = self
+//        GIDSignIn.sharedInstance().uiDelegate = self
        
         
 //        GIDSignIn.sharedInstance().signOut()
@@ -91,37 +90,37 @@ class LoginController: UIViewController {
 }
 
 // MARK: - 第三方Google登入
-extension LoginController: GIDSignInDelegate, GIDSignInUIDelegate {
-    // 用户登入
-    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
-        if (error == nil) {
-            println(user.userID)
-            googleUserId = user.userID
-            googleName = user.profile.name
-            googleEmail = user.profile.email
-            googleIdToken = user.authentication.idToken
-            
-            userInfo.setObject(googleUserId, forKey: "googleUserId")
-            userInfo.setObject(googleName, forKey: "googleName")
-            userInfo.setObject(googleEmail, forKey: "googleEmail")
-            userInfo.setObject(googleIdToken, forKey: "googleIdToken")
-            
-            userBL.GoogleLogin(userId: googleUserId, userName: googleName, email: googleEmail, idToken: googleIdToken).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                let userInfo = (task.result as? User)!
-                
-                self?.userInfo.setObject(true, forKey: "isLogin")
-                
-                return nil
-            })
-
-        } else {
-            println("\(error.localizedDescription)")
-        }
-    }
-    
-    // 用户连接
-    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!, withError error: NSError!) {
-
-    }
-}
+//extension LoginController: GIDSignInDelegate, GIDSignInUIDelegate {
+//    // 用户登入
+//    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
+//        if (error == nil) {
+//            println(user.userID)
+//            googleUserId = user.userID
+//            googleName = user.profile.name
+//            googleEmail = user.profile.email
+//            googleIdToken = user.authentication.idToken
+//            
+//            userInfo.setObject(googleUserId, forKey: "googleUserId")
+//            userInfo.setObject(googleName, forKey: "googleName")
+//            userInfo.setObject(googleEmail, forKey: "googleEmail")
+//            userInfo.setObject(googleIdToken, forKey: "googleIdToken")
+//            
+//            userBL.GoogleLogin(userId: googleUserId, userName: googleName, email: googleEmail, idToken: googleIdToken).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//                let userInfo = (task.result as? User)!
+//                
+//                self?.userInfo.setObject(true, forKey: "isLogin")
+//                
+//                return nil
+//            })
+//
+//        } else {
+//            println("\(error.localizedDescription)")
+//        }
+//    }
+//    
+//    // 用户连接
+//    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!, withError error: NSError!) {
+//
+//    }
+//}
 

@@ -225,18 +225,11 @@ extension SearchController: UITableViewDataSource, UITableViewDelegate {
             return cell
         default:
             var cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCell
-            
-            cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
-            cell.videoChannel.text = self.videoData[indexPath.row].owner
-            cell.videoViews.text = String(self.videoData[indexPath.row].views)
-            
-            let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            cell.setVideo(self.videoData[indexPath.row])
             
             cell.delegate = self
             
             return cell
-            
         }
 
     }

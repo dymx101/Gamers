@@ -66,12 +66,7 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
     // 设置单元格
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoRelateCell", forIndexPath: indexPath) as! VideoRelateCell
-        
-        let imageUrl = self.videoRelateData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-
-        cell.videoTitle.text = videoRelateData[indexPath.row].videoTitle
-        cell.videoViews.text = String(videoRelateData[indexPath.row].views)
+        cell.setVideo(self.videoRelateData[indexPath.row])
         
         return cell
     }

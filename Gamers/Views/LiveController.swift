@@ -187,8 +187,8 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
                 
-                cell.channelName.text = liveData[indexPath.row].user.userName
-                cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
+                cell.videoChannel.text = liveData[indexPath.row].user.userName
+                cell.videoTitle.text = liveData[indexPath.row].stream.steamDescription
                 
                 let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)

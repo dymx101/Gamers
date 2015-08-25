@@ -29,6 +29,15 @@ class VideoListCell: UITableViewCell {
         videoTitle.lineBreakMode = NSLineBreakMode.ByCharWrapping
         videoTitle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     }
+    
+    func setVideo(video: Video) {
+        videoChannel.text = video.owner
+        videoTitle.text = video.videoTitle
+        videoViews.text = String(video.views) + " 次"
+        
+        let imageUrl = video.imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+    }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

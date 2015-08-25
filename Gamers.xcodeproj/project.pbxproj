@@ -32,11 +32,6 @@
 		1A28D41C1B831D3B00F1424F /* sliders.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A28D41B1B831D3B00F1424F /* sliders.png */; };
 		1A28D41E1B831DE000F1424F /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A28D41D1B831DE000F1424F /* placeholder.png */; };
 		1A2BE3DC1B6E0F8800F787CC /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */; };
-		1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */; };
-		1A30F7461B7CAEA900A2CADF /* ZLSwiftConstDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30F7421B7CAEA900A2CADF /* ZLSwiftConstDefine.swift */; };
-		1A30F7471B7CAEA900A2CADF /* ZLSwiftFootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30F7431B7CAEA900A2CADF /* ZLSwiftFootView.swift */; };
-		1A30F7481B7CAEA900A2CADF /* ZLSwiftHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30F7441B7CAEA900A2CADF /* ZLSwiftHeadView.swift */; };
-		1A30F7491B7CAEA900A2CADF /* ZLSwiftRefreshExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30F7451B7CAEA900A2CADF /* ZLSwiftRefreshExtension.swift */; };
 		1A30F74B1B7CCA5A00A2CADF /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A30F74A1B7CCA5A00A2CADF /* more.png */; };
 		1A3226501B7D9411001F7C52 /* RoundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32264F1B7D9411001F7C52 /* RoundImage.swift */; };
 		1A3226521B7D9B29001F7C52 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A3226511B7D9B29001F7C52 /* user.png */; };
@@ -71,6 +66,7 @@
 		1AB21AF71B5C9445007C5D2A /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AF61B5C9445007C5D2A /* GameCell.swift */; };
 		1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317551B56165F00B6C176 /* SliderBL.swift */; };
 		1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3175A1B56187400B6C176 /* SliderDao.swift */; };
+		1ABA1D4C1B8C249E00D67809 /* FreedomLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA1D4B1B8C249E00D67809 /* FreedomLoginController.swift */; };
 		1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE061B61E68800BC7907 /* VideoDao.swift */; };
 		1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE081B61E6AB00BC7907 /* UserDao.swift */; };
 		1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */; };
@@ -150,10 +146,6 @@
 		1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 		1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Gamers-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A3015C01B4E1FE600EB9965 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		1A30F7421B7CAEA900A2CADF /* ZLSwiftConstDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZLSwiftConstDefine.swift; sourceTree = "<group>"; };
-		1A30F7431B7CAEA900A2CADF /* ZLSwiftFootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZLSwiftFootView.swift; sourceTree = "<group>"; };
-		1A30F7441B7CAEA900A2CADF /* ZLSwiftHeadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZLSwiftHeadView.swift; sourceTree = "<group>"; };
-		1A30F7451B7CAEA900A2CADF /* ZLSwiftRefreshExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZLSwiftRefreshExtension.swift; sourceTree = "<group>"; };
 		1A30F74A1B7CCA5A00A2CADF /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
 		1A32264F1B7D9411001F7C52 /* RoundImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundImage.swift; sourceTree = "<group>"; };
 		1A3226511B7D9B29001F7C52 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
@@ -189,6 +181,8 @@
 		1AB21AF61B5C9445007C5D2A /* GameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
 		1AB317551B56165F00B6C176 /* SliderBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderBL.swift; sourceTree = "<group>"; };
 		1AB3175A1B56187400B6C176 /* SliderDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderDao.swift; sourceTree = "<group>"; };
+		1ABA1D4B1B8C249E00D67809 /* FreedomLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomLoginController.swift; sourceTree = "<group>"; };
+		1ABA1D601B8C862700D67809 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		1ABEFE061B61E68800BC7907 /* VideoDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDao.swift; sourceTree = "<group>"; };
 		1ABEFE081B61E6AB00BC7907 /* UserDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
 		1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBL.swift; sourceTree = "<group>"; };
@@ -242,7 +236,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AEEBC901B82CEDD00880AA6 /* Social.framework in Frameworks */,
-				1A3015C11B4E1FE600EB9965 /* libsqlite3.0.dylib in Frameworks */,
 				BFB65631586F7D1AC2F31F2A /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,7 +272,6 @@
 		1A30159F1B4E16BA00EB9965 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1A30F7411B7CAEA900A2CADF /* ZLSwifthRefresh */,
 				1A32FD0B1B54B8090040E94C /* APIClient.swift */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
 				1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */,
@@ -313,21 +305,11 @@
 				1A1D2C731B73134300112A4F /* SystemController.swift */,
 				1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */,
 				1A1D2C7F1B7346FD00112A4F /* LoginController.swift */,
+				1ABA1D4B1B8C249E00D67809 /* FreedomLoginController.swift */,
 				1A1D2C811B73478000112A4F /* RegisterController.swift */,
 				1A1D2C831B73550200112A4F /* ForgetPWDController.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		1A30F7411B7CAEA900A2CADF /* ZLSwifthRefresh */ = {
-			isa = PBXGroup;
-			children = (
-				1A30F7421B7CAEA900A2CADF /* ZLSwiftConstDefine.swift */,
-				1A30F7431B7CAEA900A2CADF /* ZLSwiftFootView.swift */,
-				1A30F7441B7CAEA900A2CADF /* ZLSwiftHeadView.swift */,
-				1A30F7451B7CAEA900A2CADF /* ZLSwiftRefreshExtension.swift */,
-			);
-			path = ZLSwifthRefresh;
 			sourceTree = "<group>";
 		};
 		1AB21AF51B5C9433007C5D2A /* ViewModels */ = {
@@ -477,6 +459,7 @@
 		4461925849268B25231F8378 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1ABA1D601B8C862700D67809 /* libxml2.2.dylib */,
 				1AEEBC8F1B82CEDD00880AA6 /* Social.framework */,
 				1AD88AF41B74BC59002FAA8C /* SnapKit.framework */,
 				1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */,
@@ -685,7 +668,6 @@
 				1AE922521B86C8BB0033C480 /* VideoCommentController.swift in Sources */,
 				1A32265A1B7DE648001F7C52 /* MyTextField.swift in Sources */,
 				1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */,
-				1A30F7481B7CAEA900A2CADF /* ZLSwiftHeadView.swift in Sources */,
 				1A6467D91B81831400370C46 /* HistoryBL.swift in Sources */,
 				1A6467D71B8181EA00370C46 /* History.swift in Sources */,
 				1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */,
@@ -721,20 +703,18 @@
 				1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */,
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
 				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
+				1ABA1D4C1B8C249E00D67809 /* FreedomLoginController.swift in Sources */,
 				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
 				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,
-				1A30F7461B7CAEA900A2CADF /* ZLSwiftConstDefine.swift in Sources */,
 				1A4FAFB01B7F71CE0064B8A3 /* YouTubeRouter.swift in Sources */,
 				1AAC05581B7C5BCA0002AD8B /* MyCellDelegate.swift in Sources */,
 				1A1D2C7A1B731C5600112A4F /* UserFollowController.swift in Sources */,
 				1ACBAF7E1B7B33C000D8910C /* LiveDao.swift in Sources */,
-				1A30F7491B7CAEA900A2CADF /* ZLSwiftRefreshExtension.swift in Sources */,
 				1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */,
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
 				1ACBAF781B7B046200D8910C /* LiveLargeCell.swift in Sources */,
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
-				1A30F7471B7CAEA900A2CADF /* ZLSwiftFootView.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
 				1A0351FC1B54CB7A007372F8 /* News.swift in Sources */,
 				1A0836CA1B78D40A00286911 /* GameHeaderCell.swift in Sources */,

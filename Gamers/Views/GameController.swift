@@ -153,11 +153,11 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
         var width = frame.width
         width = CGFloat(width/2 - 15)
         //todo:设置高宽比例
-        return CGSize(width: width, height: width * 380 / 270 + 20)
+        return CGSize(width: width, height: width * 380 / 270 ) //+20
     }
     // 设置cell的间距
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
-        return UIEdgeInsets(top:5, left: 10, bottom: 5, right: 10)
+        return UIEdgeInsets(top:10, left: 10, bottom: 0, right: 10)
     }
     
     // 设置单元格内容
@@ -166,7 +166,7 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
         
         let imageUrl = self.gameListData[indexPath.section * 2 + indexPath.row].image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
         cell.imageView.kf_setImageWithURL(NSURL(string: imageUrl)!)
-        cell.textLabel.text = gameListData[indexPath.section * 2 + indexPath.row].nameZh
+        //cell.textLabel.text = gameListData[indexPath.section * 2 + indexPath.row].nameZh
         
         return cell
     }
@@ -181,8 +181,8 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navigation-bar.png"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "navigation-bar.png")
         self.navigationController?.navigationBar.translucent = false
     }
 }

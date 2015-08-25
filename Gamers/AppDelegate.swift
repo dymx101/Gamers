@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // 初始化Google登入
-        var configureErr: NSError?
-        GGLContext.sharedInstance().configureWithError(&configureErr)
-        if configureErr != nil {
-            println("Error configuring the Google context: \(configureErr)")
-        }
+//        var configureErr: NSError?
+//        GGLContext.sharedInstance().configureWithError(&configureErr)
+//        if configureErr != nil {
+//            println("Error configuring the Google context: \(configureErr)")
+//        }
         // 网络检测
 //        let reachability = Reachability.reachabilityForInternetConnection()
 //        // 判断联网情况（写在view中）
@@ -63,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        return GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
-    }
+//    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+//        return GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
+//    }
     
     func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> Int {
         if allowRotation {

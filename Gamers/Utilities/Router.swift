@@ -30,13 +30,12 @@ enum Router: URLRequestConvertible {
     case ChannelInfo(channelId: String?)                                //频道信息
     case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
     
-    case LiveVideo(offset: Int?, count: Int?)             //直播频道视频
+    case LiveVideo(offset: Int?, count: Int?)               //直播频道视频
 
     case UserLogin(userName: String?, password: String?)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
     case Subscriptions(userId: String?, userToken: String?) //所有订阅列表
     case Subscribe(userId: String?, channelId: String?)     //订阅
-    
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)       //搜索视频
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)     //搜索频道
@@ -184,8 +183,8 @@ enum Router: URLRequestConvertible {
         mutableURLRequest.HTTPMethod = method.rawValue
         
         // 用户令牌
-        let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-        mutableURLRequest.addValue(String(stringInterpolationSegment: userInfo.objectForKey("userAuthToken")), forHTTPHeaderField: "Auth-token")
+        let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+        mutableURLRequest.addValue(String(stringInterpolationSegment: userDefaults.objectForKey("userToken")), forHTTPHeaderField: "Auth-token")
         
         return encoding.encode(mutableURLRequest, parameters: parameters).0
     }

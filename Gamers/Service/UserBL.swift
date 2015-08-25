@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import Bolts
 import SwiftyJSON
+import RealmSwift
 
 private let _SingletonSharedInstanceUserBL = UserBL()
 
@@ -117,6 +118,15 @@ class UserBL: NSObject {
         })
         
         return fetchTask
+    }
+    
+    func saveUser(user: User) {
+        let realm = Realm()
+        
+        realm.write {
+            realm.add(user, update: true)
+        }
+        
     }
     
     

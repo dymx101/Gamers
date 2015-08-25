@@ -10,6 +10,7 @@ import UIKit
 import Bolts
 import MJRefresh
 import MBProgressHUD
+import Social
 
 class VideoListController: UITableViewController {
     
@@ -149,19 +150,16 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoListCell", forIndexPath: indexPath) as! VideoListCell
+        cell.setVideo(self.videoData[indexPath.row])
         
-        let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-        cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
-        cell.videoChannel.text = self.videoData[indexPath.row].owner
-        cell.videoViews.text = String(self.videoData[indexPath.row].views)
+        cell.delegate = self
         
         return cell
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 30))
-        //footerView.backgroundColor = UIColor.blackColor()
+        
         return footerView
     }
     
@@ -173,5 +171,65 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
         if cell.respondsToSelector("setLayoutMargins:") {
             cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
+    }
+}
+
+// MARK: - 表格行Cell代理
+extension VideoListController: MyCellDelegate {
+    // 分享按钮
+    func clickCellButton(sender: UITableViewCell) {
+        
+        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
+        var index: NSIndexPath = table.indexPathForCell(sender)!
+        
+        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        
+        // 退出
+        var actionSheetController: UIAlertController = UIAlertController()
+        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            //code
+        })
+        // 关注频道
+        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            
+            
+            
+        })
+        // 分享到Facebook
+        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+            })
+        // 分享到Twitter
+        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+            })
+        
+        // 显示Sheet
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+        
+        
+        
     }
 }
