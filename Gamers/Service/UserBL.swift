@@ -12,14 +12,9 @@ import Bolts
 import SwiftyJSON
 import RealmSwift
 
-private let _SingletonSharedInstanceUserBL = UserBL()
-
 class UserBL: NSObject {
-    
     // 单例模式
-    class var sharedInstance : UserBL {
-        return _SingletonSharedInstanceUserBL
-    }
+    static let sharedSingleton = UserBL()
 
     // 用户登入
     func UserLogin(#userName: String?, password: String?) -> BFTask {
@@ -80,7 +75,9 @@ class UserBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            println(task.result)
             if let videos = task.result as? [Video] {
+                
                 return BFTask(result: videos)
             }
             

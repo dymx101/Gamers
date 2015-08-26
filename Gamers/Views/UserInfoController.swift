@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Kingfisher
 
 class UserInfoController: UITableViewController {
 
@@ -56,6 +57,15 @@ class UserInfoController: UITableViewController {
         
         
         self.tableView.reloadData()
+        
+        
+        let cache = KingfisherManager.sharedManager.cache
+        cache.maxMemoryCost = 0
+        cache.maxDiskCacheSize = 50 * 1024 * 1024
+        cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
+        cache.calculateDiskCacheSizeWithCompletionHandler { (size) -> () in
+            println("disk size in bytes: \(size)")
+        }
 
     }
 
@@ -77,11 +87,11 @@ extension UserInfoController: UITableViewDelegate, UITableViewDataSource {
 
             userDefaults.removeObjectForKey("isLogin")
             
-            // 清空用用户数据
-            
+            // 刷新用户界面数据
             NSNotificationCenter.defaultCenter().postNotificationName("UserLogoutNotification", object: nil, userInfo: nil)
             
-
+            
+            
             // 提示
             var alertController: UIAlertController = UIAlertController(title: "", message: "退出成功", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in

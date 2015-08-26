@@ -17,7 +17,9 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        println(userDefaults.objectForKey("userName"))
+        
         // 初始化用户资料
         if userDefaults.objectForKey("userName") != nil {
             userName.text = userDefaults.stringForKey("userName")!
@@ -37,11 +39,16 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
         
         // 退出的监听事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLogout:", name: "UserLogoutNotification", object: nil)
- 
+        // 登入的监听事件
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLogin:", name: "UserLoginNotification", object: nil)
         
 
     }
     
+    // 登入刷新界面数据
+    func userLogin(notification : NSNotification) {
+        userName.text = userDefaults.stringForKey("userName")!
+    }
     // 退出清理数据
     func userLogout(notification : NSNotification) {
         userName.text = ""

@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Kingfisher
 
 class SystemController: UITableViewController {
     
@@ -52,12 +53,18 @@ class SystemController: UITableViewController {
         println("清理数据")
         // 清理数据库
         
-        let history = History()
+        //let history = History()
         
-        realm.write {
-            self.realm.deleteAll()
-            //self.realm.delete(history)
-        }
+//        realm.write {
+//            self.realm.deleteAll()
+//            //self.realm.delete(history)
+//        }
+        
+        // 清理缓存
+        let cache = KingfisherManager.sharedManager.cache
+        cache.clearMemoryCache()
+        cache.clearDiskCache()
+        cache.cleanExpiredDiskCache()
         
         // 提示
         var alertController: UIAlertController = UIAlertController(title: "", message: "清理完毕", preferredStyle: UIAlertControllerStyle.Alert)

@@ -22,10 +22,6 @@ class HomeController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
     @IBOutlet weak var contentView: UIView!         //滚动试图内容
     
-    let channelBL = ChannelBL()
-    let gameBL = GameBL()
-    let sliderBL = SliderBL()
-    
     // 轮播视图
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
@@ -112,25 +108,6 @@ class HomeController: UIViewController {
     
     // 获取数据
     func loadNewData() {
-
-//        for view in self.contentView.subviews {
-//            view.removeFromSuperview()
-//        }
-        
-//        addTableView()
-
-        //刷新插件BUG，临时方案，没解决
-//        scrollView.bringSubviewToFront(featuredChannelView)
-//        scrollView.bringSubviewToFront(newChannelView)
-//        scrollView.bringSubviewToFront(hotGameView1)
-//        scrollView.bringSubviewToFront(hotGameView2)
-//        scrollView.bringSubviewToFront(hotGameView3)
-//        scrollView.bringSubviewToFront(hotGameView4)
-//        scrollView.bringSubviewToFront(newGameView1)
-//        scrollView.bringSubviewToFront(newGameView2)
-//        scrollView.bringSubviewToFront(newGameView3)
-        
-        
         // 第一次启动使用MBProgressHUD
         if isStartUp {
             let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
@@ -139,7 +116,7 @@ class HomeController: UIViewController {
         }
         
         // 后台进程获取数据
-        sliderBL.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        SliderBL.sharedSingleton.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
@@ -159,32 +136,33 @@ class HomeController: UIViewController {
                 })
         
         // 新手频道推荐数据
-        channelBL.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[101] = (task.result as? [Video])
             self!.newChannelView.reloadData()
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.stopRefensh()
             
             return nil
-            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                self!.stopRefensh()
-                
-                return nil
-                })
+        })
         // 游戏大咖频道推荐数据
-        channelBL.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "data").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[102] = (task.result as? [Video])
             self!.featuredChannelView.reloadData()
+            println(task.result)
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.stopRefensh()
             
             return nil
-            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                self!.stopRefensh()
-                
-                return nil
-                })
+        })
         // 推荐游戏数据
-        gameBL.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             if let games = task.result as? [Game] {
+ 
                 for game in games {
-                    if game.type == 1 {
+                    if game.type == "popular" {
                         self!.hotGameData.append(game)
                     } else {
                         self!.newGameData.append(game)
@@ -193,7 +171,11 @@ class HomeController: UIViewController {
                 // 热门游戏
                 for index in 103...106 {
                     self!.videoData[index]? = games[index-103].videos
-                    self!.gamesName[index] = self!.hotGameData[index-103].nameZh
+                    for name in games[index-103].names {
+                        if name.language == "chinese" {
+                            self!.gamesName[index] = name.translation
+                        }
+                    }
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
@@ -201,7 +183,11 @@ class HomeController: UIViewController {
                 // 新游戏
                 for index in 107...109 {
                     self!.videoData[index]? = games[index-103].videos
-                    self!.gamesName[index] = self!.newGameData[index-107].nameZh
+                    for name in games[index-103].names {
+                        if name.language == "chinese" {
+                            self!.gamesName[index] = name.translation
+                        }
+                    }
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
@@ -364,10 +350,10 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
                 view.removeFromSuperview()
             }
     
-            
-            addTableView()
-            
-            loadNewData()
+//            
+//            addTableView()
+//            
+//            loadNewData()
         } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
             // 移动动画
             moveView(tableView)

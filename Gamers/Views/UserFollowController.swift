@@ -24,7 +24,6 @@ class UserFollowController: UITableViewController {
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
 
-
         // 删除多余的分割线
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         // cell分割线边距，ios8处理
@@ -34,11 +33,18 @@ class UserFollowController: UITableViewController {
         if self.tableView.respondsToSelector("setLayoutMargins:") {
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
+        
+
+        
+        
+        
+        
     }
 
     
     // 初始化数据
     func loadInitData() {
+        
         
     }
     // 下拉刷新数据
@@ -52,6 +58,8 @@ class UserFollowController: UITableViewController {
             return nil
         })
     }
+    
+    
     // 上拉获取更多数据
     func loadMoreData() {
         

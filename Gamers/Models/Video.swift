@@ -11,11 +11,10 @@ import RealmSwift
 import SwiftyJSON
 
 class Video: Object {
-    
     dynamic var id = ""                 //ID
     dynamic var playListId = ""         //youtube的播放列表
     dynamic var videoId = ""            //youtube的视频ID
-    dynamic var userID = ""             //用户ID
+    dynamic var userId = ""             //用户ID
     dynamic var imageSource = ""        //视频图片
     
     dynamic var videoTitle = ""         //视频标题
@@ -26,13 +25,8 @@ class Video: Object {
     
     dynamic var likes = 0               //分享次数（？）
     dynamic var featured = false        //是否属于特殊
-    
-    // MARK: - Relation
-    //dynamic var thumbnails = RLMArray(objectClassName: Thumbnail.className())
-    
-    // MARK: - Initialization
-    // Custom initializer is not supported yet (github.com/realm/realm-cocoa/issues/1101)
-    // init(json: JSON) {}
+    dynamic var playDate = NSDate()
+
     
     class func modelFromJSON(json: JSON) -> Video {
         let model = Video()
@@ -40,7 +34,7 @@ class Video: Object {
         if let itemId = json["id"].string { model.id = itemId }
         if let playListId = json["playlist_id"].string { model.playListId = playListId }
         if let videoId = json["video_id"].string { model.videoId = videoId }
-        if let userID = json["user_id"].string { model.userID = userID }
+        if let userId = json["user_id"].string { model.userId = userId }
         if let imageSource = json["image_source"].string { model.imageSource = imageSource }
         
         if let videoTitle = json["video_title"].string { model.videoTitle = videoTitle }

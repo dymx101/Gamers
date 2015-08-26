@@ -11,10 +11,12 @@ import youtube_ios_player_helper
 import PagingMenuController
 import Social
 import Bolts
+import RealmSwift
 
 class PlayerViewController: UIViewController {
     
     let userBL = UserBL()
+    let videoBL = VideoBL()
     
     var videoData: Video!
     
@@ -148,9 +150,9 @@ class PlayerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         
-        
-        
-        
+        // 保存数据
+        videoBL.setPlayHistory(videoData)
+
         
         
         

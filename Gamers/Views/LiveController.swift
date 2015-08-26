@@ -174,25 +174,25 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         } else {
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            
             if indexPath.row < 5 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("LiveLargeCell", forIndexPath: indexPath) as! LiveLargeCell
-                
                 cell.channelName.text = liveData[indexPath.row].user.userName
                 cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
                 
                 let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-                
+
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
-                
                 cell.videoChannel.text = liveData[indexPath.row].user.userName
                 cell.videoTitle.text = liveData[indexPath.row].stream.steamDescription
                 
                 let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-                
+
                 return cell
             }
         }
@@ -201,11 +201,12 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
     }
     // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        NSLog("点击了第%ld个游戏", indexPath.row)
-        let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
-        view?.LiveData = self.liveData[indexPath.row]
-        
-        self.navigationController?.pushViewController(view!, animated: true)
+        if !self.liveData.isEmpty {
+            let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
+            view?.LiveData = self.liveData[indexPath.row]
+            
+            self.navigationController?.pushViewController(view!, animated: true)
+        }
     }
     // cell分割线的边距
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {

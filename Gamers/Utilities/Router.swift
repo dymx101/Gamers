@@ -12,8 +12,9 @@ import Alamofire
 enum Router: URLRequestConvertible {
 
     //static let baseURLString = "http://freedom.oyss.info"
-    static let baseURLString = "http://api.freedom.cn"
-
+    //static let baseURLString = "http://api.freedom.cn"
+    static let baseURLString = "http://beta.gamers.tm:3000"
+    
     // 
     // Alamofire请求路由，参考 github.com/Alamofire/Alamofire#api-parameter-abstraction
     //
@@ -48,7 +49,7 @@ enum Router: URLRequestConvertible {
             case .Slider(let channel):
                 var parameters: [String: AnyObject] = ["channel": "home"]
 
-                return (.GET, "/index/sliders", parameters)
+                return (.GET, "/mobile_api/sliders", parameters)
             //首页推荐频道：新手、游戏大咖
             case .RecommendChannel(let channelType, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -57,19 +58,20 @@ enum Router: URLRequestConvertible {
                 parameters["count"] = count != nil ? count : 20
                 parameters["order"] = order != nil ? order : "date"
 
-                return (.GET, "/index/recommendchannel", parameters)
+                return (.GET, "/mobile_api/video/recommendchannel", parameters)
             //首页推荐游戏：4个热门游戏、3个新游戏
             case .RecommendGame():
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
 
-                return (.GET, "/index/recommendgame", parameters)
+                return (.GET, "/mobile_api/recommendgame", parameters)
             //所有游戏
             case .AllGame(let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
+                parameters["page"] = offset != nil ? offset : 0
+                parameters["limit"] = count != nil ? count : 20
+                parameters["format"] = "list"
 
-                return (.GET, "/game/games", parameters)
+                return (.GET, "/mobile_api/games", parameters)
             //获取游戏
             case .SeachGame(let name, let type, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -121,7 +123,7 @@ enum Router: URLRequestConvertible {
                 parameters["offset"] = offset != nil ? offset : 0
                 parameters["count"] = count != nil ? count : 20
                 
-                return (.GET, "/live/video", parameters)
+                return (.GET, "/mobile_api/streamers/all", parameters)
             //本地用户登入
             case .UserLogin(let userName, let password):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -138,12 +140,13 @@ enum Router: URLRequestConvertible {
                 if idToken != nil { parameters["idtoken"] = idToken }
 
                 return (.GET, "/user/googlelogin", parameters)
+            //订阅列表
             case .Subscriptions(let userId, let userToken):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if userId != nil { parameters["userid"] = userId }
                 if userToken != nil { parameters["usertoken"] = userToken }
                 
-                return (.GET, "/user/subscriptions", parameters)
+                return (.GET, "/mobile_api/subscriptions", parameters)
             //搜索视频
             case .SearchVideo(let keyword, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]

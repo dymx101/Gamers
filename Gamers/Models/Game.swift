@@ -11,31 +11,24 @@ import RealmSwift
 import SwiftyJSON
 
 class Game: Object {
-    dynamic var id = ""         //ID
-    dynamic var name = ""       //游戏英文名
-    dynamic var nameZh = ""     //游戏中文名
-    dynamic var image = ""      //封面
-    dynamic var details = ""    //简介
-    dynamic var type = 0        //类型：1热门、2新游戏推荐
+    dynamic var id = ""             //ID
+    dynamic var gameId = ""
+    dynamic var imageSource = ""    //封面
+    dynamic var platforms = ""
+    dynamic var tags = ""
+    dynamic var type = ""           //类型：1热门、2新游戏推荐
     
-    //dynamic var videos = ""     //JSON视频数据（临时测试）
+    dynamic var names = [GameName]()
     dynamic var videos = [Video]()
     
     class func collection(#json: JSON) -> [Game] {
-        let realm = Realm()
         var collection = [Game]()
         
         if let items = json.array {
-            //realm.beginWrite()
-            
             for item in items {
                 let gameItem = Game.modelFromJSON(item)
-                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-                //realm.add(videoItem, update: true)
                 collection.append(gameItem)
             }
-            
-            //realm.commitWrite()
         }
         
         return collection
@@ -46,16 +39,43 @@ class Game: Object {
         let model = Game()
         
         if let itemId = json["id"].string { model.id = itemId }
-        if let name = json["name"].string { model.name = name }
-        if let details = json["details"].string { model.details = details }
-        if let nameZh = json["nameZh"].string { model.nameZh = nameZh }
-        if let image = json["image"].string { model.image = image }
-        if let type = json["type"].int { model.type = type }
+        if let gameId = json["game_id"].string { model.gameId = gameId }
+        if let imageSource = json["image_source"].string { model.imageSource = imageSource }
+        if let platforms = json["platforms"].string { model.platforms = platforms }
+        if let tags = json["tags"].string { model.tags = tags }
+        if let type = json["type"].string { model.type = type }
         
         model.videos = Video.collection(json: json["videos"])
-        
+        model.names = GameName.collection(json: json["game_name"])
         
         return model
+    }
+
+}
+
+class GameName: Object {
+    dynamic var language = ""
+    dynamic var translation = ""
+    
+    class func modelFromJSON(json: JSON) -> GameName {
+        let model = GameName()
+        if let language = json["language"].string { model.language = language }
+        if let translation = json["translation"].string { model.translation = translation }
+        
+        return model
+    }
+    
+    class func collection(#json: JSON) -> [GameName] {
+        var collection = [GameName]()
+        
+        if let items = json.array {
+            for item in items {
+                let videoItem = GameName.modelFromJSON(item)
+                collection.append(videoItem)
+            }
+        }
+        
+        return collection
     }
 
 }

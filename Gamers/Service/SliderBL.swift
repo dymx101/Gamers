@@ -11,19 +11,9 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
-private let _SingletonSharedInstanceSliderBL = SliderBL()
-
 class SliderBL: NSObject {
-    
     // 单例模式
-    class var sharedInstance : SliderBL {
-        return _SingletonSharedInstanceSliderBL
-    }
-    
-    //查询所有数据方法 成功
-    func findAllNotesFinished(list : NSMutableArray) {
-        
-    }
+    static let sharedSingleton = SliderBL()
 
     func getSliders(#channel: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
@@ -35,6 +25,9 @@ class SliderBL: NSObject {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let sliders = task.result as? [Slider] {
                 return BFTask(result: sliders)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -48,7 +41,5 @@ class SliderBL: NSObject {
         
         return fetchTask
     }
-    
-
     
 }

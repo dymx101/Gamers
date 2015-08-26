@@ -11,39 +11,47 @@ import RealmSwift
 import SwiftyJSON
 
 class Thumbnail: Object {
-    dynamic var resolution = "default"  // default, medium, high, standard, maxres
-    dynamic var url        = ""
-    dynamic var width      = 0
-    dynamic var height     = 0
+    dynamic var defaultSize = ThumbnailInfo()
+    dynamic var mediumSize = ThumbnailInfo()
+    dynamic var highSize = ThumbnailInfo()
+    dynamic var standardSize = ThumbnailInfo()
+    dynamic var maxresSize = ThumbnailInfo()
     
-    // MARK: - Initialization
-    
-    // Custom initializer is not supported yet (github.com/realm/realm-cocoa/issues/1101)
-    // init(resolution: String, json: JSON) {}
-    
-    class func modelFromJSON(json: JSON) -> Thumbnail {
-        return Thumbnail.modelFromJSON(json, resolution: nil)
+    class func collection(#json: JSON) -> Thumbnail {
+        return Thumbnail.modelFromJSON(json)
     }
     
-    class func modelFromJSON(json: JSON, resolution: String?) -> Thumbnail {
+    class func modelFromJSON(json: JSON) -> Thumbnail {
         let model = Thumbnail()
         
-        if let resolution = resolution {
-            model.resolution = resolution
-        }
-        
-        if let url = json["url"].string {
-            model.url = url
-        }
-        
-        if let width = json["width"].int {
-            model.width = width
-        }
-        
-        if let height = json["height"].int {
-            model.height = height
-        }
+        model.defaultSize = ThumbnailInfo.collection(json: json["default"])
+        model.mediumSize = ThumbnailInfo.collection(json: json["medium"])
+        model.highSize = ThumbnailInfo.collection(json: json["high"])
+        model.standardSize = ThumbnailInfo.collection(json: json["standard"])
+        model.maxresSize = ThumbnailInfo.collection(json: json["maxres"])
         
         return model
     }
+    
+}
+
+class ThumbnailInfo: Object {
+    dynamic var url = ""
+    dynamic var width = 0
+    dynamic var height = 0
+    
+    class func collection(#json: JSON) -> ThumbnailInfo {
+        return ThumbnailInfo.modelFromJSON(json)
+    }
+    
+    class func modelFromJSON(json: JSON) -> ThumbnailInfo {
+        let model = ThumbnailInfo()
+        
+        if let url = json["url"].string { model.url = url }
+        if let width = json["width"].int { model.width = width  }
+        if let height = json["height"].int { model.height = height }
+        
+        return model
+    }
+
 }

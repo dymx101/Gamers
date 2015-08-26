@@ -10,16 +10,12 @@ import Foundation
 import Alamofire
 import Bolts
 import SwiftyJSON
-
-private let _SingletonSharedInstanceVideoBL = VideoBL()
+import RealmSwift
 
 class VideoBL: NSObject {
-    
     // 单例模式
-    class var sharedInstance : VideoBL {
-        return _SingletonSharedInstanceVideoBL
-    }
-
+    static let sharedSingleton = VideoBL()
+    
     // 视频的相关视频列表
     func getVideoRelate(videoId: String, offset: Int?, count: Int?) -> BFTask {
         var fetchTask = BFTask(result: nil)
@@ -116,6 +112,22 @@ class VideoBL: NSObject {
         
         return fetchTask
     }
-
+    
+    // 保存播放视频
+    func setPlayHistory(videoData: Video) {
+        let realm = Realm()
+        // 添加或更新最新观看的视频
+        realm.write {
+            videoData.playDate = NSDate()
+            realm.add(videoData, update: true)
+        }
+        // 如果超出50，删除后面
+        if realm.objects(Video).count > 50 {
+            realm.write {
+                let last = realm.objects(Video).sorted("playDate", ascending: false).last
+                realm.delete(last!)
+            }
+        }
+    }
 
 }

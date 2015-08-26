@@ -13,12 +13,12 @@ import Kingfisher
 import MBProgressHUD
 
 class GameController: UICollectionViewController {
-    
-    let gameBL = GameBL()
-    
+
     var gameListData = [Game]()
     var gamePageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
     var gamePageCount = 20         //每页视频总数
+    
+    var gamePage = 1    // 页数,todo后期实现offset设定
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +38,10 @@ class GameController: UICollectionViewController {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        gameBL.getAllGame(offset: gamePageOffset, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getAllGame(offset: gamePage, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!
             self!.gamePageOffset += self!.gamePageCount
-            
+
             self?.collectionView!.reloadData()
             
             return nil
@@ -60,9 +60,12 @@ class GameController: UICollectionViewController {
     */
     func loadNewData() {
         gamePageOffset = 0
-        gameBL.getAllGame(offset: gamePageOffset, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+        gamePage = 1
+        GameBL.sharedSingleton.getAllGame(offset: gamePage, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!
             self!.gamePageOffset += self!.gamePageCount
+            
+            self!.gamePage += 1
             
             self?.collectionView!.reloadData()
 
@@ -81,7 +84,7 @@ class GameController: UICollectionViewController {
     上拉加载更多数据
     */
     func loadMoreData() {
-        gameBL.getAllGame(offset: gamePageOffset, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getAllGame(offset: gamePage, count: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Game])!
             
             if newData.isEmpty {
@@ -89,6 +92,7 @@ class GameController: UICollectionViewController {
             } else {
                 self!.gameListData += newData
                 self!.gamePageOffset += self!.gamePageCount
+                self!.gamePage += 1
                 
                 self?.collectionView?.footer.endRefreshing()
                 self?.collectionView!.reloadData()
@@ -153,7 +157,11 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
         var width = frame.width
         width = CGFloat(width/2 - 15)
         //todo:设置高宽比例
-        return CGSize(width: width, height: width * 380 / 270 ) //+20
+//        return CGSize(width: width, height: width * 380 / 270 ) //+20 //twitch格式
+        
+        return CGSize(width: width, height: width * 480 / 864 ) //+20
+        
+        
     }
     // 设置cell的间距
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
@@ -164,8 +172,8 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("GameCell", forIndexPath: indexPath) as! GameCell
         
-        let imageUrl = self.gameListData[indexPath.section * 2 + indexPath.row].image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.imageView.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        let imageUrl = self.gameListData[indexPath.section * 2 + indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        cell.imageView.kf_setImageWithURL(NSURL(string: imageUrl)!, placeholderImage: UIImage(named: "game-front-cover.png"))
         //cell.textLabel.text = gameListData[indexPath.section * 2 + indexPath.row].nameZh
         
         return cell

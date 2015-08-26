@@ -4,7 +4,7 @@ use_frameworks!
 
 ## Websocket组件
 pod 'Starscream', '~> 0.9.2'
-pod 'RealmSwift'
+pod 'RealmSwift', '0.94.1'
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
 ## YouTube播放器

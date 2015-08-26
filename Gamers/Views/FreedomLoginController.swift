@@ -54,7 +54,7 @@ class FreedomLoginController: UIViewController, UIWebViewDelegate {
                 let jsonData = JSON(data: dataFromString)
                 // 解析数据
                 var userData: User = User.collection(json: jsonData["user"])
-                if let userToke = jsonData["token"].string { userData.userToke = userToke }
+                if let userToken = jsonData["token"].string { userData.userToken = userToken }
                 if let expires = jsonData["expires"].int { userData.expires = expires }
                 
                 // 保存在本地
@@ -67,6 +67,8 @@ class FreedomLoginController: UIViewController, UIWebViewDelegate {
                 
                 // 登录成功跳转回用户页面
                 userDefaults.setBool(true, forKey: "isLogin")
+                NSNotificationCenter.defaultCenter().postNotificationName("UserLoginNotification", object: nil, userInfo: nil)
+                
                 self.navigationController?.popToRootViewControllerAnimated(true)
                 
             }

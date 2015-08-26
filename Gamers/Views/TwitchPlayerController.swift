@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class TwitchPlayerController: UIViewController {
     
@@ -14,6 +15,8 @@ class TwitchPlayerController: UIViewController {
     @IBOutlet weak var twitchChatView: UIWebView!
     
     var LiveData: Live!
+    
+    var isLoadRequest = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +27,6 @@ class TwitchPlayerController: UIViewController {
         twitchPlayerView.scrollView.scrollEnabled = false
         twitchChatView.allowsInlineMediaPlayback = true
         twitchChatView.scrollView.scrollEnabled = false
-        
-        //let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.twitch.tv/cdewx/popout")!) //popout、embed
-//        let videoRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embed/mrkokosfly?autoplay=true")!) //popout、embed
-//        twitchPlayerView.loadRequest(videoRequest)
-//       
-//        let chatRequest = NSURLRequest(URL: NSURL(string: "http://www.hitbox.tv/embedchat/mrkokosfly")!)
-//        twitchChatView.loadRequest(chatRequest)
-        //twitchChatView.backgroundColor = UIColor.redColor()
 
         // 设置顶部导航条样式，透明
         //self.navigationItem.title = videoData.videoTitle
@@ -39,13 +34,11 @@ class TwitchPlayerController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
         
-//        JGProgressHUD *HUD = [JGProgressHUD progressHUDWithStyle:JGProgressHUDStyleDark];
-//        HUD.textLabel.text = @"Loading";
-//        [HUD showInView:self.view];
-//        [HUD dismissAfterDelay:3.0];
-        
-        println(LiveData)
-        
+//        let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
+//        hud.textLabel.text = "加载中..."
+//        hud.showInView(self.view)
+//        hud.dismissAfterDelay(3.0)
+
         //if LiveData.type == "twitch" {
             let videoRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.streamUrl)!) //popout、embed
             twitchPlayerView.loadRequest(videoRequest)
@@ -60,6 +53,11 @@ class TwitchPlayerController: UIViewController {
         // 播放全屏的监听事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
+        
+        
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = "加载中..."
+        
         
     }
 
@@ -96,3 +94,25 @@ class TwitchPlayerController: UIViewController {
     }
 
 }
+// MARK: - 刷新时候显示加载界面，暂定使用http://api.twitch.tv/assets/判断
+extension TwitchPlayerController: UIWebViewDelegate {
+    func webViewDidFinishLoad(webView: UIWebView) {
+        if isLoadRequest {
+            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
+            
+            isLoadRequest = false
+        }
+        
+    }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        var backURLString = request.URL?.absoluteString
+        if backURLString!.hasPrefix("http://api.twitch.tv/assets/") {
+            isLoadRequest = true
+        }
+
+        return true
+    }
+    
+}
+

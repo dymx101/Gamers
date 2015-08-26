@@ -11,14 +11,9 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
-private let _SingletonSharedInstanceChannelBL = ChannelBL()
-
 class ChannelBL: NSObject {
-    
     // 单例模式
-    class var sharedInstance : ChannelBL {
-        return _SingletonSharedInstanceChannelBL
-    }
+    static let sharedSingleton = ChannelBL()
 
     // 获取频道详情
     func getChannelInfo(#channelId: String) -> BFTask {

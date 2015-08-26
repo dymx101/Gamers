@@ -11,7 +11,6 @@ import RealmSwift
 import SwiftyJSON
 
 class Slider: Object {
-    
     dynamic var id = ""                     //ID
     dynamic var imageHq = ""                //大图
     dynamic var imageSmall = ""             //小图
@@ -22,25 +21,15 @@ class Slider: Object {
     dynamic var itemDescription = ""        //描述
     dynamic var priority = 0                //优先级
     
-//    override static func primaryKey() -> String? {
-//        return "id"
-//    }
-    
     class func collection(#json: JSON) -> [Slider] {
         let realm = Realm()
         var collection = [Slider]()
         
         if let items = json.array {
-            //realm.beginWrite()
-            
             for item in items {
                 let sliderItem = Slider.modelFromJSON(item)
-                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-                //realm.add(videoItem, update: true)
                 collection.append(sliderItem)
             }
-            
-            //realm.commitWrite()
         }
         
         return collection

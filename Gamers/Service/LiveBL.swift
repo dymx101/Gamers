@@ -11,14 +11,9 @@ import Alamofire
 import Bolts
 import SwiftyJSON
 
-private let _SingletonSharedInstanceLiveBL = LiveBL()
-
 class LiveBL: NSObject {
-    
     // 单例模式
-    class var sharedInstance : LiveBL {
-        return _SingletonSharedInstanceLiveBL
-    }
+    static let sharedSingleton = LiveBL()
     
     // 首页推荐游戏
     func getLive(#offset: Int?, count: Int?) -> BFTask {
@@ -29,6 +24,7 @@ class LiveBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+
             if let games = task.result as? [Live] {
                 return BFTask(result: games)
             }

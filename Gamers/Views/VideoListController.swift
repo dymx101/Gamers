@@ -11,11 +11,10 @@ import Bolts
 import MJRefresh
 import MBProgressHUD
 import Social
+import RealmSwift
 
 class VideoListController: UITableViewController {
-    
-    let gameBL = GameBL()
-    
+
     var gameData: Game!
     var videoData = [Video]()
     var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
@@ -24,8 +23,6 @@ class VideoListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = self.gameData.nameZh
-        
         // 刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
@@ -44,12 +41,20 @@ class VideoListController: UITableViewController {
 
         // 加载初始化数据
         loadInitData()
+        
+        //self.navigationItem.title = self.gameData.nameZh
+        for name in self.gameData.names {
+            if name.language == "chinese" {
+                self.navigationItem.title = name.translation
+            }
+        }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navigation-bar.png"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "navigation-bar.png")
         self.navigationController?.navigationBar.translucent = false
     }
     
@@ -59,7 +64,7 @@ class VideoListController: UITableViewController {
         hub.labelText = "加载中..."
         
         videoPageOffset = 0
-        gameBL.getGameVideo(self.gameData.name, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getGameVideo(name: "", offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
             
             self?.tableView.reloadData()
@@ -76,7 +81,7 @@ class VideoListController: UITableViewController {
     */
     func loadNewData() {
         videoPageOffset = 0
-        gameBL.getGameVideo(self.gameData.name, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getGameVideo(name: "", offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
             self?.tableView.reloadData()
 
@@ -91,7 +96,7 @@ class VideoListController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        gameBL.getGameVideo(self.gameData.name, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getGameVideo(name: "", offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
             
             // 如果没有数据显示加载完成，否则继续
