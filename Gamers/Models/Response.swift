@@ -25,8 +25,8 @@ class Response: Object {
     class func modelFromJSON(json: JSON) -> Response {
         let model = Response()
         
-        if let code = json["code"].string { model.code = code }
-        if let message = json["message"].string { model.message = message }
+        if let code = json["errCode"].string { model.code = code }
+        if let message = json["errmsg"].string { model.message = message }
         if let data = json["data"].string { model.data = data }
         
         return model

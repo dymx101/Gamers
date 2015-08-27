@@ -29,6 +29,8 @@ class LiveController: UITableViewController {
         
         // 子页面TwitchPlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        // 删除多余的分割线
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
         // cell分割线边距，ios8处理
         if self.tableView.respondsToSelector("setSeparatorInset:") {
             self.tableView.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)

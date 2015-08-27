@@ -14,11 +14,10 @@ import Bolts
 import RealmSwift
 
 class PlayerViewController: UIViewController {
-    
-    let userBL = UserBL()
-    let videoBL = VideoBL()
-    
+
     var videoData: Video!
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     
     // 导航条默认隐藏
     var isflage = true
@@ -40,9 +39,9 @@ class PlayerViewController: UIViewController {
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            self.userSubscribe()
-        })
+//        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+//            self.userSubscribe()
+//        })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
@@ -104,15 +103,10 @@ class PlayerViewController: UIViewController {
         self.navigationController?.navigationBar.translucent = true
         
         // 加载视频播放
-        //plaverView.playerVars = ["playsinline": "1"]
-        //plaverView.loadVideoID(videoData.videoId)
         var playerVars = ["playsinline": 1, "showinfo": 1]
-
         playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
-        //playerView.loadWithVideoId("2rj2dIXrXW8")
+
         
-        //playerView.playerVars = ["playsinline": "1"]
-        //playerView.loadVideoID("2rj2dIXrXW8")
         
         // 添加加载新视频数据的监听器
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPlayerView:", name: "reloadPlayerViewNotification", object: nil)
@@ -135,7 +129,9 @@ class PlayerViewController: UIViewController {
         options.menuDisplayMode = PagingMenuOptions.MenuDisplayMode.SegmentedControl
         //options.menuItemMargin = 5
         options.selectedTextColor = UIColor.orangeColor()
-        options.menuItemMode = PagingMenuOptions.MenuItemMode.Underline(height: 2, color: UIColor.whiteColor(), selectedColor: UIColor.orangeColor())
+        options.menuItemMode = PagingMenuOptions.MenuItemMode.Underline(height: 2, color: UIColor.orangeColor())
+        //options.menuItemMode = PagingMenuOptions.MenuItemMode.RoundRect(radius: 0, horizontalScale: 0, verticalScale: 0, selectedColor: UIColor.orangeColor())
+        
         options.textColor = UIColor.blackColor()
         options.defaultPage = 1
         
@@ -151,30 +147,40 @@ class PlayerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         
         // 保存数据
-        videoBL.setPlayHistory(videoData)
+        VideoBL.sharedSingleton.setPlayHistory(videoData)
 
-        
+        playerView.delegate = self
         
         
     }
 
     // 用户订阅
     func userSubscribe() {
-        userBL.setSubscribe(userId: "", channelId: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            let response = (task.result as? Response)!
-            var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
-
-            var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
-            alertView.show()
-            
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
+        // 先判断是否登入
+        let isLogin = userDefaults.boolForKey("isLogin")
+        let userId = userDefaults.stringForKey("userId")
+        
+        if isLogin {
+            UserBL.sharedSingleton.setSubscribe(userToken: userId, channelId: videoData.ownerId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                let response = (task.result as? Response)!
                 
-            }
-            
-            return nil
-        })
+                println(task.result)
+                var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
+                
+                var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+                
+                return nil
+                }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                    if task.error != nil {
+                        
+                    }
+                    return nil
+                    })
+        } else {
+            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
+        }
     }
     
     
@@ -182,12 +188,14 @@ class PlayerViewController: UIViewController {
     
     }
     
+    // 重新加载视频
     func reloadPlayerView(notification: NSNotification) {
         let userInfo = notification.userInfo!
         let newVideoData = userInfo["data"] as! Video
-
+        
+        var playerVars = ["playsinline": 1, "showinfo": 1]
         //playerView.loadVideoID("Zm8wVHL9KEg")
-        playerView.loadWithVideoId(newVideoData.videoId)
+        playerView.loadWithVideoId(newVideoData.videoId, playerVars: playerVars)
         
         videoViews.text = String(newVideoData.views) + " 次"
         
@@ -237,5 +245,13 @@ extension PlayerViewController: PagingMenuControllerDelegate {
     func didMoveToMenuPage(page: Int) {
         //println(page)
         //println("触发didMoveToMenuPage事件")
+    }
+}
+
+// MARK: - youtube播放代理
+extension PlayerViewController: YTPlayerViewDelegate {
+    // 加载完成立即播放
+    func playerViewDidBecomeReady(playerView: YTPlayerView!) {
+        playerView.playVideo()
     }
 }

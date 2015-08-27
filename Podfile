@@ -8,7 +8,7 @@ pod 'RealmSwift', '0.94.1'
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
 ## YouTube播放器
-pod 'YouTubePlayer'
+#pod 'YouTubePlayer'
 pod 'youtube-ios-player-helper'
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入

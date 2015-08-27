@@ -50,6 +50,7 @@ class UserFollowController: UITableViewController {
     // 下拉刷新数据
     func loadNewData() {
         userBL.getSubscriptions(userId: "", userToken: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            println(task.result)
             self!.videoData = (task.result as? [Video])!
             
             self?.tableView.reloadData()

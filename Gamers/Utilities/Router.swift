@@ -36,7 +36,7 @@ enum Router: URLRequestConvertible {
     case UserLogin(userName: String?, password: String?)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
     case Subscriptions(userId: String?, userToken: String?) //所有订阅列表
-    case Subscribe(userId: String?, channelId: String?)     //订阅
+    case Subscribe(userToken: String?, channelId: String?)     //订阅
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)       //搜索视频
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)     //搜索频道
@@ -94,7 +94,7 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if videoId != nil { parameters["videoid"] = videoId }
                 
-                return (.GET, "/video/relate", parameters)
+                return (.GET, "/mobile_api/videos/related", parameters)
             //视频相关评论列表
             case .VideoComment(let videoId, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -108,7 +108,7 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if channelId != nil { parameters["channelid"] = channelId }
                 
-                return (.GET, "/channel/info", parameters)
+                return (.GET, "/mobile_api/channel/info", parameters)
             //频道视频列表
             case .ChannelVideo(let channelId, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -143,19 +143,19 @@ enum Router: URLRequestConvertible {
             //订阅列表
             case .Subscriptions(let userId, let userToken):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if userId != nil { parameters["userid"] = userId }
-                if userToken != nil { parameters["usertoken"] = userToken }
+                //if userId != nil { parameters["userid"] = userId }
+                //if userToken != nil { parameters["usertoken"] = userToken }
                 
                 return (.GET, "/mobile_api/subscriptions", parameters)
             //搜索视频
             case .SearchVideo(let keyword, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if keyword != nil { parameters["keyword"] = keyword }
+                if keyword != nil { parameters["q"] = keyword }
                 parameters["offset"] = offset != nil ? offset : 0
                 parameters["count"] = count != nil ? count : 20
-                parameters["order"] = order != nil ? order : "date"
+                //parameters["order"] = order != nil ? order : "date"
                 
-                return (.GET, "/video/search", parameters)
+                return (.GET, "/mobile_api/videos/search", parameters)
             //搜索频道
             case .SearchChannel(let keyword, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -165,13 +165,14 @@ enum Router: URLRequestConvertible {
                 parameters["order"] = order != nil ? order : "date"
                 
                 return (.GET, "/channel/search", parameters)
-            //订阅
-            case .Subscribe(let userId, let channelId):
+            //订阅，奇芭的GET和POST混搭，暂停使用
+            case .Subscribe(let userToken, let channelId):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if userId != nil { parameters["userid"] = userId }
-                if channelId != nil { parameters["channelid"] = channelId }
+                if userToken != nil { parameters["token"] = userToken }
+                if channelId != nil { parameters["userId"] = channelId }
                 
-                return (.GET, "/user/subscribe", parameters)
+                //return (.GET, "/mobile_api/subscribe?useId=\(channelId!)", parameters)
+                return (.POST, "/mobile_api/subscribe", parameters)
 
                 
                 
@@ -182,12 +183,13 @@ enum Router: URLRequestConvertible {
         // 组合成请求路径
         let encoding = Alamofire.ParameterEncoding.URL
         let URL = NSURL(string: Router.baseURLString)!
+
         let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
         mutableURLRequest.HTTPMethod = method.rawValue
-        
+ 
         // 用户令牌
         let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-        mutableURLRequest.addValue(String(stringInterpolationSegment: userDefaults.objectForKey("userToken")), forHTTPHeaderField: "Auth-token")
+        mutableURLRequest.addValue(String(stringInterpolationSegment: userDefaults.stringForKey("userToken")!), forHTTPHeaderField: "Auth-token")
         
         return encoding.encode(mutableURLRequest, parameters: parameters).0
     }

@@ -94,11 +94,11 @@ class UserBL: NSObject {
     
     
     // 用户订阅频道
-    func setSubscribe(#userId: String?, channelId: String?) -> BFTask {
+    func setSubscribe(#userToken: String?, channelId: String?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return UserDao.Subscribe(userId: userId, channelId: channelId)
+            return UserDao.Subscribe(userToken: userToken, channelId: channelId)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
@@ -124,6 +124,55 @@ class UserBL: NSObject {
             realm.add(user, update: true)
         }
         
+    }
+    
+    // 跟随 todo：统一使用Router
+    func setFollow(#channelId: String) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+        let isLogin = userDefaults.boolForKey("isLogin")
+        
+        let headers = [ "Auth-token": userDefaults.stringForKey("userToken")! ]
+        
+        if isLogin {
+            Alamofire.request(.POST, "http://beta.gamers.tm:3000/mobile_api/subscribe?userId=\(channelId)", headers: headers).responseJSON { _, _, JSONData, _ in
+                let response = Response.collection(json: JSON(JSONData!))
+                
+                if response.code == "0" {
+                    let alertView: UIAlertView = UIAlertView(title: "", message: "订阅成功", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                } else {
+                    let alertView: UIAlertView = UIAlertView(title: "", message: "订阅失败", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        } else {
+            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
+        }
+    }
+    // 取消更随 todo：统一使用Router
+    func setUnFollow(#channelId: String) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+        let isLogin = userDefaults.boolForKey("isLogin")
+        
+        let headers = [ "Auth-token": userDefaults.stringForKey("userToken")! ]
+        
+        if isLogin {
+            Alamofire.request(.POST, "http://beta.gamers.tm:3000/mobile_api/unsubscribe?userId=\(channelId)", headers: headers).responseJSON { _, _, JSONData, _ in
+                let response = Response.collection(json: JSON(JSONData!))
+                
+                if response.code == "0" {
+                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消成功", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                } else {
+                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消失败", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        } else {
+            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
+        }
     }
     
     

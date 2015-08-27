@@ -12,11 +12,10 @@ import SnapKit
 
 class VideoInfoController: UIViewController {
 
-    let userBL = UserBL()
-    let channelBL = ChannelBL()
-    
     var videoData: Video!
     var channelData: Channel!
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     
     @IBOutlet weak var headerImage: UIImageView!
     @IBOutlet weak var channelName: UILabel!
@@ -26,21 +25,31 @@ class VideoInfoController: UIViewController {
     
     @IBOutlet weak var subscribeButton: UIButton!
     @IBAction func clickSubscribe(sender: AnyObject) {
-        userBL.setSubscribe(userId: "", channelId: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            let response = (task.result as? Response)!
-            var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
-            
-            var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
-            alertView.show()
-            
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
+        // 先判断是否登入
+        let isLogin = userDefaults.boolForKey("isLogin")
+        let userId = userDefaults.stringForKey("userId")
+        
+        if isLogin {
+            UserBL.sharedSingleton.setSubscribe(userToken: userId, channelId: channelData.id).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                let response = (task.result as? Response)!
                 
-            }
-            
-            return nil
-        })
+                println(task.result)
+                var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
+                
+                var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+                
+                return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                if task.error != nil {
+                    
+                }
+                return nil
+            })
+        } else {
+            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
+        }
     }
     
     override func viewDidLoad() {
@@ -68,15 +77,20 @@ class VideoInfoController: UIViewController {
 
     func loadInitData() {
         // 设置属性
-        channelBL.getChannelInfo(channelId: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelInfo(channelId: videoData.ownerId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.channelData = (task.result as? Channel)!
             
-            self?.channelSubscribers.text = String(self!.channelData.subscribes) + " 次"
-            self?.channelAutograph.text = String(self!.channelData.details)
+            self?.channelSubscribers.text = String(self!.channelData.subscribers) + " 人订阅"
+            self?.channelAutograph.text = String(self!.channelData.videos) + " 次播放"
             
             let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             self?.headerImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
             
+            self?.videoDetails.text = self?.channelData.details
+            self?.videoDetails.textColor = UIColor.blackColor()
+            
+            self?.channelName.text = self?.channelData.name
+
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
 

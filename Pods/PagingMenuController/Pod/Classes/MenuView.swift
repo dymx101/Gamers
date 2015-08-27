@@ -13,6 +13,7 @@ class MenuView: UIScrollView {
     internal var menuItemViews = [MenuItemView]()
     private var options: PagingMenuOptions!
     private var contentView: UIView!
+    private var underlineView: UIView!
     private var currentPage: Int = 0
     
     // MARK: - Lifecycle
@@ -27,6 +28,12 @@ class MenuView: UIScrollView {
         layoutContentView()
         constructMenuItemViews(titles: menuItemTitles)
         layoutMenuItemViews()
+        
+        switch options.menuItemMode {
+        case .Underline(let height, let color):
+            constructUnderlineView(height, color: color)
+        default: break
+        }
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -49,6 +56,12 @@ class MenuView: UIScrollView {
 
         UIView.animateWithDuration(duration, animations: { [unowned self] () -> Void in
             self.contentOffset.x = contentOffsetX
+            
+            if let underlineView = self.underlineView {
+                let targetFrame = self.menuItemViews[self.currentPage].frame
+                underlineView.frame.origin.x = targetFrame.origin.x
+                underlineView.frame.size.width = targetFrame.width
+            }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.changeMenuItemColor()
@@ -73,7 +86,7 @@ class MenuView: UIScrollView {
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
         bounces = bounces()
-        scrollEnabled = true
+        scrollEnabled = scrollEnabled()
         scrollsToTop = false
         setTranslatesAutoresizingMaskIntoConstraints(false)
     }
@@ -127,6 +140,13 @@ class MenuView: UIScrollView {
         }
     }
     
+    private func constructUnderlineView(height: CGFloat, color: UIColor) {
+        let width = menuItemViews.first!.bounds.size.width
+        underlineView = UIView(frame: CGRectMake(0, options.menuHeight - height, width, height))
+        underlineView.backgroundColor = color
+        contentView.addSubview(underlineView)
+    }
+    
     private func bounces() -> Bool {
         switch options.menuDisplayMode {
         case .FlexibleItemWidth(_, let scrollingMode):
@@ -142,6 +162,27 @@ class MenuView: UIScrollView {
                 return true
             default:
                 return false
+            }
+        default:
+            return false
+        }
+    }
+    
+    private func scrollEnabled() -> Bool {
+        switch options.menuDisplayMode {
+        case .FlexibleItemWidth(_, let scrollingMode):
+            switch scrollingMode {
+            case .PagingEnabled:
+                return false
+            default:
+                return true
+            }
+        case .FixedItemWidth(_, _, let scrollingMode):
+            switch scrollingMode {
+            case .PagingEnabled:
+                return false
+            default:
+                return true
             }
         default:
             return false

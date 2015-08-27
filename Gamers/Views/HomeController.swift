@@ -22,10 +22,13 @@ class HomeController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!    //滚动视图
     @IBOutlet weak var contentView: UIView!         //滚动试图内容
     
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    
     // 轮播视图
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
     var cycleImagesURLStrings: [String]  = [];
+    var sliderListData = [Slider]()
     //新手推荐视图
     var newChannelView: UITableView!
     //游戏大咖视图
@@ -46,6 +49,7 @@ class HomeController: UIViewController {
     
     var videoData = [Int: [Video]]()
     var gamesName  = [ 101: "", 102: "", 103: "", 104: "", 105: "", 106: "", 107: "", 108: "", 109: "" ]
+    var gamesImage  = [ 101: "", 102: "", 103: "", 104: "", 105: "", 106: "", 107: "", 108: "", 109: "" ]
 
     // 表格展开状态标记
     var expansionStatus = [ 101: false, 102: false, 103: false, 104: false, 105: false, 106: false, 107: false, 108: false, 109: false ]
@@ -65,7 +69,7 @@ class HomeController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
 
         // 下拉刷新数据
-        scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        //scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         //scrollView.footer.hidden = true
         
         videoData[101] = [Video]()
@@ -81,13 +85,10 @@ class HomeController: UIViewController {
         addTableView()
 
         // 底部标签栏显示数字
-        var items = self.tabBarController?.tabBar.items as! [UITabBarItem]
-        items[2].badgeValue = "2"
+        //var items = self.tabBarController?.tabBar.items as! [UITabBarItem]
+        //items[2].badgeValue = "2"
         
 
-        
-
-        
         // 加载数据
         self.loadNewData()
 
@@ -99,7 +100,7 @@ class HomeController: UIViewController {
     func stopRefensh(){
         self.refresh++
         if self.refresh >= 3 {
-            self.scrollView.header.endRefreshing()
+            //self.scrollView.header.endRefreshing()
             MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
             
             refresh = 0
@@ -122,6 +123,8 @@ class HomeController: UIViewController {
                     self!.cycleTitles.append(slider.title)
                     self!.cycleImagesURLStrings.append(slider.imageSmall)
                 }
+                
+                self!.sliderListData = sliders
             }
             self!.cycleScrollView.titlesGroup = self!.cycleTitles
             self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
@@ -129,11 +132,11 @@ class HomeController: UIViewController {
             self!.cycleImagesURLStrings = [];
             
             return nil
-            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                self!.stopRefensh()
-                
-                return nil
-                })
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.stopRefensh()
+            
+            return nil
+        })
         
         // 新手频道推荐数据
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -150,7 +153,7 @@ class HomeController: UIViewController {
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData[102] = (task.result as? [Video])
             self!.featuredChannelView.reloadData()
-            println(task.result)
+            //println(task.result)
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.stopRefensh()
@@ -176,6 +179,8 @@ class HomeController: UIViewController {
                             self!.gamesName[index] = name.translation
                         }
                     }
+                    self!.gamesImage[index] = games[index-103].imageSource
+                    self!.videoData[index] = games[index-103].videos
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
@@ -188,6 +193,8 @@ class HomeController: UIViewController {
                             self!.gamesName[index] = name.translation
                         }
                     }
+                    self!.gamesImage[index] = games[index-103].imageSource
+                    self!.videoData[index] = games[index-103].videos
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
@@ -315,6 +322,9 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             cell.gameName.text = gamesName[viewTag]
             cell.gameDetail.text = "游戏推荐"
             
+            let imageUrl = self.gamesImage[viewTag]!.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            cell.gameImage.kf_setImageWithURL(NSURL(string: imageUrl)!, placeholderImage: UIImage(named: "game-front-cover.png"))
+            
             return cell
             // 表格底部最后行处理
         case 4 where !expansionStatus[viewTag]!:
@@ -400,8 +410,10 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - 顶部轮播的代理方法
 extension HomeController: SDCycleScrollViewDelegate {
     func cycleScrollView(cycleScrollView: SDCycleScrollView!, didSelectItemAtIndex index: Int) {
-        var view = self.storyboard!.instantiateViewControllerWithIdentifier("SliderVC") as? SliderController
-        self.navigationController?.pushViewController(view!, animated: true)
+        var sliderVC = self.storyboard!.instantiateViewControllerWithIdentifier("SliderVC") as? SliderController
+        sliderVC?.sliderData = sliderListData[index]
+        
+        self.navigationController?.pushViewController(sliderVC!, animated: true)
     }
 }
 
@@ -410,10 +422,11 @@ extension HomeController: MyCellDelegate {
     // 触发分享按钮事件
     func clickCellButton(sender: UITableViewCell) {
         let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
-        var index: NSIndexPath = table.indexPathForCell(sender)!
+        let index: NSIndexPath = table.indexPathForCell(sender)!
+        var video = self.videoData[sender.tag - index.row - 100]![index.row]
         
-        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
-
+        //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
@@ -421,9 +434,7 @@ extension HomeController: MyCellDelegate {
         })
         // 关注频道
         actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-
-            
-            
+            UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
         })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in

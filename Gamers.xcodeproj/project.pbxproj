@@ -44,7 +44,6 @@
 		1A32FD141B54BD170040E94C /* ModelSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD131B54BD170040E94C /* ModelSerializable.swift */; };
 		1A32FD161B54BD660040E94C /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD151B54BD660040E94C /* Slider.swift */; };
 		1A32FD1B1B54C1000040E94C /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD1A1B54C1000040E94C /* HomeController.swift */; };
-		1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */ = {isa = PBXBuildFile; fileRef = 1A4181A11B708E5000927C21 /* TwitchPlayerView.html */; };
 		1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A4181A31B709B4D00927C21 /* Main.storyboard */; };
 		1A4181A71B709BA900927C21 /* TwitchPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */; };
 		1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181DB1B71A94000927C21 /* FreedomController.swift */; };
@@ -157,7 +156,6 @@
 		1A32FD131B54BD170040E94C /* ModelSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSerializable.swift; sourceTree = "<group>"; };
 		1A32FD151B54BD660040E94C /* Slider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
 		1A32FD1A1B54C1000040E94C /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
-		1A4181A11B708E5000927C21 /* TwitchPlayerView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = TwitchPlayerView.html; sourceTree = "<group>"; };
 		1A4181A41B709B4D00927C21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A4181A61B709BA900927C21 /* TwitchPlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitchPlayerController.swift; sourceTree = "<group>"; };
 		1A4181DB1B71A94000927C21 /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
@@ -412,7 +410,6 @@
 				1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */,
 				1AD9C7001B4E1189001FE414 /* Info.plist */,
 				1A3015AC1B4E1F7600EB9965 /* Gamers-Bridging-Header.h */,
-				1A4181A11B708E5000927C21 /* TwitchPlayerView.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -565,7 +562,6 @@
 				1A4181A51B709B4D00927C21 /* Main.storyboard in Resources */,
 				1AEB2F9F1B7A3AD6005F0A3F /* share.png in Resources */,
 				1A23C2B21B8463D700AF5860 /* navigation-bar.png in Resources */,
-				1A4181A21B708E5000927C21 /* TwitchPlayerView.html in Resources */,
 				1A30F74B1B7CCA5A00A2CADF /* more.png in Resources */,
 				1AD9C70C1B4E1189001FE414 /* LaunchScreen.xib in Resources */,
 				1A28D41E1B831DE000F1424F /* placeholder.png in Resources */,

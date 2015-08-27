@@ -18,9 +18,9 @@ class Channel: Object {
     dynamic var mark = ""           //频道标识：新手、大咖等
     dynamic var image = ""          //频道图片
     
-    dynamic var subscribes = 0      //订阅数
-    dynamic var videos = 0          //视频总数
-    dynamic var views = 0           //播放次数
+    dynamic var subscribers = ""      //订阅数
+    dynamic var videos = ""          //视频总数
+    dynamic var views = ""           //播放次数
     
 //    override static func primaryKey() -> String? {
 //        return "id"
@@ -65,9 +65,9 @@ class Channel: Object {
         if let mark = json["mark"].string { model.mark = mark }
         if let image = json["image"].string { model.image = image }
         
-        if let subscribes = json["subscribes"].int { model.subscribes = subscribes }
-        if let videos = json["videos"].int { model.videos = videos }
-        if let views = json["views"].int { model.views = views }
+        if let subscribers = json["subscribers"].string { model.subscribers = subscribers }
+        if let videos = json["videos"].string { model.videos = videos }
+        if let views = json["views"].string { model.views = views }
         
         return model
     }

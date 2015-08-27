@@ -64,18 +64,16 @@ extension UserDao {
     /**
     用户订阅频道
     
-    :param: userId    用户ID
+    :param: userId    用户userToken
     :param: channelId 频道ID
     
     :returns: 返回结果
     */
-    static func Subscribe(#userId: String?, channelId: String?) -> BFTask {
-        var URLRequest = Router.Subscribe(userId: userId, channelId: channelId)
+    static func Subscribe(#userToken: String?, channelId: String?) -> BFTask {
+        var URLRequest = Router.Subscribe(userToken: userToken, channelId: channelId)
         
         return fetchResponse(URLRequest: URLRequest)
     }
-    
-    
     
     
     /**
@@ -88,13 +86,12 @@ extension UserDao {
             if error == nil {
                 var result: [String: AnyObject]!
                 var response: Response!
-                
+                println("订阅返回信息：\(JSONDictionary)")
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     let json = JSON(JSONDictionary)
                     response = Response.collection(json: json)
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(response)
             } else {
                 source.setError(error)
@@ -121,10 +118,8 @@ extension UserDao {
                     let json = JSON(JSONDictionary)
                     videos = Video.collection(json: json)
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(videos)
-                
             } else {
                 source.setError(error)
             }
@@ -149,10 +144,8 @@ extension UserDao {
                     let json = JSON(JSONDictionary)
                     user = User.collection(json: json)
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(user)
-                
             } else {
                 source.setError(error)
             }
