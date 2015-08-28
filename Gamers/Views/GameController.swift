@@ -9,8 +9,8 @@
 import UIKit
 import Bolts
 import MJRefresh
-import Kingfisher
 import MBProgressHUD
+import Haneke
 
 class GameController: UICollectionViewController {
 
@@ -26,6 +26,8 @@ class GameController: UICollectionViewController {
         // 下拉上拉刷新数据
         self.collectionView!.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
+        
+        
         
         loadInitData()
         
@@ -108,7 +110,7 @@ class GameController: UICollectionViewController {
         })
     }
     
-    // 跳转传值，当使用storyboard时候才可以使用改方法，要不然不会触发，纯代码可以使用didSelectItemAtIndexPath触发
+    // 跳转传值，当使用storyboard时候才可以使用该方法，要不然不会触发，纯代码可以使用didSelectItemAtIndexPath触发
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "GameVideoListSegue" {
             // 定义列表控制器
@@ -153,15 +155,12 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     // 设置cell宽高
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        var frame  = self.view.frame;
-        var width = frame.width
-        width = CGFloat(width/2 - 15)
+        var frame = self.view.frame;
+        var width = CGFloat(frame.width/2 - 15)
+        
         //todo:设置高宽比例
 //        return CGSize(width: width, height: width * 380 / 270 ) //+20 //twitch格式
-        
         return CGSize(width: width, height: width * 480 / 864 ) //+20
-        
-        
     }
     // 设置cell的间距
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
@@ -173,9 +172,8 @@ extension GameController: UICollectionViewDataSource, UICollectionViewDelegate {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("GameCell", forIndexPath: indexPath) as! GameCell
         
         let imageUrl = self.gameListData[indexPath.section * 2 + indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.imageView.kf_setImageWithURL(NSURL(string: imageUrl)!, placeholderImage: UIImage(named: "game-front-cover.png"))
-        //cell.textLabel.text = gameListData[indexPath.section * 2 + indexPath.row].nameZh
-        
+        cell.imageView.hnk_setImageFromURL(NSURL(string: imageUrl)!, placeholder: UIImage(named: "game-front-cover.png"))
+
         return cell
     }
     

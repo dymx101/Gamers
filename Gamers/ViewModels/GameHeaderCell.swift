@@ -14,8 +14,6 @@ class GameHeaderCell: UITableViewCell {
     @IBOutlet weak var gameName: UILabel!
     @IBOutlet weak var gameDetail: UILabel!
  
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,6 +23,11 @@ class GameHeaderCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func prepareForReuse() {
+        gameImage.hnk_cancelSetImage()
+        gameImage.image = nil
     }
     
 }

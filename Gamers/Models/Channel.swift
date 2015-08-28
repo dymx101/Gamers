@@ -27,31 +27,19 @@ class Channel: Object {
 //    }
     
     class func collection(#json: JSON) -> [Channel] {
-        let realm = Realm()
         var collection = [Channel]()
         
         if let items = json.array {
-            //realm.beginWrite()
-            
             for item in items {
-                let channelItem = Channel.modelFromJSON(item)
-                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-                //realm.add(videoItem, update: true)
-                collection.append(channelItem)
+                collection.append(Channel.modelFromJSON(item))
             }
-            
-            //realm.commitWrite()
         }
         
         return collection
     }
     
     class func Info(#json: JSON) -> Channel {
-        let realm = Realm()
-        
-        var info: Channel = Channel.modelFromJSON(json)
-        
-        return info
+        return Channel.modelFromJSON(json)
     }
     
     

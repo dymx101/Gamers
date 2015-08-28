@@ -47,8 +47,8 @@ extension GameDao {
     
     :returns: 视频列表
     */
-    static func getGameVideo(#name: String, offset: Int?, count: Int?) -> BFTask {
-        var URLRequest = Router.GameVideo(name: name, offset: offset, count: count)
+    static func getGameVideo(#gameId: String, offset: Int?, count: Int?) -> BFTask {
+        var URLRequest = Router.GameVideo(gameId: gameId, offset: offset, count: count)
         
         return fetchGameVideo(URLRequest: URLRequest)
     }
@@ -62,17 +62,12 @@ extension GameDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var games = [Game]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    games = Game.collection(json: json)
+                    games = Game.collection(json: JSON(JSONDictionary))
                 }
                 
-                //TODO: 返回该对象集合,view直接读取
                 source.setResult(games)
                 
             } else {
@@ -91,17 +86,12 @@ extension GameDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var videos = [Video]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    videos = Video.collection(json: json)
+                    videos = Video.collection(json: JSON(JSONDictionary))
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(videos)
                 
             } else {

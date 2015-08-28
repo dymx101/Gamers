@@ -88,7 +88,7 @@ extension UserFollowController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("UserFollowCell", forIndexPath: indexPath) as! VideoListCell
         
         let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
         cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
         cell.videoChannel.text = self.videoData[indexPath.row].owner
         cell.videoViews.text = String(self.videoData[indexPath.row].views)

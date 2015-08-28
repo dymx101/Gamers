@@ -22,24 +22,21 @@ class Slider: Object {
     dynamic var priority = 0                //优先级
     
     class func collection(#json: JSON) -> [Slider] {
-        let realm = Realm()
         var collection = [Slider]()
         
         if let items = json.array {
             for item in items {
-                let sliderItem = Slider.modelFromJSON(item)
-                collection.append(sliderItem)
+                collection.append(Slider.modelFromJSON(item))
             }
         }
-        
+    
         return collection
     }
-    
     
     // 把JSON数据转换为对象
     class func modelFromJSON(json: JSON) -> Slider {
         let model = Slider()
-        
+
         if let itemId = json["id"].string { model.id = itemId }
         if let imageHq = json["image_hq"].string { model.imageHq = imageHq }
         if let imageSmall = json["image_small"].string { model.imageSmall = imageSmall }

@@ -13,7 +13,14 @@ class GameCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textLabel: UILabel!
     
+
+    
+    override func prepareForReuse() {
+        imageView.hnk_cancelSetImage()
+        imageView.image = nil
+    }
     
     
     
 }
+

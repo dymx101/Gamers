@@ -39,7 +39,7 @@ class SearchCell: UITableViewCell {
         videoViews.text = String(video.views) + " 次"
         
         let imageUrl = video.imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
     }
 
     override func setHighlighted(highlighted: Bool, animated: Bool) {

@@ -8,14 +8,12 @@
 
 import UIKit
 import SDCycleScrollView
+import MBProgressHUD
 import MJRefresh
-import Alamofire
-import SwiftyJSON
 import Bolts
-import RealmSwift
 import SnapKit
 import Social
-import MBProgressHUD
+
 
 class HomeController: UIViewController {
     
@@ -24,11 +22,13 @@ class HomeController: UIViewController {
     
     let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     
-    // 轮播视图
+    // 轮播视图及变量
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
     var cycleImagesURLStrings: [String]  = [];
-    var sliderListData = [Slider]()
+    var sliderListData: [Slider] = [Slider]()
+    
+    
     //新手推荐视图
     var newChannelView: UITableView!
     //游戏大咖视图
@@ -46,8 +46,9 @@ class HomeController: UIViewController {
     // 全局数据 //todo 整合在一起
     var hotGameData = [Game]()
     var newGameData = [Game]()
+    var gameListData = [Game]()
     
-    var videoData = [Int: [Video]]()
+    var videoListData = [Int: [Video]]()
     var gamesName  = [ 101: "", 102: "", 103: "", 104: "", 105: "", 106: "", 107: "", 108: "", 109: "" ]
     var gamesImage  = [ 101: "", 102: "", 103: "", 104: "", 105: "", 106: "", 107: "", 108: "", 109: "" ]
 
@@ -69,28 +70,45 @@ class HomeController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
 
         // 下拉刷新数据
-        //scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
+        scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         //scrollView.footer.hidden = true
         
-        videoData[101] = [Video]()
-        videoData[102] = [Video]()
-        videoData[103] = [Video]()
-        videoData[104] = [Video]()
-        videoData[105] = [Video]()
-        videoData[106] = [Video]()
-        videoData[107] = [Video]()
-        videoData[108] = [Video]()
-        videoData[109] = [Video]()
+        // 0、顶部轮播
+        cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
+        cycleScrollView.backgroundColor = UIColor.grayColor()
+        // 轮播视图的基本属性
+        cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
+        cycleScrollView.infiniteLoop = true;
+        cycleScrollView.delegate = self
+        cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
+        cycleScrollView.autoScrollTimeInterval = 4.0
+        cycleScrollView.placeholderImage = UIImage(named: "sliders.png")
         
-        addTableView()
+        contentView.addSubview(cycleScrollView)
+        
+        // 4个热门游戏，3个新游戏
+        createGameTableView()
+
+        videoListData[101] = [Video]()
+        videoListData[102] = [Video]()
+        videoListData[103] = [Video]()
+        videoListData[104] = [Video]()
+        videoListData[105] = [Video]()
+        videoListData[106] = [Video]()
+        videoListData[107] = [Video]()
+        videoListData[108] = [Video]()
+        videoListData[109] = [Video]()
+
 
         // 底部标签栏显示数字
         //var items = self.tabBarController?.tabBar.items as! [UITabBarItem]
         //items[2].badgeValue = "2"
         
-
         // 加载数据
         self.loadNewData()
+        
+        // 解决table和scroll混用时，点击事件BUG，（是否有效需要更多测试）
+        scrollView.panGestureRecognizer.delaysTouchesBegan = true
 
     }
     
@@ -99,11 +117,11 @@ class HomeController: UIViewController {
     // 停止刷新状态
     func stopRefensh(){
         self.refresh++
-        if self.refresh >= 3 {
-            //self.scrollView.header.endRefreshing()
+        if self.refresh >= 4 { //3
+            self.scrollView.header.endRefreshing()
             MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
             
-            refresh = 0
+            refresh = 0 // 重置刷新计数
         }
     }
     
@@ -117,17 +135,17 @@ class HomeController: UIViewController {
         }
         
         // 后台进程获取数据
-        SliderBL.sharedSingleton.getSliders(channel: "Home").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        SliderBL.sharedSingleton.getHomeSlider().continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
                     self!.cycleImagesURLStrings.append(slider.imageSmall)
                 }
-                
                 self!.sliderListData = sliders
             }
             self!.cycleScrollView.titlesGroup = self!.cycleTitles
             self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
+            // 重置轮播数据，等待刷新
             self!.cycleTitles = []
             self!.cycleImagesURLStrings = [];
             
@@ -140,7 +158,7 @@ class HomeController: UIViewController {
         
         // 新手频道推荐数据
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[101] = (task.result as? [Video])
+            self!.videoListData[101] = (task.result as? [Video])
             self!.newChannelView.reloadData()
 
             return nil
@@ -151,7 +169,7 @@ class HomeController: UIViewController {
         })
         // 游戏大咖频道推荐数据
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData[102] = (task.result as? [Video])
+            self!.videoListData[102] = (task.result as? [Video])
             self!.featuredChannelView.reloadData()
             //println(task.result)
             return nil
@@ -163,7 +181,8 @@ class HomeController: UIViewController {
         // 推荐游戏数据
         GameBL.sharedSingleton.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             if let games = task.result as? [Game] {
- 
+                self?.gameListData = games
+
                 for game in games {
                     if game.type == "popular" {
                         self!.hotGameData.append(game)
@@ -173,44 +192,44 @@ class HomeController: UIViewController {
                 }
                 // 热门游戏
                 for index in 103...106 {
-                    self!.videoData[index]? = games[index-103].videos
+                    self!.videoListData[index]? = games[index-103].videos
                     for name in games[index-103].names {
                         if name.language == "chinese" {
                             self!.gamesName[index] = name.translation
                         }
                     }
                     self!.gamesImage[index] = games[index-103].imageSource
-                    self!.videoData[index] = games[index-103].videos
+                    self!.videoListData[index] = games[index-103].videos
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
                 }
                 // 新游戏
                 for index in 107...109 {
-                    self!.videoData[index]? = games[index-103].videos
+                    self!.videoListData[index]? = games[index-103].videos
                     for name in games[index-103].names {
                         if name.language == "chinese" {
                             self!.gamesName[index] = name.translation
                         }
                     }
                     self!.gamesImage[index] = games[index-103].imageSource
-                    self!.videoData[index] = games[index-103].videos
+                    self!.videoListData[index] = games[index-103].videos
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
                 }
                 
-                //println("数据：\(self?.videoData)")
             }
             return nil
-            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                self!.stopRefensh()
-                
-                return nil
-                })
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.stopRefensh()
+            
+            return nil
+        })
         
     }
     
+    // 视图下移
     func moveView(tableView: UITableView) {
         let viewTag = tableView.tag
         // 该tableView以及扩展
@@ -231,266 +250,22 @@ class HomeController: UIViewController {
                 make.height.equalTo(700)
             })
         }, completion: nil)
-    }
-    
-
-    
-    
-    /**
-    初始化全局尺寸
-    */
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
+        
+        // 调整整体界面
         var total = 0
         for (_, item) in expansionStatus {
-            if item { total = total + 1 }
+            if item { total += 1 }
         }
         
         let height = 3825 + total * 300
-        // iphone4s:3820，iphone5s:3730，iphone6:3630，iphone6p:3560   +180
-        self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height) )
+        self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height))
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGFloat(height))
         self.view.backgroundColor = UIColor.lightGrayColor()
 
     }
     
-    override func viewWillAppear(animated: Bool) {
-        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
-        self.navigationController?.navigationBar.translucent = false
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-}
-// MARK: - 表格代理
-extension HomeController: UITableViewDelegate, UITableViewDataSource {
-    
-    // 设置表格行数，展开和不展开两种情况
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.videoData[tableView.tag]!.count == 0 {
-            return 0
-        }
-        
-        if expansionStatus[tableView.tag]! {
-            return self.videoData[tableView.tag]!.count + 2
-        } else {
-            return 5
-        }
-        
-    }
-    // 设置行高
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 50
-        } else if indexPath.row == 4 && !expansionStatus[tableView.tag]! {
-            return 50
-        } else if indexPath.row == videoData[tableView.tag]!.count+1 && expansionStatus[tableView.tag]! {
-            return 50
-        } else {
-            return 100
-        }
-    }
-    
-    
-    // 设置单元格的内容（创建参数indexPath指定的单元）
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let viewTag = tableView.tag
-        
-        switch indexPath.row {
-            // 表格头0行处理
-        case 0 where tableView.isEqual(newChannelView):
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-            cell.imageView?.image = UIImage(named: "Icon-recommend")
-            cell.hearderTitle.text = "新手推荐"
-            
-            return cell
-        case 0 where tableView.isEqual(featuredChannelView):
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-            cell.imageView?.image = UIImage(named: "icon-great")
-            cell.hearderTitle.text = "实况大咖"
-            
-            return cell
-        case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
-            cell.gameName.text = gamesName[viewTag]
-            cell.gameDetail.text = "游戏推荐"
-            
-            let imageUrl = self.gamesImage[viewTag]!.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.gameImage.kf_setImageWithURL(NSURL(string: imageUrl)!, placeholderImage: UIImage(named: "game-front-cover.png"))
-            
-            return cell
-            // 表格底部最后行处理
-        case 4 where !expansionStatus[viewTag]!:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
-            
-            return cell
-        case videoData[viewTag]!.count+1 where expansionStatus[viewTag]!:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterAllCell", forIndexPath: indexPath) as! TableFooterAllCell
-            
-            return cell
-            // 中间部分
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-            cell.setVideo(self.videoData[viewTag]![indexPath.row-1])
-            
-            cell.delegate = self
-            cell.tag = viewTag + indexPath.row + 100
-            
-            return cell
-        }
-        
-    }
-    /**
-    点击触发，第1个无反应，中间跳转到播放页面，最后一个展开或者跳转到全部视频
-    */
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let viewTag = tableView.tag
-        println("点击表格-\(viewTag)-触发行: \(indexPath.row)")
-        if indexPath.row == 0 {
-            println("无反应")
-            
-            for view in self.contentView.subviews {
-                view.removeFromSuperview()
-            }
-    
-//            
-//            addTableView()
-//            
-//            loadNewData()
-        } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
-            // 移动动画
-            moveView(tableView)
-            let dataView = self.view.viewWithTag(viewTag) as! UITableView
-            dataView.reloadData()
-        } else if indexPath.row == videoData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
-            // 跳转到不同的全部界面
-            if viewTag == 101 || viewTag == 102 {
-                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
-                //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
-                
-                self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else if viewTag >= 103 && viewTag <= 106 {
-                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
-                viewVC?.gameData = hotGameData[viewTag - 103]
-                
-                self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else {
-                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
-                viewVC?.gameData = newGameData[viewTag - 107]
-                
-                self.navigationController?.pushViewController(viewVC!, animated: true)
-            }
-        } else {
-            let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
-            view?.videoData = self.videoData[viewTag]![indexPath.row-1]
-            
-            self.navigationController?.pushViewController(view!, animated: true)
-        }
-        
-    }
-    // cell分割线的边距
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if cell.respondsToSelector("setSeparatorInset:") {
-            cell.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
-        }
-        if cell.respondsToSelector("setLayoutMargins:") {
-            cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
-        }
-    }
-    
-}
-
-// MARK: - 顶部轮播的代理方法
-extension HomeController: SDCycleScrollViewDelegate {
-    func cycleScrollView(cycleScrollView: SDCycleScrollView!, didSelectItemAtIndex index: Int) {
-        var sliderVC = self.storyboard!.instantiateViewControllerWithIdentifier("SliderVC") as? SliderController
-        sliderVC?.sliderData = sliderListData[index]
-        
-        self.navigationController?.pushViewController(sliderVC!, animated: true)
-    }
-}
-
-// MARK: - 表格行Cell代理
-extension HomeController: MyCellDelegate {
-    // 触发分享按钮事件
-    func clickCellButton(sender: UITableViewCell) {
-        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
-        let index: NSIndexPath = table.indexPathForCell(sender)!
-        var video = self.videoData[sender.tag - index.row - 100]![index.row]
-        
-        //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
-        
-        // 退出
-        var actionSheetController: UIAlertController = UIAlertController()
-        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
-            //code
-        })
-        // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
-        })
-        // 分享到Facebook
-        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
-            self.presentViewController(slComposerSheet, animated: true, completion: nil)
-            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
-            
-            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
-                if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
-                }
-            }
-            
-//            [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook
-            
-        })
-        // 分享到Twitter
-        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
-            self.presentViewController(slComposerSheet, animated: true, completion: nil)
-            
-            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
-                if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
-                }
-            }
-        })
-        
-        // 显示Sheet
-        self.presentViewController(actionSheetController, animated: true, completion: nil)
-
-    }
-    
-    func addTableView() {
-        // 0、顶部轮播
-        cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
-        cycleScrollView.backgroundColor = UIColor.grayColor()
-        // 轮播视图的基本属性
-        cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
-        cycleScrollView.infiniteLoop = true;
-        cycleScrollView.delegate = self
-        cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
-        cycleScrollView.autoScrollTimeInterval = 4.0
-        cycleScrollView.placeholderImage = UIImage(named: "sliders.png")
-        
-        contentView.addSubview(cycleScrollView)
-        
-        
+    // 创建内容表格
+    func createGameTableView() {
         // 1、添加新手推荐部分
         newChannelView = UITableView()
         newChannelView.scrollEnabled = false
@@ -525,6 +300,8 @@ extension HomeController: MyCellDelegate {
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
         }
+        
+        newChannelView.scrollEnabled = false
         
         
         // 2、添加大咖推荐部分
@@ -592,7 +369,7 @@ extension HomeController: MyCellDelegate {
         // 位置布局
         hotGameView1.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(featuredChannelView.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(980)
+            make.top.equalTo(contentView).offset(978)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -626,7 +403,7 @@ extension HomeController: MyCellDelegate {
         // 位置布局
         hotGameView2.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(hotGameView1.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(1383)
+            make.top.equalTo(contentView).offset(1384)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -763,7 +540,7 @@ extension HomeController: MyCellDelegate {
         // 位置布局
         newGameView2.snp_makeConstraints { (make) -> Void in
             //make.top.equalTo(newGameView1.snp_bottom).offset(6)
-            make.top.equalTo(contentView).offset(3012)
+            make.top.equalTo(contentView).offset(3008)
             make.left.equalTo(contentView).offset(6)
             make.right.equalTo(contentView).offset(-6)
             make.height.equalTo(400)
@@ -804,6 +581,246 @@ extension HomeController: MyCellDelegate {
             make.height.equalTo(400)
         }
     }
+    
+    
+    /**
+    初始化全局尺寸
+    */
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        var total = 0
+        for (_, item) in expansionStatus {
+            if item { total = total + 1 }
+        }
+        
+        let height = 3825 + total * 300
+        self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height))
+        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGFloat(height))
+        self.view.backgroundColor = UIColor.lightGrayColor()
+
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "image_1.jpg"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
+        self.navigationController?.navigationBar.translucent = false
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+}
+
+// MARK: - 表格代理
+extension HomeController: UITableViewDelegate, UITableViewDataSource {
+    
+    // 设置表格行数，展开和不展开两种情况
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.videoListData[tableView.tag]!.count == 0 {
+            return 0
+        }
+        
+        if expansionStatus[tableView.tag]! {
+            return self.videoListData[tableView.tag]!.count + 2
+        } else {
+            return 5
+        }
+    }
+    
+    // 设置行高
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 50
+        } else if indexPath.row == 4 && !expansionStatus[tableView.tag]! {
+            return 50
+        } else if indexPath.row == videoListData[tableView.tag]!.count+1 && expansionStatus[tableView.tag]! {
+            return 50
+        } else {
+            return 100
+        }
+    }
+    
+    // 设置单元格的内容（创建参数indexPath指定的单元）
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let viewTag = tableView.tag
+        
+        switch indexPath.row {
+        // 表格头0行处理
+        case 0 where tableView.isEqual(newChannelView):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.imageView?.image = UIImage(named: "Icon-recommend")
+            cell.hearderTitle.text = "新手推荐"
+            
+            return cell
+        case 0 where tableView.isEqual(featuredChannelView):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
+            cell.imageView?.image = UIImage(named: "icon-great")
+            cell.hearderTitle.text = "实况大咖"
+            
+            return cell
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
+            cell.gameName.text = gamesName[viewTag]
+            if viewTag <= 106 {
+                cell.gameDetail.text = "热门游戏推荐"
+            } else {
+                cell.gameDetail.text = "新游戏推荐"
+            }
+            
+            let imageUrl = self.gamesImage[viewTag]!.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            cell.gameImage.hnk_setImageFromURL(NSURL(string: imageUrl)!, placeholder: UIImage(named: "game-front-cover.png"))
+            
+            return cell
+        // 表格底部最后行处理
+        case 4 where !expansionStatus[viewTag]!:
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterCell", forIndexPath: indexPath) as! TableFooterCell
+            
+            return cell
+        case videoListData[viewTag]!.count+1 where expansionStatus[viewTag]!:
+            let cell = tableView.dequeueReusableCellWithIdentifier("TableFooterAllCell", forIndexPath: indexPath) as! TableFooterAllCell
+            
+            return cell
+        // 中间部分
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
+            cell.setVideo(self.videoListData[viewTag]![indexPath.row-1])
+            
+            cell.delegate = self
+            cell.tag = viewTag + indexPath.row + 100
+            
+            return cell
+        }
+        
+    }
+    
+    /**
+    点击触发，第1个无反应，中间跳转到播放页面，最后一个展开或者跳转到全部视频
+    */
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let viewTag = tableView.tag
+        //println("点击表格-\(viewTag)-触发行: \(indexPath.row)")
+        if indexPath.row == 0 {
+
+        } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
+            // 移动动画
+            moveView(tableView)
+            let dataView = self.view.viewWithTag(viewTag) as! UITableView
+            dataView.reloadData()
+        } else if indexPath.row == videoListData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
+            // 跳转到不同的全部界面
+            if viewTag == 101 || viewTag == 102 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
+                //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else if viewTag >= 103 && viewTag <= 106 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = hotGameData[viewTag - 103]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = newGameData[viewTag - 107]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            }
+        } else {
+            let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
+            view?.videoData = self.videoListData[viewTag]![indexPath.row-1]
+            
+            self.navigationController?.pushViewController(view!, animated: true)
+        }
+
+    }
+    
+    // cell分割线的边距
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if cell.respondsToSelector("setSeparatorInset:") {
+            cell.separatorInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+        if cell.respondsToSelector("setLayoutMargins:") {
+            cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
+        }
+    }
+    
+}
+
+// MARK: - 顶部轮播的代理方法
+extension HomeController: SDCycleScrollViewDelegate {
+    func cycleScrollView(cycleScrollView: SDCycleScrollView!, didSelectItemAtIndex index: Int) {
+        var sliderVC = self.storyboard!.instantiateViewControllerWithIdentifier("SliderVC") as? SliderController
+        sliderVC?.sliderData = sliderListData[index]
+        
+        self.navigationController?.pushViewController(sliderVC!, animated: true)
+    }
+}
+
+// MARK: - 表格行Cell代理
+extension HomeController: MyCellDelegate {
+    // 触发分享按钮事件
+    func clickCellButton(sender: UITableViewCell) {
+        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
+        let index: NSIndexPath = table.indexPathForCell(sender)!
+        var video = self.videoListData[sender.tag - index.row - 100]![index.row]
+        
+        //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        
+        // 退出
+        var actionSheetController: UIAlertController = UIAlertController()
+        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            //code
+        })
+        // 关注频道
+        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
+        })
+        // 分享到Facebook
+        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        })
+        // 分享到Twitter
+        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.addImage(UIImage(named: "user.png"))
+            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        })
+        
+        // 显示Sheet
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+
+    }
+    
 }
 
 

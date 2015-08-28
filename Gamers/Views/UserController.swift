@@ -27,7 +27,7 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
             
             //let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             //userImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-            userImage.image = UIImage(named: "user.png")
+            //userImage.image = UIImage(named: "user.png")
         }
         
         //设置圆角

@@ -184,7 +184,7 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
                 cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
                 
                 let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+                cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
 
                 return cell
             } else {
@@ -193,7 +193,7 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
                 cell.videoTitle.text = liveData[indexPath.row].stream.steamDescription
                 
                 let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+                cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
 
                 return cell
             }

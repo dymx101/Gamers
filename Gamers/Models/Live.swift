@@ -16,18 +16,13 @@ class Live: Object {
     dynamic var stream = Stream()     //视频数据流
     
     class func collection(#json: JSON) -> [Live] {
-        let realm = Realm()
         var collection = [Live]()
         
         if let items = json.array {
-            //realm.beginWrite()
-            
             for item in items {
                 let gameItem = Live.modelFromJSON(item)
                 collection.append(gameItem)
             }
-            
-            //realm.commitWrite()
         }
         return collection
     }

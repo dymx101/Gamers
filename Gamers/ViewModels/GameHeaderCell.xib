@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -80,9 +81,6 @@
                         <exclude reference="JtR-lF-oyQ"/>
                     </mask>
                     <mask key="constraints">
-                        <exclude reference="4pj-rl-1Gb"/>
-                        <exclude reference="PTn-fh-mAl"/>
-                        <exclude reference="qrz-eA-oGV"/>
                         <exclude reference="GWc-UJ-Erc"/>
                         <exclude reference="Lq9-Lg-ATY"/>
                         <exclude reference="cLE-Ez-ooz"/>
@@ -90,6 +88,9 @@
                         <exclude reference="64x-qu-hvK"/>
                         <exclude reference="6c3-Ab-pCk"/>
                         <exclude reference="jvk-pQ-0Jh"/>
+                        <exclude reference="4pj-rl-1Gb"/>
+                        <exclude reference="PTn-fh-mAl"/>
+                        <exclude reference="qrz-eA-oGV"/>
                     </mask>
                 </variation>
                 <variation key="heightClass=regular-widthClass=compact">
@@ -99,9 +100,6 @@
                         <include reference="JtR-lF-oyQ"/>
                     </mask>
                     <mask key="constraints">
-                        <include reference="4pj-rl-1Gb"/>
-                        <include reference="PTn-fh-mAl"/>
-                        <include reference="qrz-eA-oGV"/>
                         <include reference="GWc-UJ-Erc"/>
                         <include reference="Lq9-Lg-ATY"/>
                         <include reference="cLE-Ez-ooz"/>
@@ -109,6 +107,9 @@
                         <include reference="64x-qu-hvK"/>
                         <include reference="6c3-Ab-pCk"/>
                         <include reference="jvk-pQ-0Jh"/>
+                        <include reference="4pj-rl-1Gb"/>
+                        <include reference="PTn-fh-mAl"/>
+                        <include reference="qrz-eA-oGV"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

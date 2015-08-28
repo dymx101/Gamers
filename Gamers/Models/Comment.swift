@@ -23,20 +23,12 @@ class Comment: Object {
 
     
     class func collection(#json: JSON) -> [Comment] {
-        let realm = Realm()
         var collection = [Comment]()
         
-        if let items = json.array {
-            //realm.beginWrite()
-            
+        if let items = json.array {            
             for item in items {
-                let commentItem = Comment.modelFromJSON(item)
-                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-                //realm.add(videoItem, update: true)
-                collection.append(commentItem)
+                collection.append(Comment.modelFromJSON(item))
             }
-            
-            //realm.commitWrite()
         }
         
         return collection

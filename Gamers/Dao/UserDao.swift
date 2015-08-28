@@ -84,12 +84,10 @@ extension UserDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var result: [String: AnyObject]!
                 var response: Response!
                 println("订阅返回信息：\(JSONDictionary)")
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    response = Response.collection(json: json)
+                    response = Response.collection(json: JSON(JSONDictionary))
                 }
 
                 source.setResult(response)
@@ -109,14 +107,10 @@ extension UserDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var videos = [Video]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    videos = Video.collection(json: json)
+                    videos = Video.collection(json: JSON(JSONDictionary))
                 }
 
                 source.setResult(videos)
@@ -136,13 +130,10 @@ extension UserDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var user: User!
-                
+
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    user = User.collection(json: json)
+                    user = User.collection(json: JSON(JSONDictionary))
                 }
 
                 source.setResult(user)

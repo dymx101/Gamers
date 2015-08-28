@@ -26,11 +26,10 @@ class Game: Object {
         
         if let items = json.array {
             for item in items {
-                let gameItem = Game.modelFromJSON(item)
-                collection.append(gameItem)
+                collection.append(Game.modelFromJSON(item))
             }
         }
-        
+
         return collection
     }
     
@@ -48,7 +47,21 @@ class Game: Object {
         model.videos = Video.collection(json: json["videos"])
         model.names = GameName.collection(json: json["game_name"])
         
+        //model.videos = Game.collection2(json: json["videos"])
+        
         return model
+    }
+    
+    class func collection2(#json: JSON) -> [Video] {
+        var collection = [Video]()
+        
+        if let items = json.array {
+            for item in items {
+                collection.append(Video.modelFromJSON(item))
+            }
+        }
+        
+        return collection
     }
 
 }
@@ -70,8 +83,7 @@ class GameName: Object {
         
         if let items = json.array {
             for item in items {
-                let videoItem = GameName.modelFromJSON(item)
-                collection.append(videoItem)
+                collection.append(GameName.modelFromJSON(item))
             }
         }
         

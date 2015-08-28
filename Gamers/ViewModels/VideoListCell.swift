@@ -36,7 +36,8 @@ class VideoListCell: UITableViewCell {
         videoViews.text = String(video.views) + " 次"
         
         let imageUrl = video.imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!, placeholder: UIImage(named: "placeholder.png"))
+
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -44,5 +45,5 @@ class VideoListCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

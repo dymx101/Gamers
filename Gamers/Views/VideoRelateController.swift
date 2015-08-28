@@ -9,7 +9,6 @@
 import UIKit
 import MJRefresh
 import Bolts
-import Kingfisher
 
 class VideoRelateController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
 

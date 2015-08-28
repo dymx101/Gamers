@@ -70,11 +70,11 @@ class GameBL: NSObject {
     }
     
     // 游戏的视频列表
-    func getGameVideo(#name: String, offset: Int?, count: Int?) -> BFTask {
+    func getGameVideo(#gameId: String, offset: Int?, count: Int?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return GameDao.getGameVideo(name: name, offset: offset, count: count)
+            return GameDao.getGameVideo(gameId: gameId, offset: offset, count: count)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in

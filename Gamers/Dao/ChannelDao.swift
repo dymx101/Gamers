@@ -95,16 +95,12 @@ extension ChannelDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var user: Channel!
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    user = Channel.Info(json: json)
+                    user = Channel.Info(json: JSON(JSONDictionary))
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(user)
                 
             } else {
@@ -123,17 +119,12 @@ extension ChannelDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var channels = [Channel]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    channels = Channel.collection(json: json)
+                    channels = Channel.collection(json: JSON(JSONDictionary))
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(channels)
                 
             } else {
@@ -152,13 +143,10 @@ extension ChannelDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var videos = [Video]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    videos = Video.collection(json: json)
+                    videos = Video.collection(json: JSON(JSONDictionary))
                 }
                 
                 source.setResult(videos)

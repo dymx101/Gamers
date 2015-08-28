@@ -18,8 +18,7 @@ pod 'MJRefresh'
 pod 'Bolts'
 #pod 'BoltsSwift'
 ## 缓存组件，主要用于图片
-pod 'Kingfisher'
-#pod 'HanekeSwift'
+pod 'HanekeSwift'
 ## Facebook的异步组件
 #pod 'AsyncDisplayKit'
 ## 标签页切换
@@ -27,7 +26,7 @@ pod 'Kingfisher'
 #pod 'SwiftPages'
 pod 'PagingMenuController'
 ## 加载中提示的插件
-pod 'SwiftSpinner'
+#pod 'SwiftSpinner'
 #pod 'JGProgressHUD'
 pod 'MBProgressHUD'
 ## 界面布局

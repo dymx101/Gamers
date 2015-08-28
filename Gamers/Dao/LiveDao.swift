@@ -30,16 +30,12 @@ extension LiveDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var lives = [Live]()
 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    lives = Live.collection(json: json)
+                    lives = Live.collection(json: JSON(JSONDictionary))
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(lives)
             } else {
                 source.setError(error)

@@ -11,6 +11,8 @@ import RealmSwift
 import SwiftyJSON
 
 class Video: Object {
+    static let sharedSingleton = Video()
+    
     dynamic var id = ""                 //ID
     dynamic var playListId = ""         //youtube的播放列表
     dynamic var videoId = ""            //youtube的视频ID
@@ -26,7 +28,6 @@ class Video: Object {
     dynamic var likes = 0               //分享次数（？）
     dynamic var featured = false        //是否属于特殊
     dynamic var playDate = NSDate()
-
     
     class func modelFromJSON(json: JSON) -> Video {
         let model = Video()
@@ -45,36 +46,17 @@ class Video: Object {
         
         if let likes = json["likes"].int { model.likes = likes }
         if let featured = json["featured"].bool { model.featured = featured }
-        
-//        if let dateString = json["snippet"]["publishedAt"].string {
-//            let dateFormatter = Video.dateFormatter()
-//            
-//            if let publishedAt = dateFormatter.dateFromString(dateString) {
-//                //model.publishedAt = publishedAt
-//            }
-//        }
-        
-//        let thumbnails = json["snippet"]["thumbnails"]
-//        
-//        if thumbnails.type == Type.Dictionary {
-//            
-//            for (key: String, subJson: JSON) in thumbnails {
-//                let thumbnail = Thumbnail.modelFromJSON(subJson, resolution: key)
-//                //model.thumbnails.addObject(thumbnail)
-//            }
-//        }
+
         
         return model
     }
     
     // MARK: - Override
-    
     override class func primaryKey() -> String {
         return "id"
     }
     
     // MARK: - Private
-    
     private class func dateFormatter() -> NSDateFormatter {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -87,22 +69,12 @@ class Video: Object {
     }
     
     // MARK: - ResponseCollectionSerializable
-    
     class func collection(#json: JSON) -> [Video] {
-        let realm = Realm()
         var collection = [Video]()
-        
         if let items = json.array {
-            //realm.beginWrite()
-            
             for item in items {
-                let videoItem = Video.modelFromJSON(item)
-                //let model = Video.createOrUpdateInRealm(realm, withValue: videoItem)
-                //realm.add(videoItem, update: true)
-                collection.append(videoItem)
+                collection.append(Video.modelFromJSON(item))
             }
-            
-            //realm.commitWrite()
         }
         
         return collection

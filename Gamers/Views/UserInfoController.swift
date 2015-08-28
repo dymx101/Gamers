@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import Kingfisher
 
 class UserInfoController: UITableViewController {
 
@@ -52,20 +51,13 @@ class UserInfoController: UITableViewController {
         var imageFormat = NSString(string: userData.avatar).substringWithRange(range)
         if imageFormat != "svg" {
             let imageUrl = "http://beta.gamers.tm/" + userData.avatar
-            userImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            userImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
         }
         
         
         self.tableView.reloadData()
         
-        
-        let cache = KingfisherManager.sharedManager.cache
-        cache.maxMemoryCost = 0
-        cache.maxDiskCacheSize = 50 * 1024 * 1024
-        cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
-        cache.calculateDiskCacheSizeWithCompletionHandler { (size) -> () in
-            println("disk size in bytes: \(size)")
-        }
+    
 
     }
 

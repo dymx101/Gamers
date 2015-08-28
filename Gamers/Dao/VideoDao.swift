@@ -81,17 +81,12 @@ extension VideoDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var comments = [Comment]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    comments = Comment.collection(json: json)
+                    comments = Comment.collection(json: JSON(JSONDictionary))
                 }
                 
-                //TODO: 返回该对象集合,view直接读取
                 source.setResult(comments)
                 
             } else {
@@ -110,17 +105,12 @@ extension VideoDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var videos = [Video]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    videos = Video.collection(json: json)
+                    videos = Video.collection(json: JSON(JSONDictionary))
                 }
-                
-                //TODO: 返回该对象集合,view直接读取
+
                 source.setResult(videos)
                 
             } else {

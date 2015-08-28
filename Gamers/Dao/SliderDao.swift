@@ -14,8 +14,14 @@ import SwiftyJSON
 struct SliderDao {}
 
 extension SliderDao {
-    static func getSliders(#channel: String?) -> BFTask {
-        var URLRequest = Router.Slider(channel: channel)
+    static func getHomeSlider() -> BFTask {
+        var URLRequest = Router.HomeSlider()
+        
+        return fetchVideos(URLRequest: URLRequest)
+    }
+    
+    static func getChannelSlider(#channelId: String) -> BFTask {
+        var URLRequest = Router.ChannelSlider(channelId: channelId)
         
         return fetchVideos(URLRequest: URLRequest)
     }
@@ -25,17 +31,12 @@ extension SliderDao {
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                
-                // 保存数据到本地
-                var result: [String: AnyObject]!
                 var sliders = [Slider]()
                 
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    let json = JSON(JSONDictionary)
-                    sliders = Slider.collection(json: json)
+                    sliders = Slider.collection(json: JSON(JSONDictionary))
                 }
 
-                //TODO: 返回该对象集合,view直接读取
                 source.setResult(sliders)
 
             } else {

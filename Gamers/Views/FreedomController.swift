@@ -28,7 +28,7 @@ class FreedomController: UITableViewController {
     var videoPageCount = 20         //每页视频总数
     
     var refresh = 0     // 刷新数据计数
-    let channelId = "freedom"  //freedom的ID
+    let freedomChannelId = "7579af4d-7141-440e-853c-fd7fa03dffad"  //freedom的ID
 
     
     override func viewDidLoad() {
@@ -118,7 +118,7 @@ class FreedomController: UITableViewController {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += self!.videoPageCount
             
@@ -127,7 +127,7 @@ class FreedomController: UITableViewController {
             return nil
         })
 
-        sliderBL.getSliders(channel: channelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
@@ -157,7 +157,7 @@ class FreedomController: UITableViewController {
     */
     func loadNewData() {
         videoPageOffset = 0
-        channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += self!.videoPageCount
             
@@ -175,7 +175,7 @@ class FreedomController: UITableViewController {
             return nil
         })
 
-        sliderBL.getSliders(channel: channelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if let sliders = task.result as? [Slider] {
                 for slider in sliders {
                     self!.cycleTitles.append(slider.title)
@@ -205,7 +205,7 @@ class FreedomController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        channelBL.getChannelVideo(channelId: channelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Video])!
             
             // 如果没有数据显示加载完成，否则继续
@@ -278,7 +278,7 @@ extension FreedomController: UITableViewDataSource, UITableViewDelegate {
             tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             
             let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
             cell.videoTitle.text = self.videoListData[indexPath.row].videoTitle
             cell.videoChannel.text = self.videoListData[indexPath.row].owner
             cell.videoViews.text = String(self.videoListData[indexPath.row].views)

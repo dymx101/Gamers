@@ -54,7 +54,7 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/Alamofire.framework'
   install_framework 'Pods/Bolts.framework'
-  install_framework 'Pods/Kingfisher.framework'
+  install_framework 'Pods/Haneke.framework'
   install_framework 'Pods/MBProgressHUD.framework'
   install_framework 'Pods/MJRefresh.framework'
   install_framework 'Pods/PagingMenuController.framework'
@@ -64,14 +64,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/SDCycleScrollView.framework'
   install_framework 'Pods/SnapKit.framework'
   install_framework 'Pods/Starscream.framework'
-  install_framework 'Pods/SwiftSpinner.framework'
   install_framework 'Pods/SwiftyJSON.framework'
   install_framework 'Pods/youtube_ios_player_helper.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/Alamofire.framework'
   install_framework 'Pods/Bolts.framework'
-  install_framework 'Pods/Kingfisher.framework'
+  install_framework 'Pods/Haneke.framework'
   install_framework 'Pods/MBProgressHUD.framework'
   install_framework 'Pods/MJRefresh.framework'
   install_framework 'Pods/PagingMenuController.framework'
@@ -81,7 +80,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/SDCycleScrollView.framework'
   install_framework 'Pods/SnapKit.framework'
   install_framework 'Pods/Starscream.framework'
-  install_framework 'Pods/SwiftSpinner.framework'
   install_framework 'Pods/SwiftyJSON.framework'
   install_framework 'Pods/youtube_ios_player_helper.framework'
 fi

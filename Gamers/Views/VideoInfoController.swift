@@ -84,7 +84,7 @@ class VideoInfoController: UIViewController {
             self?.channelAutograph.text = String(self!.channelData.videos) + " 次播放"
             
             let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            self?.headerImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+            self?.headerImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
             
             self?.videoDetails.text = self?.channelData.details
             self?.videoDetails.textColor = UIColor.blackColor()

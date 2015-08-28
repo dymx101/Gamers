@@ -35,7 +35,7 @@ class UserHistoryCell: UITableViewCell {
         videoPlayDate.text = "在 " + dateFormatter.stringFromDate(videoData.playDate) + " 播放"
 
         let imageUrl = videoData.imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        videoImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+        videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
     }
     
 

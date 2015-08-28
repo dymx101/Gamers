@@ -37,7 +37,6 @@
 		1A3226501B7D9411001F7C52 /* RoundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32264F1B7D9411001F7C52 /* RoundImage.swift */; };
 		1A3226521B7D9B29001F7C52 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A3226511B7D9B29001F7C52 /* user.png */; };
 		1A32265A1B7DE648001F7C52 /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3226591B7DE648001F7C52 /* MyTextField.swift */; };
-		1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0B1B54B8090040E94C /* APIClient.swift */; };
 		1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0D1B54B91D0040E94C /* Router.swift */; };
 		1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD0F1B54B9BA0040E94C /* NSDateExtensions.swift */; };
 		1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32FD111B54BA680040E94C /* Thumbnail.swift */; };
@@ -149,7 +148,6 @@
 		1A32264F1B7D9411001F7C52 /* RoundImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundImage.swift; sourceTree = "<group>"; };
 		1A3226511B7D9B29001F7C52 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		1A3226591B7DE648001F7C52 /* MyTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
-		1A32FD0B1B54B8090040E94C /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		1A32FD0D1B54B91D0040E94C /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1A32FD0F1B54B9BA0040E94C /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
 		1A32FD111B54BA680040E94C /* Thumbnail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thumbnail.swift; sourceTree = "<group>"; };
@@ -267,7 +265,6 @@
 		1A30159F1B4E16BA00EB9965 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1A32FD0B1B54B8090040E94C /* APIClient.swift */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
 				1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */,
 				1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */,
@@ -656,7 +653,6 @@
 				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
 				1A1D2C7E1B7322A600112A4F /* UserInfoController.swift in Sources */,
-				1A32FD0C1B54B8090040E94C /* APIClient.swift in Sources */,
 				1A1D2C761B73190B00112A4F /* UserHistoryController.swift in Sources */,
 				1ACBAF7A1B7B047300D8910C /* LiveSmallCell.swift in Sources */,
 				1AE922521B86C8BB0033C480 /* VideoCommentController.swift in Sources */,
