@@ -26,4 +26,16 @@ class LiveSmallCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func setLiveData(liveData: Live) {
+        videoChannel.text = liveData.user.userName
+        videoTitle.text = liveData.stream.steamDescription
+        
+        let imageUrl = liveData.stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
+    }
+    
+    override func prepareForReuse() {
+        videoImage.hnk_cancelSetImage()
+        videoImage.image = nil
+    }
 }

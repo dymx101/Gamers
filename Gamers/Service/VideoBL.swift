@@ -65,11 +65,11 @@ class VideoBL: NSObject {
     }
     
     // 直播视频
-    func getLiveVideo(offset: Int, count: Int?) -> BFTask {
+    func getLiveVideo(#page: Int, limit: Int?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return VideoDao.getLiveVideo(offset: offset, count: count)
+            return VideoDao.getLiveVideo(page: page, limit: limit)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
@@ -90,7 +90,7 @@ class VideoBL: NSObject {
     
 
     // 搜索视频
-    func getSearchVideo(#keyword: String, offset: Int?, count: Int?, order: String?) -> BFTask {
+    func getSearchVideo(#keyword: String, offset: Int, count: Int, order: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in

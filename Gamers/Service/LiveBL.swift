@@ -16,11 +16,11 @@ class LiveBL: NSObject {
     static let sharedSingleton = LiveBL()
     
     // 首页推荐游戏
-    func getLive(#offset: Int?, count: Int?) -> BFTask {
+    func getLive(#page: Int, limit: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return LiveDao.getLive(offset: offset, count: count)
+            return LiveDao.getLive(page: page, limit: limit)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in

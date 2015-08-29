@@ -32,8 +32,8 @@ extension GameDao {
     
     :returns: 游戏列表
     */
-    static func getAllGame(#offset: Int?, count: Int?) -> BFTask {
-        var URLRequest = Router.AllGame(offset: offset, count: count)
+    static func getAllGame(#page: Int, limit: Int) -> BFTask {
+        var URLRequest = Router.AllGame(page: page, limit: limit)
         
         return fetchGame(URLRequest: URLRequest)
     }
@@ -47,10 +47,25 @@ extension GameDao {
     
     :returns: 视频列表
     */
-    static func getGameVideo(#gameId: String, offset: Int?, count: Int?) -> BFTask {
-        var URLRequest = Router.GameVideo(gameId: gameId, offset: offset, count: count)
+    static func getGameVideo(#gameId: String, page: Int, limit: Int) -> BFTask {
+        var URLRequest = Router.GameVideo(gameId: gameId, page: page, limit: limit)
         
         return fetchGameVideo(URLRequest: URLRequest)
+    }
+    
+    /**
+    按关键字查询相关游戏
+    
+    :param: gameName 游戏关键字
+    :param: page     分页
+    :param: limit    每页总数
+    
+    :returns: 游戏列表
+    */
+    static func getSearchGame(#gameName: String, page: Int, limit: Int) -> BFTask {
+        var URLRequest = Router.SearchGame(gameName: gameName, page: page, limit: limit)
+        
+        return fetchGame(URLRequest: URLRequest)
     }
     
     

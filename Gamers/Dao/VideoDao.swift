@@ -49,8 +49,8 @@ extension VideoDao {
     
     :returns: 直播视频列表
     */
-    static func getLiveVideo(#offset: Int?, count: Int?) -> BFTask {
-        var URLRequest = Router.LiveVideo(offset: offset, count: count)
+    static func getLiveVideo(#page: Int?, limit: Int?) -> BFTask {
+        var URLRequest = Router.LiveVideo(page: page, limit: limit)
         
         return fetchVideo(URLRequest: URLRequest)
     }
@@ -65,7 +65,7 @@ extension VideoDao {
     
     :returns: 视频列表
     */
-    static func getSearchVideo(#keyword: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+    static func getSearchVideo(#keyword: String, offset: Int, count: Int, order: String) -> BFTask {
         var URLRequest = Router.SearchVideo(keyword: keyword, offset: offset, count: count, order: order)
         
         return fetchVideo(URLRequest: URLRequest)

@@ -21,24 +21,24 @@ enum Router: URLRequestConvertible {
     //
     case HomeSlider()                   //首页顶部轮播
     case RecommendGame()                //首页推荐游戏：4个热门游戏、3个新游戏
-    case RecommendChannel(channelType: String?, offset: Int?, count: Int?, order: String?)     //首页推荐频道：新手、游戏大咖
+    case RecommendChannel(channelType: String?, offset: Int?, count: Int?, order: String?)  //首页推荐频道：新手、游戏大咖
 
-    case AllGame(offset: Int?, count: Int?)                                      //所有游戏
-    case SeachGame(gameName: String?, type: String?, offset: Int?, count: Int?)  //获取游戏
-    case GameVideo(gameId: String?, offset: Int?, count: Int?)                   //获取游戏视频
-    case VideoRelate(videoId: String?)                                           //相关视频
-    case VideoComment(videoId: String?, offset: Int?, count: Int?)               //视频相关评论
+    case AllGame(page: Int?, limit: Int?)                               //所有游戏
+    case SearchGame(gameName: String?, page: Int?, limit: Int?)        //获取游戏
+    case GameVideo(gameId: String, page: Int?, limit: Int?)             //获取游戏视频
+    case VideoRelate(videoId: String?)                                  //相关视频
+    case VideoComment(videoId: String?, offset: Int?, count: Int?)      //视频相关评论
 
     case ChannelInfo(channelId: String?)                                //频道信息
     case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
     case ChannelSlider(channelId: String?)
     
-    case LiveVideo(offset: Int?, count: Int?)                   //直播频道视频
+    case LiveVideo(page: Int?, limit: Int?)                             //直播频道视频
 
     case UserLogin(userName: String?, password: String?)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
-    case Subscriptions(userId: String?, userToken: String?)     //所有订阅列表
-    case Subscribe(userToken: String?, channelId: String?)      //订阅
+    case Subscriptions(userId: String?, userToken: String?)             //所有订阅列表
+    case Subscribe(userToken: String?, channelId: String?)              //订阅
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)           //搜索视频
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)         //搜索频道
@@ -72,30 +72,32 @@ enum Router: URLRequestConvertible {
 
                 return (.GET, "/mobile_api/recommendgame", parameters)
             //所有游戏
-            case .AllGame(let offset, let count):
+            case .AllGame(let page, let limit):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                parameters["page"] = offset != nil ? offset : 0
-                parameters["limit"] = count != nil ? count : 20
+                parameters["page"] = page != nil ? page : 1
+                parameters["limit"] = limit != nil ? limit : 20
                 parameters["format"] = "list"
+                parameters["order"] = "latest"
 
                 return (.GET, "/mobile_api/games", parameters)
             //获取游戏
-            case .SeachGame(let name, let type, let offset, let count):
+            case .SearchGame(let name, let offset, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if name != nil { parameters["keyword"] = name }
-                if type != nil { parameters["type"] = type }
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
+                if name != nil { parameters["term"] = name }
+                parameters["page"] = offset != nil ? offset : 1
+                parameters["limit"] = count != nil ? count : 20
+                parameters["limit"] = "list"
 
-                return (.GET, "/game/seachgame", parameters)
+                return (.GET, "/mobile_api/games", parameters)
             //获取游戏视频
-            case .GameVideo(let gameId, let offset, let count):
+            case .GameVideo(let gameId, let page, let limit):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if gameId != nil { parameters["gameid"] = gameId }
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
-
-                return (.GET, "mobile_api/videos", parameters)
+                //if gameId != nil { parameters["gameid"] = gameId }
+                parameters["page"] = page != nil ? page : 1
+                parameters["limit"] = limit != nil ? limit : 20
+                parameters["order"] = "popular"
+                
+                return (.GET, "mobile_api/games/\(gameId)", parameters)
             //相关视频
             case .VideoRelate(let videoId):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -125,10 +127,10 @@ enum Router: URLRequestConvertible {
 
                 return (.GET, "/mobile_api/youtuber/\(channelId!)/videos", parameters)
             //直播频道列表
-            case .LiveVideo(let offset, let count):
+            case .LiveVideo(let page, let limit):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
+                parameters["page"] = page != nil ? page : 1
+                parameters["limit"] = limit != nil ? limit : 20
                 
                 return (.GET, "/mobile_api/streamers/all", parameters)
             //本地用户登入

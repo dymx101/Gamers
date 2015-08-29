@@ -33,11 +33,6 @@ class TwitchPlayerController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
-        
-//        let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
-//        hud.textLabel.text = "加载中..."
-//        hud.showInView(self.view)
-//        hud.dismissAfterDelay(3.0)
 
         //if LiveData.type == "twitch" {
             let videoRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.streamUrl)!) //popout、embed
@@ -54,7 +49,7 @@ class TwitchPlayerController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         
-        
+        // 延迟加载进度
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
@@ -94,6 +89,7 @@ class TwitchPlayerController: UIViewController {
     }
 
 }
+
 // MARK: - 刷新时候显示加载界面，暂定使用http://api.twitch.tv/assets/判断
 extension TwitchPlayerController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {

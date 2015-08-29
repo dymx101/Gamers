@@ -12,9 +12,6 @@ import Bolts
 import MJRefresh
 
 class VideoCommentController: UIViewController {
-
-    
-    let videoBL = VideoBL()
     
     var videoData: Video!
     var commentData = [Comment]()
@@ -85,12 +82,17 @@ class VideoCommentController: UIViewController {
         tapGesture.numberOfTapsRequired = 1
         self.view.addGestureRecognizer(tapGesture)
         
+        
+        println(self.view.viewWithTag(600)?.frame.size)
+        
+        
+        
     }
     
     // 初始化数据
     func loadInit() {
         commentPageOffset = 0
-        videoBL.getVideoComment(videoData.videoId, offset: commentPageOffset, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        VideoBL.sharedSingleton.getVideoComment(videoData.videoId, offset: commentPageOffset, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.commentData = (task.result as? [Comment])!
             self?.commentTableView.reloadData()
             
@@ -100,7 +102,7 @@ class VideoCommentController: UIViewController {
     // 下拉重新刷新数据
     func loadNewData() {
         commentPageOffset = 0
-        videoBL.getVideoComment(videoData.videoId, offset: commentPageOffset, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        VideoBL.sharedSingleton.getVideoComment(videoData.videoId, offset: commentPageOffset, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.commentData = (task.result as? [Comment])!
             self?.commentTableView.reloadData()
 
@@ -113,7 +115,7 @@ class VideoCommentController: UIViewController {
     }
     // 上拉加载更多数据
     func loadMoreData() {
-        videoBL.getVideoComment(videoData.videoId, offset: commentPageOffset, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        VideoBL.sharedSingleton.getVideoComment(videoData.videoId, offset: commentPageOffset, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Comment])!
 
             if newData.isEmpty {
@@ -169,12 +171,17 @@ extension VideoCommentController: UITextFieldDelegate, UITextViewDelegate {
         UIView.beginAnimations("Animation", context: nil)
         //设置动画的间隔时间
         UIView.setAnimationDuration(0.20)
-        //??使用当前正在运行的状态开始下一段动画
+        //使用当前正在运行的状态开始下一段动画
         UIView.setAnimationBeginsFromCurrentState(true)
         //设置视图移动的位移
         self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 216 - 42, self.view.frame.size.width, self.view.frame.size.height);
         //设置动画结束
+
         UIView.commitAnimations()
+        
+        
+        
+        
     }
     // 屏幕和键盘下移
     func moveDown() {

@@ -14,11 +14,11 @@ import ReachabilitySwift
 
 class LiveController: UITableViewController {
     
-    let liveBL = LiveBL()
-    
-    var liveData = [Live]()
-    var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
+    var liveListData = [Live]()
+    var videoPageOffset = 1         //分页偏移量
     var videoPageCount = 20         //每页视频总数
+    
+    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +60,9 @@ class LiveController: UITableViewController {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.liveData = (task.result as? [Live])!
-            self!.videoPageOffset += self!.videoPageCount
+        LiveBL.sharedSingleton.getLive(page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveListData = (task.result as? [Live])!
+            self!.videoPageOffset += 1
 
             self?.tableView.reloadData()
             
@@ -82,51 +82,52 @@ class LiveController: UITableViewController {
     刷新数据
     */
     func loadNewData() {
-        videoPageOffset = 0
-        liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.liveData = (task.result as? [Live])!
-            self!.videoPageOffset += self!.videoPageCount
+        videoPageOffset = 1
+        LiveBL.sharedSingleton.getLive(page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.liveListData = (task.result as? [Live])!
+            self!.videoPageOffset += 1
             
             self?.tableView.reloadData()
-            self?.tableView.header.endRefreshing()
-            self?.tableView.footer.resetNoMoreData()
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil {
                 println(task.error)
-                self?.tableView.header.endRefreshing()
             }
+            self?.tableView.header.endRefreshing()
+            self?.tableView.footer.resetNoMoreData()
             
             return nil
         })
-        
         
     }
     /**
     加载更多数据
     */
     func loadMoreData() {
-        liveBL.getLive(offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        LiveBL.sharedSingleton.getLive(page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Live])!
 
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
+                self!.isNoMoreData = true
             } else{
                 self?.tableView.footer.endRefreshing()
-                self!.liveData += newData
+                self!.liveListData += newData
                 
-                self!.videoPageOffset += self!.videoPageCount
+                self!.videoPageOffset += 1
                 self?.tableView.reloadData()
             }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
+            if task.error != nil { }
+            if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }
+            
+            
             return nil
         })
         
@@ -146,16 +147,16 @@ class LiveController: UITableViewController {
 extension LiveController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if liveData.isEmpty {
+        if liveListData.isEmpty {
             return 1
         } else {
-            return liveData.count
+            return liveListData.count
         }
 
     }
     // 设置行高
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if liveData.isEmpty {
+        if liveListData.isEmpty {
             return view.frame.size.height - 20 - 44
         } else {
             if indexPath.row < 5 {
@@ -168,7 +169,7 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // 指定identify进行重用提高性能
-        if liveData.isEmpty {
+        if liveListData.isEmpty {
             // 没有数据时候显示提醒
             let cell = tableView.dequeueReusableCellWithIdentifier("LiveNoDataCell", forIndexPath: indexPath) as! UITableViewCell
             cell.selectionStyle = UITableViewCellSelectionStyle.None        //不可选
@@ -180,20 +181,12 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
             
             if indexPath.row < 5 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("LiveLargeCell", forIndexPath: indexPath) as! LiveLargeCell
-                cell.channelName.text = liveData[indexPath.row].user.userName
-                cell.videoViews.text = liveData[indexPath.row].stream.steamDescription
-                
-                let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
+                cell.setLiveData(liveListData[indexPath.row])
 
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("LiveSmallCell", forIndexPath: indexPath) as! LiveSmallCell
-                cell.videoChannel.text = liveData[indexPath.row].user.userName
-                cell.videoTitle.text = liveData[indexPath.row].stream.steamDescription
-                
-                let imageUrl = liveData[indexPath.row].stream.thumbnail.large.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
+                cell.setLiveData(liveListData[indexPath.row])
 
                 return cell
             }
@@ -203,9 +196,9 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
     }
     // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if !self.liveData.isEmpty {
+        if !self.liveListData.isEmpty {
             let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
-            view?.LiveData = self.liveData[indexPath.row]
+            view?.LiveData = self.liveListData[indexPath.row]
             
             self.navigationController?.pushViewController(view!, animated: true)
         }

@@ -16,8 +16,8 @@ struct LiveDao {}
 
 extension LiveDao {
 
-    static func getLive(#offset: Int?, count: Int?) -> BFTask {
-        var URLRequest = Router.LiveVideo(offset: offset, count: count)
+    static func getLive(#page: Int?, limit: Int?) -> BFTask {
+        var URLRequest = Router.LiveVideo(page: page, limit: limit)
         
         return fetchLive(URLRequest: URLRequest)
     }

@@ -43,11 +43,11 @@ class GameBL: NSObject {
     }
     
     // 所有游戏列表
-    func getAllGame(#offset: Int?, count: Int?) -> BFTask {
+    func getAllGame(#page: Int, limit: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return GameDao.getAllGame(offset: offset, count: count)
+            return GameDao.getAllGame(page: page, limit: limit)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
@@ -69,12 +69,41 @@ class GameBL: NSObject {
         return fetchTask
     }
     
-    // 游戏的视频列表
-    func getGameVideo(#gameId: String, offset: Int?, count: Int?) -> BFTask {
+    // 查询游戏列表
+    func getSearchGame(#gameName: String, page: Int, limit: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return GameDao.getGameVideo(gameId: gameId, offset: offset, count: count)
+            return GameDao.getSearchGame(gameName: gameName, page: page, limit: limit)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let games = task.result as? [Game] {
+                return BFTask(result: games)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
+    
+    
+    // 游戏的视频列表
+    func getGameVideo(#gameId: String, page: Int, limit: Int) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return GameDao.getGameVideo(gameId: gameId, page: page, limit: limit)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in

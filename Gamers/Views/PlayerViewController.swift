@@ -171,12 +171,12 @@ class PlayerViewController: UIViewController {
                 alertView.show()
                 
                 return nil
-                }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                    if task.error != nil {
-                        
-                    }
-                    return nil
-                    })
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                if task.error != nil {
+                    
+                }
+                return nil
+            })
         } else {
             var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
             alertView.show()

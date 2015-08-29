@@ -11,7 +11,7 @@ import MJRefresh
 import Bolts
 import MBProgressHUD
 
-class SearchController: UITableViewController, UITableViewDataSource, UITableViewDelegate  {
+class SearchController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
     
     var searchContentView: UIView!
     var searchBackgroundView: UIView!
@@ -20,23 +20,22 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
     var searchBar: UISearchBar!
     var tapGesture: UITapGestureRecognizer!
     
-    let videoBL = VideoBL()
-    
     // 搜索变量
-    var videoData = [Video]()
+    var videoListData = [Video]()
     var videoPageOffset = 0
     var videoPageCount = 20
     var order = "date"
     var keyword = ""
     
+    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
     // 下拉刷新数据
     func loadNewData() {
         keyword = searchBar.text
         videoPageOffset = 0
         
-        videoBL.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
+        VideoBL.sharedSingleton.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += self!.videoPageCount
             
             self!.tableView.reloadData()
@@ -57,16 +56,16 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
     func loadMoreData() {
         keyword = searchBar.text
         
-        videoBL.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        VideoBL.sharedSingleton.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
+                self!.isNoMoreData = true
             } else {
-                self!.videoData = self!.videoData + newData
+                self!.videoListData += newData
                 self!.videoPageOffset += self!.videoPageCount
                 
                 self!.tableView.reloadData()
-                self?.tableView.footer.endRefreshing()
             }
 
             return nil
@@ -74,7 +73,10 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
             if task.error != nil {
                 println(task.error)
             }
-            
+            if !self!.isNoMoreData {
+                self?.tableView.footer.endRefreshing()
+            }
+
             return nil
         })
     }
@@ -177,7 +179,7 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
         var playerViewController = segue.destinationViewController as! PlayerViewController
         // 提取选中的游戏视频，把值传给列表页面
         var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoData[indexPath.row]
+        playerViewController.videoData =  videoListData[indexPath.row]
     }
     
 
@@ -209,12 +211,20 @@ extension SearchController: UITableViewDataSource, UITableViewDelegate {
         case autocompleteView:
             return 32
         default:
-            return 100
+            if videoListData.isEmpty {
+                return view.frame.size.height
+            } else {
+                return 100
+            }
         }
     }
     // 行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videoData.count
+        if videoListData.isEmpty {
+            return 1
+        } else {
+            return videoListData.count
+        }
     }
     // 单元格内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -224,12 +234,18 @@ extension SearchController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         default:
-            var cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCell
-            cell.setVideo(self.videoData[indexPath.row])
-            
-            cell.delegate = self
-            
-            return cell
+            if videoListData.isEmpty {
+                var cell = tableView.dequeueReusableCellWithIdentifier("SearchVideoNoDataCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                return cell
+            } else {
+                var cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCell
+                cell.setVideo(self.videoListData[indexPath.row])
+                cell.delegate = self
+                
+                return cell
+            }
+
         }
 
     }
@@ -264,8 +280,8 @@ extension SearchController: UISearchBarDelegate {
         keyword = searchBar.text
         videoPageOffset = 0
         
-        videoBL.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
+        VideoBL.sharedSingleton.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += self!.videoPageCount
             
             self!.tableView.reloadData()
@@ -275,6 +291,7 @@ extension SearchController: UISearchBarDelegate {
             if task.error != nil {
                 println(task.error)
             }
+             self?.tableView.footer.endRefreshing()
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil

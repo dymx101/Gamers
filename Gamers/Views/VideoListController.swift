@@ -17,8 +17,10 @@ class VideoListController: UITableViewController {
 
     var gameData: Game!
     var videoData = [Video]()
-    var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
+    var videoPageOffset = 1         //分页偏移量，默认为上次最后一个视频ID
     var videoPageCount = 20         //每页视频总数
+    
+    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +51,7 @@ class VideoListController: UITableViewController {
             }
         }
         
-        //println(gameData)
+        println(gameData)
         
     }
     
@@ -65,9 +67,10 @@ class VideoListController: UITableViewController {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        videoPageOffset = 0
-        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoPageOffset = 1
+        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
+            self!.videoPageOffset += 1
             
             self?.tableView.reloadData()
             
@@ -82,14 +85,17 @@ class VideoListController: UITableViewController {
     刷新数据
     */
     func loadNewData() {
-        videoPageOffset = 0
-        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        videoPageOffset = 1
+        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoData = (task.result as? [Video])!
+            self!.videoPageOffset += 1
+            
             self?.tableView.reloadData()
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self?.tableView.header.endRefreshing()
+            self?.tableView.footer.resetNoMoreData()
             
             return nil
         })
@@ -98,22 +104,25 @@ class VideoListController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
-            
+            println(newData)
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
+                self!.isNoMoreData = true
             } else{
                 self!.videoData += newData
-                self!.videoPageOffset += self!.videoPageCount
+                self!.videoPageOffset += 1
                 
                 self?.tableView.reloadData()
             }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self?.tableView.footer.endRefreshing()
+            if !self!.isNoMoreData {
+                self?.tableView.footer.endRefreshing()
+            }
             
             return nil
         })
