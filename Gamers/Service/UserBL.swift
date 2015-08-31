@@ -67,18 +67,17 @@ class UserBL: NSObject {
 
     
     // 获取用户订阅频道的视频列表
-    func getSubscriptions(#userId: String?, userToken: String?) -> BFTask {
+    func getSubscriptions(#userToken: String?) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return UserDao.Subscriptions(userId: userId, userToken: userToken)
+            return UserDao.Subscriptions(userToken: userToken)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
-            println(task.result)
-            if let videos = task.result as? [Video] {
+            if let users = task.result as? [User] {
                 
-                return BFTask(result: videos)
+                return BFTask(result: users)
             }
             
             return task
@@ -150,6 +149,7 @@ class UserBL: NSObject {
             alertView.show()
         }
     }
+    
     // 取消更随 todo：统一使用Router
     func setUnFollow(#channelId: String) {
         let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
@@ -160,14 +160,13 @@ class UserBL: NSObject {
         if isLogin {
             Alamofire.request(.POST, "http://beta.gamers.tm:3000/mobile_api/unsubscribe?userId=\(channelId)", headers: headers).responseJSON { _, _, JSONData, _ in
                 let response = Response.collection(json: JSON(JSONData!))
-                
-                if response.code == "0" {
-                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消成功", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
-                } else {
-                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消失败", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
-                }
+//                if response.code == "0" {
+//                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消成功", delegate: nil, cancelButtonTitle: "确定")
+//                    alertView.show()
+//                } else {
+//                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消失败", delegate: nil, cancelButtonTitle: "确定")
+//                    alertView.show()
+//                }
             }
         } else {
             var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")

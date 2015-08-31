@@ -18,7 +18,6 @@ class LoginController: UIViewController {
     @IBOutlet weak var userImage: UIImageView!
 
     let userInfo = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-    let userBL = UserBL()
 
     var googleUserId: String!
     var googleName: String!
@@ -32,7 +31,7 @@ class LoginController: UIViewController {
         var userName = userNameField.text
         var password = passwordField.text
         
-        userBL.UserLogin(userName: "freedom", password: "123456").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        UserBL.sharedSingleton.UserLogin(userName: "freedom", password: "123456").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let userInfo = (task.result as? User)!
             
             return nil

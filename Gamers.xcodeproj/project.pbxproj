@@ -25,6 +25,8 @@
 		1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7F1B7346FD00112A4F /* LoginController.swift */; };
 		1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C811B73478000112A4F /* RegisterController.swift */; };
 		1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C831B73550200112A4F /* ForgetPWDController.swift */; };
+		1A2235B21B93EE0700F7B8B9 /* UserFollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2235B11B93EE0700F7B8B9 /* UserFollowCell.swift */; };
+		1A2235B41B93F4B600F7B8B9 /* ChannelVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2235B31B93F4B600F7B8B9 /* ChannelVideoController.swift */; };
 		1A23C2B11B8463D700AF5860 /* game-front-cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2AE1B8463D700AF5860 /* game-front-cover.png */; };
 		1A23C2B21B8463D700AF5860 /* navigation-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2AF1B8463D700AF5860 /* navigation-bar.png */; };
 		1A23C2B31B8463D700AF5860 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2B01B8463D700AF5860 /* triangle.png */; };
@@ -135,6 +137,8 @@
 		1A1D2C7F1B7346FD00112A4F /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		1A1D2C811B73478000112A4F /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		1A1D2C831B73550200112A4F /* ForgetPWDController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPWDController.swift; sourceTree = "<group>"; };
+		1A2235B11B93EE0700F7B8B9 /* UserFollowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFollowCell.swift; sourceTree = "<group>"; };
+		1A2235B31B93F4B600F7B8B9 /* ChannelVideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelVideoController.swift; sourceTree = "<group>"; };
 		1A23C2AE1B8463D700AF5860 /* game-front-cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game-front-cover.png"; sourceTree = "<group>"; };
 		1A23C2AF1B8463D700AF5860 /* navigation-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation-bar.png"; sourceTree = "<group>"; };
 		1A23C2B01B8463D700AF5860 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
@@ -296,6 +300,7 @@
 				1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */,
 				1A1D2C7D1B7322A600112A4F /* UserInfoController.swift */,
 				1A1D2C791B731C5600112A4F /* UserFollowController.swift */,
+				1A2235B31B93F4B600F7B8B9 /* ChannelVideoController.swift */,
 				1A1D2C751B73190B00112A4F /* UserHistoryController.swift */,
 				1A1D2C731B73134300112A4F /* SystemController.swift */,
 				1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */,
@@ -331,6 +336,7 @@
 				1AAC05571B7C5BCA0002AD8B /* MyCellDelegate.swift */,
 				1A3226591B7DE648001F7C52 /* MyTextField.swift */,
 				1A0038031B8D9274008307A6 /* UserHistoryCell.swift */,
+				1A2235B11B93EE0700F7B8B9 /* UserFollowCell.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -652,6 +658,7 @@
 				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
 				1A1D2C741B73134300112A4F /* SystemController.swift in Sources */,
 				1AFC1A0E1B58F92B006D9667 /* GameBL.swift in Sources */,
+				1A2235B21B93EE0700F7B8B9 /* UserFollowCell.swift in Sources */,
 				1AEECF731B7727640022B69B /* HomeVideoCell.swift in Sources */,
 				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
 				1A32FD101B54B9BA0040E94C /* NSDateExtensions.swift in Sources */,
@@ -695,6 +702,7 @@
 				1A32FD161B54BD660040E94C /* Slider.swift in Sources */,
 				1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */,
 				1ABA1D4C1B8C249E00D67809 /* FreedomLoginController.swift in Sources */,
+				1A2235B41B93F4B600F7B8B9 /* ChannelVideoController.swift in Sources */,
 				1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */,
 				1A01F4181B6F479A0042480B /* Comment.swift in Sources */,
 				1A975F221B579947003B8327 /* Channel.swift in Sources */,

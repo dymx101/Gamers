@@ -54,13 +54,13 @@ class TwitchPlayerController: UIViewController {
         hub.labelText = "加载中..."
         
         
+        delay(seconds: 5) { () -> () in
+            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
+        }
+
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // 隐藏系统状态栏
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.Default
@@ -74,6 +74,7 @@ class TwitchPlayerController: UIViewController {
         var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.allowRotation = true
         
+        
     }
     func endFullScreen() {
         var appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -81,11 +82,27 @@ class TwitchPlayerController: UIViewController {
         
         //强制归正：
         var sharedApplication: UIApplication = UIApplication.sharedApplication()
-        sharedApplication.setStatusBarOrientation(UIInterfaceOrientation.Portrait, animated: false)
+        sharedApplication.setStatusBarOrientation(UIInterfaceOrientation.Portrait, animated: true)
         var mvc: UIViewController = UIViewController()
-        self.presentViewController(mvc, animated: false, completion: nil)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        self.presentViewController(mvc, animated: true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
         
+    }
+    
+    /**
+    延迟函数，delay(seconds: 3.0, completion: {  })
+    */
+    func delay(#seconds: Double, completion:()->()) {
+        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
+        
+        dispatch_after(popTime, dispatch_get_main_queue()) {
+            completion()
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 
 }
@@ -99,8 +116,16 @@ extension TwitchPlayerController: UIWebViewDelegate {
             isLoadRequest = false
         }
         
+        // 设置uiwebview内存参数，减少内存使用量（待测试）
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "WebKitCacheModelPreferenceKey")
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitDiskImageCacheEnabled")
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitOfflineWebApplicationCacheEnabled")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        
+        //webView.stopLoading()
     }
-    
+
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         var backURLString = request.URL?.absoluteString
         if backURLString!.hasPrefix("http://api.twitch.tv/assets/") {
@@ -110,5 +135,10 @@ extension TwitchPlayerController: UIWebViewDelegate {
         return true
     }
     
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+        println("UIWebView.......error")
+        MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
+
+    }
 }
 

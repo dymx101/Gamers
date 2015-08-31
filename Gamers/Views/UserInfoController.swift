@@ -12,7 +12,6 @@ import RealmSwift
 class UserInfoController: UITableViewController {
 
     let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-    let userBL = UserBL()
     var userData: User!
     
     @IBOutlet weak var userImage: UIImageView!

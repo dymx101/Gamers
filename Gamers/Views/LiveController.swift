@@ -127,11 +127,8 @@ class LiveController: UITableViewController {
                 self?.tableView.footer.endRefreshing()
             }
             
-            
             return nil
         })
-        
-        
     }
 
     override func viewWillAppear(animated: Bool) {

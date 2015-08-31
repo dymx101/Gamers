@@ -37,8 +37,9 @@ enum Router: URLRequestConvertible {
 
     case UserLogin(userName: String?, password: String?)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
-    case Subscriptions(userId: String?, userToken: String?)             //所有订阅列表
+    case Subscriptions(userToken: String?)                              //所有订阅列表
     case Subscribe(userToken: String?, channelId: String?)              //订阅
+    case UnSubscribe(userToken: String?, channelId: String?)            //退订
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)           //搜索视频
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)         //搜索频道
@@ -150,12 +151,12 @@ enum Router: URLRequestConvertible {
 
                 return (.GET, "/user/googlelogin", parameters)
             //订阅列表
-            case .Subscriptions(let userId, let userToken):
+            case .Subscriptions(let userToken):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 //if userId != nil { parameters["userid"] = userId }
                 //if userToken != nil { parameters["usertoken"] = userToken }
                 
-                return (.GET, "/mobile_api/subscriptions", parameters)
+                return (.GET, "/mobile_api/mobile_follow", parameters)
             //搜索视频
             case .SearchVideo(let keyword, let offset, let count, let order):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
@@ -182,7 +183,13 @@ enum Router: URLRequestConvertible {
                 
                 //return (.GET, "/mobile_api/subscribe?useId=\(channelId!)", parameters)
                 return (.POST, "/mobile_api/subscribe", parameters)
-
+            case .UnSubscribe(let userToken, let channelId):
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                if userToken != nil { parameters["token"] = userToken }
+                if channelId != nil { parameters["userId"] = channelId }
+                
+                //return (.GET, "/mobile_api/subscribe?useId=\(channelId!)", parameters)
+                return (.POST, "/mobile_api/unsubscribe", parameters)
                 
                 
                 

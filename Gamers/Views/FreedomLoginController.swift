@@ -14,8 +14,7 @@ class FreedomLoginController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var freedomLoginView: UIWebView!
     
     let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-    let userBL = UserBL()
-    
+
     var isLoginRequest = false  //是否登入授权请求
 
     override func viewDidLoad() {
@@ -63,7 +62,7 @@ class FreedomLoginController: UIViewController, UIWebViewDelegate {
                 userDefaults.setObject(userData.userToken, forKey: "userToken")
                 userDefaults.setObject(userData.expires, forKey: "expires")
                 
-                userBL.saveUser(userData)
+                UserBL.sharedSingleton.saveUser(userData)
                 
                 // 登录成功跳转回用户页面
                 userDefaults.setBool(true, forKey: "isLogin")

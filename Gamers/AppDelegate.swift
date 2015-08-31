@@ -23,23 +23,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            println("Error configuring the Google context: \(configureErr)")
 //        }
         
-        // 网络检测
+        
+        // 全程网络检测
         let reachability = Reachability.reachabilityForInternetConnection()
-        // 判断联网情况（写在view中）
+        // 判断联网情况（可以写在view中）
         reachability.whenReachable = { reachability in
             if reachability.isReachableViaWiFi() {
                 println("Reachable via WiFi")
             } else {
                 println("Reachable via Cellular")
             }
+            
         }
         reachability.whenUnreachable = { reachability in
             println("Not reachable")
+            var alertView: UIAlertView = UIAlertView(title: "", message: "网络出现问题！", delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
         }
         // 全局通知事件
         reachability.startNotifier()
         
+        // 启动时候判断
+        var internetStatus = reachability.currentReachabilityStatus
+        if internetStatus == Reachability.NetworkStatus.NotReachable {
+            var alertView: UIAlertView = UIAlertView(title: "", message: "网络出现问题！", delegate: nil, cancelButtonTitle: "确定")
+            alertView.show()
+        }
+        
+        // 设置web缓存
+        let cacheSizeMemory = 4*1024*1024; // 4MB
+        let cacheSizeDisk = 32*1024*1024; // 32MB
+        var sharedCache: NSURLCache = NSURLCache(memoryCapacity: cacheSizeMemory, diskCapacity: cacheSizeDisk, diskPath: "nsurlcache")
+        NSURLCache.setSharedURLCache(sharedCache)
+        
         return true
+    }
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
     }
     
     func applicationWillResignActive(application: UIApplication) {

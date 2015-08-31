@@ -12,11 +12,10 @@ import Bolts
 import SwiftyJSON
 import RealmSwift
 
-struct UserDao {}
+struct UserDao { }
 
 extension UserDao {
 
-    
     /**
     用户登入
     
@@ -53,12 +52,12 @@ extension UserDao {
     :param: userId    用户ID
     :param: userToken 用户登入令牌
     
-    :returns: 视频列表
+    :returns: 用户频道列表
     */
-    static func Subscriptions(#userId: String?, userToken: String?) -> BFTask {
-        var URLRequest = Router.Subscriptions(userId: userId, userToken: userToken)
+    static func Subscriptions(#userToken: String?) -> BFTask {
+        var URLRequest = Router.Subscriptions(userToken: userToken)
         
-        return fetchVideo(URLRequest: URLRequest)
+        return fetchUsers(URLRequest: URLRequest)
     }
     
     /**
@@ -75,7 +74,7 @@ extension UserDao {
         return fetchResponse(URLRequest: URLRequest)
     }
     
-    
+
     /**
     解析返回结果JSON数据结构
     */
@@ -145,7 +144,25 @@ extension UserDao {
         return source.task
     }
 
-    
+    private static func fetchUsers(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var users = [User]()
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    users = User.collections(json: JSON(JSONDictionary))
+                }
+                
+                source.setResult(users)
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
     
     
     

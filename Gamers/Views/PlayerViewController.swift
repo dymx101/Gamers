@@ -165,7 +165,7 @@ class PlayerViewController: UIViewController {
                 let response = (task.result as? Response)!
                 
                 println(task.result)
-                var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
+                var message: String = response.code == "0" ? "跟随成功" : "跟随失败"
                 
                 var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
                 alertView.show()
@@ -221,10 +221,10 @@ class PlayerViewController: UIViewController {
 
         //强制归正：
         var sharedApplication: UIApplication = UIApplication.sharedApplication()
-        sharedApplication.setStatusBarOrientation(UIInterfaceOrientation.Portrait, animated: false)
+        sharedApplication.setStatusBarOrientation(UIInterfaceOrientation.Portrait, animated: true)
         var mvc: UIViewController = UIViewController()
-        self.presentViewController(mvc, animated: false, completion: nil)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        self.presentViewController(mvc, animated: true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
 
     }
 
@@ -253,5 +253,14 @@ extension PlayerViewController: YTPlayerViewDelegate {
     // 加载完成立即播放
     func playerViewDidBecomeReady(playerView: YTPlayerView!) {
         playerView.playVideo()
+    }
+}
+
+extension PlayerViewController: UIWebViewDelegate {
+    func webViewDidFinishLoad(webView: UIWebView) {
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "WebKitCacheModelPreferenceKey")
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitDiskImageCacheEnabled")
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitOfflineWebApplicationCacheEnabled")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

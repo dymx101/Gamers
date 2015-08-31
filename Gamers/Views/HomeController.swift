@@ -13,6 +13,7 @@ import MJRefresh
 import Bolts
 import SnapKit
 import Social
+import ReachabilitySwift
 
 
 class HomeController: UIViewController {
@@ -110,10 +111,9 @@ class HomeController: UIViewController {
         // 解决table和scroll混用时，点击事件BUG，（是否有效需要更多测试）
         scrollView.panGestureRecognizer.delaysTouchesBegan = true
 
-    }
-    
 
-    
+    }
+
     // 停止刷新状态
     func stopRefensh(){
         self.refresh++

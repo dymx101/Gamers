@@ -9,10 +9,16 @@
 import UIKit
 import Foundation
 
-// cell的代理协议
+// videoCell的代理协议
 @objc protocol MyCellDelegate: NSObjectProtocol {
     // 点击分享功能
     optional func clickCellButton(cell: UITableViewCell)
     // 点击隐藏键盘
     optional func hideKeyboard(cell: UITableViewCell)
+}
+
+// channelCell的代理协议
+@objc protocol ChannelCellDelegate: NSObjectProtocol {
+    // 点击取消跟随
+    optional func clickCellUnFollow(cell: UITableViewCell)
 }

@@ -38,6 +38,17 @@ class User: Object {
         return User.modelFromJSON(json)
     }
     
+    class func collections(#json: JSON) -> [User] {
+        var collection = [User]()
+        if let items = json.array {
+            for item in items {
+                collection.append(User.modelFromJSON(item))
+            }
+        }
+        
+        return collection
+    }
+    
     // 把JSON数据转换为对象
     class func modelFromJSON(json: JSON) -> User {
         let model = User()

@@ -12,15 +12,13 @@ import Bolts
 
 class VideoRelateController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
 
-    let videoBL = VideoBL()
-    
     var videoData: Video!
     var videoRelateData = [Video]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        videoBL.getVideoRelate(videoData.videoId, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        VideoBL.sharedSingleton.getVideoRelate(videoData.videoId, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoRelateData = (task.result as? [Video])!
             self?.tableView.reloadData()
             
