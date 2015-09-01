@@ -22,6 +22,7 @@ class PlayerViewController: UIViewController {
     // 导航条默认隐藏
     var isflage = true
 
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var videoViews: UILabel!
     @IBOutlet weak var subscribeButton: UIButton!
@@ -105,12 +106,12 @@ class PlayerViewController: UIViewController {
         // 加载视频播放
         var playerVars = ["playsinline": 1, "showinfo": 1]
         playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
-
-        
         
         // 添加加载新视频数据的监听器
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPlayerView:", name: "reloadPlayerViewNotification", object: nil)
-        
+        // 播放全屏的监听事件
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         
         // 标签切换页面
         let VideoInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoInfoVC") as! VideoInfoController
@@ -141,16 +142,14 @@ class PlayerViewController: UIViewController {
         
         // 隐藏系统状态栏
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
-        
-        // 播放全屏的监听事件
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
+
         
         // 保存数据
         VideoBL.sharedSingleton.setPlayHistory(videoData)
 
         playerView.delegate = self
         
+        self.view.bringSubviewToFront(containerView)
         
     }
 

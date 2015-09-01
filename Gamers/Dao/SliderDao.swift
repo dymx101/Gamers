@@ -38,7 +38,6 @@ extension SliderDao {
                 }
 
                 source.setResult(sliders)
-
             } else {
                 source.setError(error)
             }

@@ -512,6 +512,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ugN-E1-tc7"/>
                     <connections>
+                        <outlet property="containerView" destination="fdK-8B-yeS" id="SCY-Lz-pWn"/>
                         <outlet property="playerView" destination="vGN-I6-Vso" id="JpV-uv-q06"/>
                         <outlet property="shareButton" destination="NME-69-UV7" id="f0f-8F-TDY"/>
                         <outlet property="subscribeButton" destination="lR7-di-8Jz" id="4hQ-Hw-3SF"/>
@@ -2095,6 +2096,9 @@
                                 <exclude reference="NYx-Xy-1QU"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="OtE-Fp-9JE"/>
+                                <exclude reference="PEA-KI-TmS"/>
+                                <exclude reference="y0X-uV-jSk"/>
                                 <exclude reference="1ci-iQ-eHT"/>
                                 <exclude reference="7yp-FM-UaM"/>
                                 <exclude reference="8Pw-wj-KIM"/>
@@ -2109,9 +2113,6 @@
                                 <exclude reference="G7J-iy-L1N"/>
                                 <exclude reference="PZo-Os-qMy"/>
                                 <exclude reference="h9D-WK-Cio"/>
-                                <exclude reference="OtE-Fp-9JE"/>
-                                <exclude reference="PEA-KI-TmS"/>
-                                <exclude reference="y0X-uV-jSk"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact">
@@ -2120,13 +2121,13 @@
                                 <include reference="NYx-Xy-1QU"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="OtE-Fp-9JE"/>
+                                <include reference="PEA-KI-TmS"/>
                                 <include reference="1ci-iQ-eHT"/>
                                 <include reference="7yp-FM-UaM"/>
                                 <include reference="4VD-VR-yHy"/>
                                 <include reference="8Dk-Vh-G3a"/>
                                 <include reference="G7J-iy-L1N"/>
-                                <include reference="OtE-Fp-9JE"/>
-                                <include reference="PEA-KI-TmS"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -2135,6 +2136,7 @@
                                 <include reference="NYx-Xy-1QU"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="y0X-uV-jSk"/>
                                 <include reference="8Pw-wj-KIM"/>
                                 <exclude reference="Nx9-nm-TEm"/>
                                 <include reference="OD8-R7-HC3"/>
@@ -2144,7 +2146,6 @@
                                 <include reference="2Ml-oT-ex2"/>
                                 <include reference="PZo-Os-qMy"/>
                                 <include reference="h9D-WK-Cio"/>
-                                <include reference="y0X-uV-jSk"/>
                             </mask>
                         </variation>
                     </view>
@@ -4043,7 +4044,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="内容" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xze-Xd-rzf">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -4339,9 +4340,9 @@
         <image name="user.png" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="aNj-fK-FVQ"/>
         <segue reference="rLY-3G-ZuX"/>
         <segue reference="v7q-65-B5T"/>
-        <segue reference="1p2-Li-oK0"/>
+        <segue reference="TRi-UZ-lc4"/>
+        <segue reference="v8F-0d-jwi"/>
     </inferredMetricsTieBreakers>
 </document>

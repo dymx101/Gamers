@@ -78,13 +78,11 @@ extension GameDao {
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
                 var games = [Game]()
-                
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     games = Game.collection(json: JSON(JSONDictionary))
                 }
                 
                 source.setResult(games)
-                
             } else {
                 source.setError(error)
             }
@@ -108,7 +106,6 @@ extension GameDao {
                 }
 
                 source.setResult(videos)
-                
             } else {
                 source.setError(error)
             }

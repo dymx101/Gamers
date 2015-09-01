@@ -35,8 +35,8 @@ extension VideoDao {
     
     :returns: 视频列表
     */
-    static func getVideoComment(#videoId: String, offset: Int?, count: Int?) -> BFTask {
-        var URLRequest = Router.VideoComment(videoId: videoId, offset: offset, count: count)
+    static func getVideoComment(#videoId: String, nextPageToken: String, count: Int) -> BFTask {
+        var URLRequest = CommentRouter.VideoComment(videoId: videoId, nextPageToken: nextPageToken, count: count)
 
         return fetchComment(URLRequest: URLRequest)
     }
@@ -70,6 +70,8 @@ extension VideoDao {
         
         return fetchVideo(URLRequest: URLRequest)
     }
+    
+
     
     
     

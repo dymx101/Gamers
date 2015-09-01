@@ -8,6 +8,7 @@
 
 import UIKit
 import ReachabilitySwift
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -56,6 +57,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var sharedCache: NSURLCache = NSURLCache(memoryCapacity: cacheSizeMemory, diskCapacity: cacheSizeDisk, diskPath: "nsurlcache")
         NSURLCache.setSharedURLCache(sharedCache)
         
+        // 检测更新
+//        SystemBL.sharedSingleton.getVersion().continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if var version = (task.result as? Version) {
+//                let plistPath = NSBundle.mainBundle().pathForResource("system", ofType: "plist")
+//                //获取属性列表文件中的全部数据
+//                let systemData = NSDictionary(contentsOfFile: plistPath!)!
+//                let localVersion = systemData["version"] as! String
+//                
+//                if version.version.toInt() > localVersion.toInt() {
+//                    var alertView: UIAlertView = UIAlertView(title: "", message: "检测到新版本，是否更新！", delegate: nil, cancelButtonTitle: "否", otherButtonTitles: "是")
+//                    alertView.show()
+//                }
+//            }
+//  
+//            return nil
+//        })
+
+        
         return true
     }
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
@@ -94,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return Int(UIInterfaceOrientationMask.Portrait.rawValue)
     }
+    
     
 
 }

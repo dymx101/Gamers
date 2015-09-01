@@ -41,15 +41,17 @@ class VideoBL: NSObject {
     }
     
     // 视频的相关评论
-    func getVideoComment(videoId: String, offset: Int?, count: Int?) -> BFTask {
+    func getVideoComment(videoId: String, nextPageToken: String, count: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return VideoDao.getVideoComment(videoId: videoId, offset: offset, count: count)
+            return VideoDao.getVideoComment(videoId: videoId, nextPageToken: nextPageToken, count: count)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let comments = task.result as? [Comment] {
+                
+                println(comments)
                 return BFTask(result: comments)
             }
             

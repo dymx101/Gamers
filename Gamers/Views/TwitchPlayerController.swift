@@ -121,9 +121,7 @@ extension TwitchPlayerController: UIWebViewDelegate {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitDiskImageCacheEnabled")
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitOfflineWebApplicationCacheEnabled")
         NSUserDefaults.standardUserDefaults().synchronize()
-        
-        
-        //webView.stopLoading()
+
     }
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {

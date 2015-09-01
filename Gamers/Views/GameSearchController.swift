@@ -73,7 +73,7 @@ class GameSearchController: UICollectionViewController {
         GameBL.sharedSingleton.getSearchGame(gameName: keyword, page: gamePage, limit: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!
             self!.gamePage += 1
-            
+            println(self!.gameListData)
             self?.collectionView!.reloadData()
             
             return nil

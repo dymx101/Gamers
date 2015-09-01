@@ -26,10 +26,11 @@ enum Router: URLRequestConvertible {
     case AllGame(page: Int?, limit: Int?)                               //所有游戏
     case SearchGame(gameName: String?, page: Int?, limit: Int?)        //获取游戏
     case GameVideo(gameId: String, page: Int?, limit: Int?)             //获取游戏视频
+    
     case VideoRelate(videoId: String?)                                  //相关视频
-    case VideoComment(videoId: String?, offset: Int?, count: Int?)      //视频相关评论
+    case VideoComment(videoId: String?, nextPageToken: String?, count: Int?)      //视频相关评论
 
-    case ChannelInfo(channelId: String?)                                //频道信息
+    case ChannelInfo(channelId: String?)                                   //频道信息
     case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
     case ChannelSlider(channelId: String?)
     
@@ -43,6 +44,8 @@ enum Router: URLRequestConvertible {
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)           //搜索视频
     case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)         //搜索频道
+    
+    case Version()   //检查更新
     
     // MARK: URL格式转换
     var URLRequest: NSURLRequest {
@@ -87,7 +90,7 @@ enum Router: URLRequestConvertible {
                 if name != nil { parameters["term"] = name }
                 parameters["page"] = offset != nil ? offset : 1
                 parameters["limit"] = count != nil ? count : 20
-                parameters["limit"] = "list"
+                parameters["format"] = "list"
 
                 return (.GET, "/mobile_api/games", parameters)
             //获取游戏视频
@@ -106,10 +109,10 @@ enum Router: URLRequestConvertible {
                 
                 return (.GET, "/mobile_api/videos/related", parameters)
             //视频相关评论列表
-            case .VideoComment(let videoId, let offset, let count):
+            case .VideoComment(let videoId, let nextPageToken, let count):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if videoId != nil { parameters["videoid"] = videoId }
-                parameters["offset"] = offset != nil ? offset : 0
+                parameters["next_page_token"] = nextPageToken != nil ? nextPageToken : ""
                 parameters["count"] = count != nil ? count : 20
 
                 return (.GET, "/video/comments", parameters)
@@ -183,6 +186,7 @@ enum Router: URLRequestConvertible {
                 
                 //return (.GET, "/mobile_api/subscribe?useId=\(channelId!)", parameters)
                 return (.POST, "/mobile_api/subscribe", parameters)
+            //取消订阅
             case .UnSubscribe(let userToken, let channelId):
                 var parameters: [String: AnyObject] = ["apitoken": "freedom"]
                 if userToken != nil { parameters["token"] = userToken }
@@ -190,6 +194,11 @@ enum Router: URLRequestConvertible {
                 
                 //return (.GET, "/mobile_api/subscribe?useId=\(channelId!)", parameters)
                 return (.POST, "/mobile_api/unsubscribe", parameters)
+            //检查更新
+            case Version():
+                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                
+                return (.GET, "/mobile_api/mobile/version", parameters)
                 
                 
                 

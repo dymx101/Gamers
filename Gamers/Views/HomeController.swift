@@ -111,6 +111,8 @@ class HomeController: UIViewController {
         // 解决table和scroll混用时，点击事件BUG，（是否有效需要更多测试）
         scrollView.panGestureRecognizer.delaysTouchesBegan = true
 
+        // 检测更新
+        update()
 
     }
 
@@ -582,6 +584,35 @@ class HomeController: UIViewController {
         }
     }
     
+    func update() {
+        
+        // 检测更新
+        SystemBL.sharedSingleton.getVersion().continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if var version = (task.result as? Version) {
+                let plistPath = NSBundle.mainBundle().pathForResource("system", ofType: "plist")
+                //获取属性列表文件中的全部数据
+                let systemData = NSDictionary(contentsOfFile: plistPath!)!
+                let localVersion = systemData["version"] as! String
+                
+                if version.version.toInt() > localVersion.toInt() {
+                    var actionSheetController: UIAlertController = UIAlertController(title: "", message: "检测到新版本，是否更新！", preferredStyle: UIAlertControllerStyle.Alert)
+                    actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                        //
+                    }))
+                    actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                        //
+                        println("是")
+                    }))
+
+                    // 显示Sheet
+                    self!.presentViewController(actionSheetController, animated: true, completion: nil)
+                }
+            }
+            
+            return nil
+        })
+        
+    }
     
     /**
     初始化全局尺寸

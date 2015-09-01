@@ -20,9 +20,17 @@ class VideoCommentCell: UITableViewCell {
     }
     
     func setComment(commentData: Comment) {
-        self.userNameAndComment.text = commentData.userName + ": " + commentData.content
-        //self.commentFloor.text = "1楼"
-
+        //self.userNameAndComment.text = commentData.userName + ": " + commentData.content
+        let contentString: NSMutableAttributedString = NSMutableAttributedString(string: commentData.userName + ": " + commentData.content)
+        let fontRange: NSRange = NSMakeRange(0, NSString(string: commentData.userName).length + 2)
+        // 名字随机颜色
+        let color = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        let color1 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        let color2 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        let color3 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        contentString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: color, green: color1, blue: color2, alpha: 1), range: fontRange)
+        userNameAndComment.attributedText = contentString
+ 
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
