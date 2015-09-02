@@ -150,7 +150,7 @@ class UserBL: NSObject {
         }
     }
     
-    // 取消更随 todo：统一使用Router
+    // 取消跟随 todo：统一使用Router
     func setUnFollow(#channelId: String) {
         let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
         let isLogin = userDefaults.boolForKey("isLogin")
@@ -173,6 +173,27 @@ class UserBL: NSObject {
             alertView.show()
         }
     }
+    
+    // Google 登入
+    func googleLogin(code: String) {
+        var parameters: [String: AnyObject] = [
+            "code": code,
+            "client_id": "921894916096-i9cuji72d09ut6qo7phcsbpkqsfcmn1a.apps.googleusercontent.com",
+            "client_secret": "282qMxcJSHOZ3DdJM5tVZxyk",
+            "redirect_uri": "http://beta.gamers.tm:3000/back",
+            "grant_type": "authorization_code",
+        ]
+
+        Alamofire.request(.POST, "https://www.googleapis.com/oauth2/v3/token", parameters: parameters).responseJSON { _, _, JSONData, _ in
+            if let JSONData: AnyObject = JSONData {
+                let googleData  = JSON(JSONData)
+                NSUserDefaults.standardUserDefaults().setObject(googleData["access_token"].string, forKey: "googleAccessToken")
+            }
+        }
+    }
+    
+    
+    
     
     
 }

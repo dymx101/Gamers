@@ -50,9 +50,9 @@ class VideoBL: NSObject {
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let comments = task.result as? [Comment] {
-                
-                println(comments)
-                return BFTask(result: comments)
+                if comments.count != 0 {
+                    return BFTask(result: comments)
+                }
             }
             
             return task
@@ -65,6 +65,31 @@ class VideoBL: NSObject {
         
         return fetchTask
     }
+    
+    // 提交视频的评论
+    func insertComment(#videoId: String, channelId: String, commentText: String, accessToken: String) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return VideoDao.insertComment(videoId: videoId, channelId: channelId, commentText: commentText, accessToken: accessToken)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let response = task.result as? Response {
+                println(response)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
     
     // 直播视频
     func getLiveVideo(#page: Int, limit: Int?) -> BFTask {

@@ -28,6 +28,17 @@ class GameController: UICollectionViewController {
         self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         
         loadInitData()
+//        [[NSLocal preferredLanguages] objectAtIndex:0]
+        //println(NSBundle.mainBundle().preferredLocalizations)
+        println(NSLocale.preferredLanguages())
+        let languagesArray: NSArray = ["zh-Hans", "zh-Hant", "zh-HK"]
+        if languagesArray.containsObject(NSLocale.preferredLanguages()) {
+            
+            println("zh")
+        } else {
+            
+            println("en")
+        }
         
     }
     
@@ -40,6 +51,7 @@ class GameController: UICollectionViewController {
         
         GameBL.sharedSingleton.getAllGame(page: gamePage, limit: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!
+            self!.gamePage += 1
             self?.collectionView!.reloadData()
             
             return nil
@@ -66,9 +78,7 @@ class GameController: UICollectionViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
+            if task.error != nil { }
             self?.collectionView!.header.endRefreshing()
             self?.collectionView!.footer.resetNoMoreData()
             
@@ -81,7 +91,6 @@ class GameController: UICollectionViewController {
     func loadMoreData() {
         GameBL.sharedSingleton.getAllGame(page: gamePage, limit: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Game])!
-            
             if newData.isEmpty {
                 self?.collectionView?.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
@@ -94,9 +103,6 @@ class GameController: UICollectionViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
             if !self!.isNoMoreData {
                 self?.collectionView?.footer.endRefreshing()
             }
@@ -120,15 +126,14 @@ class GameController: UICollectionViewController {
             // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "游戏分类", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         } else {
-            // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         }
     }
     
     override func viewWillAppear(animated: Bool) {
         // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navigation-bar.png"),forBarMetrics: UIBarMetrics.CompactPrompt)
-        self.navigationController?.navigationBar.shadowImage = UIImage(named: "navigation-bar.png")
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navigation-bar1.png"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "navigation-bar1.png")
         self.navigationController?.navigationBar.translucent = false
     }
     

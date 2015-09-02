@@ -13,18 +13,17 @@ import Bolts
 
 class ChannelListController: UITableViewController {
 
-    let channelBL = ChannelBL()
+    var videoListData = [Video]()
+    var channelType: String = "new"
+    var videoPageOffset = 1         //分页偏移量
+    var videoPageCount = 20         //每页视频总数
     
-    var channelType: String!
-    var viewTag: Int!
-    
-    var videoData = [Video]()
-    
+    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "新手推荐"
+        self.navigationItem.title = channelType == "new" ? "新手推荐" : "游戏大咖"
 
         // 上拉下拉刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
@@ -42,7 +41,7 @@ class ChannelListController: UITableViewController {
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
-        
+        // 初始化数据
         loadInitData()
         
 
@@ -52,13 +51,17 @@ class ChannelListController: UITableViewController {
     启动初始化数据
     */
     func loadInitData() {
+        videoPageOffset = 1
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
-        channelBL.getRecommendChannel(channelType: "abc", offset: 0, count: 20, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: channelType, offset: videoPageOffset, count: videoPageCount, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [Video])!
+            self!.videoPageOffset += 1
             self?.tableView.reloadData()
-            
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -68,11 +71,16 @@ class ChannelListController: UITableViewController {
     刷新数据
     */
     func loadNewData() {
-        channelBL.getRecommendChannel(channelType: "abc", offset: 0, count: 20, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
-            
+        videoPageOffset = 1
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: channelType, offset: videoPageOffset, count: videoPageCount, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [Video])!
+            self!.videoPageOffset += 1
             self?.tableView.reloadData()
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self?.tableView.header.endRefreshing()
+            self?.tableView.footer.resetNoMoreData()
             
             return nil
         })
@@ -81,11 +89,21 @@ class ChannelListController: UITableViewController {
     刷新数据
     */
     func loadMoreData() {
-        channelBL.getRecommendChannel(channelType: "abc", offset: 0, count: 20, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
-            
-            self?.tableView.reloadData()
-            self?.tableView.header.endRefreshing()
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: channelType, offset: videoPageOffset, count: videoPageCount, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            var newData = (task.result as? [Video])!
+            if newData.isEmpty {
+                self?.tableView.footer.noticeNoMoreData()
+                self!.isNoMoreData = true
+            } else {
+                self!.videoListData += newData
+                self?.tableView.reloadData()
+            }
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if !self!.isNoMoreData {
+                self?.tableView.footer.endRefreshing()
+            }
             
             return nil
         })
@@ -97,29 +115,22 @@ class ChannelListController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
 
+}
+
+// MARK: - 表格代理协议
+extension ChannelListController: UITableViewDataSource, UITableViewDelegate {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return videoData.count
+        return videoListData.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelListCell", forIndexPath: indexPath) as! VideoListCell
-        
-        let imageUrl = self.videoData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
-        cell.videoTitle.text = self.videoData[indexPath.row].videoTitle
-        cell.videoChannel.text = self.videoData[indexPath.row].owner
-        cell.videoViews.text = String(self.videoData[indexPath.row].views)
-        
+        cell.setVideo(videoListData[indexPath.row])
         cell.delegate = self
         
         return cell
@@ -131,7 +142,7 @@ class ChannelListController: UITableViewController {
         var playerViewController = segue.destinationViewController as! PlayerViewController
         // 提取选中的游戏视频，把值传给列表页面
         var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoData[indexPath.row]
+        playerViewController.videoData =  videoListData[indexPath.row]
     }
     
     // cell分割线的边距
@@ -144,10 +155,9 @@ class ChannelListController: UITableViewController {
         }
     }
 
-
 }
 
-// 表格行Cell代理
+// MARK: - 表格行Cell代理
 extension ChannelListController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
@@ -162,14 +172,14 @@ extension ChannelListController: MyCellDelegate {
         
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             NSLog("Tap 取消 Button")
-            })
+        })
         actionSheetController.addAction(UIAlertAction(title: "破坏性按钮", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
             NSLog("Tap 破坏性按钮 Button")
-            })
+        })
         
         actionSheetController.addAction(UIAlertAction(title: "新浪微博", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             NSLog("Tap 新浪微博 Button")
-            })
+        })
         
         //显示
         self.presentViewController(actionSheetController, animated: true, completion: nil)

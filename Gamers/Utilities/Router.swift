@@ -21,18 +21,18 @@ enum Router: URLRequestConvertible {
     //
     case HomeSlider()                   //首页顶部轮播
     case RecommendGame()                //首页推荐游戏：4个热门游戏、3个新游戏
-    case RecommendChannel(channelType: String?, offset: Int?, count: Int?, order: String?)  //首页推荐频道：新手、游戏大咖
+    case RecommendChannel(channelType: String, offset: Int, count: Int, order: String)  //首页推荐频道：新手、游戏大咖
 
-    case AllGame(page: Int?, limit: Int?)                               //所有游戏
+    case AllGame(page: Int, limit: Int)                               //所有游戏
     case SearchGame(gameName: String?, page: Int?, limit: Int?)        //获取游戏
-    case GameVideo(gameId: String, page: Int?, limit: Int?)             //获取游戏视频
+    case GameVideo(gameId: String, page: Int, limit: Int)             //获取游戏视频
     
     case VideoRelate(videoId: String?)                                  //相关视频
     case VideoComment(videoId: String?, nextPageToken: String?, count: Int?)      //视频相关评论
 
     case ChannelInfo(channelId: String?)                                   //频道信息
     case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
-    case ChannelSlider(channelId: String?)
+    case ChannelSlider(channelId: String)
     
     case LiveVideo(page: Int?, limit: Int?)                             //直播频道视频
 
@@ -53,35 +53,36 @@ enum Router: URLRequestConvertible {
             switch self {
             //首页顶部轮播
             case .HomeSlider():
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                var parameters: [String: AnyObject]!
 
                 return (.GET, "/mobile_api/sliders", parameters)
             case .ChannelSlider(let channelId):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if channelId != nil { parameters["channelid"] = channelId }
+                var parameters: [String: AnyObject] = ["channelid": channelId]
                 
                 return (.GET, "/mobile_api/sliders", parameters)
             //首页推荐频道：新手、游戏大咖
             case .RecommendChannel(let channelType, let offset, let count, let order):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if channelType != nil { parameters["type"] = channelType }
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
-                parameters["order"] = order != nil ? order : "date"
+                var parameters: [String: AnyObject] = [
+                    "type": channelType,
+                    "page": offset,
+                    "count": count,
+                    "order": "date"
+                ]
 
                 return (.GET, "/mobile_api/video/recommendchannel", parameters)
             //首页推荐游戏：4个热门游戏、3个新游戏
             case .RecommendGame():
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                var parameters: [String: AnyObject]!
 
                 return (.GET, "/mobile_api/recommendgame", parameters)
             //所有游戏
             case .AllGame(let page, let limit):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                parameters["page"] = page != nil ? page : 1
-                parameters["limit"] = limit != nil ? limit : 20
-                parameters["format"] = "list"
-                parameters["order"] = "latest"
+                var parameters: [String: AnyObject] = [
+                    "page": page,
+                    "limit": limit,
+                    "format": "list",
+                    "order": "latest"
+                ]
 
                 return (.GET, "/mobile_api/games", parameters)
             //获取游戏
@@ -95,11 +96,11 @@ enum Router: URLRequestConvertible {
                 return (.GET, "/mobile_api/games", parameters)
             //获取游戏视频
             case .GameVideo(let gameId, let page, let limit):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                //if gameId != nil { parameters["gameid"] = gameId }
-                parameters["page"] = page != nil ? page : 1
-                parameters["limit"] = limit != nil ? limit : 20
-                parameters["order"] = "popular"
+                var parameters: [String: AnyObject] = [
+                    "page": page,
+                    "limit": limit,
+                    "order": "popular"
+                ]
                 
                 return (.GET, "mobile_api/games/\(gameId)", parameters)
             //相关视频
@@ -196,7 +197,7 @@ enum Router: URLRequestConvertible {
                 return (.POST, "/mobile_api/unsubscribe", parameters)
             //检查更新
             case Version():
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                var parameters: [String: AnyObject]!
                 
                 return (.GET, "/mobile_api/mobile/version", parameters)
                 

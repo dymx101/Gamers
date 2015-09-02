@@ -44,15 +44,15 @@ class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // 输入表单样式
-        userNameField.borderStyle = UITextBorderStyle.RoundedRect
-        userNameField.layer.borderColor = UIColor.blackColor().CGColor
-
-        passwordField.borderStyle = UITextBorderStyle.RoundedRect
-        
-        userNameField.leftView = UIImageView(image: UIImage(named: "username.png"))
-        userNameField.leftViewMode = UITextFieldViewMode.Always
-        passwordField.leftView = UIImageView(image: UIImage(named: "password.png"))
-        passwordField.leftViewMode = UITextFieldViewMode.Always
+//        userNameField.borderStyle = UITextBorderStyle.RoundedRect
+//        userNameField.layer.borderColor = UIColor.blackColor().CGColor
+//
+//        passwordField.borderStyle = UITextBorderStyle.RoundedRect
+//        
+//        userNameField.leftView = UIImageView(image: UIImage(named: "username.png"))
+//        userNameField.leftViewMode = UITextFieldViewMode.Always
+//        passwordField.leftView = UIImageView(image: UIImage(named: "password.png"))
+//        passwordField.leftViewMode = UITextFieldViewMode.Always
 
         
         // Google登入的代理协议
@@ -66,11 +66,11 @@ class LoginController: UIViewController {
 //        if (GIDSignIn.sharedInstance().hasAuthInKeychain()){
         
         //设置圆角
-        userImage.clipsToBounds = true
-        userImage.layer.cornerRadius = 50
-        //边框
-        userImage.layer.borderWidth = 1
-        userImage.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7).CGColor
+//        userImage.clipsToBounds = true
+//        userImage.layer.cornerRadius = 50
+//        //边框
+//        userImage.layer.borderWidth = 1
+//        userImage.layer.borderColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7).CGColor
         
         
 

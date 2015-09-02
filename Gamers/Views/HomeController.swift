@@ -45,8 +45,13 @@ class HomeController: UIViewController {
     var newGameView3: UITableView!
     
     // 全局数据 //todo 整合在一起
+    var newChannelVideoData = [Video]()
+    var featuredChannelVideoData = [Video]()
     var hotGameData = [Game]()
     var newGameData = [Game]()
+    
+    
+    
     var gameListData = [Game]()
     
     var videoListData = [Int: [Video]]()
@@ -159,8 +164,9 @@ class HomeController: UIViewController {
         })
         
         // 新手频道推荐数据
-        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "new", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "new", offset: 1, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData[101] = (task.result as? [Video])
+            self!.newChannelVideoData = (task.result as? [Video])!
             self!.newChannelView.reloadData()
 
             return nil
@@ -170,10 +176,10 @@ class HomeController: UIViewController {
             return nil
         })
         // 游戏大咖频道推荐数据
-        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "featured", offset: 0, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "featured", offset: 1, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData[102] = (task.result as? [Video])
             self!.featuredChannelView.reloadData()
-            //println(task.result)
+
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.stopRefensh()
@@ -751,7 +757,8 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             // 跳转到不同的全部界面
             if viewTag == 101 || viewTag == 102 {
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
-                //view?.videoData = self.videoData[viewTag]![indexPath.row-1]
+                //viewVC?.viewTag = viewTag
+                viewVC?.channelType = viewTag == 101 ? "new" : "featured"
                 
                 self.navigationController?.pushViewController(viewVC!, animated: true)
             } else if viewTag >= 103 && viewTag <= 106 {
@@ -802,7 +809,8 @@ extension HomeController: MyCellDelegate {
     func clickCellButton(sender: UITableViewCell) {
         let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
         let index: NSIndexPath = table.indexPathForCell(sender)!
-        var video = self.videoListData[sender.tag - index.row - 100]![index.row]
+        
+        var video = self.videoListData[sender.tag - index.row - 100]![index.row-1]
         
         //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
         

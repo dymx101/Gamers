@@ -21,6 +21,33 @@ class Game: Object {
     dynamic var names = [GameName]()
     dynamic var videos = [Video]()
     
+    // 计算本地游戏名称
+    var localName: String {
+        var chineseName = ""
+        var englishName = ""
+        
+        for name in self.names {
+            if name.language == "chinese" {
+                chineseName = name.translation
+            } else {
+                englishName = name.translation
+            }
+        }
+
+        let locallanguage = NSLocale.preferredLanguages()[0] as! String
+        if locallanguage == "zh-Hans" || locallanguage == "zh-Hant" || locallanguage == "zh-HK" {
+            return chineseName
+        } else {
+            return englishName
+        }
+//        let languagesArray: NSArray = ["zh-Hans", "zh-Hant", "zh-HK"]
+//        if languagesArray.containsObject(NSLocale.preferredLanguages()) {
+//            return chineseName
+//        } else {
+//            return englishName
+//        }
+    }
+    
     class func collection(#json: JSON) -> [Game] {
         var collection = [Game]()
         

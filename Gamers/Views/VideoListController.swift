@@ -43,15 +43,9 @@ class VideoListController: UITableViewController {
 
         // 加载初始化数据
         loadInitData()
-        
-        //self.navigationItem.title = self.gameData.nameZh
-        for name in self.gameData.names {
-            if name.language == "chinese" {
-                self.navigationItem.title = name.translation
-            }
-        }
-        
-        println(gameData)
+
+        self.navigationItem.title = gameData.localName
+
         
     }
     
@@ -106,7 +100,7 @@ class VideoListController: UITableViewController {
     func loadMoreData() {
         GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
-            println(newData)
+
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
@@ -148,8 +142,6 @@ class VideoListController: UITableViewController {
 extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     // 一个分区
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
     // 设置表格行数
@@ -225,7 +217,7 @@ extension VideoListController: MyCellDelegate {
                     alertView.show()
                 }
             }
-            })
+        })
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
@@ -240,7 +232,7 @@ extension VideoListController: MyCellDelegate {
                     alertView.show()
                 }
             }
-            })
+        })
         
         // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)

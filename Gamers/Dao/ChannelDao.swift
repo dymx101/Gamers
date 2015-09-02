@@ -20,7 +20,7 @@ extension ChannelDao {
     :param: channelType 频道类型：新手、大咖
     :returns: return 频道列表
     */
-    static func getChannels(#channelType: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+    static func getChannels(#channelType: String, offset: Int, count: Int, order: String) -> BFTask {
         var URLRequest = Router.RecommendChannel(channelType: channelType, offset: offset, count: count, order: order)
         
         return fetchChannel(URLRequest: URLRequest)
@@ -63,7 +63,7 @@ extension ChannelDao {
     
     :returns: 视频列表
     */
-    static func getRecommendChannel(#channelType: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+    static func getRecommendChannel(#channelType: String, offset: Int, count: Int, order: String) -> BFTask {
         var URLRequest = Router.RecommendChannel(channelType: channelType, offset: offset, count: count, order: order)
         
         return fetchVideo(URLRequest: URLRequest)

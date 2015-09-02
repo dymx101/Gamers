@@ -26,6 +26,7 @@ extension VideoDao {
         return fetchVideo(URLRequest: URLRequest)
     }
     
+    
     /**
     视频的评论内容
     
@@ -41,6 +42,15 @@ extension VideoDao {
         return fetchComment(URLRequest: URLRequest)
     }
     
+    static func insertComment(#videoId: String, channelId: String, commentText: String, accessToken: String) -> BFTask {
+        var URLRequest = CommentRouter.InsertComment(videoId: videoId, channelId: channelId, commentText: commentText, accessToken: accessToken)
+        
+        return fetchComment(URLRequest: URLRequest)
+    }
+    
+    
+    
+    
     /**
     获取直播视频列表
     
@@ -54,6 +64,7 @@ extension VideoDao {
         
         return fetchVideo(URLRequest: URLRequest)
     }
+    
     
     /**
     搜索视频
@@ -73,7 +84,27 @@ extension VideoDao {
     
 
     
-    
+    private static func fetchResponse(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var comment = Response()
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    comment = Response.collection(json: JSON(JSONDictionary))
+                    println(comment)
+                }
+                
+                source.setResult(comment)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
     
     /**
     解析视频评论列表的JSON数据
@@ -122,4 +153,6 @@ extension VideoDao {
         
         return source.task
     }
+    
+    
 }

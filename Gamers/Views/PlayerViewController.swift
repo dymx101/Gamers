@@ -83,17 +83,17 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        videoViews.text = String(videoData.views) + " 次"
-        
-        shareButton.layer.masksToBounds = true
-        shareButton.layer.cornerRadius = 6
-        shareButton.layer.borderWidth = 1
-        shareButton.layer.borderColor = UIColor.orangeColor().CGColor
-        
-        subscribeButton.layer.masksToBounds = true
-        subscribeButton.layer.cornerRadius = 6
-        subscribeButton.layer.borderWidth = 1
-        subscribeButton.layer.borderColor = UIColor.orangeColor().CGColor
+//        videoViews.text = String(videoData.views) + " 次"
+//        
+//        shareButton.layer.masksToBounds = true
+//        shareButton.layer.cornerRadius = 6
+//        shareButton.layer.borderWidth = 1
+//        shareButton.layer.borderColor = UIColor.orangeColor().CGColor
+//        
+//        subscribeButton.layer.masksToBounds = true
+//        subscribeButton.layer.cornerRadius = 6
+//        subscribeButton.layer.borderWidth = 1
+//        subscribeButton.layer.borderColor = UIColor.orangeColor().CGColor
         
         // 设置顶部导航条样式，透明
 //        self.navigationItem.title = videoData.videoTitle
@@ -112,6 +112,9 @@ class PlayerViewController: UIViewController {
         // 播放全屏的监听事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
+        // 评论界面上移事件
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "moveUpView", name: "moveUpViewNotification", object: nil)
+        
         
         // 标签切换页面
         let VideoInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoInfoVC") as! VideoInfoController
@@ -152,7 +155,22 @@ class PlayerViewController: UIViewController {
         self.view.bringSubviewToFront(containerView)
         
     }
-
+    
+    func moveUpView() {
+        println("屏幕上移")
+//        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+//            self.playerView.frame.size.height = 100
+//            //self.containerView.frame.size.height += 50
+//            
+//            self.containerView.snp_updateConstraints(closure: { (make) -> Void in
+//                make.top.equalTo(self.playerView.snp_bottom).offset(6)
+//            })
+//        }, completion: nil)
+        //设置动画结束
+        
+        UIView.commitAnimations()
+    }
+    
     // 用户订阅
     func userSubscribe() {
         // 先判断是否登入
@@ -196,7 +214,7 @@ class PlayerViewController: UIViewController {
         //playerView.loadVideoID("Zm8wVHL9KEg")
         playerView.loadWithVideoId(newVideoData.videoId, playerVars: playerVars)
         
-        videoViews.text = String(newVideoData.views) + " 次"
+        //videoViews.text = String(newVideoData.views) + " 次"
         
     }
 

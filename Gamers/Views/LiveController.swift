@@ -91,9 +91,6 @@ class LiveController: UITableViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
             

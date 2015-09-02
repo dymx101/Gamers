@@ -19,6 +19,7 @@ enum CommentRouter: URLRequestConvertible {
     // Alamofire请求路由，参考 github.com/Alamofire/Alamofire#api-parameter-abstraction
     //
     case VideoComment(videoId: String?, nextPageToken: String?, count: Int?)      //视频相关评论
+    case InsertComment(videoId: String, channelId: String, commentText: String, accessToken: String)
     
 
     // MARK: URL格式转换
@@ -34,8 +35,15 @@ enum CommentRouter: URLRequestConvertible {
                 
                 return (.GET, "/video/comments", parameters)
            
+            case .InsertComment(let videoId, let channelId, let commentText, let accessToken):
+                var parameters: [String: AnyObject] = [
+                    "video_id": videoId,
+                    "channel_id": channelId,
+                    "comment_text": commentText,
+                    "access_token": accessToken,
+                ]
                 
-                
+                return (.GET, "/youtube/insert_comment_thread", parameters)
                 
             }
         }()
