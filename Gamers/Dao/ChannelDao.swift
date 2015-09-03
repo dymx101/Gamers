@@ -79,7 +79,7 @@ extension ChannelDao {
     
     :returns: 频道列表
     */
-    static func getSearchChannel(#keyword: String?, offset: Int?, count: Int?, order: String?) -> BFTask {
+    static func getSearchChannel(#keyword: String, offset: Int, count: Int, order: String) -> BFTask {
         var URLRequest = Router.SearchChannel(keyword: keyword, offset: offset, count: count, order: order)
         
         return fetchChannel(URLRequest: URLRequest)

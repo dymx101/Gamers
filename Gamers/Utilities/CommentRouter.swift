@@ -18,7 +18,7 @@ enum CommentRouter: URLRequestConvertible {
     //
     // Alamofire请求路由，参考 github.com/Alamofire/Alamofire#api-parameter-abstraction
     //
-    case VideoComment(videoId: String?, nextPageToken: String?, count: Int?)      //视频相关评论
+    case VideoComment(videoId: String, nextPageToken: String, count: Int)      //视频相关评论
     case InsertComment(videoId: String, channelId: String, commentText: String, accessToken: String)
     
 
@@ -28,13 +28,13 @@ enum CommentRouter: URLRequestConvertible {
             switch self {
             //视频相关评论列表
             case .VideoComment(let videoId, let nextPageToken, let count):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if videoId != nil { parameters["videoid"] = videoId }
-                parameters["next_page_token"] = nextPageToken != nil ? nextPageToken : ""
-                parameters["count"] = count != nil ? count : 20
+                var parameters: [String: AnyObject] = [
+                    "videoid": videoId,
+                    "next_page_token": nextPageToken,
+                    "count": count
+                ]
                 
                 return (.GET, "/video/comments", parameters)
-           
             case .InsertComment(let videoId, let channelId, let commentText, let accessToken):
                 var parameters: [String: AnyObject] = [
                     "video_id": videoId,
@@ -44,6 +44,11 @@ enum CommentRouter: URLRequestConvertible {
                 ]
                 
                 return (.GET, "/youtube/insert_comment_thread", parameters)
+                
+                
+                
+                
+                
                 
             }
         }()

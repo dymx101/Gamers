@@ -149,7 +149,7 @@ class PlayerViewController: UIViewController {
         
         // 保存数据
         VideoBL.sharedSingleton.setPlayHistory(videoData)
-
+        
         playerView.delegate = self
         
         self.view.bringSubviewToFront(containerView)
@@ -168,7 +168,7 @@ class PlayerViewController: UIViewController {
 //        }, completion: nil)
         //设置动画结束
         
-        UIView.commitAnimations()
+        //UIView.commitAnimations()
     }
     
     // 用户订阅

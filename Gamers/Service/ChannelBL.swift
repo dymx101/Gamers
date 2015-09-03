@@ -143,7 +143,7 @@ class ChannelBL: NSObject {
     
     :returns: 频道列表
     */
-    func getSearchChannel(#keyword: String, offset: Int?, count: Int?, order: String?) -> BFTask {
+    func getSearchChannel(#keyword: String, offset: Int, count: Int, order: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in

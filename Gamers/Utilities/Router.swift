@@ -43,7 +43,7 @@ enum Router: URLRequestConvertible {
     case UnSubscribe(userToken: String?, channelId: String?)            //退订
 
     case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)           //搜索视频
-    case SearchChannel(keyword: String?, offset: Int?, count: Int?, order: String?)         //搜索频道
+    case SearchChannel(keyword: String, offset: Int, count: Int, order: String)         //搜索频道
     
     case Version()   //检查更新
     
@@ -158,7 +158,7 @@ enum Router: URLRequestConvertible {
                 return (.GET, "/user/googlelogin", parameters)
             //订阅列表
             case .Subscriptions(let userToken):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
+                var parameters: [String: AnyObject]!
                 //if userId != nil { parameters["userid"] = userId }
                 //if userToken != nil { parameters["usertoken"] = userToken }
                 
@@ -174,11 +174,12 @@ enum Router: URLRequestConvertible {
                 return (.GET, "/mobile_api/videos/search", parameters)
             //搜索频道
             case .SearchChannel(let keyword, let offset, let count, let order):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if keyword != nil { parameters["keyword"] = keyword }
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
-                parameters["order"] = order != nil ? order : "date"
+                var parameters: [String: AnyObject] = [
+                    "keyword": keyword,
+                    "offset": offset,
+                    "count": count,
+                    "order": "date",
+                ]
                 
                 return (.GET, "/channel/search", parameters)
             //订阅，奇芭的GET和POST混搭，暂停使用
