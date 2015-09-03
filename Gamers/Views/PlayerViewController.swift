@@ -133,7 +133,7 @@ class PlayerViewController: UIViewController {
         options.menuDisplayMode = PagingMenuOptions.MenuDisplayMode.SegmentedControl
         //options.menuItemMargin = 5
         options.selectedTextColor = UIColor.orangeColor()
-        options.menuItemMode = PagingMenuOptions.MenuItemMode.Underline(height: 2, color: UIColor.orangeColor())
+        options.menuItemMode = PagingMenuOptions.MenuItemMode.Underline(height: 2, color: UIColor.orangeColor(), horizontalPadding: 0, verticalPadding: 0)
         //options.menuItemMode = PagingMenuOptions.MenuItemMode.RoundRect(radius: 0, horizontalScale: 0, verticalScale: 0, selectedColor: UIColor.orangeColor())
         
         options.textColor = UIColor.blackColor()
