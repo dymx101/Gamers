@@ -63,14 +63,10 @@ class LiveController: UITableViewController {
         LiveBL.sharedSingleton.getLive(page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveListData = (task.result as? [Live])!
             self!.videoPageOffset += 1
-
             self?.tableView.reloadData()
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -86,7 +82,6 @@ class LiveController: UITableViewController {
         LiveBL.sharedSingleton.getLive(page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveListData = (task.result as? [Live])!
             self!.videoPageOffset += 1
-            
             self?.tableView.reloadData()
 
             return nil
@@ -112,7 +107,6 @@ class LiveController: UITableViewController {
             } else{
                 self?.tableView.footer.endRefreshing()
                 self!.liveListData += newData
-                
                 self!.videoPageOffset += 1
                 self?.tableView.reloadData()
             }
@@ -154,7 +148,7 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
             return view.frame.size.height - 20 - 44
         } else {
             if indexPath.row < 5 {
-                return 224
+                return 224 - 36 //-40调整高度
             } else {
                 return 73
             }

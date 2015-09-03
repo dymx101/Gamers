@@ -17,7 +17,7 @@ class UserBL: NSObject {
     static let sharedSingleton = UserBL()
 
     // 用户登入
-    func UserLogin(#userName: String?, password: String?) -> BFTask {
+    func UserLogin(#userName: String, password: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in

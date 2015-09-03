@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Haneke
 
 class SystemController: UITableViewController {
     
@@ -17,9 +18,6 @@ class SystemController: UITableViewController {
         super.viewDidLoad()
 
         // 统计缓存总数
-        
-
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,22 +46,16 @@ class SystemController: UITableViewController {
     
     // 清理系统缓存
     func systemClear() {
-        
-        println("清理数据")
         // 清理数据库
-        
         //let history = History()
-        
-//        realm.write {
-//            self.realm.deleteAll()
-//            //self.realm.delete(history)
-//        }
+        realm.write {
+            self.realm.deleteAll()
+            //self.realm.delete(history)
+        }
         
         // 清理缓存
-//        let cache = KingfisherManager.sharedManager.cache
-//        cache.clearMemoryCache()
-//        cache.clearDiskCache()
-//        cache.cleanExpiredDiskCache()
+        Shared.dataCache.removeAll()
+        Shared.imageCache.removeAll()
         
         // 提示
         var alertController: UIAlertController = UIAlertController(title: "", message: "清理完毕", preferredStyle: UIAlertControllerStyle.Alert)

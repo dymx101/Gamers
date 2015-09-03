@@ -6,32 +6,10 @@ PODS:
   - Bolts/AppLinks (1.2.1):
     - Bolts/Tasks
   - Bolts/Tasks (1.2.1)
-  - Google/Core (1.0.7):
-    - GoogleNetworkingUtilities (~> 1.0)
-    - GoogleSymbolUtilities (~> 1.0)
-    - GoogleUtilities (~> 1.0)
-  - Google/SignIn (1.0.7):
-    - Google/Core
-    - GoogleSignIn (~> 2.0)
-  - GoogleAppUtilities (1.0.0):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleAuthUtilities (1.0.1):
-    - GoogleNetworkingUtilities (~> 1.0)
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleNetworkingUtilities (1.0.0):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSignIn (2.2.0):
-    - GoogleAppUtilities (~> 1)
-    - GoogleAuthUtilities (~> 1)
-    - GoogleNetworkingUtilities (~> 1)
-    - GoogleUtilities (~> 1)
-  - GoogleSymbolUtilities (1.0.0)
-  - GoogleUtilities (1.0.1):
-    - GoogleSymbolUtilities (~> 1.0)
   - HanekeSwift (0.9.1)
   - MBProgressHUD (0.9.1)
   - MJRefresh (2.4.7)
-  - PagingMenuController (0.4.5)
+  - PagingMenuController (0.4.6)
   - ReachabilitySwift (1.1)
   - Realm (0.94.1):
     - Realm/Headers (= 0.94.1)
@@ -47,7 +25,6 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 1.2)
   - Bolts
-  - Google/SignIn
   - HanekeSwift
   - MBProgressHUD
   - MJRefresh
@@ -63,17 +40,10 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
   Bolts: 7686a5cb204d1ac54cee26f12d9b7622db3f80d1
-  Google: 875f5a8ade86dd02e36586e4a54814843938c7f6
-  GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
-  GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
-  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
-  GoogleSignIn: c45d8d1a873784a3283b4f47f331dc06d8a727b6
-  GoogleSymbolUtilities: a7b0feed1fe667c8d5e647177938d0ecd62d6948
-  GoogleUtilities: e3475cd4d45134221d2f3f3626095a1c49b62041
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: 6eb2f61338f89f64fd628fd43debcf479381ff59
-  PagingMenuController: 8e6b771783dd4acd2f78c1bb925c3a14338733da
+  PagingMenuController: 7652778e75884734c9f99f57d30fb6f424fa5cc6
   ReachabilitySwift: 1e53abddb01111deac0d229dabdb8bb043567b18
   Realm: d999a6cf0b41577a077349c9cc9d496cc62a7d17
   RealmSwift: 06b60ff5b1338755654d39aab44ac38001600f76

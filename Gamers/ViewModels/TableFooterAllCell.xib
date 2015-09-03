@@ -14,32 +14,22 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more.png" translatesAutoresizingMaskIntoConstraints="NO" id="Cvm-DH-KNi">
-                        <rect key="frame" x="16" y="15" width="20" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="20" id="ukL-Pn-QKc"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="显示全部" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDZ-Uk-eMe">
                         <rect key="frame" x="120" y="10" width="160" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="160" id="zAH-7k-OGa"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="5mg-3n-GBI"/>
-                    <constraint firstItem="Cvm-DH-KNi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="CUG-b9-AC2"/>
-                    <constraint firstItem="Cvm-DH-KNi" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="DB0-sa-MD5"/>
-                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="centerY" secondItem="Cvm-DH-KNi" secondAttribute="centerY" id="Pty-sJ-Wqh"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="BDZ-Uk-eMe" secondAttribute="trailing" constant="112" id="UcB-i0-gSK"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="BDZ-Uk-eMe" secondAttribute="bottom" constant="1" id="egb-cJ-gfB"/>
-                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="leading" secondItem="Cvm-DH-KNi" secondAttribute="trailing" constant="84" id="nQT-sM-hlb"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="BDZ-Uk-eMe" secondAttribute="bottom" constant="1" id="LYT-y6-MkG"/>
+                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="iqa-So-eFV"/>
+                    <constraint firstItem="BDZ-Uk-eMe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="joX-fq-TXf"/>
                 </constraints>
             </tableViewCellContentView>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="more.png" width="66" height="66"/>
-    </resources>
 </document>

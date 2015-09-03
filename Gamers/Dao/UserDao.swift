@@ -24,7 +24,7 @@ extension UserDao {
     
     :returns: 用户数据
     */
-    static func UserLogin(#userName: String?, password: String?) -> BFTask {
+    static func UserLogin(#userName: String, password: String) -> BFTask {
         var URLRequest = Router.UserLogin(userName: userName, password: password)
         
         return fetchUser(URLRequest: URLRequest)

@@ -18,16 +18,19 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(userDefaults.objectForKey("userName"))
+        println(userDefaults.objectForKey("isLogin"))
+        
+        println(userDefaults.stringForKey("userName")!)
         
         // 初始化用户资料
-        if userDefaults.objectForKey("userName") != nil {
+        if userDefaults.boolForKey("isLogin")  {
             userName.text = userDefaults.stringForKey("userName")!
             
             
-            //let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            //userImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
-            //userImage.image = UIImage(named: "user.png")
+//            let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//            userImage.kf_setImageWithURL(NSURL(string: imageUrl)!)
+//            userImage.image = UIImage(named: "user.png")
+            
         }
         
         //设置圆角
@@ -41,6 +44,7 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLogout:", name: "UserLogoutNotification", object: nil)
         // 登入的监听事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLogin:", name: "UserLoginNotification", object: nil)
+        
         
 
     }
@@ -63,10 +67,7 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
     
     // 点击触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         var isLogin = userDefaults.boolForKey("isLogin")
-        println(isLogin)
-
         // 个人信息和关注跳转
         switch indexPath.section {
         case 0 where isLogin:

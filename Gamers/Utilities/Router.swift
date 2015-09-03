@@ -23,20 +23,20 @@ enum Router: URLRequestConvertible {
     case RecommendGame()                //首页推荐游戏：4个热门游戏、3个新游戏
     case RecommendChannel(channelType: String, offset: Int, count: Int, order: String)  //首页推荐频道：新手、游戏大咖
 
-    case AllGame(page: Int, limit: Int)                               //所有游戏
-    case SearchGame(gameName: String?, page: Int?, limit: Int?)        //获取游戏
-    case GameVideo(gameId: String, page: Int, limit: Int)             //获取游戏视频
+    case AllGame(page: Int, limit: Int)                                 //所有游戏
+    case SearchGame(gameName: String, page: Int, limit: Int)            //获取游戏
+    case GameVideo(gameId: String, page: Int, limit: Int)               //获取游戏视频
     
-    case VideoRelate(videoId: String?)                                  //相关视频
-    case VideoComment(videoId: String?, nextPageToken: String?, count: Int?)      //视频相关评论
+    case VideoRelate(videoId: String)                                   //相关视频
+    case VideoComment(videoId: String, nextPageToken: String, count: Int)      //视频相关评论
 
-    case ChannelInfo(channelId: String?)                                   //频道信息
-    case ChannelVideo(channelId: String?, offset: Int?, count: Int?)    //频道视频
+    case ChannelInfo(channelId: String)                                 //频道信息
+    case ChannelVideo(channelId: String, offset: Int, count: Int)       //频道视频
     case ChannelSlider(channelId: String)
     
-    case LiveVideo(page: Int?, limit: Int?)                             //直播频道视频
+    case LiveVideo(page: Int, limit: Int)                               //直播频道视频
 
-    case UserLogin(userName: String?, password: String?)                                    //用户本地登入
+    case UserLogin(userName: String, password: String)                                    //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
     case Subscriptions(userToken: String?)                              //所有订阅列表
     case Subscribe(userToken: String?, channelId: String?)              //订阅
@@ -68,7 +68,7 @@ enum Router: URLRequestConvertible {
                     "count": count,
                     "order": "date"
                 ]
-
+                
                 return (.GET, "/mobile_api/video/recommendchannel", parameters)
             //首页推荐游戏：4个热门游戏、3个新游戏
             case .RecommendGame():
@@ -87,11 +87,12 @@ enum Router: URLRequestConvertible {
                 return (.GET, "/mobile_api/games", parameters)
             //获取游戏
             case .SearchGame(let name, let offset, let count):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if name != nil { parameters["term"] = name }
-                parameters["page"] = offset != nil ? offset : 1
-                parameters["limit"] = count != nil ? count : 20
-                parameters["format"] = "list"
+                var parameters: [String: AnyObject] = [
+                    "term": name,
+                    "page": offset,
+                    "limit": count,
+                    "format": "list"
+                ]
 
                 return (.GET, "/mobile_api/games", parameters)
             //获取游戏视频
@@ -105,44 +106,45 @@ enum Router: URLRequestConvertible {
                 return (.GET, "mobile_api/games/\(gameId)", parameters)
             //相关视频
             case .VideoRelate(let videoId):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if videoId != nil { parameters["videoid"] = videoId }
+                var parameters: [String: AnyObject] = ["videoid": videoId]
                 
                 return (.GET, "/mobile_api/videos/related", parameters)
             //视频相关评论列表
             case .VideoComment(let videoId, let nextPageToken, let count):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if videoId != nil { parameters["videoid"] = videoId }
-                parameters["next_page_token"] = nextPageToken != nil ? nextPageToken : ""
-                parameters["count"] = count != nil ? count : 20
-
+                var parameters: [String: AnyObject] = [
+                    "videoid": videoId,
+                    "next_page_token": nextPageToken,
+                    "count": count
+                ]
                 return (.GET, "/video/comments", parameters)
             //频道信息
             case .ChannelInfo(let channelId):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if channelId != nil { parameters["channelid"] = channelId }
+                var parameters: [String: AnyObject] = ["channelid": channelId]
                 
                 return (.GET, "/mobile_api/channel/info", parameters)
             //频道视频列表
             case .ChannelVideo(let channelId, let offset, let count):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if channelId != nil { parameters["channelid"] = channelId }
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
+                var parameters: [String: AnyObject] = [
+                    //"channelid": channelId,
+                    "offset": offset,
+                    "count": count
+                ]
 
-                return (.GET, "/mobile_api/youtuber/\(channelId!)/videos", parameters)
+                return (.GET, "/mobile_api/youtuber/\(channelId)/videos", parameters)
             //直播频道列表
             case .LiveVideo(let page, let limit):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                parameters["page"] = page != nil ? page : 1
-                parameters["limit"] = limit != nil ? limit : 20
+                var parameters: [String: AnyObject] = [
+                    "page": page,
+                    "limit": limit
+                ]
                 
                 return (.GET, "/mobile_api/streamers/all", parameters)
             //本地用户登入
             case .UserLogin(let userName, let password):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if userName != nil { parameters["username"] = userName }
-                if password != nil { parameters["password"] = password }
+                var parameters: [String: AnyObject] = [
+                    "username": userName,
+                    "password": password
+                ]
 
                 return (.GET, "/user/login", parameters)
             //Google登入

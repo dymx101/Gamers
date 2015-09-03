@@ -49,23 +49,6 @@ extension VideoDao {
     }
     
     
-    
-    
-    /**
-    获取直播视频列表
-    
-    :param: offset 偏移量
-    :param: count  总数
-    
-    :returns: 直播视频列表
-    */
-    static func getLiveVideo(#page: Int?, limit: Int?) -> BFTask {
-        var URLRequest = Router.LiveVideo(page: page, limit: limit)
-        
-        return fetchVideo(URLRequest: URLRequest)
-    }
-    
-    
     /**
     搜索视频
     

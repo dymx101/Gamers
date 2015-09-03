@@ -53,10 +53,9 @@ class UserInfoController: UITableViewController {
             userImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
         }
         
-        
         self.tableView.reloadData()
         
-    
+        println(userDefaults.boolForKey("isLogin"))
 
     }
 

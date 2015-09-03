@@ -201,11 +201,7 @@ class HomeController: UIViewController {
                 // 热门游戏
                 for index in 103...106 {
                     self!.videoListData[index]? = games[index-103].videos
-                    for name in games[index-103].names {
-                        if name.language == "chinese" {
-                            self!.gamesName[index] = name.translation
-                        }
-                    }
+                    self!.gamesName[index] = games[index-103].localName
                     self!.gamesImage[index] = games[index-103].imageSource
                     self!.videoListData[index] = games[index-103].videos
                     
@@ -215,11 +211,7 @@ class HomeController: UIViewController {
                 // 新游戏
                 for index in 107...109 {
                     self!.videoListData[index]? = games[index-103].videos
-                    for name in games[index-103].names {
-                        if name.language == "chinese" {
-                            self!.gamesName[index] = name.translation
-                        }
-                    }
+                    self!.gamesName[index] = games[index-103].localName
                     self!.gamesImage[index] = games[index-103].imageSource
                     self!.videoListData[index] = games[index-103].videos
                     
@@ -589,10 +581,8 @@ class HomeController: UIViewController {
             make.height.equalTo(400)
         }
     }
-    
+    // 检测更新
     func update() {
-        
-        // 检测更新
         SystemBL.sharedSingleton.getVersion().continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if var version = (task.result as? Version) {
                 let plistPath = NSBundle.mainBundle().pathForResource("system", ofType: "plist")
@@ -701,7 +691,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 0 where tableView.isEqual(featuredChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
-            cell.imageView?.image = UIImage(named: "icon-great")
+            cell.imageView?.image = UIImage(named: "Icon-great")
             cell.hearderTitle.text = "实况大咖"
             
             return cell
@@ -821,7 +811,12 @@ extension HomeController: MyCellDelegate {
         })
         // 关注频道
         actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
+            if self.userDefaults.boolForKey("isLogin") {
+                UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
+            } else {
+                var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+            }
         })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in

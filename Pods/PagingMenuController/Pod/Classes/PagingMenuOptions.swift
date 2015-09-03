@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 kitasuke. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class PagingMenuOptions {
     public var defaultPage = 0
@@ -20,8 +20,9 @@ public class PagingMenuOptions {
     public var menuItemMargin: CGFloat = 20
     public var animationDuration: NSTimeInterval = 0.3
     public var menuDisplayMode = MenuDisplayMode.FlexibleItemWidth(centerItem: false, scrollingMode: MenuScrollingMode.PagingEnabled)
-    public var menuItemMode = MenuItemMode.Underline(height: 3, color: UIColor.blueColor())
+    public var menuItemMode = MenuItemMode.Underline(height: 3, color: UIColor.blueColor(), horizontalPadding: 0, verticalPadding: 0)
     internal var menuItemCount = 0
+    internal let minumumSupportedViewCount = 1
     
     public enum MenuPosition {
         case Top
@@ -42,7 +43,7 @@ public class PagingMenuOptions {
     
     public enum MenuItemMode {
         case None
-        case Underline(height: CGFloat, color: UIColor)
+        case Underline(height: CGFloat, color: UIColor, horizontalPadding: CGFloat, verticalPadding: CGFloat)
         case RoundRect(radius: CGFloat, horizontalScale: CGFloat, verticalScale: CGFloat, selectedColor: UIColor)
     }
     

@@ -92,11 +92,11 @@ class VideoBL: NSObject {
     
     
     // 直播视频
-    func getLiveVideo(#page: Int, limit: Int?) -> BFTask {
+    func getLiveVideo(#page: Int, limit: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return VideoDao.getLiveVideo(page: page, limit: limit)
+            return LiveDao.getLive(page: page, limit: limit)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in

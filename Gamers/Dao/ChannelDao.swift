@@ -47,7 +47,7 @@ extension ChannelDao {
     
     :returns: 视频列表
     */
-    static func getChannelVideo(#channelId: String, offset: Int?, count: Int?) -> BFTask {
+    static func getChannelVideo(#channelId: String, offset: Int, count: Int) -> BFTask {
         var URLRequest = Router.ChannelVideo(channelId: channelId, offset: offset, count: count)
         
         return fetchVideo(URLRequest: URLRequest)

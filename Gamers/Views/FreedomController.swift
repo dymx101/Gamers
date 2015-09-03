@@ -14,6 +14,7 @@ import MBProgressHUD
 import Social
 
 class FreedomController: UITableViewController {
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     // 轮播视图属性
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
@@ -326,18 +327,21 @@ extension FreedomController: MyCellDelegate {
         var index: NSIndexPath = table.indexPathForCell(sender)!
         
         println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
-        
+        var video = self.videoListData[index.row]
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
-            })
+        })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            
-            
-            
-            })
+        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            if self.userDefaults.boolForKey("isLogin") {
+                UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
+            } else {
+                var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+            }
+        })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
@@ -352,11 +356,11 @@ extension FreedomController: MyCellDelegate {
                     alertView.show()
                 }
             }
-            })
+        })
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.setInitialText("share twitter")
             slComposerSheet.addImage(UIImage(named: "user.png"))
             slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
@@ -367,7 +371,7 @@ extension FreedomController: MyCellDelegate {
                     alertView.show()
                 }
             }
-            })
+        })
         
         // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)

@@ -12,7 +12,7 @@ pod 'SwiftyJSON', '~> 2.2.0'
 pod 'youtube-ios-player-helper'
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入
-pod 'Google/SignIn'
+#pod 'Google/SignIn'
 pod 'MJRefresh'
 ## 低层第三方异步组件
 pod 'Bolts'
