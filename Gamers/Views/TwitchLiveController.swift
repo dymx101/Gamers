@@ -8,7 +8,6 @@
 
 import UIKit
 import Bolts
-import KRVideoPlayer
 
 class TwitchLiveController: UIViewController {
     
@@ -16,6 +15,7 @@ class TwitchLiveController: UIViewController {
     @IBOutlet weak var twitchChatView: UIWebView!
     
     var videoPlayerController: KrVideoPlayerController!
+    
     var liveData: Live!
     var isLoadRequest = false
     

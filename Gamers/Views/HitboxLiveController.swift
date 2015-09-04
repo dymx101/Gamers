@@ -8,7 +8,6 @@
 
 import UIKit
 import Bolts
-import KRVideoPlayer
 
 class HitboxLiveController: UIViewController {
     
