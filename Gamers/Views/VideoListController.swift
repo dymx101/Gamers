@@ -16,7 +16,7 @@ import RealmSwift
 class VideoListController: UITableViewController {
 
     var gameData: Game!
-    var videoData = [Video]()
+    var videoListData = [Video]()
     var videoPageOffset = 1         //分页偏移量，默认为上次最后一个视频ID
     var videoPageCount = 20         //每页视频总数
     
@@ -63,7 +63,7 @@ class VideoListController: UITableViewController {
         
         videoPageOffset = 1
         GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
+            self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             
             self?.tableView.reloadData()
@@ -81,7 +81,7 @@ class VideoListController: UITableViewController {
     func loadNewData() {
         videoPageOffset = 1
         GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoData = (task.result as? [Video])!
+            self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             
             self?.tableView.reloadData()
@@ -106,7 +106,7 @@ class VideoListController: UITableViewController {
                 self?.tableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else{
-                self!.videoData += newData
+                self!.videoListData += newData
                 self!.videoPageOffset += 1
                 
                 self?.tableView.reloadData()
@@ -128,7 +128,7 @@ class VideoListController: UITableViewController {
         var playerViewController = segue.destinationViewController as! PlayerViewController
         // 提取选中的游戏视频，把值传给列表页面
         var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoData[indexPath.row]
+        playerViewController.videoData =  videoListData[indexPath.row]
     }
 
     override func didReceiveMemoryWarning() {
@@ -148,7 +148,7 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return videoData.count
+        return videoListData.count
     }
     // 设置行高
     //    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -158,8 +158,7 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoListCell", forIndexPath: indexPath) as! VideoListCell
-        cell.setVideo(self.videoData[indexPath.row])
-        
+        cell.setVideo(self.videoListData[indexPath.row])
         cell.delegate = self
         
         return cell
@@ -199,9 +198,12 @@ extension VideoListController: MyCellDelegate {
         })
         // 关注频道
         actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            
-            
-            
+            if NSUserDefaults.standardUserDefaults().boolForKey("isLogin") {
+                UserBL.sharedSingleton.setFollow(channelId: self.videoListData[index.row].ownerId)
+            } else {
+                var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+            }
         })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in

@@ -144,7 +144,7 @@ class PlayerViewController: UIViewController {
         pagingMenuController.setup(viewControllers: viewControllers, options: options)
         
         // 隐藏系统状态栏
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+        //UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
 
         
         // 保存数据

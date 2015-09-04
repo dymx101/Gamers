@@ -10,6 +10,7 @@ pod 'SwiftyJSON', '~> 2.2.0'
 ## YouTube播放器
 #pod 'YouTubePlayer'
 pod 'youtube-ios-player-helper'
+#pod 'KRVideoPlayer'
 pod 'SDCycleScrollView','~> 1.3'
 ## Google第三方登入
 #pod 'Google/SignIn'

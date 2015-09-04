@@ -185,10 +185,27 @@ extension LiveController: UITableViewDataSource, UITableViewDelegate {
     // 点击跳转到播放页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if !self.liveListData.isEmpty {
-            let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchPlayerVC") as? TwitchPlayerController
-            view?.LiveData = self.liveListData[indexPath.row]
+            if liveListData[indexPath.row].type == "twitch" {
+                let view = self.storyboard!.instantiateViewControllerWithIdentifier("TwitchLiveVC") as? TwitchLiveController
+                view?.liveData = self.liveListData[indexPath.row]
+                
+                self.navigationController?.pushViewController(view!, animated: true)
+            }
             
-            self.navigationController?.pushViewController(view!, animated: true)
+            if liveListData[indexPath.row].type == "hitbox" {
+                let view = self.storyboard!.instantiateViewControllerWithIdentifier("HitboxLiveVC") as? HitboxLiveController
+                view?.liveData = self.liveListData[indexPath.row]
+                
+                self.navigationController?.pushViewController(view!, animated: true)
+            }
+            
+            if liveListData[indexPath.row].type == "youtube" {
+                let view = self.storyboard!.instantiateViewControllerWithIdentifier("YoutubeLiveVC") as? YoutubeLiveController
+                view?.liveData = self.liveListData[indexPath.row]
+                
+                self.navigationController?.pushViewController(view!, animated: true)
+            }
+
         }
     }
     // cell分割线的边距

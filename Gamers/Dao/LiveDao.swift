@@ -22,6 +22,36 @@ extension LiveDao {
         return fetchLive(URLRequest: URLRequest)
     }
     
+    static func getStreamsToken(#channelId: String) -> BFTask {
+        var URLRequest = TwitchRouter.StreamsToken(channelId: channelId)
+        
+        return fetchTwitchTokenResponse(URLRequest: URLRequest)
+    }
+    
+    /**
+    解析twitchtoken数据
+    */
+    private static func fetchTwitchTokenResponse(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var token = TwitchToken()
+
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    token = TwitchToken.collection(json: JSON(JSONDictionary))
+
+                }
+                
+                source.setResult(token)
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
     /**
     解析游戏视频列表的JSON数据
     */

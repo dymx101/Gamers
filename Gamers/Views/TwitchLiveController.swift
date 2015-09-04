@@ -7,15 +7,16 @@
 //
 
 import UIKit
-import MBProgressHUD
+import Bolts
+import KRVideoPlayer
 
-class TwitchPlayerController: UIViewController {
+class TwitchLiveController: UIViewController {
     
     @IBOutlet weak var twitchPlayerView: UIWebView!
     @IBOutlet weak var twitchChatView: UIWebView!
     
-    var LiveData: Live!
-    
+    var videoPlayerController: KrVideoPlayerController!
+    var liveData: Live!
     var isLoadRequest = false
     
     override func viewDidLoad() {
@@ -23,8 +24,6 @@ class TwitchPlayerController: UIViewController {
 
         //去掉webview加载顶部空白,禁止滚屏滑动
         self.automaticallyAdjustsScrollViewInsets = false
-        twitchPlayerView.allowsInlineMediaPlayback = true
-        twitchPlayerView.scrollView.scrollEnabled = false
         twitchChatView.allowsInlineMediaPlayback = true
         twitchChatView.scrollView.scrollEnabled = false
 
@@ -34,31 +33,60 @@ class TwitchPlayerController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
 
-        //if LiveData.type == "twitch" {
-            let videoRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.streamUrl)!) //popout、embed
-            twitchPlayerView.loadRequest(videoRequest)
+        
+        
+        LiveBL.sharedSingleton.getTwitchStreamsURL(channelId: liveData.stream.id.lowercaseString).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if var url = task.result as? String {
+                self!.addVideoPlayerWithURL(NSURL(string: url)!)
+            }
             
-            let chatRequest = NSURLRequest(URL: NSURL(string: LiveData.stream.chatUrl)!)
-            twitchChatView.loadRequest(chatRequest)
-        //}
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                return nil
+        })
         
-        // 隐藏系统状态栏
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+            
+        let chatRequest = NSURLRequest(URL: NSURL(string: liveData.stream.chatUrl)!)
+        twitchChatView.loadRequest(chatRequest)
         
+
         // 播放全屏的监听事件
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
-        
-        // 延迟加载进度
-        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加载中..."
-        
-        
-        delay(seconds: 5) { () -> () in
-            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
-        }
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "begainFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
+//        
 
         
+        
+        
+    }
+    
+    func addVideoPlayerWithURL(videoURL: NSURL) {
+        if (self.videoPlayerController == nil) {
+            let width = UIScreen.mainScreen().bounds.size.width
+            self.videoPlayerController = KrVideoPlayerController(frame: CGRectMake(0, 0, width, width*(9.0/16.0)))
+            
+            self.videoPlayerController.dimissCompleteBlock = { [weak self] in
+                if let weakSelf = self {
+                    weakSelf.videoPlayerController = nil
+                }
+            }
+            
+            self.videoPlayerController.willBackOrientationPortrait = { [weak self] in
+                if let weakSelf = self {
+                    //weakSelf.toolbarHidden(false)
+                }
+            }
+            
+            self.videoPlayerController.willChangeToFullscreenMode = { [weak self] in
+                if let weakSelf = self {
+                    //weakSelf.toolbarHidden(false)
+                }
+            }
+            
+            self.view.addSubview(videoPlayerController.view)
+        }
+        
+        self.videoPlayerController.contentURL = videoURL
     }
 
     // 隐藏系统状态栏
@@ -68,6 +96,14 @@ class TwitchPlayerController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        // 切换到其它界面，销毁播放器
+        self.videoPlayerController.dismiss()
+        self.twitchChatView.removeFromSuperview()
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
+    }
+    
     
     // 横屏切换
     func begainFullScreen() {
@@ -108,14 +144,8 @@ class TwitchPlayerController: UIViewController {
 }
 
 // MARK: - 刷新时候显示加载界面，暂定使用http://api.twitch.tv/assets/判断
-extension TwitchPlayerController: UIWebViewDelegate {
+extension TwitchLiveController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
-        if isLoadRequest {
-            MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
-            
-            isLoadRequest = false
-        }
-        
         // 设置uiwebview内存参数，减少内存使用量（待测试）
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "WebKitCacheModelPreferenceKey")
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitDiskImageCacheEnabled")
@@ -125,17 +155,12 @@ extension TwitchPlayerController: UIWebViewDelegate {
     }
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        var backURLString = request.URL?.absoluteString
-        if backURLString!.hasPrefix("http://api.twitch.tv/assets/") {
-            isLoadRequest = true
-        }
 
         return true
     }
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         println("UIWebView.......error")
-        MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
 
     }
 }

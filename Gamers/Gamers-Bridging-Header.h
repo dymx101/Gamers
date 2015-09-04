@@ -7,4 +7,4 @@
 
 //#import <Google/SignIn.h>
 #import "UITableView+FDTemplateLayoutCell.h"
-
+#import "KrVideoPlayerController.h"

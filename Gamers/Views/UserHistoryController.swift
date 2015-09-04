@@ -17,7 +17,7 @@ class UserHistoryController: UITableViewController {
     let realm = Realm()
 
     var videoAllData = [Video]()
-    var videoData = [Video]()
+    var videoListData = [Video]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,14 +61,14 @@ class UserHistoryController: UITableViewController {
         let results = realm.objects(Video).filter(predicate).sorted("playDate", ascending: false)
 
         for video in results {
-            videoData.append(video)
+            videoListData.append(video)
         }
 
         self.tableView.reloadData()
     }
     // 下拉刷新数据
     func loadNewData() {
-        videoData = [Video]()
+        videoListData = [Video]()
         
         // 计算一星期前的时间
         var now = NSDate()
@@ -78,7 +78,7 @@ class UserHistoryController: UITableViewController {
         let results = realm.objects(Video).filter(predicate).sorted("playDate", ascending: false)
         
         for video in results {
-            videoData.append(video)
+            videoListData.append(video)
         }
         
         self.tableView.reloadData()
@@ -108,12 +108,12 @@ extension UserHistoryController: UITableViewDataSource, UITableViewDelegate {
     }
     // 设置总行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videoData.count
+        return videoListData.count
     }
     // 设置表格行内容
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("UserHistoryCell", forIndexPath: indexPath) as! UserHistoryCell
-        cell.setVideo(videoData[indexPath.row])
+        cell.setVideo(videoListData[indexPath.row])
         
         return cell
     }
@@ -132,6 +132,26 @@ extension UserHistoryController: UITableViewDataSource, UITableViewDelegate {
         var playerViewController = segue.destinationViewController as! PlayerViewController
         // 提取选中的游戏视频，把值传给列表页面
         var indexPath = self.tableView.indexPathForSelectedRow()!
-        playerViewController.videoData =  videoData[indexPath.row]
+        playerViewController.videoData =  videoListData[indexPath.row]
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        var indexPaths = [indexPath]
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            //删除数据要先执行，再删除界面上表格行
+            realm.write {
+                self.realm.delete(self.videoListData[indexPath.row])
+            }
+            self.videoListData.removeAtIndex(indexPath.row)
+            
+            tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Automatic)
+            
+        }
+        
+        //self.tableView.reloadData()
     }
 }

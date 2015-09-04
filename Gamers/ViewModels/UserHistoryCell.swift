@@ -44,6 +44,11 @@ class UserHistoryCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func prepareForReuse() {
+        videoImage.hnk_cancelSetImage()
+        videoImage.image = nil
+    }
 
 
 }
