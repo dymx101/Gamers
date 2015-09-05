@@ -13,6 +13,7 @@ class HitboxLiveController: UIViewController {
     
     var videoPlayerController: KrVideoPlayerController!
     
+    @IBOutlet weak var playerBackgroundView: UIView!
     @IBOutlet weak var chatView: UIWebView!
     
     var liveData: Live!
@@ -23,6 +24,8 @@ class HitboxLiveController: UIViewController {
         //去掉webview加载顶部空白,禁止滚屏滑动
         chatView.allowsInlineMediaPlayback = true
         chatView.scrollView.scrollEnabled = false
+        
+        playerBackgroundView.hidden = true
         
         // 设置顶部导航条样式，透明
         //self.navigationItem.title = videoData.videoTitle
@@ -43,8 +46,10 @@ class HitboxLiveController: UIViewController {
         let chatRequest = NSURLRequest(URL: NSURL(string: liveData.stream.chatUrl)!)
         chatView.loadRequest(chatRequest)
         
-
+        
+        println(url)
        // toolbarHidden(false)
+
         
     }
 
@@ -77,7 +82,7 @@ class HitboxLiveController: UIViewController {
                     //weakSelf.toolbarHidden(false)
                 }
             }
-            
+
            self.view.addSubview(videoPlayerController.view)
         }
 

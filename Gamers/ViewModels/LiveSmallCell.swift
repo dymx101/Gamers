@@ -35,6 +35,8 @@ class LiveSmallCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         videoImage.hnk_cancelSetImage()
         videoImage.image = nil
     }

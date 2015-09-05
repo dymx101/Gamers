@@ -56,6 +56,8 @@
 		1A4FAFB01B7F71CE0064B8A3 /* YouTubeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */; };
 		1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7A583A1B60EB7300464510 /* SliderController.swift */; };
 		1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */; };
+		1A8E8AA41B9A969700AF4239 /* gamers_header.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1A8E8AA31B9A969700AF4239 /* gamers_header.jpg */; };
+		1A8E8AA81B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8E8AA71B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.m */; };
 		1A93D5411B9947FD008D501A /* HitboxLiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A93D5401B9947FD008D501A /* HitboxLiveController.swift */; };
 		1A93D5561B994987008D501A /* kr-video-player-close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A93D5441B994987008D501A /* kr-video-player-close@2x.png */; };
 		1A93D5571B994987008D501A /* kr-video-player-close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A93D5451B994987008D501A /* kr-video-player-close@3x.png */; };
@@ -116,7 +118,6 @@
 		1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */; };
 		1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */; };
 		1AE922521B86C8BB0033C480 /* VideoCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE922511B86C8BB0033C480 /* VideoCommentController.swift */; };
-		1AE922551B870A510033C480 /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AE922541B870A510033C480 /* UITableView+FDTemplateLayoutCell.m */; };
 		1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */; };
 		1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */; };
 		1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */; };
@@ -197,6 +198,9 @@
 		1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeRouter.swift; sourceTree = "<group>"; };
 		1A7A583A1B60EB7300464510 /* SliderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderController.swift; sourceTree = "<group>"; };
 		1A85412B1B53C75C004010D9 /* NSUserDefaultsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsExtensions.swift; sourceTree = "<group>"; };
+		1A8E8AA31B9A969700AF4239 /* gamers_header.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gamers_header.jpg; sourceTree = "<group>"; };
+		1A8E8AA61B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDTemplateLayoutCell.h"; sourceTree = "<group>"; };
+		1A8E8AA71B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
 		1A93D5401B9947FD008D501A /* HitboxLiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitboxLiveController.swift; sourceTree = "<group>"; };
 		1A93D5441B994987008D501A /* kr-video-player-close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kr-video-player-close@2x.png"; sourceTree = "<group>"; };
 		1A93D5451B994987008D501A /* kr-video-player-close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kr-video-player-close@3x.png"; sourceTree = "<group>"; };
@@ -266,8 +270,6 @@
 		1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
 		1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		1AE922511B86C8BB0033C480 /* VideoCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCommentController.swift; sourceTree = "<group>"; };
-		1AE922531B870A510033C480 /* UITableView+FDTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDTemplateLayoutCell.h"; sourceTree = "<group>"; };
-		1AE922541B870A510033C480 /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
 		1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableFooterAllCell.swift; sourceTree = "<group>"; };
 		1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterAllCell.xib; sourceTree = "<group>"; };
 		1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 		1A30159F1B4E16BA00EB9965 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1A8E8AA51B9AA80B00AF4239 /* FDTemplateLayoutCell */,
 				1A93D5421B994987008D501A /* KrVideoPlayer */,
 				1A32FD0D1B54B91D0040E94C /* Router.swift */,
 				1AC10D391B955ED700F7A62B /* CommentRouter.swift */,
@@ -377,6 +380,15 @@
 				1A1D2C831B73550200112A4F /* ForgetPWDController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1A8E8AA51B9AA80B00AF4239 /* FDTemplateLayoutCell */ = {
+			isa = PBXGroup;
+			children = (
+				1A8E8AA61B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.h */,
+				1A8E8AA71B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.m */,
+			);
+			path = FDTemplateLayoutCell;
 			sourceTree = "<group>";
 		};
 		1A93D5421B994987008D501A /* KrVideoPlayer */ = {
@@ -518,8 +530,6 @@
 		1AD9C6FF1B4E1189001FE414 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1AE922531B870A510033C480 /* UITableView+FDTemplateLayoutCell.h */,
-				1AE922541B870A510033C480 /* UITableView+FDTemplateLayoutCell.m */,
 				1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */,
 				1A2BE3DB1B6E0F8800F787CC /* YTPlayerView-iframe-player.html */,
 				1AD9C7001B4E1189001FE414 /* Info.plist */,
@@ -549,6 +559,7 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1A8E8AA31B9A969700AF4239 /* gamers_header.jpg */,
 				1A4AB3411B96C94200138564 /* share.png */,
 				1A23C2AE1B8463D700AF5860 /* game-front-cover.png */,
 				1A23C2AF1B8463D700AF5860 /* navigation-bar.png */,
@@ -700,6 +711,7 @@
 				1A93D55C1B994987008D501A /* kr-video-player-play@2x.png in Resources */,
 				1A93D55A1B994987008D501A /* kr-video-player-pause@2x.png in Resources */,
 				1A93D5591B994987008D501A /* kr-video-player-fullscreen@3x.png in Resources */,
+				1A8E8AA41B9A969700AF4239 /* gamers_header.jpg in Resources */,
 				1A93D5581B994987008D501A /* kr-video-player-fullscreen@2x.png in Resources */,
 				1A23C2B11B8463D700AF5860 /* game-front-cover.png in Resources */,
 				1A93D55D1B994987008D501A /* kr-video-player-play@3x.png in Resources */,
@@ -778,6 +790,7 @@
 				1AB21AF21B5C8CE4007C5D2A /* SearchController.swift in Sources */,
 				1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */,
 				1A4AB33D1B96B1DB00138564 /* YouTubeVideoComment.swift in Sources */,
+				1A8E8AA81B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */,
 				1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */,
 				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
@@ -821,7 +834,6 @@
 				1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */,
 				1AE56FDA1B65EB690088BFE8 /* VideoListController.swift in Sources */,
 				1AEECF771B773CCA0022B69B /* TableFooterCell.swift in Sources */,
-				1AE922551B870A510033C480 /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
 				1ACBAF7C1B7B268F00D8910C /* Live.swift in Sources */,
@@ -919,6 +931,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -963,6 +976,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

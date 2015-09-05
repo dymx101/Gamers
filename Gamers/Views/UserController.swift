@@ -18,9 +18,9 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(userDefaults.objectForKey("isLogin"))
+        //println("登入状态：" + userDefaults.objectForKey("isLogin"))
         
-        println(userDefaults.stringForKey("userName")!)
+//        println(userDefaults.stringForKey("userName")!)
         
         // 初始化用户资料
         if userDefaults.boolForKey("isLogin")  {

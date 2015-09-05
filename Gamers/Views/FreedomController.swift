@@ -14,24 +14,18 @@ import MBProgressHUD
 import Social
 
 class FreedomController: UITableViewController {
-    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    let userDefaults = NSUserDefaults.standardUserDefaults()        //用户全局登入信息
     // 轮播视图属性
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
     var cycleImagesURLStrings: [String] = [];
     
-    let videoBL = VideoBL()
-    let channelBL = ChannelBL()
-    let sliderBL = SliderBL()
-    
     var videoListData  = [Video]()  //视频列表
     var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
     var videoPageCount = 20         //每页视频总数
     
-    var refresh = 0     // 刷新数据计数
     let freedomChannelId = "7579af4d-7141-440e-853c-fd7fa03dffad"  //freedom的ID
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,18 +33,22 @@ class FreedomController: UITableViewController {
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         
-        // 顶部轮播
-        cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
-        //cycleScrollView.backgroundColor = UIColor.grayColor()
-        // 轮播视图的基本属性
-        cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
-        cycleScrollView.infiniteLoop = true;
-        cycleScrollView.delegate = self
-        cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
-        cycleScrollView.autoScrollTimeInterval = 4.0
-        cycleScrollView.placeholderImage = UIImage(named: "placeholder.png")
+//        // 顶部轮播
+//        cycleScrollView = SDCycleScrollView(frame: CGRectMake(0, 0, self.view.frame.width, 160), imagesGroup: nil)
+//        //cycleScrollView.backgroundColor = UIColor.grayColor()
+//        // 轮播视图的基本属性
+//        cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
+//        cycleScrollView.infiniteLoop = true;
+//        cycleScrollView.delegate = self
+//        cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
+//        cycleScrollView.autoScrollTimeInterval = 4.0
+//        cycleScrollView.placeholderImage = UIImage(named: "placeholder.png")
+//        
+//        self.tableView.tableHeaderView = cycleScrollView
         
-        self.tableView.tableHeaderView = cycleScrollView
+        let headerView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, 160))
+        headerView.image = UIImage(named: "gamers_header.jpg")
+        self.tableView.tableHeaderView = headerView
 
         // 加载初始化数据
         loadInitData()
@@ -102,17 +100,6 @@ class FreedomController: UITableViewController {
     
 
     /**
-    停止刷新状态
-    */
-    func stopRefensh(){
-        self.refresh++
-        if self.refresh >= 2 {
-            self.tableView.header.endRefreshing()
-            self.tableView.footer.resetNoMoreData()
-            refresh = 0
-        }
-    }
-    /**
     启动初始化数据
     */
     func loadInitData() {
@@ -126,30 +113,34 @@ class FreedomController: UITableViewController {
             self?.tableView.reloadData()
             
             return nil
-        })
-
-        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if let sliders = task.result as? [Slider] {
-                for slider in sliders {
-                    self!.cycleTitles.append(slider.title)
-                    self!.cycleImagesURLStrings.append(slider.imageSmall)
-                }
-            }
-            self!.cycleScrollView.titlesGroup = self!.cycleTitles
-            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
-            self!.cycleTitles = []
-            self!.cycleImagesURLStrings = []
-
-            return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
-            
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
         })
+
+//        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if let sliders = task.result as? [Slider] {
+//                for slider in sliders {
+//                    self!.cycleTitles.append(slider.title)
+//                    self!.cycleImagesURLStrings.append(slider.imageSmall)
+//                }
+//            }
+//            self!.cycleScrollView.titlesGroup = self!.cycleTitles
+//            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
+//            self!.cycleTitles = []
+//            self!.cycleImagesURLStrings = []
+//
+//            return nil
+//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if task.error != nil {
+//                println(task.error)
+//            }
+//            
+//            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+//            
+//            return nil
+//        })
 
     }
     
@@ -166,39 +157,35 @@ class FreedomController: UITableViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
-            
-            // 所有获取完后结束刷新动画
-            self!.stopRefensh()
+            self?.tableView.header.endRefreshing()
+            self?.tableView.footer.resetNoMoreData()
             
             return nil
         })
 
-        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if let sliders = task.result as? [Slider] {
-                for slider in sliders {
-                    self!.cycleTitles.append(slider.title)
-                    self!.cycleImagesURLStrings.append(slider.imageSmall)
-                }
-            }
-            self!.cycleScrollView.titlesGroup = self!.cycleTitles
-            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
-            self!.cycleTitles = []
-            self!.cycleImagesURLStrings = []
-            
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
-            
-            // 所有获取完后结束刷新动画
-            self!.stopRefensh()
-            
-            return nil
-        })
+//        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if let sliders = task.result as? [Slider] {
+//                for slider in sliders {
+//                    self!.cycleTitles.append(slider.title)
+//                    self!.cycleImagesURLStrings.append(slider.imageSmall)
+//                }
+//            }
+//            self!.cycleScrollView.titlesGroup = self!.cycleTitles
+//            self!.cycleScrollView.imageURLStringsGroup = self!.cycleImagesURLStrings
+//            self!.cycleTitles = []
+//            self!.cycleImagesURLStrings = []
+//            
+//            return nil
+//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if task.error != nil {
+//                println(task.error)
+//            }
+//            
+//            // 所有获取完后结束刷新动画
+//            self!.stopRefensh()
+//            
+//            return nil
+//        })
         
     }
     
@@ -221,16 +208,11 @@ class FreedomController: UITableViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
             self?.tableView.footer.endRefreshing()
 
             return nil
         })
     }
-    
-    
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -266,25 +248,20 @@ extension FreedomController: UITableViewDataSource, UITableViewDelegate {
     }
     // 设置单元格
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         if videoListData.isEmpty {
             // 没有数据时候显示提醒
             let cell = tableView.dequeueReusableCellWithIdentifier("FreedomNoDataCell", forIndexPath: indexPath) as! UITableViewCell
             cell.selectionStyle = UITableViewCellSelectionStyle.None        //不可选
+            
             tableView.separatorStyle = UITableViewCellSeparatorStyle.None   //删除下划线
             
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("FreedomCell", forIndexPath: indexPath) as! VideoListCell
-            tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
-            
-            let imageUrl = self.videoListData[indexPath.row].imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            cell.videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
-            cell.videoTitle.text = self.videoListData[indexPath.row].videoTitle
-            cell.videoChannel.text = self.videoListData[indexPath.row].owner
-            cell.videoViews.text = String(self.videoListData[indexPath.row].views)
-            
+            cell.setVideo(self.videoListData[indexPath.row])
             cell.delegate = self
+            
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             
             return cell
         }

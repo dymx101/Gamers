@@ -28,17 +28,6 @@ class GameController: UICollectionViewController {
         self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         
         loadInitData()
-//        [[NSLocal preferredLanguages] objectAtIndex:0]
-        //println(NSBundle.mainBundle().preferredLocalizations)
-        println(NSLocale.preferredLanguages())
-        let languagesArray: NSArray = ["zh-Hans", "zh-Hant", "zh-HK"]
-        if languagesArray.containsObject(NSLocale.preferredLanguages()) {
-            
-            println("zh")
-        } else {
-            
-            println("en")
-        }
         
     }
     

@@ -28,6 +28,7 @@ class Video: Object {
     dynamic var likes = 0               //分享次数（？）
     dynamic var featured = false        //是否属于特殊
     dynamic var playDate = NSDate()
+    dynamic var publishedAt = ""        //发布时间
     
     class func modelFromJSON(json: JSON) -> Video {
         let model = Video()
@@ -46,7 +47,7 @@ class Video: Object {
         
         if let likes = json["likes"].int { model.likes = likes }
         if let featured = json["featured"].bool { model.featured = featured }
-
+        if let publishedAt = json["published_at"].string { model.publishedAt = publishedAt }
         
         return model
     }

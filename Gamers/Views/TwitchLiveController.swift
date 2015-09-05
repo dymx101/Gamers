@@ -11,7 +11,7 @@ import Bolts
 
 class TwitchLiveController: UIViewController {
     
-    @IBOutlet weak var twitchPlayerView: UIWebView!
+    @IBOutlet weak var playerBackgroundView: UIView!
     @IBOutlet weak var twitchChatView: UIWebView!
     
     var videoPlayerController: KrVideoPlayerController!
@@ -26,6 +26,8 @@ class TwitchLiveController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets = false
         twitchChatView.allowsInlineMediaPlayback = true
         twitchChatView.scrollView.scrollEnabled = false
+        
+        playerBackgroundView.hidden = true
 
         // 设置顶部导航条样式，透明
         //self.navigationItem.title = videoData.videoTitle

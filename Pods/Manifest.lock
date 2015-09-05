@@ -18,7 +18,7 @@ PODS:
     - Realm (= 0.94.1)
   - SDCycleScrollView (1.3)
   - SnapKit (0.13.0)
-  - Starscream (0.9.5)
+  - Starscream (0.9.6)
   - SwiftyJSON (2.2.1)
   - youtube-ios-player-helper (0.1.4)
 
@@ -49,7 +49,7 @@ SPEC CHECKSUMS:
   RealmSwift: 06b60ff5b1338755654d39aab44ac38001600f76
   SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
   SnapKit: 69fe274c71511df89a5591c11437a8b826bfa9eb
-  Starscream: a9e4295a64a78d64551d72d1e26f5c422d574ceb
+  Starscream: 347fcaf3e2555e72a031ccf4a4fb483d5acad05d
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   youtube-ios-player-helper: 84b1485ebb4b7c6b619c6e05edcb55186723a7c6
 

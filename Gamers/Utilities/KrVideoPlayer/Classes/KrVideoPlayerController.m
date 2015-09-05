@@ -210,24 +210,24 @@ static const CGFloat kVideoPlayerControllerAnimationTimeinterval = 0.3f;
              break;
              */
         case UIInterfaceOrientationPortraitUpsideDown:{
-            NSLog(@"第3个旋转方向---电池栏在下");
+            //NSLog(@"第3个旋转方向---电池栏在下");
             [self backOrientationPortrait];
         }
             break;
         case UIInterfaceOrientationPortrait:{
-            NSLog(@"第0个旋转方向---电池栏在上");
+            //NSLog(@"第0个旋转方向---电池栏在上");
             [self backOrientationPortrait];
         }
             break;
         case UIInterfaceOrientationLandscapeLeft:{
-            NSLog(@"第2个旋转方向---电池栏在右");
+            //NSLog(@"第2个旋转方向---电池栏在右");
             
             [self setDeviceOrientationLandscapeLeft];
         }
             break;
         case UIInterfaceOrientationLandscapeRight:{
             
-            NSLog(@"第1个旋转方向---电池栏在左");
+            //NSLog(@"第1个旋转方向---电池栏在左");
             
             [self setDeviceOrientationLandscapeRight];
             

@@ -26,6 +26,8 @@ class GameHeaderCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         gameImage.hnk_cancelSetImage()
         gameImage.image = nil
     }

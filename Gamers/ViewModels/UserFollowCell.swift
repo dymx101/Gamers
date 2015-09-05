@@ -44,6 +44,8 @@ class UserFollowCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         channelImage.hnk_cancelSetImage()
         channelImage.image = nil
     }
