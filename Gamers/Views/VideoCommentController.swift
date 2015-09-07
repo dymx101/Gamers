@@ -90,7 +90,7 @@ class VideoCommentController: UIViewController {
 //        superview bringSubviewToFront:subview
         self.view.bringSubviewToFront(chatToolView)
         
-        println(self.videoData)
+        //println(self.videoData)
         
     
     }

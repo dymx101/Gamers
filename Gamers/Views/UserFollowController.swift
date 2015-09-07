@@ -65,7 +65,7 @@ class UserFollowController: UITableViewController {
         UserBL.sharedSingleton.getSubscriptions(userToken: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.userListData = (task.result as? [User])!
             self?.tableView.reloadData()
-            
+            //println(self!.userListData)
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self?.tableView.header.endRefreshing()
@@ -138,10 +138,13 @@ extension UserFollowController: UITableViewDataSource, UITableViewDelegate {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         var indexPaths = [indexPath]
         if editingStyle == UITableViewCellEditingStyle.Delete {
+            let userId = self.userListData[indexPath.row].userId
+            UserBL.sharedSingleton.setUnFollow(channelId: userId)
+            
             self.userListData.removeAtIndex(indexPath.row) //删除数据要先执行，再删除表格行
             tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Automatic)
             
-            UserBL.sharedSingleton.setUnFollow(channelId: self.userListData[indexPath.row].userId)
+            UserBL.sharedSingleton.setUnFollow(channelId: userId)
         }
         
         //self.tableView.reloadData()

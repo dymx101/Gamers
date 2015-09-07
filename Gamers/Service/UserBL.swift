@@ -93,11 +93,11 @@ class UserBL: NSObject {
     
     
     // 用户订阅频道
-    func setSubscribe(#userToken: String?, channelId: String?) -> BFTask {
+    func setSubscribe(#channelId: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return UserDao.Subscribe(userToken: userToken, channelId: channelId)
+            return UserDao.Subscribe(channelId: channelId)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in

@@ -110,7 +110,9 @@
                     </constraint>
                     <constraint firstItem="83W-bW-Ynz" firstAttribute="top" secondItem="gdd-YM-obP" secondAttribute="bottom" id="i0E-Wu-LMZ"/>
                     <constraint firstItem="NMe-gp-0i9" firstAttribute="top" secondItem="1MM-DC-CoV" secondAttribute="top" id="kAT-Ui-dxg"/>
-                    <constraint firstItem="83W-bW-Ynz" firstAttribute="trailing" secondItem="gdd-YM-obP" secondAttribute="trailing" id="knb-uE-XFw"/>
+                    <constraint firstItem="83W-bW-Ynz" firstAttribute="trailing" secondItem="gdd-YM-obP" secondAttribute="trailing" id="knb-uE-XFw">
+                        <variation key="heightClass=regular-widthClass=compact" constant="42"/>
+                    </constraint>
                     <constraint firstItem="gdd-YM-obP" firstAttribute="top" secondItem="1MM-DC-CoV" secondAttribute="bottom" id="lBA-y4-eAx"/>
                     <constraint firstItem="gdd-YM-obP" firstAttribute="trailing" secondItem="1MM-DC-CoV" secondAttribute="trailing" id="rCh-3V-cJg">
                         <variation key="heightClass=regular-widthClass=compact" constant="-6"/>

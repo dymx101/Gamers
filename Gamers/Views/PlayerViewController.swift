@@ -16,9 +16,7 @@ import RealmSwift
 class PlayerViewController: UIViewController {
 
     var videoData: Video!
-    
     let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
-    
     // 导航条默认隐藏
     var isflage = true
 
@@ -62,7 +60,7 @@ class PlayerViewController: UIViewController {
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.setInitialText("share twitter")
             slComposerSheet.addImage(UIImage(named: "user.png"))
             slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
@@ -115,7 +113,6 @@ class PlayerViewController: UIViewController {
         // 评论界面上移事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "moveUpView", name: "moveUpViewNotification", object: nil)
         
-        
         // 标签切换页面
         let VideoInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoInfoVC") as! VideoInfoController
         VideoInfoVC.title = "详情"
@@ -152,7 +149,9 @@ class PlayerViewController: UIViewController {
         
         playerView.delegate = self
         
-        self.view.bringSubviewToFront(containerView)
+        //self.view.bringSubviewToFront(containerView)
+        
+        
         
     }
     
@@ -178,20 +177,14 @@ class PlayerViewController: UIViewController {
         let userId = userDefaults.stringForKey("userId")
         
         if isLogin {
-            UserBL.sharedSingleton.setSubscribe(userToken: userId, channelId: videoData.ownerId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            UserBL.sharedSingleton.setSubscribe(channelId: videoData.ownerId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
                 let response = (task.result as? Response)!
-                
-                println(task.result)
                 var message: String = response.code == "0" ? "跟随成功" : "跟随失败"
-                
                 var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
                 alertView.show()
                 
                 return nil
             }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                if task.error != nil {
-                    
-                }
                 return nil
             })
         } else {
@@ -211,10 +204,12 @@ class PlayerViewController: UIViewController {
         let newVideoData = userInfo["data"] as! Video
         
         var playerVars = ["playsinline": 1, "showinfo": 1]
-        //playerView.loadVideoID("Zm8wVHL9KEg")
         playerView.loadWithVideoId(newVideoData.videoId, playerVars: playerVars)
         
         //videoViews.text = String(newVideoData.views) + " 次"
+
+        // 保存数据
+        VideoBL.sharedSingleton.setPlayHistory(newVideoData)
         
     }
 

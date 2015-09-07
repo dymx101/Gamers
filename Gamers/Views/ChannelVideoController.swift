@@ -196,13 +196,10 @@ extension ChannelVideoController: MyCellDelegate {
         var actionSheetController: UIAlertController = UIAlertController()
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
-            })
+        })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            
-            
-            
-            })
+//        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+//        })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
@@ -217,7 +214,7 @@ extension ChannelVideoController: MyCellDelegate {
                     alertView.show()
                 }
             }
-            })
+        })
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
@@ -232,7 +229,7 @@ extension ChannelVideoController: MyCellDelegate {
                     alertView.show()
                 }
             }
-            })
+        })
         
         // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)

@@ -71,11 +71,7 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
     // 点击视频触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println("选中了：\(indexPath.row)")
-        
-        //var playerView = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as? PlayerViewController
-        //playerView?.viewWillAppear(true)
-        
-        //playerView!.reloadPlayerView()
+
         var dataDict = ["data": videoRelateData[indexPath.row]]
         
         NSNotificationCenter.defaultCenter().postNotificationName("reloadPlayerViewNotification", object: nil, userInfo: dataDict)

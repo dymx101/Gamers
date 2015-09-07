@@ -21,7 +21,7 @@ class FreedomController: UITableViewController {
     var cycleImagesURLStrings: [String] = [];
     
     var videoListData  = [Video]()  //视频列表
-    var videoPageOffset = 0         //分页偏移量，默认为上次最后一个视频ID
+    var videoPageOffset = 1         //分页偏移量，默认为上次最后一个视频ID
     var videoPageCount = 20         //每页视频总数
     
     let freedomChannelId = "7579af4d-7141-440e-853c-fd7fa03dffad"  //freedom的ID
@@ -43,12 +43,12 @@ class FreedomController: UITableViewController {
 //        cycleScrollView.dotColor = UIColor.yellowColor() // 自定义分页控件小圆标颜色
 //        cycleScrollView.autoScrollTimeInterval = 4.0
 //        cycleScrollView.placeholderImage = UIImage(named: "placeholder.png")
-//        
 //        self.tableView.tableHeaderView = cycleScrollView
         
+        // 头部使用图片
         let headerView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, 160))
         headerView.image = UIImage(named: "gamers_header.jpg")
-        self.tableView.tableHeaderView = headerView
+        //self.tableView.tableHeaderView = headerView
 
         // 加载初始化数据
         loadInitData()
@@ -106,9 +106,10 @@ class FreedomController: UITableViewController {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
+        videoPageOffset = 1
         ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
-            self!.videoPageOffset += self!.videoPageCount
+            self!.videoPageOffset += 1
             
             self?.tableView.reloadData()
             
@@ -148,10 +149,10 @@ class FreedomController: UITableViewController {
     刷新数据
     */
     func loadNewData() {
-        videoPageOffset = 0
+        videoPageOffset = 1
         ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
-            self!.videoPageOffset += self!.videoPageCount
+            self!.videoPageOffset += 1
             
             self?.tableView.reloadData()
             
@@ -201,7 +202,7 @@ class FreedomController: UITableViewController {
                 self?.tableView.footer.noticeNoMoreData()
             } else{
                 self!.videoListData += newData
-                self!.videoPageOffset += self!.videoPageCount
+                self!.videoPageOffset += 1
                 
                 self?.tableView.reloadData()
             }

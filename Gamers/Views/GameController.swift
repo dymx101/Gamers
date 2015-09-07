@@ -27,6 +27,7 @@ class GameController: UICollectionViewController {
         self.collectionView!.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         self.collectionView!.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
         
+        // 加载数据
         loadInitData()
         
     }
@@ -113,7 +114,7 @@ class GameController: UICollectionViewController {
             videoListController.gameData = self.gameListData[select]
             
             // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "游戏分类", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil) //暂时去掉该功能
         } else {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         }

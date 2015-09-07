@@ -66,9 +66,9 @@ class SearchCell: UITableViewCell {
         if theTotal < 1_000 {
             totalString = "\(theTotal)次观看"
         } else if theTotal < 10_000 {
-            totalString = "\(theTotal / 1_000)千+次观看"
+            totalString = "\(theTotal / 1_000)千次观看"
         } else {
-            totalString = "\(theTotal / 10_000)万+次观看"
+            totalString = "\(theTotal / 10_000)万次观看"
         }
         
         return totalString

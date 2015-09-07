@@ -41,14 +41,12 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
             
             self!.tableView.reloadData()
             
-            
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
+            
+            self!.isNoMoreData = false
             
             return nil
         })
@@ -56,7 +54,6 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
     // 上拉获取更多数据
     func loadMoreData() {
         keyword = searchBar.text
-        
         VideoBL.sharedSingleton.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
             if newData.isEmpty {
@@ -71,9 +68,6 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
             if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }
@@ -289,10 +283,7 @@ extension SearchController: UISearchBarDelegate {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
-             self?.tableView.footer.endRefreshing()
+            //self?.tableView.footer.endRefreshing()
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -306,7 +297,7 @@ extension SearchController: UISearchBarDelegate {
     }
     // 点击取消时触发事件
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        println("canncel")
+        //println("canncel")
         
     }
     // 搜索内容发生变化时触发事件
@@ -332,8 +323,7 @@ extension SearchController: MyCellDelegate {
     func clickCellButton(sender: UITableViewCell) {
         let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
         var index: NSIndexPath = table.indexPathForCell(sender)!
-        
-        println("表格行：\(index.row)")
+        //println("表格行：\(index.row)")
         
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
@@ -367,7 +357,7 @@ extension SearchController: MyCellDelegate {
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share facebook")
+            slComposerSheet.setInitialText("share twitter")
             slComposerSheet.addImage(UIImage(named: "user.png"))
             slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)

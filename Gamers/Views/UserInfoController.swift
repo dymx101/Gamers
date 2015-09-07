@@ -79,9 +79,7 @@ extension UserInfoController: UITableViewDelegate, UITableViewDataSource {
             
             // 刷新用户界面数据
             NSNotificationCenter.defaultCenter().postNotificationName("UserLogoutNotification", object: nil, userInfo: nil)
-            
-            
-            
+
             // 提示
             var alertController: UIAlertController = UIAlertController(title: "", message: "退出成功", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in

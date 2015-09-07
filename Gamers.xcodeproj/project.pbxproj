@@ -50,7 +50,6 @@
 		1A4181A71B709BA900927C21 /* TwitchLiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181A61B709BA900927C21 /* TwitchLiveController.swift */; };
 		1A4181DC1B71A94000927C21 /* FreedomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4181DB1B71A94000927C21 /* FreedomController.swift */; };
 		1A4AB33D1B96B1DB00138564 /* YouTubeVideoComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4AB33C1B96B1DB00138564 /* YouTubeVideoComment.swift */; };
-		1A4AB3421B96C94200138564 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4AB3411B96C94200138564 /* share.png */; };
 		1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */; };
 		1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */; };
 		1A4FAFB01B7F71CE0064B8A3 /* YouTubeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */; };
@@ -118,6 +117,7 @@
 		1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */; };
 		1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */; };
 		1AE922521B86C8BB0033C480 /* VideoCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE922511B86C8BB0033C480 /* VideoCommentController.swift */; };
+		1AEA3B2D1B9D95940066AA04 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AEA3B2C1B9D95940066AA04 /* share.png */; };
 		1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */; };
 		1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */; };
 		1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */; };
@@ -192,7 +192,6 @@
 		1A4181A61B709BA900927C21 /* TwitchLiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitchLiveController.swift; sourceTree = "<group>"; };
 		1A4181DB1B71A94000927C21 /* FreedomController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomController.swift; sourceTree = "<group>"; };
 		1A4AB33C1B96B1DB00138564 /* YouTubeVideoComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeVideoComment.swift; sourceTree = "<group>"; };
-		1A4AB3411B96C94200138564 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1A4FAFAB1B7F29D10064B8A3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1A4FAFAD1B7F2DA10064B8A3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A4FAFAF1B7F71CE0064B8A3 /* YouTubeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeRouter.swift; sourceTree = "<group>"; };
@@ -270,6 +269,7 @@
 		1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
 		1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		1AE922511B86C8BB0033C480 /* VideoCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCommentController.swift; sourceTree = "<group>"; };
+		1AEA3B2C1B9D95940066AA04 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableFooterAllCell.swift; sourceTree = "<group>"; };
 		1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterAllCell.xib; sourceTree = "<group>"; };
 		1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
@@ -559,8 +559,8 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1AEA3B2C1B9D95940066AA04 /* share.png */,
 				1A8E8AA31B9A969700AF4239 /* gamers_header.jpg */,
-				1A4AB3411B96C94200138564 /* share.png */,
 				1A23C2AE1B8463D700AF5860 /* game-front-cover.png */,
 				1A23C2AF1B8463D700AF5860 /* navigation-bar.png */,
 				1A23C2B01B8463D700AF5860 /* triangle.png */,
@@ -652,10 +652,11 @@
 				TargetAttributes = {
 					1AD9C6FB1B4E1189001FE414 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = FRXE6H33GD;
+						DevelopmentTeam = 33G74U7NSV;
 					};
 					1AD9C7101B4E1189001FE414 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 33G74U7NSV;
 						TestTargetID = 1AD9C6FB1B4E1189001FE414;
 					};
 				};
@@ -703,10 +704,10 @@
 				1A3226521B7D9B29001F7C52 /* user.png in Resources */,
 				1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */,
 				1A23C2B31B8463D700AF5860 /* triangle.png in Resources */,
+				1AEA3B2D1B9D95940066AA04 /* share.png in Resources */,
 				1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */,
 				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
 				1A23D7851B833E9C001AAAAD /* password.png in Resources */,
-				1A4AB3421B96C94200138564 /* share.png in Resources */,
 				1A23D7861B833E9C001AAAAD /* username.png in Resources */,
 				1A93D55C1B994987008D501A /* kr-video-player-play@2x.png in Resources */,
 				1A93D55A1B994987008D501A /* kr-video-player-pause@2x.png in Resources */,
@@ -951,6 +952,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "2aff0f00-d377-4989-bdc3-699b3a0aba80";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -989,6 +991,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "2aff0f00-d377-4989-bdc3-699b3a0aba80";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1006,6 +1009,7 @@
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c5966e7b-9f43-43fb-9df8-b4088e31b8c2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Gamers/Gamers-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1023,6 +1027,7 @@
 				INFOPLIST_FILE = Gamers/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c5966e7b-9f43-43fb-9df8-b4088e31b8c2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Gamers/Gamers-Bridging-Header.h";
 			};
 			name = Release;
@@ -1031,6 +1036,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1042,6 +1049,7 @@
 				INFOPLIST_FILE = GamersTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gamers.app/Gamers";
 			};
 			name = Debug;
@@ -1050,6 +1058,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1057,6 +1067,7 @@
 				INFOPLIST_FILE = GamersTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gamers.app/Gamers";
 			};
 			name = Release;

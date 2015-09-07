@@ -91,6 +91,8 @@ class VideoListController: UITableViewController {
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
             
+            self!.isNoMoreData = false
+            
             return nil
         })
     }
@@ -100,7 +102,6 @@ class VideoListController: UITableViewController {
     func loadMoreData() {
         GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
-
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
@@ -111,13 +112,13 @@ class VideoListController: UITableViewController {
                 
                 self?.tableView.reloadData()
             }
-            
+            println("任务1：\(self!.isNoMoreData)")
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }
-            
+            println("任务2：\(self!.isNoMoreData)")
             return nil
         })
     }
@@ -138,7 +139,7 @@ class VideoListController: UITableViewController {
 
 }
 
-// MARK: - Table view data source
+// MARK: - 表格数据代理协议
 extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     // 一个分区
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -146,8 +147,6 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
     }
     // 设置表格行数
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         return videoListData.count
     }
     // 设置行高
@@ -185,11 +184,9 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
 extension VideoListController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
-        
         let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
         var index: NSIndexPath = table.indexPathForCell(sender)!
-        
-        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
         
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()

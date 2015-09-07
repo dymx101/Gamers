@@ -68,8 +68,8 @@ extension UserDao {
     
     :returns: 返回结果
     */
-    static func Subscribe(#userToken: String?, channelId: String?) -> BFTask {
-        var URLRequest = Router.Subscribe(userToken: userToken, channelId: channelId)
+    static func Subscribe(#channelId: String) -> BFTask {
+        var URLRequest = Router.Subscribe(channelId: channelId)
         
         return fetchResponse(URLRequest: URLRequest)
     }

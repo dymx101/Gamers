@@ -71,8 +71,8 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         
         // 设定启动界面时间
-        NSThread.sleepForTimeInterval(1.0)//延长3秒
-        // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
+        NSThread.sleepForTimeInterval(0.5)//延长3秒
+        // 子页面的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
 
         // 下拉刷新数据
@@ -737,7 +737,24 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         let viewTag = tableView.tag
         //println("点击表格-\(viewTag)-触发行: \(indexPath.row)")
         if indexPath.row == 0 {
-
+            // 跳转到不同的全部界面（新加）
+            if viewTag == 101 || viewTag == 102 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
+                //viewVC?.viewTag = viewTag
+                viewVC?.channelType = viewTag == 101 ? "new" : "featured"
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else if viewTag >= 103 && viewTag <= 106 {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = hotGameData[viewTag - 103]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            } else {
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
+                viewVC?.gameData = newGameData[viewTag - 107]
+                
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            }
         } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
             // 移动动画
             moveView(tableView)

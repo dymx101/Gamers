@@ -36,13 +36,13 @@ enum Router: URLRequestConvertible {
     
     case LiveVideo(page: Int, limit: Int)                               //直播频道视频
 
-    case UserLogin(userName: String, password: String)                                    //用户本地登入
+    case UserLogin(userName: String, password: String)                                      //用户本地登入
     case GoogleLogin(userId: String?, userName: String?, email: String?, idToken: String?)  //Google登入
     case Subscriptions(userToken: String?)                              //所有订阅列表
-    case Subscribe(userToken: String?, channelId: String?)              //订阅
+    case Subscribe(channelId: String)                                   //订阅
     case UnSubscribe(userToken: String?, channelId: String?)            //退订
 
-    case SearchVideo(keyword: String?, offset: Int?, count: Int?, order: String?)           //搜索视频
+    case SearchVideo(keyword: String, offset: Int, count: Int, order: String)           //搜索视频
     case SearchChannel(keyword: String, offset: Int, count: Int, order: String)         //搜索频道
     
     case Version()   //检查更新
@@ -126,8 +126,8 @@ enum Router: URLRequestConvertible {
             case .ChannelVideo(let channelId, let offset, let count):
                 var parameters: [String: AnyObject] = [
                     //"channelid": channelId,
-                    "offset": offset,
-                    "count": count
+                    "page": offset,
+                    "limit": count
                 ]
 
                 return (.GET, "/mobile_api/youtuber/\(channelId)/videos", parameters)
@@ -165,11 +165,11 @@ enum Router: URLRequestConvertible {
                 return (.GET, "/mobile_api/mobile_follow", parameters)
             //搜索视频
             case .SearchVideo(let keyword, let offset, let count, let order):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if keyword != nil { parameters["q"] = keyword }
-                parameters["offset"] = offset != nil ? offset : 0
-                parameters["count"] = count != nil ? count : 20
-                //parameters["order"] = order != nil ? order : "date"
+                var parameters: [String: AnyObject] = [
+                    "q": keyword,
+                    "offset": offset,
+                    "count": count
+                ]
                 
                 return (.GET, "/mobile_api/videos/search", parameters)
             //搜索频道
@@ -183,10 +183,10 @@ enum Router: URLRequestConvertible {
                 
                 return (.GET, "/channel/search", parameters)
             //订阅，奇芭的GET和POST混搭，暂停使用
-            case .Subscribe(let userToken, let channelId):
-                var parameters: [String: AnyObject] = ["apitoken": "freedom"]
-                if userToken != nil { parameters["token"] = userToken }
-                if channelId != nil { parameters["userId"] = channelId }
+            case .Subscribe(let channelId):
+                var parameters: [String: AnyObject] = ["userId": channelId]
+                //if userToken != nil { parameters["token"] = userToken }
+
                 
                 //return (.GET, "/mobile_api/subscribe?useId=\(channelId!)", parameters)
                 return (.POST, "/mobile_api/subscribe", parameters)
