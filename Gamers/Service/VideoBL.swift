@@ -83,7 +83,7 @@ class VideoBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            
+            println(task.error)
             return task
         })
         
@@ -157,4 +157,71 @@ class VideoBL: NSObject {
         }
     }
 
+}
+
+
+extension VideoBL {
+    func getYoutubeComment(#videoId: String, pageToken: String, maxResults: Int) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return VideoDao.getYoutubeComment(videoId: videoId, pageToken: pageToken, maxResults: maxResults)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let comments = task.result as? [YTVComment] {
+                return BFTask(result: comments)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
+    func InsertVideoComment(#videoId: String, textOriginal: String) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return VideoDao.InsertVideoComment(videoId: videoId, textOriginal: textOriginal)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let comment = task.result as? YTVComment {
+                return BFTask(result: comment)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
+    func insertComment(#videoId: String, textOriginal: String) {
+        var parameters: [String: AnyObject] = [
+            "snippet": [
+                "topLevelComment": ["snippet": ["textOriginal": textOriginal]],
+                "videoId": videoId
+            ]
+        ]
+        println(NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken"))
+        
+        
+        let headers = [ "Authorization": "OAuth " + NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken")! ]
+        
+        
+        Alamofire.request(.POST, "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet", parameters: parameters, headers: headers, encoding: .JSON).responseJSON { _, _, JSONData, _ in
+            println(JSONData)
+        }
+    }
 }

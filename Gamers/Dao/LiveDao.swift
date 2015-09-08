@@ -40,7 +40,6 @@ extension LiveDao {
 
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     token = TwitchToken.collection(json: JSON(JSONDictionary))
-
                 }
                 
                 source.setResult(token)

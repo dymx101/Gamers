@@ -15,12 +15,14 @@ class VideoCommentController: UIViewController {
     let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     
     var videoData: Video!
-    var commentData = [Comment]()
-    var nextPageToken = ""         //分页偏移量，默认为上次最后一个视频ID的nextpagetoken
-    var commentPageCount = 20      //每页视频总数
+    var commentData = [YTVComment]()
+    var pageToken = ""          //分页偏移量，默认为上次最后一个视频ID的nextpagetoken
+    var maxResults = 20         //每页评论数量
     
     var keyboardMoveStatus: Bool = false
     var keyboardHeight: CGFloat!
+    
+    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
     @IBOutlet weak var commentTableView: UITableView!
     @IBOutlet weak var chatToolView: UIView!
@@ -39,9 +41,12 @@ class VideoCommentController: UIViewController {
             moveDown(keyboardHeight)
         }
         
-        var newComment = Comment()
-        newComment.title = "abc"
-        newComment.content = commentText.text
+        var newComment = YTVComment()
+        newComment.textDisplay = commentText.text
+        newComment.authorDisplayName = userDefaults.stringForKey("userName")!
+        newComment.publishedAt = "2015-05-01"
+        
+        
         commentData.insert(newComment, atIndex: 0)
         // 清空数据
         commentText.text = ""
@@ -51,6 +56,18 @@ class VideoCommentController: UIViewController {
         indexPathsToInsert.addObject(NSIndexPath(forRow: 0, inSection: 0))
         commentTableView.insertRowsAtIndexPaths(indexPathsToInsert as [AnyObject], withRowAnimation: UITableViewRowAnimation.Top)
         commentTableView.endUpdates()
+        
+        
+//        VideoBL.sharedSingleton.InsertVideoComment(videoId: videoData.videoId, textOriginal: "不错加油~").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            let newData = (task.result as? YTVComment)!
+//            println(newData)
+//            
+//            return nil
+//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            println(task.error)
+//            return nil
+//        })
+        VideoBL.sharedSingleton.insertComment(videoId: videoData.videoId, textOriginal: "不错加油~")
         
         // 提交评论数据
     }
@@ -69,9 +86,7 @@ class VideoCommentController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoComment:", name: "reloadVideoCommentNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHide:", name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShow:", name: UIKeyboardWillShowNotification, object: nil)
-        
-        
-        
+
         // 删除多余的分割线
         self.commentTableView.tableFooterView = UIView(frame: CGRectZero)
         // cell分割线边距，ios8处理
@@ -90,35 +105,51 @@ class VideoCommentController: UIViewController {
 //        superview bringSubviewToFront:subview
         self.view.bringSubviewToFront(chatToolView)
         
-        //println(self.videoData)
-        
+
+        userDefaults.removeObjectForKey("googleAccessToken")
+
+        println(videoData)
     
     }
     
     // 初始化数据
     func loadInit() {
-        nextPageToken = ""
-        VideoBL.sharedSingleton.getVideoComment(videoData.videoId, nextPageToken: nextPageToken, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.commentData = (task.result as? [Comment])!
+        pageToken = ""
+        VideoBL.sharedSingleton.getYoutubeComment(videoId: videoData.videoId, pageToken: pageToken, maxResults: maxResults).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.commentData = (task.result as? [YTVComment])!
+
             if !self!.commentData.isEmpty {
                 self?.commentTableView.reloadData()
-                //println("视频ID：\(self!.videoData.videoId), 链接地址：https://www.youtube.com/watch?v=\(self!.videoData.videoId)")
-                //println(self!.commentData)
                 
-                self!.nextPageToken = self!.commentData.last!.data.nextPageToken
+                if self!.commentData.last!.nextPageToken == "" {
+                    self?.commentTableView.footer.noticeNoMoreData()
+                    self!.isNoMoreData = true
+                } else {
+                    self!.pageToken = self!.commentData.last!.nextPageToken
+                }
             }
-
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            
             return nil
         })
+        
     }
     // 下拉重新刷新数据
     func loadNewData() {
-        nextPageToken = ""
-        VideoBL.sharedSingleton.getVideoComment(videoData.videoId, nextPageToken: nextPageToken, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.commentData = (task.result as? [Comment])!
+        pageToken = ""
+        isNoMoreData = false
+        VideoBL.sharedSingleton.getYoutubeComment(videoId: videoData.videoId, pageToken: pageToken, maxResults: maxResults).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.commentData = (task.result as? [YTVComment])!
             if !self!.commentData.isEmpty {
                 self?.commentTableView.reloadData()
-                self!.nextPageToken = self!.commentData.last!.data.nextPageToken
+                if self!.commentData.last!.nextPageToken == "" {
+                    self?.commentTableView.footer.noticeNoMoreData()
+                    self!.isNoMoreData = true
+                } else {
+                    self!.pageToken = self!.commentData.last!.nextPageToken
+                }
             }
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -129,22 +160,31 @@ class VideoCommentController: UIViewController {
     }
     // 上拉加载更多数据
     func loadMoreData() {
-        VideoBL.sharedSingleton.getVideoComment(videoData.videoId, nextPageToken: nextPageToken, count: commentPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            let newData = (task.result as? [Comment])!
+        VideoBL.sharedSingleton.getYoutubeComment(videoId: videoData.videoId, pageToken: pageToken, maxResults: maxResults).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            let newData = (task.result as? [YTVComment])!
 
             if newData.isEmpty {
                 self?.commentTableView.footer.noticeNoMoreData()
+                self!.isNoMoreData = true
             } else{
                 self!.commentData += newData
-                self!.nextPageToken = self!.commentData.last!.data.nextPageToken
                 
+                if newData.last!.nextPageToken == "" {
+                    self?.commentTableView.footer.noticeNoMoreData()
+                    self!.isNoMoreData = true
+                } else {
+                    self!.pageToken = self!.commentData.last!.nextPageToken
+                }
+
                 self?.commentTableView.reloadData()
             }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self?.commentTableView.footer.endRefreshing()
-            
+            if !self!.isNoMoreData {
+                self?.commentTableView.footer.endRefreshing()
+            }
+
             return nil
         })
     }
@@ -171,7 +211,7 @@ class VideoCommentController: UIViewController {
     // 屏幕和键盘下移
     func moveDown(upHeight: CGFloat) {
         keyboardMoveStatus = false
-        println(upHeight)
+
         //设置动画的名字
         UIView.beginAnimations("Animation", context: nil)
         //设置动画的间隔时间
@@ -215,9 +255,9 @@ class VideoCommentController: UIViewController {
     
     // 判断是否登入Google
     func isGoogleLogin() {
-        var googleAccessToken = userDefaults.stringForKey("googleAccessToken")!
+        var googleAccessToken = userDefaults.stringForKey("googleAccessToken")
 
-        if googleAccessToken.isEmpty {
+        if googleAccessToken == nil {
             
             var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
             actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
@@ -238,7 +278,7 @@ class VideoCommentController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
-        NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillHideNotification)
+        //NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillHideNotification)
     }
 
 }
@@ -257,6 +297,8 @@ extension VideoCommentController: UITextFieldDelegate, UITextViewDelegate {
 
         VideoBL.sharedSingleton.insertComment(videoId: videoData.videoId, channelId: videoData.ownerId, commentText: commentText.text, accessToken: userDefaults.stringForKey("googleAccessToken")!)
         commentText.text = ""
+        
+        
         
         return true
     }

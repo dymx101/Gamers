@@ -21,7 +21,7 @@ class GoogleLoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urlString = "https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://beta.gamers.tm:3000/back&response_type=code&client_id=921894916096-i9cuji72d09ut6qo7phcsbpkqsfcmn1a.apps.googleusercontent.com"
+        let urlString = "https://accounts.google.com/o/oauth2/auth?redirect_uri=http://beta.gamers.tm:3000/back&response_type=code&client_id=921894916096-i9cuji72d09ut6qo7phcsbpkqsfcmn1a.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.force-ssl+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutubepartner+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutubepartner-channel-audit&approval_prompt=force&access_type=offline"
         
         googleLoginView.loadRequest(NSURLRequest(URL: NSURL(string: urlString)!))
         

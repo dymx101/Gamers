@@ -119,6 +119,7 @@ class HomeController: UIViewController {
         // 检测更新
         update()
 
+
     }
 
     // 停止刷新状态
@@ -701,7 +702,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             if viewTag <= 106 {
                 cell.gameDetail.text = "热门游戏推荐"
             } else {
-                cell.gameDetail.text = "新游戏推荐"
+                cell.gameDetail.text = "精选游戏推荐"
             }
             
             let imageUrl = self.gamesImage[viewTag]!.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)

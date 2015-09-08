@@ -137,5 +137,67 @@ extension VideoDao {
         return source.task
     }
     
+}
+
+extension VideoDao {
+    static func getYoutubeComment(#videoId: String, pageToken: String, maxResults: Int) -> BFTask {
+        var URLRequest = YouTubeGetRouter.VideoComment(videoId: videoId, pageToken: pageToken, maxResults: maxResults)
+        
+        return fetchYoutubeComment(URLRequest: URLRequest)
+    }
     
+    static func InsertVideoComment(#videoId: String, textOriginal: String) -> BFTask {
+        var URLRequest = YouTubePostRouter.InsertVideoComment(videoId: videoId, textOriginal: textOriginal)
+        
+        return fetchYoutubeReComment(URLRequest: URLRequest)
+    }
+    
+
+    
+    
+    private static func fetchYoutubeReComment(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var comment = YTVComment()
+                println(JSONDictionary)
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    comment = YTVComment.collectionOne(json: JSON(JSONDictionary))
+                }
+                
+                source.setResult(comment)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
+    private static func fetchYoutubeComment(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var comments = [YTVComment]()
+
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    comments = YTVComment.collection(json: JSON(JSONDictionary))
+                }
+                
+                source.setResult(comments)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
+    
+    
+
 }

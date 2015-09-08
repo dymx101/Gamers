@@ -18,7 +18,7 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        VideoBL.sharedSingleton.getVideoRelate(videoData.videoId, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: videoData.ownerId, offset: 0, count: 20).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoRelateData = (task.result as? [Video])!
             self?.tableView.reloadData()
             

@@ -53,7 +53,6 @@ class LiveBL: NSObject {
                 var customAllowedSet =  NSCharacterSet(charactersInString:"\",:[]{}").invertedSet
                 var escapedString = token.token.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
                 var streamsURLString = "http://usher.twitch.tv/api/channel/hls/\(channelId).m3u8?player=twitchweb&token=\(escapedString!)&sig=\(token.sig)"
-
                 
                 //println(streamsURLString)
                 return BFTask(result: streamsURLString)
