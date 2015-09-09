@@ -159,8 +159,9 @@ class VideoBL: NSObject {
 
 }
 
-
+// 直接调用Youtube Data API
 extension VideoBL {
+    // 获取评论
     func getYoutubeComment(#videoId: String, pageToken: String, maxResults: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -183,12 +184,12 @@ extension VideoBL {
         
         return fetchTask
     }
-    
+    // 插入youtube视频评论
     func InsertVideoComment(#videoId: String, textOriginal: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            return VideoDao.InsertVideoComment(videoId: videoId, textOriginal: textOriginal)
+            return VideoDao.InsertYTVComment(videoId: videoId, textOriginal: textOriginal)
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
@@ -206,22 +207,5 @@ extension VideoBL {
         
         return fetchTask
     }
-    
-    func insertComment(#videoId: String, textOriginal: String) {
-        var parameters: [String: AnyObject] = [
-            "snippet": [
-                "topLevelComment": ["snippet": ["textOriginal": textOriginal]],
-                "videoId": videoId
-            ]
-        ]
-        println(NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken"))
-        
-        
-        let headers = [ "Authorization": "OAuth " + NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken")! ]
-        
-        
-        Alamofire.request(.POST, "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet", parameters: parameters, headers: headers, encoding: .JSON).responseJSON { _, _, JSONData, _ in
-            println(JSONData)
-        }
-    }
+
 }

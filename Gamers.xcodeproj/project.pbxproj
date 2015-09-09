@@ -122,6 +122,7 @@
 		1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */; };
 		1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */; };
 		1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */; };
+		1AEE18BB1BA02B2500E50C62 /* YTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEE18BA1BA02B2500E50C62 /* YTError.swift */; };
 		1AEEBC901B82CEDD00880AA6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AEEBC8F1B82CEDD00880AA6 /* Social.framework */; };
 		1AEECF6F1B7724040022B69B /* ChannelHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */; };
 		1AEECF701B7724040022B69B /* ChannelHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */; };
@@ -275,6 +276,7 @@
 		1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableFooterAllCell.swift; sourceTree = "<group>"; };
 		1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterAllCell.xib; sourceTree = "<group>"; };
 		1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
+		1AEE18BA1BA02B2500E50C62 /* YTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YTError.swift; sourceTree = "<group>"; };
 		1AEEBC8F1B82CEDD00880AA6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		1AEECF6D1B7724040022B69B /* ChannelHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelHeaderCell.swift; sourceTree = "<group>"; };
 		1AEECF6E1B7724040022B69B /* ChannelHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChannelHeaderCell.xib; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				1AA0B9371B859C07001BFEB9 /* Response.swift */,
 				1AC10D331B95427600F7A62B /* Version.swift */,
 				1A4AB33C1B96B1DB00138564 /* YTVComment.swift */,
+				1AEE18BA1BA02B2500E50C62 /* YTError.swift */,
 				1A93D5671B995469008D501A /* TwitchToken.swift */,
 			);
 			path = Models;
@@ -867,6 +870,7 @@
 				1A85412C1B53C75C004010D9 /* NSUserDefaultsExtensions.swift in Sources */,
 				1ACBAF781B7B046200D8910C /* LiveLargeCell.swift in Sources */,
 				1ADA9AEB1B54AE9E00F409B2 /* Video.swift in Sources */,
+				1AEE18BB1BA02B2500E50C62 /* YTError.swift in Sources */,
 				1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */,
 				1A0351FC1B54CB7A007372F8 /* News.swift in Sources */,
 				1AF8D53C1B9198B30086D932 /* GameSearchController.swift in Sources */,

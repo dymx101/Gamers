@@ -160,7 +160,7 @@ class HomeController: UIViewController {
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.stopRefensh()
-            
+            println(task.error)
             return nil
         })
         
@@ -173,7 +173,7 @@ class HomeController: UIViewController {
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.stopRefensh()
-            
+            println(task.error)
             return nil
         })
         // 游戏大咖频道推荐数据
@@ -184,7 +184,7 @@ class HomeController: UIViewController {
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.stopRefensh()
-            
+            println(task.error)
             return nil
         })
         // 推荐游戏数据
@@ -224,7 +224,7 @@ class HomeController: UIViewController {
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.stopRefensh()
-            
+            println(task.error)
             return nil
         })
         

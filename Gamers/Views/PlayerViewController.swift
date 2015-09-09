@@ -132,6 +132,7 @@ class PlayerViewController: UIViewController {
         options.selectedTextColor = UIColor.orangeColor()
         options.menuItemMode = PagingMenuOptions.MenuItemMode.Underline(height: 2, color: UIColor.orangeColor(), horizontalPadding: 0, verticalPadding: 0)
         //options.menuItemMode = PagingMenuOptions.MenuItemMode.RoundRect(radius: 0, horizontalScale: 0, verticalScale: 0, selectedColor: UIColor.orangeColor())
+        //options.menuPosition = PagingMenuOptions.MenuPosition.Top
         
         options.textColor = UIColor.blackColor()
         options.defaultPage = 1
@@ -151,6 +152,10 @@ class PlayerViewController: UIViewController {
         
         //self.view.bringSubviewToFront(containerView)
         
+        println(self.view.frame.size)
+        if self.view.frame.size.height == 480 {
+
+        }
         
         
     }
@@ -166,6 +171,18 @@ class PlayerViewController: UIViewController {
 //            })
 //        }, completion: nil)
         //设置动画结束
+        
+        //设置动画的名字
+        UIView.beginAnimations("Animation", context: nil)
+        //设置动画的间隔时间
+        UIView.setAnimationDuration(0.20)
+        //使用当前正在运行的状态开始下一段动画
+        UIView.setAnimationBeginsFromCurrentState(true)
+        //设置视图移动的位移
+        self.containerView.frame = CGRectMake(self.containerView.frame.origin.x, self.containerView.frame.origin.y - 35, self.containerView.frame.size.width, self.containerView.frame.size.height + 35);
+        //设置动画结束
+        
+        UIView.commitAnimations()
         
         //UIView.commitAnimations()
     }
@@ -191,11 +208,6 @@ class PlayerViewController: UIViewController {
             var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
             alertView.show()
         }
-    }
-    
-    
-    override func viewWillAppear(animated: Bool) {
-    
     }
     
     // 重新加载视频
@@ -239,6 +251,13 @@ class PlayerViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
 
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(),forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -251,12 +270,16 @@ extension PlayerViewController: PagingMenuControllerDelegate {
     
     func willMoveToMenuPage(page: Int) {
         //println(page)
-        //println("触发willMoveToMenuPage事件")
+        println("触发willMoveToMenuPage事件")
+
     }
     
     func didMoveToMenuPage(page: Int) {
         //println(page)
-        //println("触发didMoveToMenuPage事件")
+        println("触发didMoveToMenuPage事件")
+        //NSNotificationCenter.defaultCenter().postNotificationName("pagingMenukeyboardHideNotification", object: nil, userInfo: nil)
+        //self.view.endEditing(true)
+        
     }
 }
 

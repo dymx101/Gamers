@@ -43,12 +43,19 @@ class SliderController: UIViewController {
         
     }
 
+    // 隐藏系统状态栏
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
+    }
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    
 }
 
 // MARK: - youtube播放代理

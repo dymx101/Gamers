@@ -188,12 +188,60 @@ class UserBL: NSObject {
             if let JSONData: AnyObject = JSONData {
                 let googleData  = JSON(JSONData)
                 NSUserDefaults.standardUserDefaults().setObject(googleData["access_token"].string, forKey: "googleAccessToken")
+                NSUserDefaults.standardUserDefaults().setObject(googleData["refresh_token"].string, forKey: "googleRefreshToken")
+                NSUserDefaults.standardUserDefaults().setObject(googleData["expires_in"].string, forKey: "googleExpiresIn")
+                NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970, forKey: "googleTokenBeginTime")
+            }
+        }
+    }
+    // 刷新Google的access_token
+    func googleRefreshToken() {
+        var parameters: [String: AnyObject] = [
+            "client_id": "921894916096-i9cuji72d09ut6qo7phcsbpkqsfcmn1a.apps.googleusercontent.com",
+            "client_secret": "282qMxcJSHOZ3DdJM5tVZxyk",
+            //"refresh_token": NSUserDefaults.standardUserDefaults().stringForKey("googleRefreshToken")!,
+            "grant_type": "refresh_token",
+        ]
+        
+        Alamofire.request(.POST, "https://www.googleapis.com/oauth2/v3/token", parameters: parameters).responseJSON { _, _, JSONData, _ in
+            if let JSONData: AnyObject = JSONData {
+                let googleData  = JSON(JSONData)
+                println(googleData)
+                NSUserDefaults.standardUserDefaults().setObject(googleData["access_token"].string, forKey: "googleAccessToken")
+                NSUserDefaults.standardUserDefaults().setObject(googleData["expires_in"].string, forKey: "googleExpiresIn")
+                NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970, forKey: "googleTokenBeginTime")
             }
         }
     }
     
-    
-    
-    
-    
+
 }
+
+// 直接调用Youtube Data API
+extension UserBL {
+    func googleRefreshToken2() -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return UserDao.googleRefreshToken()
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let response = task.result as? YTError {
+                return BFTask(result: response)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+}
+
+
+

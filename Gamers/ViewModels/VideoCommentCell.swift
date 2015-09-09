@@ -22,7 +22,7 @@ class VideoCommentCell: UITableViewCell {
     func setComment(commentData: YTVComment) {
         //self.userNameAndComment.text = commentData.userName + ": " + commentData.content
         let contentString: NSMutableAttributedString = NSMutableAttributedString(string: "[" + FormatDate(commentData.publishedAt) + "]" + commentData.authorDisplayName + ": " + filterHTML(commentData.textDisplay))
-        let fontRange: NSRange = NSMakeRange(12, NSString(string: commentData.authorDisplayName).length + 2)
+        let fontRange: NSRange = NSMakeRange(7, NSString(string: commentData.authorDisplayName).length + 2)
         // 名字随机颜色
         let color = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
         let color1 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
@@ -67,7 +67,8 @@ class VideoCommentCell: UITableViewCell {
     
     // 格式化时间，暂时取前10
     func FormatDate(theDate: String) -> String {
-        return (theDate as NSString).substringToIndex(10)
+        
+        return (theDate as NSString).substringWithRange(NSMakeRange(5, 5))
     }
     
     

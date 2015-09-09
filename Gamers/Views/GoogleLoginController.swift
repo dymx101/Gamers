@@ -26,6 +26,11 @@ class GoogleLoginController: UIViewController {
         googleLoginView.loadRequest(NSURLRequest(URL: NSURL(string: urlString)!))
         
 //        print(NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken"))
+        
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navigation-bar1.png"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "navigation-bar1.png")
+        self.navigationController?.navigationBar.translucent = false
     }
     
     
@@ -35,12 +40,20 @@ class GoogleLoginController: UIViewController {
         if backURLString!.hasPrefix("http://beta.gamers.tm:3000/back?code=") {
             var range: NSRange = NSMakeRange(37, 46)
             googleCode = NSString(string: backURLString!).substringWithRange(range)
-            println(googleCode)
             isLoginRequest = true
         }
         
         return true
     }
+    
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(),forBarMetrics: UIBarMetrics.Default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.translucent = true
+//    }
+    
+    
     
     // 登入请求后返回的数据解析
     func webViewDidFinishLoad(webView: UIWebView) {

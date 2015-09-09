@@ -84,7 +84,6 @@ extension UserDao {
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
                 var response: Response!
-                println("订阅返回信息：\(JSONDictionary)")
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     response = Response.collection(json: JSON(JSONDictionary))
                 }
@@ -163,7 +162,40 @@ extension UserDao {
         
         return source.task
     }
-    
-    
+
+}
+// 直接调用Youtube Data API
+extension UserDao {
+    static func googleRefreshToken() -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        var parameters: [String: AnyObject] = [
+            "client_id": "921894916096-i9cuji72d09ut6qo7phcsbpkqsfcmn1a.apps.googleusercontent.com",
+            "client_secret": "282qMxcJSHOZ3DdJM5tVZxyk",
+            "refresh_token": NSUserDefaults.standardUserDefaults().stringForKey("googleRefreshToken")!,
+            "grant_type": "refresh_token",
+        ]
+        
+        Alamofire.request(.POST, "https://www.googleapis.com/oauth2/v3/token", parameters: parameters).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                if let JSONData: AnyObject = JSONDictionary {
+                    let googleData  = JSON(JSONDictionary!)
+                    println(googleData)
+                    NSUserDefaults.standardUserDefaults().setObject(googleData["access_token"].string, forKey: "googleAccessToken")
+                    NSUserDefaults.standardUserDefaults().setObject(googleData["expires_in"].string, forKey: "googleExpiresIn")
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970, forKey: "googleTokenBeginTime")
+                    
+                    //source.setResult(googleData)
+                }
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
     
 }
+
+
+

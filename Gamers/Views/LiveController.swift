@@ -67,6 +67,7 @@ class LiveController: UITableViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -86,6 +87,7 @@ class LiveController: UITableViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
             
@@ -113,7 +115,7 @@ class LiveController: UITableViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil { }
+            if task.error != nil { println(task.error) }
             if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }

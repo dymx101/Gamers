@@ -151,8 +151,41 @@ extension VideoDao {
         
         return fetchYoutubeReComment(URLRequest: URLRequest)
     }
-    
+    // 临时方法
+    static func InsertYTVComment(#videoId: String, textOriginal: String) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        let parameters: [String: AnyObject] = [
+            "snippet": [
+                "topLevelComment": ["snippet": ["textOriginal": textOriginal]],
+                "videoId": videoId
+            ]
+        ]
+        let headers = [ "Authorization": "OAuth " + NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken")! ]
+        let URLRequest = "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet"
+        
+        Alamofire.request(.POST, URLRequest, parameters: parameters, headers: headers, encoding: .JSON).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var comment = YTVComment()
+                var error = YTError()
 
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    let json = JSON(JSONDictionary)
+                    if json["error"]["message"] != nil {
+                        error = YTError.collection(json: JSON(JSONDictionary))
+                        source.setResult(error)
+                    } else {
+                        comment = YTVComment.collectionOne(json: JSON(JSONDictionary))
+                        source.setResult(comment)
+                    }
+                }
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
     
     
     private static func fetchYoutubeReComment(#URLRequest: URLRequestConvertible) -> BFTask {

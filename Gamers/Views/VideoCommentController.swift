@@ -20,7 +20,8 @@ class VideoCommentController: UIViewController {
     var maxResults = 20         //每页评论数量
     
     var keyboardMoveStatus: Bool = false
-    var keyboardHeight: CGFloat!
+    var keyboardHeight: CGFloat = 0
+    var keyboardPageStatus: Int = 0
     
     var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
@@ -41,35 +42,7 @@ class VideoCommentController: UIViewController {
             moveDown(keyboardHeight)
         }
         
-        var newComment = YTVComment()
-        newComment.textDisplay = commentText.text
-        newComment.authorDisplayName = userDefaults.stringForKey("userName")!
-        newComment.publishedAt = "2015-05-01"
-        
-        
-        commentData.insert(newComment, atIndex: 0)
-        // 清空数据
-        commentText.text = ""
-        // 在表格头部新增数据
-        commentTableView.beginUpdates()
-        var indexPathsToInsert = NSMutableArray()
-        indexPathsToInsert.addObject(NSIndexPath(forRow: 0, inSection: 0))
-        commentTableView.insertRowsAtIndexPaths(indexPathsToInsert as [AnyObject], withRowAnimation: UITableViewRowAnimation.Top)
-        commentTableView.endUpdates()
-        
-        
-//        VideoBL.sharedSingleton.InsertVideoComment(videoId: videoData.videoId, textOriginal: "不错加油~").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-//            let newData = (task.result as? YTVComment)!
-//            println(newData)
-//            
-//            return nil
-//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-//            println(task.error)
-//            return nil
-//        })
-        VideoBL.sharedSingleton.insertComment(videoId: videoData.videoId, textOriginal: "不错加油~")
-        
-        // 提交评论数据
+        insertComment()
     }
     
     
@@ -86,6 +59,8 @@ class VideoCommentController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoComment:", name: "reloadVideoCommentNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHide:", name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChange:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pagingMenukeyboardHide:", name: "pagingMenukeyboardHideNotification", object: nil)
 
         // 删除多余的分割线
         self.commentTableView.tableFooterView = UIView(frame: CGRectZero)
@@ -105,11 +80,10 @@ class VideoCommentController: UIViewController {
 //        superview bringSubviewToFront:subview
         self.view.bringSubviewToFront(chatToolView)
         
+        //println(userDefaults.stringForKey("googleTokenBeginTime"))
 
-        userDefaults.removeObjectForKey("googleAccessToken")
+        //userDefaults.removeObjectForKey("googleAccessToken")
 
-        println(videoData)
-    
     }
     
     // 初始化数据
@@ -154,6 +128,10 @@ class VideoCommentController: UIViewController {
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self?.commentTableView.header.endRefreshing()
+            // 刷新Google的token
+            if (self!.userDefaults.stringForKey("googleRefreshToken") != nil) {
+                UserBL.sharedSingleton.googleRefreshToken2()
+            }
             
             return nil
         })
@@ -184,6 +162,11 @@ class VideoCommentController: UIViewController {
             if !self!.isNoMoreData {
                 self?.commentTableView.footer.endRefreshing()
             }
+            
+            // 刷新Google的token
+            if (self!.userDefaults.stringForKey("googleRefreshToken") != nil) {
+                UserBL.sharedSingleton.googleRefreshToken2()
+            }
 
             return nil
         })
@@ -191,60 +174,96 @@ class VideoCommentController: UIViewController {
     
     // 屏幕和键盘上移
     func moveUp(upHeight: CGFloat) {
-        keyboardMoveStatus = true
-        
-        //NSNotificationCenter.defaultCenter().postNotificationName("moveUpViewNotification", object: nil, userInfo: nil)
-        
-        //设置动画的名字
-        UIView.beginAnimations("Animation", context: nil)
-        //设置动画的间隔时间
-        UIView.setAnimationDuration(0.20)
-        //使用当前正在运行的状态开始下一段动画
-        UIView.setAnimationBeginsFromCurrentState(true)
-        //设置视图移动的位移
-        self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - upHeight, self.view.frame.size.width, self.view.frame.size.height);
-        //设置动画结束
-        
-        UIView.commitAnimations()
-        
+        if !keyboardMoveStatus {
+            keyboardMoveStatus = true
+            keyboardPageStatus = 1
+            //NSNotificationCenter.defaultCenter().postNotificationName("moveUpViewNotification", object: nil, userInfo: nil)
+            
+            //设置动画的名字
+            UIView.beginAnimations("Animation", context: nil)
+            //设置动画的间隔时间
+            UIView.setAnimationDuration(0.20)
+            //使用当前正在运行的状态开始下一段动画
+            UIView.setAnimationBeginsFromCurrentState(true)
+            //设置视图移动的位移
+            self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - upHeight, self.view.frame.size.width, self.view.frame.size.height);
+            //设置动画结束
+            
+            UIView.commitAnimations()
+            
+            self.view.bringSubviewToFront(chatToolView)
+        }
     }
     // 屏幕和键盘下移
     func moveDown(upHeight: CGFloat) {
-        keyboardMoveStatus = false
-
-        //设置动画的名字
-        UIView.beginAnimations("Animation", context: nil)
-        //设置动画的间隔时间
-        UIView.setAnimationDuration(0.20)
-        //??使用当前正在运行的状态开始下一段动画
-        UIView.setAnimationBeginsFromCurrentState(true)
-        //设置视图移动的位移
-        self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + upHeight, self.view.frame.size.width, self.view.frame.size.height);
-        //设置动画结束
-        UIView.commitAnimations()
-        
-        // 收起键盘
-        self.view.endEditing(true)
+        if keyboardMoveStatus {
+            keyboardMoveStatus = false
+            
+            //设置动画的名字
+            UIView.beginAnimations("Animation", context: nil)
+            //设置动画的间隔时间
+            UIView.setAnimationDuration(0.20)
+            //??使用当前正在运行的状态开始下一段动画
+            UIView.setAnimationBeginsFromCurrentState(true)
+            //设置视图移动的位移
+            self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + upHeight, self.view.frame.size.width, self.view.frame.size.height);
+            //设置动画结束
+            UIView.commitAnimations()
+            
+            // 收起键盘
+            self.view.endEditing(true)
+            keyboardHeight = 0
+        }
     }
     
     // 隐藏键盘
     func handleTapGesture(sender: UITapGestureRecognizer) {
-        if keyboardMoveStatus {
-            moveDown(keyboardHeight)
-        }
+        moveDown(keyboardHeight)
+        
     }
+    
+    // 第一步监听键盘弹出，获取键盘的高度
     func keyboardShow(notification: NSNotification) {
+        println("键盘出现")
         let userInfo = notification.userInfo!
         let keyObject = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
         keyboardHeight = keyObject.CGRectValue().size.height
-
+        
         moveUp(keyObject.CGRectValue().size.height)
+        
+        self.view.bringSubviewToFront(chatToolView)
     }
     func keyboardHide(notification: NSNotification) {
-        if keyboardMoveStatus {
-            moveDown(keyboardHeight)
+        moveDown(keyboardHeight)
+    }
+    // 界面切换时隐藏键盘，BUG：第一次触发会自动隐藏掉键盘
+    func pagingMenukeyboardHide(notification: NSNotification) {
+        println("界面切换1")
+        if keyboardPageStatus >= 2 {
+            self.view.endEditing(true)
+            keyboardPageStatus = 1
+        } else {
+            keyboardPageStatus += 1
         }
-        
+    }
+    
+    func keyboardChange(notification: NSNotification) {
+        if keyboardMoveStatus {
+            let userInfo = notification.userInfo!
+            let keyObject = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+            let newKeyboardHeight = keyObject.CGRectValue().size.height
+            println("高度差：\(newKeyboardHeight - keyboardHeight)")
+            //设置动画的名字
+            UIView.beginAnimations("Animation", context: nil)
+            //设置动画的间隔时间
+            UIView.setAnimationDuration(0.20)
+            //??使用当前正在运行的状态开始下一段动画
+            UIView.setAnimationBeginsFromCurrentState(true)
+            //设置视图移动的位移
+            self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - newKeyboardHeight + keyboardHeight, self.view.frame.size.width, self.view.frame.size.height);
+            //设置动画结束
+            UIView.commitAnimations()
+        }
     }
     
     // 重新加载视频评论
@@ -255,25 +274,79 @@ class VideoCommentController: UIViewController {
     
     // 判断是否登入Google
     func isGoogleLogin() {
-        var googleAccessToken = userDefaults.stringForKey("googleAccessToken")
+        let googleAccessToken = userDefaults.stringForKey("googleAccessToken")
+        let googleBeginTime = userDefaults.stringForKey("googleTokenBeginTime")?.toInt()
+        let now = Int(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970)
 
+        // googleAccessToken == nil || (googleBeginTime != nil && now - googleBeginTime! > 3600)
         if googleAccessToken == nil {
-            
-            var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
-            actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
-                //
-            }))
-            actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
-                let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("GoogleLoginVC") as? GoogleLoginController
-                
-                self.navigationController?.pushViewController(userInfoView!, animated: true)
-            }))
-            
-            // 显示Sheet
-            self.presentViewController(actionSheetController, animated: true, completion: nil)
+            googleLogin()
+        }
+        
+        if googleBeginTime != nil && now - googleBeginTime! > 3600 {
+            println("登入超时")
+            googleLogin()
         }
     }
+    func googleLogin() {
+        var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+        actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+            //
+        }))
+        actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+            let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("GoogleLoginVC") as? GoogleLoginController
+            
+            self.navigationController?.pushViewController(userInfoView!, animated: true)
+        }))
+        
+        // 显示Sheet
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+    }
     
+    // 提交评论
+    func insertComment() {
+        if self.commentText.text == "" {
+            println("内容为空")
+        } else {
+            VideoBL.sharedSingleton.InsertVideoComment(videoId: videoData.videoId, textOriginal: commentText.text).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                if let responseData = (task.result as? YTVComment) {
+                    var newComment = YTVComment()
+                    newComment.textDisplay = responseData.textOriginal
+                    newComment.authorDisplayName = responseData.authorDisplayName
+                    newComment.publishedAt = responseData.publishedAt
+                    
+                    self!.commentData.insert(newComment, atIndex: 0)
+                    // 清空数据
+                    self?.commentText.text = ""
+                    // 在表格头部新增数据
+                    self?.commentTableView.beginUpdates()
+                    var indexPathsToInsert = NSMutableArray()
+                    indexPathsToInsert.addObject(NSIndexPath(forRow: 0, inSection: 0))
+                    self?.commentTableView.insertRowsAtIndexPaths(indexPathsToInsert as [AnyObject], withRowAnimation: UITableViewRowAnimation.Top)
+                    self?.commentTableView.endUpdates()
+                    
+                } else {
+                    var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+                    actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                        //
+                    }))
+                    actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                        let userInfoView = self!.storyboard!.instantiateViewControllerWithIdentifier("GoogleLoginVC") as? GoogleLoginController
+                        
+                        self!.navigationController?.pushViewController(userInfoView!, animated: true)
+                    }))
+                    
+                    // 显示Sheet
+                    self!.presentViewController(actionSheetController, animated: true, completion: nil)
+                }
+                
+                return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                if task.error != nil { println(task.error) }
+                return nil
+            })
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -291,14 +364,9 @@ extension VideoCommentController: UITextFieldDelegate, UITextViewDelegate {
         isGoogleLogin()
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if keyboardMoveStatus {
-            moveDown(keyboardHeight)
-        }
+        moveDown(keyboardHeight)
 
-        VideoBL.sharedSingleton.insertComment(videoId: videoData.videoId, channelId: videoData.ownerId, commentText: commentText.text, accessToken: userDefaults.stringForKey("googleAccessToken")!)
-        commentText.text = ""
-        
-        
+        insertComment()
         
         return true
     }

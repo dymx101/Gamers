@@ -8,8 +8,8 @@ PODS:
   - Bolts/Tasks (1.2.1)
   - HanekeSwift (0.9.1)
   - MBProgressHUD (0.9.1)
-  - MJRefresh (2.4.7)
-  - PagingMenuController (0.4.6)
+  - MJRefresh (2.4.8)
+  - PagingMenuController (0.5.0)
   - ReachabilitySwift (1.1)
   - Realm (0.94.1):
     - Realm/Headers (= 0.94.1)
@@ -42,8 +42,8 @@ SPEC CHECKSUMS:
   Bolts: 7686a5cb204d1ac54cee26f12d9b7622db3f80d1
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  MJRefresh: 6eb2f61338f89f64fd628fd43debcf479381ff59
-  PagingMenuController: 7652778e75884734c9f99f57d30fb6f424fa5cc6
+  MJRefresh: 887c9ee5ff155533d7d9c20098bebb7b847b2fcb
+  PagingMenuController: da0016cb6e52f8d14c7510746391d802efca4b2d
   ReachabilitySwift: 1e53abddb01111deac0d229dabdb8bb043567b18
   Realm: d999a6cf0b41577a077349c9cc9d496cc62a7d17
   RealmSwift: 06b60ff5b1338755654d39aab44ac38001600f76

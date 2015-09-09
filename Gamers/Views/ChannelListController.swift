@@ -109,6 +109,13 @@ class ChannelListController: UITableViewController {
         })
         
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        // 播放页面返回后，重置导航条的透明属性，//todo:image_1.jpg需求更换下
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navigation-bar1.png"),forBarMetrics: UIBarMetrics.CompactPrompt)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named: "navigation-bar1.png")
+        self.navigationController?.navigationBar.translucent = false
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

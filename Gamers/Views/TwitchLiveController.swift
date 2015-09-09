@@ -44,7 +44,8 @@ class TwitchLiveController: UIViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                return nil
+            if task.error != nil { println(task.error) }
+            return nil
         })
         
             

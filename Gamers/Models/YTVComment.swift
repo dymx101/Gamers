@@ -16,6 +16,7 @@ class YTVComment: Object {
     dynamic var channelId = ""
     dynamic var videoId = ""
     dynamic var textDisplay = ""
+    dynamic var textOriginal = ""
     
     dynamic var authorDisplayName = ""
     dynamic var authorProfileImageUrl = ""
@@ -60,6 +61,7 @@ class YTVComment: Object {
         if let channelId = json["snippet"]["channelId"].string { model.channelId = channelId }
         if let videoId = json["snippet"]["videoId"].string { model.videoId = videoId }
         if let textDisplay = json["snippet"]["topLevelComment"]["snippet"]["textDisplay"].string { model.textDisplay = textDisplay }
+        if let textOriginal = json["snippet"]["topLevelComment"]["snippet"]["textOriginal"].string { model.textOriginal = textOriginal }
         
         if let authorDisplayName = json["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"].string { model.authorDisplayName = authorDisplayName }
         if let authorProfileImageUrl = json["snippet"]["topLevelComment"]["snippet"]["authorProfileImageUrl"].string { model.authorProfileImageUrl = authorProfileImageUrl }

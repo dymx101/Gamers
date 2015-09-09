@@ -115,6 +115,7 @@ class FreedomController: UITableViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -158,6 +159,7 @@ class FreedomController: UITableViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
             self?.tableView.footer.resetNoMoreData()
             
