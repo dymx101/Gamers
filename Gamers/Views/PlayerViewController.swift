@@ -22,78 +22,32 @@ class PlayerViewController: UIViewController {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var playerView: YTPlayerView!
-    @IBOutlet weak var videoViews: UILabel!
-    @IBOutlet weak var subscribeButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
+
+    // 键盘属性,输入框
+    var keyboardMoveStatus: Bool = false
+    var keyboardHeight: CGFloat = 0
+    var chatToolViewMoveStatus: Bool = false
     
-    // 跟随频道
-    @IBAction func clickSubscribe(sender: AnyObject) {
-        self.userSubscribe()
-    }
-    // 分享视频
-    @IBAction func clickShare(sender: AnyObject) {
-        // 退出
-        var actionSheetController: UIAlertController = UIAlertController()
-        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
-            //code
-        })
-        // 关注频道
-//        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-//            self.userSubscribe()
-//        })
-        // 分享到Facebook
-        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
-            self.presentViewController(slComposerSheet, animated: true, completion: nil)
-            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
-            
-            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
-                if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
-                }
-            }
-        })
-        // 分享到Twitter
-        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share twitter")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
-            self.presentViewController(slComposerSheet, animated: true, completion: nil)
-            
-            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
-                if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
-                    alertView.show()
-                }
-            }
-        })
+    @IBOutlet weak var chatToolView: UIView!
+    @IBOutlet weak var commentTextView: UITextField!
+    @IBAction func clickSend(sender: AnyObject) {
+        moveDown(keyboardHeight)
         
-        // 显示Sheet
-        self.presentViewController(actionSheetController, animated: true, completion: nil)
-
+        // 插入数据
+        if commentTextView.text != "" {
+            var dataDict = ["data": commentTextView.text]
+            NSNotificationCenter.defaultCenter().postNotificationName("insertCommentNotification", object: nil, userInfo: dataDict)
+        } else {
+            println("评论内容空")
+        }
+        commentTextView.text = "" //清空输入
+        
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        videoViews.text = String(videoData.views) + " 次"
-//        
-//        shareButton.layer.masksToBounds = true
-//        shareButton.layer.cornerRadius = 6
-//        shareButton.layer.borderWidth = 1
-//        shareButton.layer.borderColor = UIColor.orangeColor().CGColor
-//        
-//        subscribeButton.layer.masksToBounds = true
-//        subscribeButton.layer.cornerRadius = 6
-//        subscribeButton.layer.borderWidth = 1
-//        subscribeButton.layer.borderColor = UIColor.orangeColor().CGColor
-        
-        // 设置顶部导航条样式，透明
+
+        // 设置顶部导航条样式，透明，另外一种方式，先备注预留
 //        self.navigationItem.title = videoData.videoTitle
 //        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "Heiti SC", size: 17.0)!]
         
@@ -140,51 +94,18 @@ class PlayerViewController: UIViewController {
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
         pagingMenuController.delegate = self
         pagingMenuController.setup(viewControllers: viewControllers, options: options)
-        
-        // 隐藏系统状态栏
-        //UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
 
-        
         // 保存数据
         VideoBL.sharedSingleton.setPlayHistory(videoData)
-        
         playerView.delegate = self
-        
-        //self.view.bringSubviewToFront(containerView)
-        
-        println(self.view.frame.size)
-        if self.view.frame.size.height == 480 {
 
-        }
-        
-        
-    }
-    
-    func moveUpView() {
-        println("屏幕上移")
-//        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-//            self.playerView.frame.size.height = 100
-//            //self.containerView.frame.size.height += 50
-//            
-//            self.containerView.snp_updateConstraints(closure: { (make) -> Void in
-//                make.top.equalTo(self.playerView.snp_bottom).offset(6)
-//            })
-//        }, completion: nil)
-        //设置动画结束
-        
-        //设置动画的名字
-        UIView.beginAnimations("Animation", context: nil)
-        //设置动画的间隔时间
-        UIView.setAnimationDuration(0.20)
-        //使用当前正在运行的状态开始下一段动画
-        UIView.setAnimationBeginsFromCurrentState(true)
-        //设置视图移动的位移
-        self.containerView.frame = CGRectMake(self.containerView.frame.origin.x, self.containerView.frame.origin.y - 35, self.containerView.frame.size.width, self.containerView.frame.size.height + 35);
-        //设置动画结束
-        
-        UIView.commitAnimations()
-        
-        //UIView.commitAnimations()
+        // 重新加载视频评论监听器，键盘收起监听器
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChange:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleTapGesture:", name: "handleTapGestureNotification", object: nil)
+
+
     }
     
     // 用户订阅
@@ -257,29 +178,125 @@ class PlayerViewController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
+        
+        
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //println("视图加载完成")
+
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        //println("加载完成")
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // 屏幕和键盘上移
+    func moveUp(upHeight: CGFloat) {
+        if !keyboardMoveStatus {
+            keyboardMoveStatus = true
+            //NSNotificationCenter.defaultCenter().postNotificationName("moveUpViewNotification", object: nil, userInfo: nil)
+            
+            //设置动画的名字
+            UIView.beginAnimations("Animation", context: nil)
+            //设置动画的间隔时间
+            UIView.setAnimationDuration(0.20)
+            //使用当前正在运行的状态开始下一段动画
+            UIView.setAnimationBeginsFromCurrentState(true)
+            //设置视图移动的位移
+            self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - upHeight, self.view.frame.size.width, self.view.frame.size.height);
+            //设置动画结束
+            UIView.commitAnimations()
+        }
+    }
+    // 屏幕和键盘下移
+    func moveDown(upHeight: CGFloat) {
+        if keyboardMoveStatus {
+            keyboardMoveStatus = false
+            
+            //设置动画的名字
+            UIView.beginAnimations("Animation", context: nil)
+            //设置动画的间隔时间
+            UIView.setAnimationDuration(0.20)
+            //??使用当前正在运行的状态开始下一段动画
+            UIView.setAnimationBeginsFromCurrentState(true)
+            //设置视图移动的位移
+            self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + upHeight, self.view.frame.size.width, self.view.frame.size.height);
+            //设置动画结束
+            UIView.commitAnimations()
+            
+            // 收起键盘
+            self.view.endEditing(true)
+            keyboardHeight = 0
+        }
+    }
+    
+    // 隐藏键盘
+    func handleTapGesture(sender: UITapGestureRecognizer) {
+        moveDown(keyboardHeight)
+    }
+    
+    // 第一步监听键盘弹出，获取键盘的高度
+    func keyboardShow(notification: NSNotification) {
+
+        let userInfo = notification.userInfo!
+        let keyObject = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+        keyboardHeight = keyObject.CGRectValue().size.height
+        
+        moveUp(keyObject.CGRectValue().size.height)
+
+    }
+    func keyboardHide(notification: NSNotification) {
+        moveDown(keyboardHeight)
+    }
+    
+    func keyboardChange(notification: NSNotification) {
+        if keyboardMoveStatus {
+            let userInfo = notification.userInfo!
+            let keyObject = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+            let newKeyboardHeight = keyObject.CGRectValue().size.height
+            println("高度差：\(newKeyboardHeight - keyboardHeight)")
+            //设置动画的名字
+            UIView.beginAnimations("Animation", context: nil)
+            //设置动画的间隔时间
+            UIView.setAnimationDuration(0.20)
+            //??使用当前正在运行的状态开始下一段动画
+            UIView.setAnimationBeginsFromCurrentState(true)
+            //设置视图移动的位移
+            self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - newKeyboardHeight + keyboardHeight, self.view.frame.size.width, self.view.frame.size.height);
+            //设置动画结束
+            UIView.commitAnimations()
+        }
     }
 }
 
 // MARK: - 标签导航代理
 extension PlayerViewController: PagingMenuControllerDelegate {
-    
     func willMoveToMenuPage(page: Int) {
         //println(page)
-        println("触发willMoveToMenuPage事件")
+        //println("触发willMoveToMenuPage事件")
 
     }
-    
     func didMoveToMenuPage(page: Int) {
-        //println(page)
-        println("触发didMoveToMenuPage事件")
-        //NSNotificationCenter.defaultCenter().postNotificationName("pagingMenukeyboardHideNotification", object: nil, userInfo: nil)
-        //self.view.endEditing(true)
-        
+        if page == 2 {
+            let animation = CATransition()
+            animation.duration = 0.4
+            animation.type = kCATransitionFade
+            chatToolView.layer.addAnimation(animation, forKey: nil)
+            chatToolView.hidden = false
+        } else {
+            let animation = CATransition()
+            animation.duration = 0.4
+            animation.type = kCATransitionFade
+            chatToolView.layer.addAnimation(animation, forKey: nil)
+            chatToolView.hidden = true
+
+        }
     }
 }
 
@@ -290,12 +307,70 @@ extension PlayerViewController: YTPlayerViewDelegate {
         playerView.playVideo()
     }
 }
-
+// MARK: 网络Web代理
 extension PlayerViewController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "WebKitCacheModelPreferenceKey")
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitDiskImageCacheEnabled")
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitOfflineWebApplicationCacheEnabled")
         NSUserDefaults.standardUserDefaults().synchronize()
+    }
+}
+
+// MARK: - 文本框代理协议，键盘的收起和输入上下移动
+extension PlayerViewController: UITextFieldDelegate, UITextViewDelegate {
+    // 键盘和文本框输入事件
+    func textFieldDidBeginEditing(textField: UITextField) {
+        //moveUp(keyboardHeight)
+        isGoogleLogin()
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        moveDown(keyboardHeight)
+        
+        // 插入数据
+        if commentTextView.text != "" {
+            var dataDict = ["data": commentTextView.text]
+            NSNotificationCenter.defaultCenter().postNotificationName("insertCommentNotification", object: nil, userInfo: dataDict)
+        } else {
+            println("评论内容空")
+        }
+        commentTextView.text = "" //清空输入
+        
+        return true
+    }
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        
+    }
+    
+    // 判断是否登入Google
+    func isGoogleLogin() {
+        let googleAccessToken = userDefaults.stringForKey("googleAccessToken")
+        let googleBeginTime = userDefaults.stringForKey("googleTokenBeginTime")?.toInt()
+        let now = Int(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970)
+        
+        // googleAccessToken == nil || (googleBeginTime != nil && now - googleBeginTime! > 3600)
+        if googleAccessToken == nil {
+            googleLogin()
+        }
+        
+        if googleBeginTime != nil && now - googleBeginTime! > 3600 {
+            println("登入超时")
+            googleLogin()
+        }
+    }
+    func googleLogin() {
+        var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+        actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+            //
+        }))
+        actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+            let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("GoogleLoginVC") as? GoogleLoginController
+            
+            self.navigationController?.pushViewController(userInfoView!, animated: true)
+        }))
+        
+        // 显示Sheet
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
     }
 }

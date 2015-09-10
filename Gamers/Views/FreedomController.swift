@@ -23,6 +23,7 @@ class FreedomController: UITableViewController {
     var videoListData  = [Video]()  //视频列表
     var videoPageOffset = 1         //分页偏移量，默认为上次最后一个视频ID
     var videoPageCount = 20         //每页视频总数
+    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
     let freedomChannelId = "7579af4d-7141-440e-853c-fd7fa03dffad"  //freedom的ID
 
@@ -105,13 +106,15 @@ class FreedomController: UITableViewController {
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
-        
-        videoPageOffset = 1
+
         ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
-            
             self?.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -154,14 +157,19 @@ class FreedomController: UITableViewController {
         ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
-            
             self?.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            } else {
+                self?.tableView.footer.resetNoMoreData()
+            }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
-            self?.tableView.footer.resetNoMoreData()
+            self!.isNoMoreData = false
             
             return nil
         })
@@ -202,7 +210,12 @@ class FreedomController: UITableViewController {
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
+                self!.isNoMoreData = true
             } else{
+                if newData.count < self!.videoPageCount {
+                    self!.isNoMoreData = true
+                }
+                
                 self!.videoListData += newData
                 self!.videoPageOffset += 1
                 
@@ -211,7 +224,10 @@ class FreedomController: UITableViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self?.tableView.footer.endRefreshing()
+            if task.error != nil { println(task.error) }
+            if !self!.isNoMoreData {
+                self?.tableView.footer.endRefreshing()
+            }
 
             return nil
         })

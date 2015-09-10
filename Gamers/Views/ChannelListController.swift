@@ -51,7 +51,6 @@ class ChannelListController: UITableViewController {
     启动初始化数据
     */
     func loadInitData() {
-        videoPageOffset = 1
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
         
@@ -59,9 +58,14 @@ class ChannelListController: UITableViewController {
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            }
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -77,16 +81,23 @@ class ChannelListController: UITableViewController {
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
             
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            } else {
+                self?.tableView.footer.resetNoMoreData()
+            }
+            
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
-            self?.tableView.footer.resetNoMoreData()
+            self!.isNoMoreData = false
             
             return nil
         })
     }
     /**
-    刷新数据
+    加载更多数据
     */
     func loadMoreData() {
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: channelType, offset: videoPageOffset, count: videoPageCount, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -95,12 +106,18 @@ class ChannelListController: UITableViewController {
                 self?.tableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else {
+                if newData.count < self!.videoPageCount {
+                    self!.isNoMoreData = true
+                }
+                
                 self!.videoListData += newData
+                self!.videoPageOffset += 1
                 self?.tableView.reloadData()
             }
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }

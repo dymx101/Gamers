@@ -73,17 +73,20 @@ class GameSearchController: UICollectionViewController {
         GameBL.sharedSingleton.getSearchGame(gameName: keyword, page: gamePage, limit: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!
             self!.gamePage += 1
-            println(self!.gameListData)
             self?.collectionView!.reloadData()
+            
+            if self!.gameListData.count < self!.gamePageCount {
+                self?.collectionView!.footer.noticeNoMoreData()
+            } else {
+                self?.collectionView!.footer.resetNoMoreData()
+            }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil {
-                println(task.error)
-            }
+            if task.error != nil { println(task.error) }
             //self?.collectionView!.header.endRefreshing()
-            self?.collectionView!.footer.resetNoMoreData()
             MBProgressHUD.hideHUDForView(self?.navigationController!.view, animated: true)
+            self!.isNoMoreData = false
             
             return nil
         })
@@ -103,18 +106,18 @@ class GameSearchController: UICollectionViewController {
                     self?.collectionView?.footer.noticeNoMoreData()
                     self!.isNoMoreData = true
                 } else {
+                    if newData.count < self!.gamePageCount {
+                        self!.isNoMoreData = true
+                    }
+                    
                     self!.gameListData += newData
                     self!.gamePage += 1
-                    
-                    self?.collectionView?.footer.endRefreshing()
                     self?.collectionView!.reloadData()
                 }
                 
                 return nil
             }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-                if task.error != nil {
-                    println(task.error)
-                }
+                if task.error != nil { println(task.error) }
                 if !self!.isNoMoreData {
                     self?.collectionView?.footer.endRefreshing()
                 }

@@ -92,7 +92,7 @@ private let characterEntities : [ String : Character ] = [
     // ...
     "&diams;"   : "♦",
 ]
-
+// HTML字符串过滤
 extension String {
     
     /// Returns a new string made by replacing in the `String`

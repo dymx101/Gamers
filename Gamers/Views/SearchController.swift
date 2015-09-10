@@ -38,14 +38,17 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
         VideoBL.sharedSingleton.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += self!.videoPageCount
-            
             self!.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            } else {
+                self?.tableView.footer.resetNoMoreData()
+            }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self?.tableView.header.endRefreshing()
-            self?.tableView.footer.resetNoMoreData()
-            
             self!.isNoMoreData = false
             
             return nil
@@ -60,9 +63,12 @@ class SearchController: UITableViewController, UITableViewDataSource, UITableVie
                 self?.tableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else {
+                if newData.count < self!.videoPageCount {
+                    self!.isNoMoreData = true
+                }
+                
                 self!.videoListData += newData
                 self!.videoPageOffset += self!.videoPageCount
-                
                 self!.tableView.reloadData()
             }
 
@@ -278,8 +284,13 @@ extension SearchController: UISearchBarDelegate {
         VideoBL.sharedSingleton.getSearchVideo(keyword: keyword, offset: videoPageOffset, count: videoPageCount, order: order).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += self!.videoPageCount
-            
             self!.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            } else {
+                self?.tableView.footer.resetNoMoreData()
+            }
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in

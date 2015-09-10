@@ -78,6 +78,7 @@
 		1A93D56A1B99820F008D501A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A93D5691B99820F008D501A /* MediaPlayer.framework */; };
 		1A93D56C1B998217008D501A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A93D56B1B998217008D501A /* AVFoundation.framework */; };
 		1A93D56E1B99C92B008D501A /* YoutubeLiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A93D56D1B99C92B008D501A /* YoutubeLiveController.swift */; };
+		1A9589E51BA1384F00E81621 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9589E41BA1384F00E81621 /* share.png */; };
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
@@ -118,7 +119,6 @@
 		1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */; };
 		1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */; };
 		1AE922521B86C8BB0033C480 /* VideoCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE922511B86C8BB0033C480 /* VideoCommentController.swift */; };
-		1AEA3B2D1B9D95940066AA04 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AEA3B2C1B9D95940066AA04 /* share.png */; };
 		1AEB2F9C1B79FDFC005F0A3F /* TableFooterAllCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */; };
 		1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */; };
 		1AEB2FA11B7A3D47005F0A3F /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */; };
@@ -225,6 +225,7 @@
 		1A93D5691B99820F008D501A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		1A93D56B1B998217008D501A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1A93D56D1B99C92B008D501A /* YoutubeLiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeLiveController.swift; sourceTree = "<group>"; };
+		1A9589E41BA1384F00E81621 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
 		1A975F211B579947003B8327 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		1A975F231B579BE9003B8327 /* ChannelBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBL.swift; sourceTree = "<group>"; };
@@ -272,7 +273,6 @@
 		1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
 		1AE56FDD1B65F10A0088BFE8 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		1AE922511B86C8BB0033C480 /* VideoCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCommentController.swift; sourceTree = "<group>"; };
-		1AEA3B2C1B9D95940066AA04 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1AEB2F9A1B79FDFC005F0A3F /* TableFooterAllCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableFooterAllCell.swift; sourceTree = "<group>"; };
 		1AEB2F9B1B79FDFC005F0A3F /* TableFooterAllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableFooterAllCell.xib; sourceTree = "<group>"; };
 		1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
@@ -565,7 +565,7 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1AEA3B2C1B9D95940066AA04 /* share.png */,
+				1A9589E41BA1384F00E81621 /* share.png */,
 				1A8E8AA31B9A969700AF4239 /* gamers_header.jpg */,
 				1A23C2AE1B8463D700AF5860 /* game-front-cover.png */,
 				1A23C2AF1B8463D700AF5860 /* navigation-bar.png */,
@@ -710,7 +710,7 @@
 				1A3226521B7D9B29001F7C52 /* user.png in Resources */,
 				1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */,
 				1A23C2B31B8463D700AF5860 /* triangle.png in Resources */,
-				1AEA3B2D1B9D95940066AA04 /* share.png in Resources */,
+				1A9589E51BA1384F00E81621 /* share.png in Resources */,
 				1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */,
 				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
 				1A23D7851B833E9C001AAAAD /* password.png in Resources */,

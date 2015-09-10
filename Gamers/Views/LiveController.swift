@@ -65,6 +65,10 @@ class LiveController: UITableViewController {
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
             
+            if self!.liveListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            }
+            
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil { println(task.error) }
@@ -85,12 +89,18 @@ class LiveController: UITableViewController {
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
 
+            if self!.liveListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            } else {
+                self?.tableView.footer.resetNoMoreData()
+            }
+            
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
-            self?.tableView.footer.resetNoMoreData()
-            
+            self!.isNoMoreData = false
+
             return nil
         })
         
@@ -107,7 +117,10 @@ class LiveController: UITableViewController {
                 self?.tableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else{
-                self?.tableView.footer.endRefreshing()
+                if newData.count < self!.videoPageCount {
+                    self!.isNoMoreData = true
+                }
+                
                 self!.liveListData += newData
                 self!.videoPageOffset += 1
                 self?.tableView.reloadData()

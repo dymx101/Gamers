@@ -47,6 +47,8 @@ class VideoInfoController: UIViewController {
             var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
             alertView.show()
         }
+        
+        
     }
     
     override func viewDidLoad() {
@@ -69,8 +71,18 @@ class VideoInfoController: UIViewController {
         
         // 重新加载视频评论监听器
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoInfo:", name: "reloadVideoInfoNotification", object: nil)
+        
+        var tapGesture = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+        tapGesture.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(tapGesture)
 
     }
+    
+    // 隐藏键盘
+    func handleTapGesture(sender: UITapGestureRecognizer) {
+        NSNotificationCenter.defaultCenter().postNotificationName("handleTapGestureNotification", object: nil, userInfo: nil)
+    }
+    
 
     func loadInitData(channelId: String) {
         // 设置属性
@@ -122,7 +134,7 @@ class VideoInfoController: UIViewController {
         
         return totalString
     }
-    
+    // 重新加载视频信息
     func reloadVideoInfo(notification: NSNotification) {
         let userInfo = notification.userInfo!
         let newVideoData = userInfo["data"] as! Video

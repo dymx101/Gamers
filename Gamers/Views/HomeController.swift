@@ -159,8 +159,8 @@ class HomeController: UIViewController {
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self!.stopRefensh()
-            println(task.error)
             return nil
         })
         
@@ -172,8 +172,9 @@ class HomeController: UIViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self!.stopRefensh()
-            println(task.error)
+            
             return nil
         })
         // 游戏大咖频道推荐数据
@@ -183,8 +184,9 @@ class HomeController: UIViewController {
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self!.stopRefensh()
-            println(task.error)
+
             return nil
         })
         // 推荐游戏数据
@@ -223,8 +225,9 @@ class HomeController: UIViewController {
             }
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self!.stopRefensh()
-            println(task.error)
+
             return nil
         })
         

@@ -36,10 +36,18 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
-
+        var tapGesture = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+        tapGesture.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(tapGesture)
         
         
     }
+    
+    // 隐藏键盘
+    func handleTapGesture(sender: UITapGestureRecognizer) {
+        NSNotificationCenter.defaultCenter().postNotificationName("handleTapGestureNotification", object: nil, userInfo: nil)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -78,6 +86,7 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
         NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoInfoNotification", object: nil, userInfo: dataDict)
         NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoCommentNotification", object: nil, userInfo: dataDict)
         
+        NSNotificationCenter.defaultCenter().postNotificationName("handleTapGestureNotification", object: nil, userInfo: nil)
     }
     
     // cell分割线的边距

@@ -65,11 +65,15 @@ class VideoListController: UITableViewController {
         GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
-            
             self?.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            }
             
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
             
             return nil
@@ -83,14 +87,18 @@ class VideoListController: UITableViewController {
         GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
-            
             self?.tableView.reloadData()
+            
+            if self!.videoListData.count < self!.videoPageCount {
+                self?.tableView.footer.noticeNoMoreData()
+            } else {
+                self?.tableView.footer.resetNoMoreData()
+            }
 
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
-            self?.tableView.footer.resetNoMoreData()
-            
             self!.isNoMoreData = false
             
             return nil
@@ -107,18 +115,22 @@ class VideoListController: UITableViewController {
                 self?.tableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else{
+                if newData.count < self!.videoPageCount {
+                    self!.isNoMoreData = true
+                }
+                
                 self!.videoListData += newData
                 self!.videoPageOffset += 1
-                
                 self?.tableView.reloadData()
             }
-            println("任务1：\(self!.isNoMoreData)")
+
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
             if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }
-            println("任务2：\(self!.isNoMoreData)")
+
             return nil
         })
     }
