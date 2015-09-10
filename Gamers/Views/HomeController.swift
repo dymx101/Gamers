@@ -842,9 +842,9 @@ extension HomeController: MyCellDelegate {
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            slComposerSheet.setInitialText(video.videoTitle)
+            slComposerSheet.addImage(UIImage(named: video.imageSource))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
             SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
             
@@ -858,9 +858,9 @@ extension HomeController: MyCellDelegate {
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            slComposerSheet.setInitialText(video.videoTitle)
+            slComposerSheet.addImage(UIImage(named: video.imageSource))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in

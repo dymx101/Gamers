@@ -9,6 +9,7 @@
 import UIKit
 import ReachabilitySwift
 import Bolts
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if configureErr != nil {
 //            println("Error configuring the Google context: \(configureErr)")
 //        }
-        
         
         // 全程网络检测
         let reachability = Reachability.reachabilityForInternetConnection()
@@ -73,6 +73,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //  
 //            return nil
 //        })
+        
+        // 初始数据库程序
+        let plistPath = NSBundle.mainBundle().pathForResource("system", ofType: "plist")
+        var systemData = NSMutableDictionary(contentsOfFile: plistPath!)!
+        let isInitApp = systemData["isInitApp"] as! Bool
+
+        if !isInitApp {
+            let realm = Realm()
+            let fileManager = NSFileManager.defaultManager()
+            //println(plistPath)
+            fileManager.removeItemAtPath(realm.path, error: nil)    //删除文件
+
+            systemData.setValue(true, forKey: "isInitApp")
+            systemData.writeToFile(plistPath!, atomically: false)   //重写数据
+        }
 
         
         return true

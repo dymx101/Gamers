@@ -10,6 +10,7 @@ import UIKit
 import MJRefresh
 import MBProgressHUD
 import Bolts
+import Social
 
 class ChannelListController: UITableViewController {
 
@@ -19,6 +20,7 @@ class ChannelListController: UITableViewController {
     var videoPageCount = 20         //每页视频总数
     
     var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,27 +187,55 @@ extension ChannelListController: UITableViewDataSource, UITableViewDelegate {
 extension ChannelListController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
-        
-        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
-        var index: NSIndexPath = table.indexPathForCell(sender)!
-        
-        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
-        
-        
+        var index: NSIndexPath = self.tableView.indexPathForCell(sender)!
+        var video = self.videoListData[index.row]
+        // 退出
         var actionSheetController: UIAlertController = UIAlertController()
-        
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
-            NSLog("Tap 取消 Button")
+            //code
         })
-        actionSheetController.addAction(UIAlertAction(title: "破坏性按钮", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            NSLog("Tap 破坏性按钮 Button")
+        // 关注频道
+        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            if self.userDefaults.boolForKey("isLogin") {
+                UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
+            } else {
+                var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
+            }
+        })
+        // 分享到Facebook
+        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            slComposerSheet.setInitialText(video.videoTitle)
+            slComposerSheet.addImage(UIImage(named: video.imageSource))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
+        })
+        // 分享到Twitter
+        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            slComposerSheet.setInitialText(video.videoTitle)
+            slComposerSheet.addImage(UIImage(named: video.imageSource))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
+            self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            
+            slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
+                if result == .Done {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+            }
         })
         
-        actionSheetController.addAction(UIAlertAction(title: "新浪微博", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            NSLog("Tap 新浪微博 Button")
-        })
-        
-        //显示
+        // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         
         

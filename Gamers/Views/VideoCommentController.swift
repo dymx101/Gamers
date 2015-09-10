@@ -45,7 +45,7 @@ class VideoCommentController: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "insertComment:", name: "insertCommentNotification", object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoComment:", name: "reloadVideoCommentNotification", object: nil)
         // 加载初始化数据
         loadInit()
     }
@@ -70,6 +70,9 @@ class VideoCommentController: UIViewController {
                 } else {
                     self!.pageToken = self!.commentData.last!.nextPageToken
                 }
+            } else {
+                self?.commentData.removeAll(keepCapacity: false)
+                self?.commentTableView.reloadData()
             }
             
             return nil
@@ -145,7 +148,9 @@ class VideoCommentController: UIViewController {
     
     // 重新加载视频评论
     func reloadVideoComment(notification: NSNotification) {
-        println("重新加载视频评论")
+        let userInfo = notification.userInfo!
+        self.videoData = userInfo["data"] as! Video
+
         loadInit()
     }
     
@@ -197,12 +202,6 @@ class VideoCommentController: UIViewController {
         }
     }
     
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        println("视图加载完成")
-        
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

@@ -17,9 +17,10 @@ class Game: Object {
     dynamic var platforms = ""
     dynamic var tags = ""
     dynamic var type = ""           //类型：1热门、2新游戏推荐
-    
+
     dynamic var names = [GameName]()
     dynamic var videos = [Video]()
+    dynamic var videoCount = 0      //视频总数
     
     // 计算本地游戏名称
     var localName: String {
@@ -73,6 +74,7 @@ class Game: Object {
         
         model.videos = Video.collection(json: json["videos"])
         model.names = GameName.collection(json: json["game_name"])
+        if let videoCount = json["videoCount"].int { model.videoCount = videoCount }
         
         //model.videos = Game.collection2(json: json["videos"])
         

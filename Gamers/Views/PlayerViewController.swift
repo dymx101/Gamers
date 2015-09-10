@@ -239,28 +239,27 @@ class PlayerViewController: UIViewController {
     // 隐藏键盘
     func handleTapGesture(sender: UITapGestureRecognizer) {
         moveDown(keyboardHeight)
+        //println("触发了点击事件")
     }
     
     // 第一步监听键盘弹出，获取键盘的高度
     func keyboardShow(notification: NSNotification) {
-
         let userInfo = notification.userInfo!
         let keyObject = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
         keyboardHeight = keyObject.CGRectValue().size.height
         
         moveUp(keyObject.CGRectValue().size.height)
-
     }
     func keyboardHide(notification: NSNotification) {
         moveDown(keyboardHeight)
     }
-    
+    // 输入法更换时，处理键盘高度发送变化情况
     func keyboardChange(notification: NSNotification) {
         if keyboardMoveStatus {
             let userInfo = notification.userInfo!
             let keyObject = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
             let newKeyboardHeight = keyObject.CGRectValue().size.height
-            println("高度差：\(newKeyboardHeight - keyboardHeight)")
+            //println("高度差：\(newKeyboardHeight - keyboardHeight)")
             //设置动画的名字
             UIView.beginAnimations("Animation", context: nil)
             //设置动画的间隔时间
@@ -280,7 +279,6 @@ extension PlayerViewController: PagingMenuControllerDelegate {
     func willMoveToMenuPage(page: Int) {
         //println(page)
         //println("触发willMoveToMenuPage事件")
-
     }
     func didMoveToMenuPage(page: Int) {
         if page == 2 {
@@ -296,6 +294,7 @@ extension PlayerViewController: PagingMenuControllerDelegate {
             chatToolView.layer.addAnimation(animation, forKey: nil)
             chatToolView.hidden = true
 
+            moveDown(keyboardHeight)
         }
     }
 }

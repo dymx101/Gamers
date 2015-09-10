@@ -25,7 +25,6 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
             return nil
         })
         
-        
         // 删除多余的分割线
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         // cell分割线边距，ios8处理
@@ -36,16 +35,6 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
-        tapGesture.numberOfTapsRequired = 1
-        self.view.addGestureRecognizer(tapGesture)
-        
-        
-    }
-    
-    // 隐藏键盘
-    func handleTapGesture(sender: UITapGestureRecognizer) {
-        NSNotificationCenter.defaultCenter().postNotificationName("handleTapGestureNotification", object: nil, userInfo: nil)
     }
 
 
@@ -78,15 +67,14 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
 
     // 点击视频触发
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("选中了：\(indexPath.row)")
+        //println("选中了：\(indexPath.row)")
 
         var dataDict = ["data": videoRelateData[indexPath.row]]
         
         NSNotificationCenter.defaultCenter().postNotificationName("reloadPlayerViewNotification", object: nil, userInfo: dataDict)
         NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoInfoNotification", object: nil, userInfo: dataDict)
         NSNotificationCenter.defaultCenter().postNotificationName("reloadVideoCommentNotification", object: nil, userInfo: dataDict)
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("handleTapGestureNotification", object: nil, userInfo: nil)
+
     }
     
     // cell分割线的边距
