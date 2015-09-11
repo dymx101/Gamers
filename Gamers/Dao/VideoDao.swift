@@ -151,6 +151,15 @@ extension VideoDao {
         
         return fetchYoutubeReComment(URLRequest: URLRequest)
     }
+    
+    // 获取youtube视频
+    static func getChannelVideos(#channelId: String, pageToken: String, maxResults: Int, order: String, videoDefinition: String?) -> BFTask {
+        var URLRequest = YouTubeGetRouter.ChannelVideos(channelId: channelId, pageToken: pageToken, maxResults: maxResults, order: order, videoDefinition: videoDefinition)
+        
+        return fetchChannelVideos(URLRequest: URLRequest)
+    }
+    
+    
     // 临时方法
     static func InsertYTVComment(#videoId: String, textOriginal: String) -> BFTask {
         var source = BFTaskCompletionSource()
@@ -194,7 +203,6 @@ extension VideoDao {
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
                 var comment = YTVComment()
-                println(JSONDictionary)
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     comment = YTVComment.collectionOne(json: JSON(JSONDictionary))
                 }
@@ -218,6 +226,28 @@ extension VideoDao {
 
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     comments = YTVComment.collection(json: JSON(JSONDictionary))
+                }
+                
+                source.setResult(comments)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
+    private static func fetchChannelVideos(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+
+            if error == nil {
+                var comments = [YTVideo]()
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    comments = YTVideo.collection(json: JSON(JSONDictionary))
                 }
                 
                 source.setResult(comments)

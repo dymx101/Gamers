@@ -20,9 +20,10 @@ class FreedomController: UITableViewController {
     var cycleTitles: [String] = []
     var cycleImagesURLStrings: [String] = [];
     
-    var videoListData  = [Video]()  //视频列表
-    var videoPageOffset = 1         //分页偏移量，默认为上次最后一个视频ID
-    var videoPageCount = 20         //每页视频总数
+    var videoListData  = [YTVideo]()  //视频列表
+    var pageToken = ""         //分页偏移量，默认为上次最后一个视频ID
+    var maxResults = 20         //每页视频总数
+    
     var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
     let freedomChannelId = "88f8111b-6b69-415a-af5d-f68b4118f43a"  //freedom的ID
@@ -107,23 +108,43 @@ class FreedomController: UITableViewController {
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
-
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoListData = (task.result as? [Video])!
-            self!.videoPageOffset += 1
-            self?.tableView.reloadData()
-            
-            if self!.videoListData.count < self!.videoPageCount {
-                self?.tableView.footer.noticeNoMoreData()
+        
+        VideoBL.sharedSingleton.getChannelVideos(channelId: freedomChannels, pageToken: pageToken, maxResults: maxResults, order: "date", videoDefinition: "high").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [YTVideo])!
+            if !self!.videoListData.isEmpty {
+                self?.tableView.reloadData()
+                if self!.videoListData.last!.nextPageToken == "" {
+                    self?.tableView.footer.noticeNoMoreData()
+                    self!.isNoMoreData = true
+                } else {
+                    self!.pageToken = self!.videoListData.last!.nextPageToken
+                }
             }
-            
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil { println(task.error) }
             MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
-            
+
             return nil
         })
+
+
+//        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            self!.videoListData = (task.result as? [Video])!
+//            self!.videoPageOffset += 1
+//            self?.tableView.reloadData()
+//            
+//            if self!.videoListData.count < self!.videoPageCount {
+//                self?.tableView.footer.noticeNoMoreData()
+//            }
+//            
+//            return nil
+//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if task.error != nil { println(task.error) }
+//            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+//            
+//            return nil
+//        })
 
 //        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
 //            if let sliders = task.result as? [Slider] {
@@ -154,26 +175,51 @@ class FreedomController: UITableViewController {
     刷新数据
     */
     func loadNewData() {
-        videoPageOffset = 1
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoListData = (task.result as? [Video])!
-            self!.videoPageOffset += 1
-            self?.tableView.reloadData()
-            
-            if self!.videoListData.count < self!.videoPageCount {
-                self?.tableView.footer.noticeNoMoreData()
-            } else {
-                self?.tableView.footer.resetNoMoreData()
+        pageToken = ""
+        isNoMoreData = false
+        VideoBL.sharedSingleton.getChannelVideos(channelId: freedomChannels, pageToken: pageToken, maxResults: maxResults, order: "date", videoDefinition: "high").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [YTVideo])!
+            if !self!.videoListData.isEmpty {
+                self?.tableView.reloadData()
+                if self!.videoListData.last!.nextPageToken == "" {
+                    self?.tableView.footer.noticeNoMoreData()
+                    self!.isNoMoreData = true
+                } else {
+                    self!.pageToken = self!.videoListData.last!.nextPageToken
+                }
             }
-            
+
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil { println(task.error) }
             self?.tableView.header.endRefreshing()
-            self!.isNoMoreData = false
+            if !self!.isNoMoreData {
+                self?.tableView.footer.endRefreshing()
+            }
             
             return nil
         })
+        
+//        videoPageOffset = 1
+//        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            self!.videoListData = (task.result as? [Video])!
+//            self!.videoPageOffset += 1
+//            self?.tableView.reloadData()
+//            
+//            if self!.videoListData.count < self!.videoPageCount {
+//                self?.tableView.footer.noticeNoMoreData()
+//            } else {
+//                self?.tableView.footer.resetNoMoreData()
+//            }
+//            
+//            return nil
+//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if task.error != nil { println(task.error) }
+//            self?.tableView.header.endRefreshing()
+//            self!.isNoMoreData = false
+//            
+//            return nil
+//        })
 
 //        SliderBL.sharedSingleton.getChannelSlider(channelId: freedomChannelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
 //            if let sliders = task.result as? [Slider] {
@@ -205,20 +251,21 @@ class FreedomController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            let newData = (task.result as? [Video])!
+        VideoBL.sharedSingleton.getChannelVideos(channelId: freedomChannels, pageToken: pageToken, maxResults: maxResults, order: "date", videoDefinition: "high").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            let newData = (task.result as? [YTVideo])!
             
-            // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {
                 self?.tableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else{
-                if newData.count < self!.videoPageCount {
-                    self!.isNoMoreData = true
-                }
-                
                 self!.videoListData += newData
-                self!.videoPageOffset += 1
+                
+                if newData.last!.nextPageToken == "" {
+                    self?.tableView.footer.noticeNoMoreData()
+                    self!.isNoMoreData = true
+                } else {
+                    self!.pageToken = self!.videoListData.last!.nextPageToken
+                }
                 
                 self?.tableView.reloadData()
             }
@@ -229,9 +276,36 @@ class FreedomController: UITableViewController {
             if !self!.isNoMoreData {
                 self?.tableView.footer.endRefreshing()
             }
-
+            
             return nil
         })
+//        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            let newData = (task.result as? [Video])!
+//            
+//            // 如果没有数据显示加载完成，否则继续
+//            if newData.isEmpty {
+//                self?.tableView.footer.noticeNoMoreData()
+//                self!.isNoMoreData = true
+//            } else{
+//                if newData.count < self!.videoPageCount {
+//                    self!.isNoMoreData = true
+//                }
+//                
+//                self!.videoListData += newData
+//                self!.videoPageOffset += 1
+//                
+//                self?.tableView.reloadData()
+//            }
+//
+//            return nil
+//        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+//            if task.error != nil { println(task.error) }
+//            if !self!.isNoMoreData {
+//                self?.tableView.footer.endRefreshing()
+//            }
+//
+//            return nil
+//        })
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -241,7 +315,7 @@ class FreedomController: UITableViewController {
             var playerViewController = segue.destinationViewController as! PlayerViewController
             // 提取选中的游戏视频，把值传给列表页面
             var indexPath = self.tableView.indexPathForSelectedRow()!
-            playerViewController.videoData =  videoListData[indexPath.row]
+            //playerViewController.videoData =  videoListData[indexPath.row]
         }
     }
     
@@ -277,7 +351,7 @@ extension FreedomController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("FreedomCell", forIndexPath: indexPath) as! VideoListCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("FreedomCell", forIndexPath: indexPath) as! YTVideoListCell
             cell.setVideo(self.videoListData[indexPath.row])
             cell.delegate = self
             
@@ -332,7 +406,7 @@ extension FreedomController: MyCellDelegate {
         // 关注频道
         actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
             if self.userDefaults.boolForKey("isLogin") {
-                UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
+                //UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {
                 var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
                 alertView.show()
@@ -341,9 +415,9 @@ extension FreedomController: MyCellDelegate {
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            slComposerSheet.setInitialText(video.videoTitle)
-            slComposerSheet.addImage(UIImage(named: video.imageSource))
-            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
+            slComposerSheet.setInitialText(video.title)
+            slComposerSheet.addImage(UIImage(named: video.thumbnailHigh))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.id)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
@@ -356,9 +430,9 @@ extension FreedomController: MyCellDelegate {
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText(video.videoTitle)
-            slComposerSheet.addImage(UIImage(named: video.imageSource))
-            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
+            slComposerSheet.setInitialText(video.title)
+            slComposerSheet.addImage(UIImage(named: video.thumbnailHigh))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.id)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in

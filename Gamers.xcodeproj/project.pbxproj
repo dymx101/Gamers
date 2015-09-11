@@ -18,6 +18,9 @@
 		1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0836C91B78D40A00286911 /* GameHeaderCell.xib */; };
 		1A0A5D0E1B95B090006D855E /* GoogleLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A5D0D1B95B090006D855E /* GoogleLoginController.swift */; };
 		1A1B49E11BA292BC00109B9B /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A1B49E01BA292BC00109B9B /* share.png */; };
+		1A1B49E31BA2D3C600109B9B /* BasicFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1B49E21BA2D3C600109B9B /* BasicFunction.swift */; };
+		1A1B49E51BA2E30500109B9B /* YTVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1B49E41BA2E30500109B9B /* YTVideo.swift */; };
+		1A1B49E71BA2EFB300109B9B /* YTVideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1B49E61BA2EFB300109B9B /* YTVideoListCell.swift */; };
 		1A1D2C701B72FFF300112A4F /* NewGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */; };
 		1A1D2C721B73002200112A4F /* NewGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C711B73002200112A4F /* NewGameCell.swift */; };
 		1A1D2C741B73134300112A4F /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C731B73134300112A4F /* SystemController.swift */; };
@@ -160,6 +163,9 @@
 		1A0836C91B78D40A00286911 /* GameHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameHeaderCell.xib; sourceTree = "<group>"; };
 		1A0A5D0D1B95B090006D855E /* GoogleLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleLoginController.swift; sourceTree = "<group>"; };
 		1A1B49E01BA292BC00109B9B /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		1A1B49E21BA2D3C600109B9B /* BasicFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFunction.swift; sourceTree = "<group>"; };
+		1A1B49E41BA2E30500109B9B /* YTVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YTVideo.swift; sourceTree = "<group>"; };
+		1A1B49E61BA2EFB300109B9B /* YTVideoListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YTVideoListCell.swift; sourceTree = "<group>"; };
 		1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameController.swift; sourceTree = "<group>"; };
 		1A1D2C711B73002200112A4F /* NewGameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameCell.swift; sourceTree = "<group>"; };
 		1A1D2C731B73134300112A4F /* SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemController.swift; sourceTree = "<group>"; };
@@ -329,6 +335,7 @@
 				1ACBAF7B1B7B268F00D8910C /* Live.swift */,
 				1AA0B9371B859C07001BFEB9 /* Response.swift */,
 				1AC10D331B95427600F7A62B /* Version.swift */,
+				1A1B49E41BA2E30500109B9B /* YTVideo.swift */,
 				1A4AB33C1B96B1DB00138564 /* YTVComment.swift */,
 				1AEE18BA1BA02B2500E50C62 /* YTError.swift */,
 				1A93D5671B995469008D501A /* TwitchToken.swift */,
@@ -349,6 +356,7 @@
 				1A32FD0F1B54B9BA0040E94C /* NSDateExtensions.swift */,
 				1A32264F1B7D9411001F7C52 /* RoundImage.swift */,
 				1A93D5651B99522F008D501A /* TwitchRouter.swift */,
+				1A1B49E21BA2D3C600109B9B /* BasicFunction.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -442,6 +450,7 @@
 				1AB21AF61B5C9445007C5D2A /* GameCell.swift */,
 				1AE56FD71B65E2A70088BFE8 /* SearchCell.swift */,
 				1AE56FDB1B65EFAB0088BFE8 /* VideoListCell.swift */,
+				1A1B49E61BA2EFB300109B9B /* YTVideoListCell.swift */,
 				1A01F40D1B6F20AA0042480B /* VideoCommentCell.swift */,
 				1A01F40F1B6F20C50042480B /* VideoRelateCell.swift */,
 				1A1D2C711B73002200112A4F /* NewGameCell.swift */,
@@ -798,6 +807,7 @@
 				1A32FD121B54BA680040E94C /* Thumbnail.swift in Sources */,
 				1A4AB33D1B96B1DB00138564 /* YTVComment.swift in Sources */,
 				1A8E8AA81B9AA80B00AF4239 /* UITableView+FDTemplateLayoutCell.m in Sources */,
+				1A1B49E31BA2D3C600109B9B /* BasicFunction.swift in Sources */,
 				1A01F4161B6F214D0042480B /* VideoInfoController.swift in Sources */,
 				1AFC1A101B58F9C4006D9667 /* Game.swift in Sources */,
 				1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */,
@@ -806,6 +816,7 @@
 				1A2235B21B93EE0700F7B8B9 /* UserFollowCell.swift in Sources */,
 				1AEECF731B7727640022B69B /* HomeVideoCell.swift in Sources */,
 				1AC10D321B95421400F7A62B /* SystemDao.swift in Sources */,
+				1A1B49E51BA2E30500109B9B /* YTVideo.swift in Sources */,
 				1A93D5661B99522F008D501A /* TwitchRouter.swift in Sources */,
 				1AC10D361B95442000F7A62B /* SystemBL.swift in Sources */,
 				1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */,
@@ -852,6 +863,7 @@
 				1A01F4101B6F20C50042480B /* VideoRelateCell.swift in Sources */,
 				1A4181A71B709BA900927C21 /* TwitchLiveController.swift in Sources */,
 				1A32FD0E1B54B91D0040E94C /* Router.swift in Sources */,
+				1A1B49E71BA2EFB300109B9B /* YTVideoListCell.swift in Sources */,
 				1AE56FDE1B65F10A0088BFE8 /* PlayerViewController.swift in Sources */,
 				1AD9C7021B4E1189001FE414 /* AppDelegate.swift in Sources */,
 				1ABEFE0F1B61E6E000BC7907 /* UserBL.swift in Sources */,

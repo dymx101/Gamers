@@ -22,6 +22,8 @@ enum YouTubeGetRouter: URLRequestConvertible {
     case InsertVideoComment(videoId: String, jsonData: String)
     case InsertChannelComment(channelId: String, jsonData: String)
     
+    case ChannelVideos(channelId: String, pageToken: String, maxResults: Int, order: String, videoDefinition: String?)        //频道视频
+    
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
             switch self {
@@ -72,10 +74,20 @@ enum YouTubeGetRouter: URLRequestConvertible {
                 
                 return (.POST, "/commentThreads", parameters)
             
-                
-                
-                
-                
+            case .ChannelVideos(let channelId, let pageToken, let maxResults, let order, let videoDefinition):
+                var parameters: [String: AnyObject] = [
+                    "key": YouTubeGetRouter.kGoogleAPIKey,
+                    "type": "video",
+                    "order": order,
+                    "maxResults": maxResults,
+                    "channelId": channelId,
+                    "part": "snippet",
+                    "pageToken": pageToken
+                ]
+                parameters["videoDefinition"] = videoDefinition != nil ? videoDefinition : "high"
+
+                return (.GET, "/search", parameters)
+   
                 
             }
         

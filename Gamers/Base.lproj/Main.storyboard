@@ -875,7 +875,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FreedomCell" rowHeight="100" id="YGc-6L-Rd0" customClass="VideoListCell" customModule="Gamers" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FreedomCell" rowHeight="100" id="YGc-6L-Rd0" customClass="YTVideoListCell" customModule="Gamers" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YGc-6L-Rd0" id="Hi4-BS-iXz">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -884,12 +884,6 @@
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="views" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vH6-wx-tX5">
-                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="channel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSv-cX-ZOa">
@@ -918,7 +912,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="clickShare:" destination="YGc-6L-Rd0" eventType="touchUpInside" id="Meh-DE-3fy"/>
+                                                <action selector="clickShare:" destination="YGc-6L-Rd0" eventType="touchUpInside" id="O4e-LD-Dus"/>
                                             </connections>
                                         </button>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1En-iQ-lzl">
@@ -938,6 +932,12 @@
                                                 </mask>
                                             </variation>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="views" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vH6-wx-tX5">
+                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="vbs-c5-vnH" firstAttribute="leading" secondItem="1En-iQ-lzl" secondAttribute="trailing" constant="8" symbolic="YES" id="69t-7j-m7n"/>
@@ -970,10 +970,10 @@
                                     <variation key="default">
                                         <mask key="subviews">
                                             <exclude reference="vbs-c5-vnH"/>
-                                            <exclude reference="vH6-wx-tX5"/>
                                             <exclude reference="fSv-cX-ZOa"/>
                                             <exclude reference="zbR-py-Sbb"/>
                                             <exclude reference="1En-iQ-lzl"/>
+                                            <exclude reference="vH6-wx-tX5"/>
                                         </mask>
                                         <mask key="constraints">
                                             <exclude reference="bSm-D1-CH1"/>
@@ -999,10 +999,10 @@
                                     <variation key="heightClass=regular-widthClass=compact">
                                         <mask key="subviews">
                                             <include reference="vbs-c5-vnH"/>
-                                            <include reference="vH6-wx-tX5"/>
                                             <include reference="fSv-cX-ZOa"/>
                                             <include reference="zbR-py-Sbb"/>
                                             <include reference="1En-iQ-lzl"/>
+                                            <include reference="vH6-wx-tX5"/>
                                         </mask>
                                         <mask key="constraints">
                                             <include reference="bSm-D1-CH1"/>
@@ -1027,10 +1027,10 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="videoChannel" destination="fSv-cX-ZOa" id="qqt-LQ-tbK"/>
-                                    <outlet property="videoImage" destination="1En-iQ-lzl" id="CZo-4S-hVv"/>
-                                    <outlet property="videoTitle" destination="vbs-c5-vnH" id="x6Y-zV-f8k"/>
-                                    <outlet property="videoViews" destination="vH6-wx-tX5" id="7K2-Nh-xfm"/>
+                                    <outlet property="videoChannel" destination="fSv-cX-ZOa" id="vyU-gh-fuA"/>
+                                    <outlet property="videoImage" destination="1En-iQ-lzl" id="NI6-Td-rYi"/>
+                                    <outlet property="videoTitle" destination="vbs-c5-vnH" id="ja2-hz-qYm"/>
+                                    <outlet property="videoViews" destination="vH6-wx-tX5" id="9uT-75-xJ5"/>
                                     <segue destination="wV8-l1-Puq" kind="show" identifier="FreedomPlayerSegue" id="v8F-0d-jwi"/>
                                 </connections>
                             </tableViewCell>
@@ -4634,7 +4634,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="v7q-65-B5T"/>
-        <segue reference="xln-d2-YeP"/>
-        <segue reference="1p2-Li-oK0"/>
+        <segue reference="TRi-UZ-lc4"/>
+        <segue reference="v8F-0d-jwi"/>
     </inferredMetricsTieBreakers>
 </document>

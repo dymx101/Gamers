@@ -1,26 +1,24 @@
 //
-//  HomeVideoCell.swift
+//  YTVideoListCell.swift
 //  Gamers
 //
-//  Created by 虚空之翼 on 15/8/9.
+//  Created by 虚空之翼 on 15/9/11.
 //  Copyright (c) 2015年 Freedom. All rights reserved.
 //
 
 import UIKit
 
-class HomeVideoCell: UITableViewCell {
-
+class YTVideoListCell: UITableViewCell {
+    
     @IBOutlet weak var videoImage: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
-    @IBOutlet weak var channelName: UILabel!
+    @IBOutlet weak var videoChannel: UILabel!
     @IBOutlet weak var videoViews: UILabel!
     
     var delegate: MyCellDelegate!
     
-    // 点击触发自己的代理方法
     @IBAction func clickShare(sender: AnyObject) {
         self.delegate.clickCellButton!(self)
-
     }
     
     override func awakeFromNib() {
@@ -32,19 +30,20 @@ class HomeVideoCell: UITableViewCell {
         videoTitle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     }
     
-    
-    func setVideo(video: Video) {
-        channelName.text = video.owner
-        videoTitle.text = video.videoTitle
-        videoViews.text = BasicFunction.formatViewsTotal(video.views) + "  •  " + BasicFunction.formatDateString(video.publishedAt)
+    func setVideo(video: YTVideo) {
+        videoChannel.text = video.channelTitle
+        videoTitle.text = video.title
+        //videoViews.text = String(video.views) + " 次"
+        videoViews.text = BasicFunction.formatViewsTotal(0) + "  •  " + BasicFunction.formatDateString(video.publishedAt)
         
-        let imageUrl = video.imageSource.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
+        let imageUrl = video.thumbnailMedium.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!, placeholder: UIImage(named: "placeholder.png"))
+        
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -55,6 +54,5 @@ class HomeVideoCell: UITableViewCell {
         videoImage.image = nil
     }
     
-
     
 }

@@ -207,5 +207,29 @@ extension VideoBL {
         
         return fetchTask
     }
+    
+    // 直接获取Youtube频道视频
+    func getChannelVideos(#channelId: String, pageToken: String, maxResults: Int, order: String, videoDefinition: String?) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return VideoDao.getChannelVideos(channelId: channelId, pageToken: pageToken, maxResults: maxResults, order: order, videoDefinition: videoDefinition)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let videos = task.result as? [YTVideo] {
+                return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
 
 }

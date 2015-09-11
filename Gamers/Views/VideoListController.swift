@@ -116,6 +116,7 @@ class VideoListController: UITableViewController {
                 self!.isNoMoreData = true
             } else{
                 if newData.count < self!.videoPageCount {
+                    self?.tableView.footer.noticeNoMoreData()
                     self!.isNoMoreData = true
                 }
                 
