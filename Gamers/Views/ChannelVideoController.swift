@@ -54,7 +54,7 @@ class ChannelVideoController: UITableViewController {
         hub.labelText = "加载中..."
         
         videoPageOffset = 1
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount, channels: nil).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
@@ -76,7 +76,7 @@ class ChannelVideoController: UITableViewController {
     */
     func loadNewData() {
         videoPageOffset = 1
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount, channels: nil).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
@@ -100,7 +100,7 @@ class ChannelVideoController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount, channels: nil).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             var newData = (task.result as? [Video])!
             // 如果没有数据显示加载完成，否则继续
             if newData.isEmpty {

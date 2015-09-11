@@ -82,7 +82,7 @@
                     <navigationItem key="navigationItem" title="游戏分类" id="TVq-3d-E3f">
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="V12-cc-Zgj">
                             <connections>
-                                <segue destination="hhD-Hu-2Hz" kind="show" id="rLY-3G-ZuX"/>
+                                <segue destination="DEu-rD-nYL" kind="show" id="xln-d2-YeP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -4377,6 +4377,43 @@
                                             <outlet property="userNameAndComment" destination="Xze-Xd-rzf" id="bTX-qY-h3k"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="VideoCommentNoDataCell" id="9fy-7p-LSH">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9fy-7p-LSH" id="SZz-oF-G0b">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无评论，欢迎留言！" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06D-N4-TTK">
+                                                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="06D-N4-TTK" firstAttribute="centerY" secondItem="SZz-oF-G0b" secondAttribute="centerY" id="W2p-7O-bH9"/>
+                                                <constraint firstItem="06D-N4-TTK" firstAttribute="centerX" secondItem="SZz-oF-G0b" secondAttribute="centerX" id="miM-Ih-6pX"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="subviews">
+                                                    <exclude reference="06D-N4-TTK"/>
+                                                </mask>
+                                                <mask key="constraints">
+                                                    <exclude reference="W2p-7O-bH9"/>
+                                                    <exclude reference="miM-Ih-6pX"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <mask key="subviews">
+                                                    <include reference="06D-N4-TTK"/>
+                                                </mask>
+                                                <mask key="constraints">
+                                                    <include reference="W2p-7O-bH9"/>
+                                                    <include reference="miM-Ih-6pX"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="ROm-WS-KtY" id="Zeg-WY-Rwc"/>
@@ -4596,9 +4633,8 @@
         <image name="user.png" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TRi-UZ-lc4"/>
-        <segue reference="rLY-3G-ZuX"/>
         <segue reference="v7q-65-B5T"/>
+        <segue reference="xln-d2-YeP"/>
         <segue reference="1p2-Li-oK0"/>
     </inferredMetricsTieBreakers>
 </document>

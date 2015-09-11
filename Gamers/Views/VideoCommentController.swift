@@ -212,14 +212,23 @@ class VideoCommentController: UIViewController {
 extension VideoCommentController: UITableViewDataSource, UITableViewDelegate {
     // 设置表格行数
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentData.count
+        if commentData.isEmpty {
+            return 1
+        } else {
+            return commentData.count
+        }
     }
     // 设置单元格
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("VideoCommentCell", forIndexPath: indexPath) as! VideoCommentCell
-        cell.setComment(self.commentData[indexPath.row])
-        
-        return cell
+        if commentData.isEmpty {
+            let cell = tableView.dequeueReusableCellWithIdentifier("VideoCommentNoDataCell", forIndexPath: indexPath) as! UITableViewCell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("VideoCommentCell", forIndexPath: indexPath) as! VideoCommentCell
+            cell.setComment(self.commentData[indexPath.row])
+            
+            return cell
+        }
     }
     // cell分割线的边距
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -232,8 +241,12 @@ extension VideoCommentController: UITableViewDataSource, UITableViewDelegate {
     }
     // cell自动行高设置
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableView.fd_heightForCellWithIdentifier("VideoCommentCell", cacheByIndexPath: indexPath) { (cell) -> Void in
-            cell.setComment(self.commentData[indexPath.row])
+        if commentData.isEmpty {
+            return view.frame.size.height
+        } else {
+            return tableView.fd_heightForCellWithIdentifier("VideoCommentCell", cacheByIndexPath: indexPath) { (cell) -> Void in
+                cell.setComment(self.commentData[indexPath.row])
+            }
         }
     }
     // 发出收起键盘事件

@@ -28,10 +28,10 @@ enum Router: URLRequestConvertible {
     case GameVideo(gameId: String, page: Int, limit: Int)               //获取游戏视频
     
     case VideoRelate(videoId: String)                                   //相关视频
-    case VideoComment(videoId: String, nextPageToken: String, count: Int)      //视频相关评论
+    case VideoComment(videoId: String, nextPageToken: String, count: Int)               //视频相关评论
 
     case ChannelInfo(channelId: String)                                 //频道信息
-    case ChannelVideo(channelId: String, offset: Int, count: Int)       //频道视频
+    case ChannelVideo(channelId: String, offset: Int, count: Int, channels: String?)    //频道视频
     case ChannelSlider(channelId: String)
     
     case LiveVideo(page: Int, limit: Int)                               //直播频道视频
@@ -123,12 +123,12 @@ enum Router: URLRequestConvertible {
                 
                 return (.GET, "/mobile_api/channel/info", parameters)
             //频道视频列表
-            case .ChannelVideo(let channelId, let offset, let count):
+            case .ChannelVideo(let channelId, let offset, let count, let channels):
                 var parameters: [String: AnyObject] = [
-                    //"channelid": channelId,
                     "page": offset,
                     "limit": count
                 ]
+                if channels != nil { parameters["channels"] = channels }
 
                 return (.GET, "/mobile_api/youtuber/\(channelId)/videos", parameters)
             //直播频道列表

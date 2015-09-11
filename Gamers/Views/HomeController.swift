@@ -221,7 +221,7 @@ class HomeController: UIViewController {
                 }
                 // 热门游戏
                 for index in 103...106 {
-                    self!.videoListData[index]? = games[index-103].videos
+                    self!.videoListData[index] = games[index-103].videos
                     self!.gamesName[index] = games[index-103].localName
                     self!.gamesImage[index] = games[index-103].imageSource
                     self!.videoListData[index] = games[index-103].videos
@@ -231,7 +231,7 @@ class HomeController: UIViewController {
                 }
                 // 新游戏
                 for index in 107...109 {
-                    self!.videoListData[index]? = games[index-103].videos
+                    self!.videoListData[index] = games[index-103].videos
                     self!.gamesName[index] = games[index-103].localName
                     self!.gamesImage[index] = games[index-103].imageSource
                     self!.videoListData[index] = games[index-103].videos
@@ -239,8 +239,7 @@ class HomeController: UIViewController {
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
                 }
-                
-                println(self!.videoListData)
+
             }
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in

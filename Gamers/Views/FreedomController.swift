@@ -25,7 +25,8 @@ class FreedomController: UITableViewController {
     var videoPageCount = 20         //每页视频总数
     var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
     
-    let freedomChannelId = "7579af4d-7141-440e-853c-fd7fa03dffad"  //freedom的ID
+    let freedomChannelId = "88f8111b-6b69-415a-af5d-f68b4118f43a"  //freedom的ID
+    let freedomChannels = "UCoXRFunEMD4Bzec_3yK7NTQ"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +108,7 @@ class FreedomController: UITableViewController {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hub.labelText = "加载中..."
 
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
@@ -154,7 +155,7 @@ class FreedomController: UITableViewController {
     */
     func loadNewData() {
         videoPageOffset = 1
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!
             self!.videoPageOffset += 1
             self?.tableView.reloadData()
@@ -204,7 +205,7 @@ class FreedomController: UITableViewController {
     加载更多数据
     */
     func loadMoreData() {
-        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+        ChannelBL.sharedSingleton.getChannelVideo(channelId: freedomChannelId, offset: videoPageOffset, count: videoPageCount, channels: freedomChannels).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             let newData = (task.result as? [Video])!
             
             // 如果没有数据显示加载完成，否则继续

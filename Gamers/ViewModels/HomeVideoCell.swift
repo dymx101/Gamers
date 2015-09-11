@@ -106,7 +106,7 @@ class HomeVideoCell: UITableViewCell {
         } else if cha / DATE_TIME_MONTH < 1 {
             dataString = "\(cha / DATE_TIME_WEEK)周前"
         } else if cha / DATE_TIME_YEAR < 1 {
-            dataString = "\(cha / DATE_TIME_MONTH)月前"
+            dataString = "\(cha / DATE_TIME_MONTH)个月前"
         } else {
             dataString = "\(cha / DATE_TIME_YEAR)年前"
         }
