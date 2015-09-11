@@ -16,7 +16,7 @@ class Video: Object {
     dynamic var id = ""                 //ID
     dynamic var playListId = ""         //youtube的播放列表
     dynamic var videoId = ""            //youtube的视频ID
-    dynamic var userId = ""             //用户ID
+    //dynamic var userId = ""             //用户ID
     dynamic var imageSource = ""        //视频图片
     
     dynamic var videoTitle = ""         //视频标题
@@ -30,13 +30,14 @@ class Video: Object {
     dynamic var playDate = NSDate()
     dynamic var publishedAt = ""        //发布时间
     
+    
     class func modelFromJSON(json: JSON) -> Video {
         let model = Video()
         
         if let itemId = json["id"].string { model.id = itemId }
         if let playListId = json["playlist_id"].string { model.playListId = playListId }
         if let videoId = json["video_id"].string { model.videoId = videoId }
-        if let userId = json["user_id"].string { model.userId = userId }
+        //if let userId = json["user_id"].string { model.userId = userId }
         if let imageSource = json["image_source"].string { model.imageSource = imageSource }
         
         if let videoTitle = json["video_title"].string { model.videoTitle = videoTitle }

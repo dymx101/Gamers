@@ -68,6 +68,7 @@ class VideoInfoController: UIViewController {
         
         // 初始化数据
         loadInitData(videoData.ownerId)
+        channelAutograph.text = FormatViewsTotal(videoData.views)
         
         // 重新加载视频评论监听器
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoInfo:", name: "reloadVideoInfoNotification", object: nil)
@@ -81,7 +82,7 @@ class VideoInfoController: UIViewController {
             self!.channelData = (task.result as? Channel)!
             
             self?.channelSubscribers.text = self!.FormatSubscribersTotal(self!.channelData.subscribers.toInt()!)
-            self?.channelAutograph.text = self!.FormatViewsTotal(self!.videoData.views)
+            //self?.channelAutograph.text = self!.FormatViewsTotal(self!.videoData.views)
             
             let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             self?.headerImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
@@ -90,7 +91,7 @@ class VideoInfoController: UIViewController {
             self?.videoDetails.textColor = UIColor.blackColor()
             
             self?.channelName.text = self?.channelData.name
-            
+
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
 
@@ -129,9 +130,9 @@ class VideoInfoController: UIViewController {
     func reloadVideoInfo(notification: NSNotification) {
         let userInfo = notification.userInfo!
         let newVideoData = userInfo["data"] as! Video
+        channelAutograph.text = FormatViewsTotal(newVideoData.views)
         
-        println("重新加载了视频信息")
-        loadInitData(newVideoData.ownerId)
+        //loadInitData(newVideoData.ownerId)
 
     }
     

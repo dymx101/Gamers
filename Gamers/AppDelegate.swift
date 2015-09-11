@@ -74,20 +74,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            return nil
 //        })
         
-        // 初始数据库程序
-        let plistPath = NSBundle.mainBundle().pathForResource("system", ofType: "plist")
-        var systemData = NSMutableDictionary(contentsOfFile: plistPath!)!
-        let isInitApp = systemData["isInitApp"] as! Bool
-
-        if !isInitApp {
-            let realm = Realm()
-            let fileManager = NSFileManager.defaultManager()
-            //println(plistPath)
-            fileManager.removeItemAtPath(realm.path, error: nil)    //删除文件
-
-            systemData.setValue(true, forKey: "isInitApp")
-            systemData.writeToFile(plistPath!, atomically: false)   //重写数据
-        }
+        // 更新数据库结构,参考https://realm.io/cn/docs/swift/latest/#section-20
+        setSchemaVersion(1, Realm.defaultPath, { (migration, oldSchemaVersion) -> Void in
+            if oldSchemaVersion < 1 {
+                migration.enumerate(Video.className()) { oldObject, newObject in
+                    //newObject!["test"] = ""
+                }
+            }
+        })
+        
+        
 
         
         return true

@@ -89,7 +89,7 @@ class PlayerViewController: UIViewController {
         //options.menuPosition = PagingMenuOptions.MenuPosition.Top
         
         options.textColor = UIColor.blackColor()
-        options.defaultPage = 1
+        options.defaultPage = 2
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
         pagingMenuController.delegate = self

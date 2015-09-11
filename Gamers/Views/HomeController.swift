@@ -26,7 +26,7 @@ class HomeController: UIViewController {
     // 轮播视图及变量
     var cycleScrollView: SDCycleScrollView!
     var cycleTitles: [String] = []
-    var cycleImagesURLStrings: [String]  = [];
+    var cycleImagesURLStrings: [String] = [];
     var sliderListData: [Slider] = [Slider]()
     
     
@@ -49,6 +49,24 @@ class HomeController: UIViewController {
     var featuredChannelVideoData = [Video]()
     var hotGameData = [Game]()
     var newGameData = [Game]()
+    
+    var hotGame1  = Game()
+    var hotGame2  = Game()
+    var hotGame3  = Game()
+    var hotGame4  = Game()
+    var newGame1 = Game()
+    var newGame2 = Game()
+    var newGame3 = Game()
+    
+    var hotGameVideo1 = Video()
+    var hotGameVideo2 = Video()
+    var hotGameVideo3 = Video()
+    var hotGameVideo4 = Video()
+    var newGameVideo1 = Video()
+    var newGameVideo2 = Video()
+    var newGameVideo3 = Video()
+    
+    
     
     
     
@@ -116,8 +134,8 @@ class HomeController: UIViewController {
         // 解决table和scroll混用时，点击事件BUG，（是否有效需要更多测试）
         scrollView.panGestureRecognizer.delaysTouchesBegan = true
 
-        // 检测更新
-        update()
+        // 检测更新,暂时取消
+        //update()
 
 
     }
@@ -222,6 +240,7 @@ class HomeController: UIViewController {
                     view.reloadData()
                 }
                 
+                println(self!.videoListData)
             }
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in

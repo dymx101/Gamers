@@ -32,6 +32,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="game-front-cover.png" translatesAutoresizingMaskIntoConstraints="NO" id="FNK-bx-DRV">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <color key="backgroundColor" red="0.20392156859999999" green="0.56862745100000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -323,7 +324,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="发送">
-                                            <color key="titleColor" red="0.7474747474747474" green="0.38320606424277098" blue="0.021384261448684602" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="1" green="0.51244925529999996" blue="0.028185379989999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
@@ -349,7 +350,7 @@
                                         </connections>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" red="0.098265465470474544" green="0.71331965462625235" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.86868686868686862" green="0.86868686868686862" blue="0.86868686868686862" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="CpV-e6-t2F" firstAttribute="top" secondItem="pC4-bf-yQQ" secondAttribute="top" id="Aqu-c3-b9g"/>
                                     <constraint firstItem="pC4-bf-yQQ" firstAttribute="centerY" secondItem="9SA-n0-KGt" secondAttribute="centerY" id="F22-5h-Zcz"/>
@@ -434,20 +435,20 @@
                                 <exclude reference="vGN-I6-Vso"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="7Yg-cJ-sUv"/>
-                                <exclude reference="Drd-V0-Oal"/>
-                                <exclude reference="F0h-bd-rzX"/>
-                                <exclude reference="Hwf-m1-dt6"/>
-                                <exclude reference="SZy-Ua-REt"/>
-                                <exclude reference="aFd-cU-Vqy"/>
+                                <exclude reference="HlU-dO-lje"/>
                                 <exclude reference="0DR-gt-6AQ"/>
                                 <exclude reference="CkK-EU-AXJ"/>
                                 <exclude reference="uwW-yE-C1h"/>
                                 <exclude reference="x5Z-6o-GBb"/>
-                                <exclude reference="HlU-dO-lje"/>
+                                <exclude reference="Hwf-m1-dt6"/>
+                                <exclude reference="SZy-Ua-REt"/>
+                                <exclude reference="aFd-cU-Vqy"/>
                                 <exclude reference="FCA-UH-dEc"/>
                                 <exclude reference="pIT-VN-FjK"/>
                                 <exclude reference="xsb-e4-fJV"/>
+                                <exclude reference="7Yg-cJ-sUv"/>
+                                <exclude reference="Drd-V0-Oal"/>
+                                <exclude reference="F0h-bd-rzX"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -458,20 +459,20 @@
                                 <include reference="vGN-I6-Vso"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="7Yg-cJ-sUv"/>
-                                <include reference="Drd-V0-Oal"/>
-                                <include reference="F0h-bd-rzX"/>
-                                <include reference="Hwf-m1-dt6"/>
-                                <include reference="SZy-Ua-REt"/>
-                                <include reference="aFd-cU-Vqy"/>
+                                <exclude reference="HlU-dO-lje"/>
                                 <include reference="0DR-gt-6AQ"/>
                                 <include reference="CkK-EU-AXJ"/>
                                 <include reference="uwW-yE-C1h"/>
                                 <include reference="x5Z-6o-GBb"/>
-                                <exclude reference="HlU-dO-lje"/>
+                                <include reference="Hwf-m1-dt6"/>
+                                <include reference="SZy-Ua-REt"/>
+                                <include reference="aFd-cU-Vqy"/>
                                 <include reference="FCA-UH-dEc"/>
                                 <include reference="pIT-VN-FjK"/>
                                 <include reference="xsb-e4-fJV"/>
+                                <include reference="7Yg-cJ-sUv"/>
+                                <include reference="Drd-V0-Oal"/>
+                                <include reference="F0h-bd-rzX"/>
                             </mask>
                         </variation>
                     </view>
@@ -4533,15 +4534,15 @@
                                 <exclude reference="BXK-eg-DSz"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="oiX-bx-ryv"/>
                                 <exclude reference="VZQ-93-zsh"/>
+                                <exclude reference="oiX-bx-ryv"/>
                                 <exclude reference="8K2-TZ-wWv"/>
-                                <exclude reference="sXB-hj-X4u"/>
-                                <exclude reference="Vfj-pL-dj4"/>
                                 <exclude reference="8fq-he-VkV"/>
+                                <exclude reference="Vfj-pL-dj4"/>
                                 <exclude reference="oiM-vQ-F0e"/>
-                                <exclude reference="DZn-Rg-wcO"/>
+                                <exclude reference="sXB-hj-X4u"/>
                                 <exclude reference="0t4-zo-Npq"/>
+                                <exclude reference="DZn-Rg-wcO"/>
                                 <exclude reference="HgR-MM-9I4"/>
                             </mask>
                         </variation>
@@ -4559,11 +4560,11 @@
                             </mask>
                             <mask key="constraints">
                                 <include reference="VZQ-93-zsh"/>
-                                <include reference="Vfj-pL-dj4"/>
                                 <include reference="8fq-he-VkV"/>
+                                <include reference="Vfj-pL-dj4"/>
                                 <include reference="oiM-vQ-F0e"/>
-                                <include reference="DZn-Rg-wcO"/>
                                 <include reference="0t4-zo-Npq"/>
+                                <include reference="DZn-Rg-wcO"/>
                                 <include reference="HgR-MM-9I4"/>
                             </mask>
                         </variation>
@@ -4591,7 +4592,7 @@
         <image name="ToolbarLive" width="24" height="24"/>
         <image name="ToolbarUser" width="24" height="24"/>
         <image name="game-front-cover.png" width="272" height="380"/>
-        <image name="share.png" width="36" height="36"/>
+        <image name="share.png" width="108" height="108"/>
         <image name="user.png" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>

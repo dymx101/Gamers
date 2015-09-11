@@ -21,16 +21,21 @@ class VideoCommentCell: UITableViewCell {
     
     func setComment(commentData: YTVComment) {
         //self.userNameAndComment.text = commentData.userName + ": " + commentData.content
-        let contentString: NSMutableAttributedString = NSMutableAttributedString(string: "[" + FormatDate(commentData.publishedAt) + "]" + commentData.authorDisplayName + ": " + filterHTML(commentData.textDisplay))
-        let fontRange: NSRange = NSMakeRange(7, NSString(string: commentData.authorDisplayName).length + 2)
+        let dateString = FormatDate(commentData.publishedAt)
+        let contentString: NSMutableAttributedString = NSMutableAttributedString(string: "[" + dateString + "]" + commentData.authorDisplayName + ": " + filterHTML(commentData.textDisplay))
+        let fontRange: NSRange = NSMakeRange(NSString(string: dateString).length + 2, NSString(string: commentData.authorDisplayName).length + 2)
         // 名字随机颜色
-        let color = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
-        let color1 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
-        let color2 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
-        let color3 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
-        contentString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: color, green: color1, blue: color2, alpha: 1), range: fontRange)
+//        let color = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+//        let color1 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+//        let color2 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+//        let color3 = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+//        contentString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: color, green: color1, blue: color2, alpha: 1), range: fontRange)
+        let fontRange2: NSRange = NSMakeRange(0, NSString(string: dateString).length + 2)
+        contentString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 0, green: 0, blue: 0, alpha: 0.5), range: fontRange2)
+        contentString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 20/255.0, green: 155/255.0, blue: 213/255.0, alpha: 1), range: fontRange) //暂定谈蓝色
+        
         userNameAndComment.attributedText = contentString
-
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -50,32 +55,57 @@ class VideoCommentCell: UITableViewCell {
     // 过滤HTML标签
     func filterHTML(html: String) -> String {
         let newHtml = html.stringByDecodingHTMLEntities
-        let regex:NSRegularExpression  = NSRegularExpression(
-            pattern: "<.*?>",
-            options: NSRegularExpressionOptions.CaseInsensitive,
-            error: nil)!
-        
-        
+        let regex:NSRegularExpression  = NSRegularExpression(pattern: "<.*?>", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
         let range = NSMakeRange(0, count(newHtml))
-        let htmlLessString :String = regex.stringByReplacingMatchesInString(newHtml,
-            options: NSMatchingOptions.allZeros,
-            range:range ,
-            withTemplate: "")
+        let htmlLessString :String = regex.stringByReplacingMatchesInString(newHtml, options: NSMatchingOptions.allZeros, range:range, withTemplate: "")
         
         return htmlLessString
     }
     
     // 格式化时间，暂时取前10
     func FormatDate(theDate: String) -> String {
+        let DATE_TIME_MINUTEX = 60
+        let DATE_TIME_HOURS = 60 * 60
+        let DATE_TIME_DAYTIME = 60 * 60 * 24
+        let DATE_TIME_WEEK = 60 * 60 * 24 * 7
+        let DATE_TIME_MONTH = 60 * 60 * 24 * 30
+        let DATE_TIME_YEAR = 60 * 60 * 24 * 365
+        let DATE_ONETHOUSAND = 1000
         
-        return (theDate as NSString).substringWithRange(NSMakeRange(5, 5))
+        var dataString = ""
+        
+        let dateFormatter = NSDateFormatter()
+        //        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        //        dateFormatter.timeZone = NSTimeZone(name: "GMT")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        
+        if dateFormatter.dateFromString(theDate) == nil {
+            return ""
+        }
+        
+        let dateValue = dateFormatter.dateFromString(theDate)!.timeIntervalSince1970
+        var now = NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970
+        
+        var cha = Int(now - dateValue)
+
+        if cha / DATE_TIME_HOURS < 1 {
+            dataString = "\(cha / DATE_TIME_MINUTEX)分钟前"
+        } else if cha / DATE_TIME_DAYTIME < 1 {
+            dataString = "\(cha / DATE_TIME_HOURS)小时前"
+        } else if cha / DATE_TIME_WEEK < 1 {
+            dataString = "\(cha / DATE_TIME_DAYTIME)天前"
+        } else if cha / DATE_TIME_MONTH < 1 {
+            dataString = "\(cha / DATE_TIME_WEEK)周前"
+        } else if cha / DATE_TIME_YEAR < 1 {
+            dataString = "\(cha / DATE_TIME_MONTH)月前"
+        } else {
+            dataString = "\(cha / DATE_TIME_YEAR)年前"
+        }
+        
+        return dataString
+
     }
-    
-    
-    
-    
-    
-    
+
     
 }
 

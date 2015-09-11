@@ -17,6 +17,7 @@
 		1A0836CA1B78D40A00286911 /* GameHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0836C81B78D40A00286911 /* GameHeaderCell.swift */; };
 		1A0836CB1B78D40A00286911 /* GameHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A0836C91B78D40A00286911 /* GameHeaderCell.xib */; };
 		1A0A5D0E1B95B090006D855E /* GoogleLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A5D0D1B95B090006D855E /* GoogleLoginController.swift */; };
+		1A1B49E11BA292BC00109B9B /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A1B49E01BA292BC00109B9B /* share.png */; };
 		1A1D2C701B72FFF300112A4F /* NewGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */; };
 		1A1D2C721B73002200112A4F /* NewGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C711B73002200112A4F /* NewGameCell.swift */; };
 		1A1D2C741B73134300112A4F /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C731B73134300112A4F /* SystemController.swift */; };
@@ -78,7 +79,6 @@
 		1A93D56A1B99820F008D501A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A93D5691B99820F008D501A /* MediaPlayer.framework */; };
 		1A93D56C1B998217008D501A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A93D56B1B998217008D501A /* AVFoundation.framework */; };
 		1A93D56E1B99C92B008D501A /* YoutubeLiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A93D56D1B99C92B008D501A /* YoutubeLiveController.swift */; };
-		1A9589E51BA1384F00E81621 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9589E41BA1384F00E81621 /* share.png */; };
 		1A975F201B57960A003B8327 /* ChannelDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F1F1B57960A003B8327 /* ChannelDao.swift */; };
 		1A975F221B579947003B8327 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F211B579947003B8327 /* Channel.swift */; };
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
@@ -159,6 +159,7 @@
 		1A0836C81B78D40A00286911 /* GameHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHeaderCell.swift; sourceTree = "<group>"; };
 		1A0836C91B78D40A00286911 /* GameHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameHeaderCell.xib; sourceTree = "<group>"; };
 		1A0A5D0D1B95B090006D855E /* GoogleLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleLoginController.swift; sourceTree = "<group>"; };
+		1A1B49E01BA292BC00109B9B /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1A1D2C6F1B72FFF300112A4F /* NewGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameController.swift; sourceTree = "<group>"; };
 		1A1D2C711B73002200112A4F /* NewGameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameCell.swift; sourceTree = "<group>"; };
 		1A1D2C731B73134300112A4F /* SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemController.swift; sourceTree = "<group>"; };
@@ -225,7 +226,6 @@
 		1A93D5691B99820F008D501A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		1A93D56B1B998217008D501A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1A93D56D1B99C92B008D501A /* YoutubeLiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeLiveController.swift; sourceTree = "<group>"; };
-		1A9589E41BA1384F00E81621 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		1A975F1F1B57960A003B8327 /* ChannelDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDao.swift; sourceTree = "<group>"; };
 		1A975F211B579947003B8327 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		1A975F231B579BE9003B8327 /* ChannelBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelBL.swift; sourceTree = "<group>"; };
@@ -565,7 +565,7 @@
 		1AFC1A061B58ED74006D9667 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1A9589E41BA1384F00E81621 /* share.png */,
+				1A1B49E01BA292BC00109B9B /* share.png */,
 				1A8E8AA31B9A969700AF4239 /* gamers_header.jpg */,
 				1A23C2AE1B8463D700AF5860 /* game-front-cover.png */,
 				1A23C2AF1B8463D700AF5860 /* navigation-bar.png */,
@@ -710,7 +710,7 @@
 				1A3226521B7D9B29001F7C52 /* user.png in Resources */,
 				1A4FAFAE1B7F2DA10064B8A3 /* GoogleService-Info.plist in Resources */,
 				1A23C2B31B8463D700AF5860 /* triangle.png in Resources */,
-				1A9589E51BA1384F00E81621 /* share.png in Resources */,
+				1A1B49E11BA292BC00109B9B /* share.png in Resources */,
 				1A4FAFAC1B7F29D10064B8A3 /* Default-568h@2x.png in Resources */,
 				1AEB2F9D1B79FDFC005F0A3F /* TableFooterAllCell.xib in Resources */,
 				1A23D7851B833E9C001AAAAD /* password.png in Resources */,
