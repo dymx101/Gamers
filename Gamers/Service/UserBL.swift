@@ -135,7 +135,7 @@ class UserBL: NSObject {
         if isLogin {
             Alamofire.request(.POST, "http://beta.gamers.tm:3000/mobile_api/subscribe?userId=\(channelId)", headers: headers).responseJSON { _, _, JSONData, _ in
                 let response = Response.collection(json: JSON(JSONData!))
-                
+
                 if response.code == "0" {
                     let alertView: UIAlertView = UIAlertView(title: "", message: "订阅成功", delegate: nil, cancelButtonTitle: "确定")
                     alertView.show()
@@ -241,6 +241,31 @@ extension UserBL {
         
         return fetchTask
     }
+    
+    // 订阅Youtube频道
+    func Subscriptions(#channelId: String) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return UserDao.Subscriptions(channelId: channelId)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let response = task.result as? YTError {
+                return BFTask(result: response)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
+    
 }
 
 

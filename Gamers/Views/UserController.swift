@@ -75,17 +75,35 @@ class UserController: UITableViewController, UITableViewDataSource, UITableViewD
             
             self.navigationController?.pushViewController(userInfoView!, animated: true)
         case 0 where !isLogin:
-            let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("FreedomLoginVC") as? FreedomLoginController
+            var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入Freedom，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+            actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                //
+            }))
+            actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("FreedomLoginVC") as? FreedomLoginController
+                
+                self.navigationController?.pushViewController(userInfoView!, animated: true)
+            }))
             
-            self.navigationController?.pushViewController(userInfoView!, animated: true)
+            // 显示Sheet
+            self.presentViewController(actionSheetController, animated: true, completion: nil)
         case 1 where indexPath.row == 0 && isLogin:
             let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("UserFollowVC") as? UserFollowController
             
             self.navigationController?.pushViewController(userInfoView!, animated: true)
         case 1 where indexPath.row == 0 && !isLogin:
-            let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("FreedomLoginVC") as? FreedomLoginController
+            var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入Freedom，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+            actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                //
+            }))
+            actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("FreedomLoginVC") as? FreedomLoginController
+                
+                self.navigationController?.pushViewController(userInfoView!, animated: true)
+            }))
             
-            self.navigationController?.pushViewController(userInfoView!, animated: true)
+            // 显示Sheet
+            self.presentViewController(actionSheetController, animated: true, completion: nil)
         default:
             println("")
             

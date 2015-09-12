@@ -17,6 +17,8 @@ enum YouTubePostRouter: URLRequestConvertible {
     case InsertVideoComment(videoId: String, textOriginal: String)
     case InsertChannelComment(channelId: String, textOriginal: String)
     
+    case Subscriptions(channelId: String)
+    
     var URLRequest: NSURLRequest {
         let (method: Alamofire.Method, path: String, parameters: [String: AnyObject]?) = {
             switch self {
@@ -38,6 +40,17 @@ enum YouTubePostRouter: URLRequestConvertible {
                 ]
                 
                 return (.POST, "/commentThreads?part=snippet", parameters)
+            case .Subscriptions(let channelId):
+                var parameters: [String: AnyObject] = [
+                    "snippet": [
+                        "resourceId": [
+                            "kind": "youtube#channel",
+                            "channelId": channelId
+                        ]
+                    ]
+                ]
+                
+                return (.POST, "/subscriptions?part=snippet", parameters)
                 
                 
                 

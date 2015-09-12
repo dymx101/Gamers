@@ -33,8 +33,8 @@ class YTVideoListCell: UITableViewCell {
     func setVideo(video: YTVideo) {
         videoChannel.text = video.channelTitle
         videoTitle.text = video.title
-        //videoViews.text = String(video.views) + " 次"
-        videoViews.text = BasicFunction.formatViewsTotal(0) + "  •  " + BasicFunction.formatDateString(video.publishedAt)
+        //videoViews.text = BasicFunction.formatViewsTotal(0) + "  •  " + BasicFunction.formatDateString(video.publishedAt)
+        videoViews.text = BasicFunction.formatDateString(video.publishedAt)
         
         let imageUrl = video.thumbnailMedium.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
         videoImage.hnk_setImageFromURL(NSURL(string: imageUrl)!, placeholder: UIImage(named: "placeholder.png"))

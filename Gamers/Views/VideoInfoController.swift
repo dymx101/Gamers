@@ -29,35 +29,104 @@ class VideoInfoController: UIViewController {
         let userId = userDefaults.stringForKey("userId")
         
         if isLogin {
-//            UserBL.sharedSingleton.setSubscribe(channelId: channelData.id).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-//                let response = (task.result as? Response)!
-//                var message: String = response.code == "0" ? "订阅成功" : "订阅失败"
-//                
-//                var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
-//                alertView.show()
-//                
-//                return nil
-//            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-//
-//                return nil
-//            })
-            println(channelData)
             UserBL.sharedSingleton.setFollow(channelId: channelData.id)
         } else {
-            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
-            alertView.show()
+            var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入Freedom，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+            actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                //
+            }))
+            actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("FreedomLoginVC") as? FreedomLoginController
+                
+                self.navigationController?.pushViewController(userInfoView!, animated: true)
+            }))
+            
+            // 显示Sheet
+            self.presentViewController(actionSheetController, animated: true, completion: nil)
         }
         
         
     }
     
+    @IBOutlet weak var subscribeYoutubeButton: UIButton!
+    @IBAction func clickSubscribeYoutube(sender: AnyObject) {
+        // 先判断是否登入
+        let googleAccessToken = userDefaults.stringForKey("googleAccessToken")
+        
+        if googleAccessToken == nil {
+            var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+            actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                //
+            }))
+            actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                let userInfoView = self.storyboard!.instantiateViewControllerWithIdentifier("GoogleLoginVC") as? GoogleLoginController
+                
+                self.navigationController?.pushViewController(userInfoView!, animated: true)
+            }))
+            
+            // 显示Sheet
+            self.presentViewController(actionSheetController, animated: true, completion: nil)
+        } else {
+            UserBL.sharedSingleton.Subscriptions(channelId: "UCoXRFunEMD4Bzec_3yK7NTQ").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                if let responseData = (task.result as? YTError) {
+                    switch responseData.code {
+                    case 400 where responseData.message == "The subscription that you are trying to create already exists." :
+                        var alertView: UIAlertView = UIAlertView(title: "", message: "不用重复订阅", delegate: nil, cancelButtonTitle: "确定")
+                        alertView.show()
+                    case 401:
+                        var actionSheetController: UIAlertController = UIAlertController(title: "", message: "需要登入YouTube，是否登入？", preferredStyle: UIAlertControllerStyle.Alert)
+                        actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                            //
+                        }))
+                        actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                            let userInfoView = self!.storyboard!.instantiateViewControllerWithIdentifier("GoogleLoginVC") as? GoogleLoginController
+                            
+                            self!.navigationController?.pushViewController(userInfoView!, animated: true)
+                        }))
+                        
+                        // 显示Sheet
+                        self!.presentViewController(actionSheetController, animated: true, completion: nil)
+                    default:
+                        var alertView: UIAlertView = UIAlertView(title: "", message: "订阅失败", delegate: nil, cancelButtonTitle: "确定")
+                        alertView.show()
+                        
+                    }
+                    
+                    if responseData.code == 400 && responseData.message != "The subscription that you are trying to create already exists." {
+                        var alertView: UIAlertView = UIAlertView(title: "", message: "不用重复登入", delegate: nil, cancelButtonTitle: "确定")
+                        alertView.show()
+                    } else {
+                        
+                    }
+                } else {
+                    var alertView: UIAlertView = UIAlertView(title: "", message: "订阅成功", delegate: nil, cancelButtonTitle: "确定")
+                    alertView.show()
+                }
+                
+                return nil
+            }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+                
+                return nil
+            })
+        }
+        
+        
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // 按钮圆角
         subscribeButton.layer.masksToBounds = true
         subscribeButton.layer.cornerRadius = 6
         subscribeButton.layer.borderWidth = 1
         subscribeButton.layer.borderColor = UIColor.orangeColor().CGColor
+        
+        subscribeYoutubeButton.layer.masksToBounds = true
+        subscribeYoutubeButton.layer.cornerRadius = 6
+        subscribeYoutubeButton.layer.borderWidth = 1
+        subscribeYoutubeButton.layer.borderColor = UIColor.orangeColor().CGColor
         
         //设置圆角
         headerImage.clipsToBounds = true
@@ -117,11 +186,11 @@ class VideoInfoController: UIViewController {
         var totalString = ""
         
         if theTotal < 1_000 {
-            totalString = "\(theTotal)人追随"
+            totalString = "\(theTotal)人跟随"
         } else if theTotal < 10_000 {
-            totalString = "\(theTotal / 1_000)千人追随"
+            totalString = "\(theTotal / 1_000)千人跟随"
         } else {
-            totalString = "\(theTotal / 10_000)万人追随"
+            totalString = "\(theTotal / 10_000)万人跟随"
         }
         
         return totalString

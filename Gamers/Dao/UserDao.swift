@@ -195,6 +195,44 @@ extension UserDao {
         return source.task
     }
     
+    // 临时方法,订阅youtube频道
+    static func Subscriptions(#channelId: String) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        let parameters: [String: AnyObject] = [
+            "snippet": [
+                "resourceId": [
+                    "kind": "youtube#channel",
+                    "channelId": channelId
+                ]
+            ]
+        ]
+        let headers = [ "Authorization": "OAuth " + NSUserDefaults.standardUserDefaults().stringForKey("googleAccessToken")! ]
+        let URLRequest = "https://www.googleapis.com/youtube/v3/subscriptions?part=snippet"
+        
+        Alamofire.request(.POST, URLRequest, parameters: parameters, headers: headers, encoding: .JSON).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var comment = YTChannel()
+                var error = YTError()
+                println(JSONDictionary)
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    let json = JSON(JSONDictionary)
+                    if json["error"]["message"] != nil {
+                        error = YTError.collection(json: JSON(JSONDictionary))
+                        source.setResult(error)
+                    } else {
+                        comment = YTChannel.collection(json: JSON(JSONDictionary))
+                        source.setResult(comment)
+                    }
+                }
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
 }
 
 

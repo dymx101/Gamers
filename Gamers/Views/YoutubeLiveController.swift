@@ -33,11 +33,8 @@ class YoutubeLiveController: UIViewController {
         
         // 加载视频播放
         var playerVars = ["playsinline": 1, "showinfo": 1]
-        playerView.loadWithVideoId("VzoxtcHIsQo", playerVars: playerVars)
-        
-        
-        println("youtubelive")
-        
+        playerView.loadWithVideoId(liveData.stream.id, playerVars: playerVars)
+
         
     }
 
@@ -45,16 +42,6 @@ class YoutubeLiveController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

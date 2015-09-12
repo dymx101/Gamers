@@ -28,8 +28,6 @@
 		1A1D2C7A1B731C5600112A4F /* UserFollowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C791B731C5600112A4F /* UserFollowController.swift */; };
 		1A1D2C7E1B7322A600112A4F /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7D1B7322A600112A4F /* UserInfoController.swift */; };
 		1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C7F1B7346FD00112A4F /* LoginController.swift */; };
-		1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C811B73478000112A4F /* RegisterController.swift */; };
-		1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1D2C831B73550200112A4F /* ForgetPWDController.swift */; };
 		1A2235B21B93EE0700F7B8B9 /* UserFollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2235B11B93EE0700F7B8B9 /* UserFollowCell.swift */; };
 		1A2235B41B93F4B600F7B8B9 /* ChannelVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2235B31B93F4B600F7B8B9 /* ChannelVideoController.swift */; };
 		1A23C2B11B8463D700AF5860 /* game-front-cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A23C2AE1B8463D700AF5860 /* game-front-cover.png */; };
@@ -87,6 +85,7 @@
 		1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A975F231B579BE9003B8327 /* ChannelBL.swift */; };
 		1AA0B9381B859C07001BFEB9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0B9371B859C07001BFEB9 /* Response.swift */; };
 		1AAC05581B7C5BCA0002AD8B /* MyCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC05571B7C5BCA0002AD8B /* MyCellDelegate.swift */; };
+		1AAE179D1BA3F61600481528 /* YTChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE179C1BA3F61600481528 /* YTChannel.swift */; };
 		1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */; };
 		1AB21AEE1B5C8C5D007C5D2A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AED1B5C8C5D007C5D2A /* GameController.swift */; };
 		1AB21AF01B5C8C7E007C5D2A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */; };
@@ -173,8 +172,6 @@
 		1A1D2C791B731C5600112A4F /* UserFollowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFollowController.swift; sourceTree = "<group>"; };
 		1A1D2C7D1B7322A600112A4F /* UserInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
 		1A1D2C7F1B7346FD00112A4F /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		1A1D2C811B73478000112A4F /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
-		1A1D2C831B73550200112A4F /* ForgetPWDController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPWDController.swift; sourceTree = "<group>"; };
 		1A2235B11B93EE0700F7B8B9 /* UserFollowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFollowCell.swift; sourceTree = "<group>"; };
 		1A2235B31B93F4B600F7B8B9 /* ChannelVideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelVideoController.swift; sourceTree = "<group>"; };
 		1A23C2AE1B8463D700AF5860 /* game-front-cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game-front-cover.png"; sourceTree = "<group>"; };
@@ -238,6 +235,7 @@
 		1A9FBBB71B6A170C005B7D51 /* BoltsSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BoltsSwift.framework; path = "Pods/../build/Debug-iphoneos/BoltsSwift.framework"; sourceTree = "<group>"; };
 		1AA0B9371B859C07001BFEB9 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1AAC05571B7C5BCA0002AD8B /* MyCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCellDelegate.swift; sourceTree = "<group>"; };
+		1AAE179C1BA3F61600481528 /* YTChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YTChannel.swift; sourceTree = "<group>"; };
 		1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveController.swift; sourceTree = "<group>"; };
 		1AB21AED1B5C8C5D007C5D2A /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		1AB21AEF1B5C8C7E007C5D2A /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
@@ -337,6 +335,7 @@
 				1AC10D331B95427600F7A62B /* Version.swift */,
 				1A1B49E41BA2E30500109B9B /* YTVideo.swift */,
 				1A4AB33C1B96B1DB00138564 /* YTVComment.swift */,
+				1AAE179C1BA3F61600481528 /* YTChannel.swift */,
 				1AEE18BA1BA02B2500E50C62 /* YTError.swift */,
 				1A93D5671B995469008D501A /* TwitchToken.swift */,
 			);
@@ -390,8 +389,6 @@
 				1A1D2C7F1B7346FD00112A4F /* LoginController.swift */,
 				1A0A5D0D1B95B090006D855E /* GoogleLoginController.swift */,
 				1ABA1D4B1B8C249E00D67809 /* FreedomLoginController.swift */,
-				1A1D2C811B73478000112A4F /* RegisterController.swift */,
-				1A1D2C831B73550200112A4F /* ForgetPWDController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -841,7 +838,6 @@
 				1A01F4121B6F210B0042480B /* VideoRelateController.swift in Sources */,
 				1AEECF6F1B7724040022B69B /* ChannelHeaderCell.swift in Sources */,
 				1A975F241B579BE9003B8327 /* ChannelBL.swift in Sources */,
-				1A1D2C841B73550200112A4F /* ForgetPWDController.swift in Sources */,
 				1AE56FDC1B65EFAB0088BFE8 /* VideoListCell.swift in Sources */,
 				1A1D2C801B7346FD00112A4F /* LoginController.swift in Sources */,
 				1ACBAF801B7B34BE00D8910C /* LiveBL.swift in Sources */,
@@ -850,9 +846,9 @@
 				1A8FBA9A1B9EA93000CCF4CF /* YouTubePostRouter.swift in Sources */,
 				1A93D5681B995469008D501A /* TwitchToken.swift in Sources */,
 				1A7A583B1B60EB7300464510 /* SliderController.swift in Sources */,
-				1A1D2C821B73478000112A4F /* RegisterController.swift in Sources */,
 				1AE56FDA1B65EB690088BFE8 /* VideoListController.swift in Sources */,
 				1AEECF771B773CCA0022B69B /* TableFooterCell.swift in Sources */,
+				1AAE179D1BA3F61600481528 /* YTChannel.swift in Sources */,
 				1AB21AEA1B5C8BF1007C5D2A /* LiveController.swift in Sources */,
 				1A01F40E1B6F20AA0042480B /* VideoCommentCell.swift in Sources */,
 				1ACBAF7C1B7B268F00D8910C /* Live.swift in Sources */,

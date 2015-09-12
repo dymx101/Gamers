@@ -161,8 +161,6 @@ extension UserFollowController: ChannelCellDelegate {
     func clickCellUnFollow(cell: UITableViewCell) {
         var index: NSIndexPath = self.tableView.indexPathForCell(cell)!
         
-        println("表格行：\(index.row)")
-        
         var actionSheetController: UIAlertController = UIAlertController(title: "", message: "是否取消跟随", preferredStyle: UIAlertControllerStyle.Alert)
         actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
             //
@@ -172,14 +170,12 @@ extension UserFollowController: ChannelCellDelegate {
             UserBL.sharedSingleton.setUnFollow(channelId: self.userListData[index.row].userId)
         }))
         
-        
         // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         
     }
     
     
-
 }
 
 
