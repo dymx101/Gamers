@@ -25,7 +25,7 @@ class ChannelListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = channelType == "new" ? "新手推荐" : "游戏大咖"
+        self.navigationItem.title = channelType == "new" ? "精選玩咖" : "熱門大咖"
 
         // 上拉下拉刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
@@ -54,7 +54,7 @@ class ChannelListController: UITableViewController {
     */
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加载中..."
+        hub.labelText = "加載中..."
         
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: channelType, offset: videoPageOffset, count: videoPageCount, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.videoListData = (task.result as? [Video])!

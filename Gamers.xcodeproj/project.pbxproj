@@ -94,6 +94,7 @@
 		1AB317561B56165F00B6C176 /* SliderBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB317551B56165F00B6C176 /* SliderBL.swift */; };
 		1AB3175B1B56187400B6C176 /* SliderDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3175A1B56187400B6C176 /* SliderDao.swift */; };
 		1ABA1D4C1B8C249E00D67809 /* FreedomLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA1D4B1B8C249E00D67809 /* FreedomLoginController.swift */; };
+		1ABD166C1BA6A90200481B1A /* FollowersListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD166B1BA6A90200481B1A /* FollowersListController.swift */; };
 		1ABEFE071B61E68800BC7907 /* VideoDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE061B61E68800BC7907 /* VideoDao.swift */; };
 		1ABEFE091B61E6AB00BC7907 /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE081B61E6AB00BC7907 /* UserDao.swift */; };
 		1ABEFE0D1B61E6D400BC7907 /* VideoBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */; };
@@ -245,6 +246,7 @@
 		1AB3175A1B56187400B6C176 /* SliderDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderDao.swift; sourceTree = "<group>"; };
 		1ABA1D4B1B8C249E00D67809 /* FreedomLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreedomLoginController.swift; sourceTree = "<group>"; };
 		1ABA1D601B8C862700D67809 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		1ABD166B1BA6A90200481B1A /* FollowersListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowersListController.swift; sourceTree = "<group>"; };
 		1ABEFE061B61E68800BC7907 /* VideoDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDao.swift; sourceTree = "<group>"; };
 		1ABEFE081B61E6AB00BC7907 /* UserDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
 		1ABEFE0C1B61E6D400BC7907 /* VideoBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBL.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 			children = (
 				1A32FD1A1B54C1000040E94C /* HomeController.swift */,
 				1AEB2FA01B7A3D47005F0A3F /* ChannelListController.swift */,
+				1ABD166B1BA6A90200481B1A /* FollowersListController.swift */,
 				1A4181DB1B71A94000927C21 /* FreedomController.swift */,
 				1AB21AE91B5C8BF1007C5D2A /* LiveController.swift */,
 				1A4181A61B709BA900927C21 /* TwitchLiveController.swift */,
@@ -813,6 +816,7 @@
 				1A2235B21B93EE0700F7B8B9 /* UserFollowCell.swift in Sources */,
 				1AEECF731B7727640022B69B /* HomeVideoCell.swift in Sources */,
 				1AC10D321B95421400F7A62B /* SystemDao.swift in Sources */,
+				1ABD166C1BA6A90200481B1A /* FollowersListController.swift in Sources */,
 				1A1B49E51BA2E30500109B9B /* YTVideo.swift in Sources */,
 				1A93D5661B99522F008D501A /* TwitchRouter.swift in Sources */,
 				1AC10D361B95442000F7A62B /* SystemBL.swift in Sources */,

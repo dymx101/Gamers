@@ -31,7 +31,7 @@ pod 'PagingMenuController'
 #pod 'JGProgressHUD'
 pod 'MBProgressHUD'
 ## 界面布局
-pod 'SnapKit'
+pod 'SnapKit', '0.13.0'
 ## Facebook Pop的动画效果
 #pod 'pop'
 

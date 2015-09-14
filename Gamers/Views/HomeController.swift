@@ -44,16 +44,16 @@ class HomeController: UIViewController {
     var newGameView2: UITableView!
     var newGameView3: UITableView!
     
-    // 全局数据 //todo 整合在一起
+    // 全局数据 //todo 整合在一起,
     var newChannelVideoData = [Video]()
     var featuredChannelVideoData = [Video]()
     var hotGameData = [Game]()
     var newGameData = [Game]()
     
-    var hotGame1  = Game()
-    var hotGame2  = Game()
-    var hotGame3  = Game()
-    var hotGame4  = Game()
+    var hotGame1 = Game()
+    var hotGame2 = Game()
+    var hotGame3 = Game()
+    var hotGame4 = Game()
     var newGame1 = Game()
     var newGame2 = Game()
     var newGame3 = Game()
@@ -65,7 +65,6 @@ class HomeController: UIViewController {
     var newGameVideo1 = Video()
     var newGameVideo2 = Video()
     var newGameVideo3 = Video()
-    
     
     
     
@@ -92,6 +91,12 @@ class HomeController: UIViewController {
         NSThread.sleepForTimeInterval(0.5)//延长3秒
         // 子页面的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        
+        // 顶部图标
+        //        navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
+        //        let imageView = UIImage(named: "1.jpg")
+        //        let view = UIView(frame: CGRectMake(110, 6, 32, 32))
+        //        view.backgroundColor = UIColor.redColor()
 
         // 下拉刷新数据
         scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
@@ -137,6 +142,7 @@ class HomeController: UIViewController {
         // 检测更新,暂时取消
         //update()
 
+        
 
     }
 
@@ -156,7 +162,7 @@ class HomeController: UIViewController {
         // 第一次启动使用MBProgressHUD
         if isStartUp {
             let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-            hub.labelText = "加载中..."
+            hub.labelText = "加載中..."
             isStartUp = false
         }
         
@@ -184,8 +190,11 @@ class HomeController: UIViewController {
         
         // 新手频道推荐数据
         ChannelBL.sharedSingleton.getRecommendChannel(channelType: "new", offset: 1, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoListData[101] = (task.result as? [Video])
-            self!.newChannelVideoData = (task.result as? [Video])!
+            if let videoData = (task.result as? [Video]) {
+                self!.videoListData[101] = videoData
+                self!.newChannelVideoData = videoData
+            }
+            println(self!.newChannelVideoData)
             self!.newChannelView.reloadData()
 
             return nil
@@ -196,8 +205,12 @@ class HomeController: UIViewController {
             return nil
         })
         // 游戏大咖频道推荐数据
-        ChannelBL.sharedSingleton.getRecommendChannel(channelType: "featured", offset: 1, count: 6, order: "date").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoListData[102] = (task.result as? [Video])
+        ChannelBL.sharedSingleton.getFollowers(limit: 6, videoCount: 1).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if let videoData = (task.result as? [Video]) {
+                self!.videoListData[102] = videoData
+                self!.featuredChannelVideoData = videoData
+            }
+            
             self!.featuredChannelView.reloadData()
 
             return nil
@@ -208,6 +221,8 @@ class HomeController: UIViewController {
             return nil
         })
         // 推荐游戏数据
+        hotGameData.removeAll(keepCapacity: false)
+        newGameData.removeAll(keepCapacity: false)
         GameBL.sharedSingleton.getRecommendGame().continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             if let games = task.result as? [Game] {
                 self?.gameListData = games
@@ -219,11 +234,18 @@ class HomeController: UIViewController {
                         self!.newGameData.append(game)
                     }
                 }
+                
+
+                //println(self!.hotGameData[0].videos)
+                
+                
                 // 热门游戏
                 for index in 103...106 {
-                    self!.videoListData[index] = games[index-103].videos
+  
+                    
                     self!.gamesName[index] = games[index-103].localName
                     self!.gamesImage[index] = games[index-103].imageSource
+                    
                     self!.videoListData[index] = games[index-103].videos
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
@@ -232,9 +254,10 @@ class HomeController: UIViewController {
                 // 新游戏
                 for index in 107...109 {
                     self!.videoListData[index] = games[index-103].videos
+                    
                     self!.gamesName[index] = games[index-103].localName
                     self!.gamesImage[index] = games[index-103].imageSource
-                    self!.videoListData[index] = games[index-103].videos
+    
                     
                     let view = self!.view.viewWithTag(index) as! UITableView
                     view.reloadData()
@@ -708,22 +731,22 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         case 0 where tableView.isEqual(newChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
             cell.imageView?.image = UIImage(named: "Icon-recommend")
-            cell.hearderTitle.text = "新手推荐"
+            cell.hearderTitle.text = "精選玩咖"
             
             return cell
         case 0 where tableView.isEqual(featuredChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
             cell.imageView?.image = UIImage(named: "Icon-great")
-            cell.hearderTitle.text = "实况大咖"
+            cell.hearderTitle.text = "熱門大咖"
             
             return cell
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
             cell.gameName.text = gamesName[viewTag]
             if viewTag <= 106 {
-                cell.gameDetail.text = "热门游戏推荐"
+                cell.gameDetail.text = "熱門遊戲推薦"
             } else {
-                cell.gameDetail.text = "精选游戏推荐"
+                cell.gameDetail.text = "精選遊戲推薦"
             }
             
             let imageUrl = self.gamesImage[viewTag]!.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -740,10 +763,23 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         // 中间部分
-        default:
+        default :
             let cell = tableView.dequeueReusableCellWithIdentifier("HomeVideoCell", forIndexPath: indexPath) as! HomeVideoCell
-            cell.setVideo(self.videoListData[viewTag]![indexPath.row-1])
             
+            switch viewTag {
+            case 101:
+                cell.setVideo(self.newChannelVideoData[indexPath.row-1])
+            case 102:
+                cell.setVideo(self.featuredChannelVideoData[indexPath.row-1])
+            case 103...106:
+                cell.setVideo(self.hotGameData[viewTag-103].videos[indexPath.row-1])
+            case 107...109:
+                cell.setVideo(self.newGameData[viewTag-107].videos[indexPath.row-1])
+            default: ()
+                
+            }
+            
+            //cell.setVideo(self.videoListData[viewTag]![indexPath.row-1])
             cell.delegate = self
             cell.tag = viewTag + indexPath.row + 100
             
@@ -759,23 +795,27 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         let viewTag = tableView.tag
         //println("点击表格-\(viewTag)-触发行: \(indexPath.row)")
         if indexPath.row == 0 {
-            // 跳转到不同的全部界面（新加）
-            if viewTag == 101 || viewTag == 102 {
+            switch viewTag {
+            case 101:
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
                 //viewVC?.viewTag = viewTag
                 viewVC?.channelType = viewTag == 101 ? "new" : "featured"
-                
                 self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else if viewTag >= 103 && viewTag <= 106 {
+            case 102:
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("FollowersListVC") as? FollowersListController
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            case 103...106:
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
                 viewVC?.gameData = hotGameData[viewTag - 103]
                 
                 self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else {
+            case 107...109:
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
                 viewVC?.gameData = newGameData[viewTag - 107]
                 
                 self.navigationController?.pushViewController(viewVC!, animated: true)
+            default: ()
+                
             }
         } else if indexPath.row == 4 && !expansionStatus[viewTag]! {
             // 移动动画
@@ -784,22 +824,27 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             dataView.reloadData()
         } else if indexPath.row == videoListData[viewTag]!.count + 1 && expansionStatus[viewTag]!{
             // 跳转到不同的全部界面
-            if viewTag == 101 || viewTag == 102 {
+            switch viewTag {
+            case 101:
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChannelListVC") as? ChannelListController
                 //viewVC?.viewTag = viewTag
                 viewVC?.channelType = viewTag == 101 ? "new" : "featured"
-                
                 self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else if viewTag >= 103 && viewTag <= 106 {
+            case 102:
+                let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("FollowersListVC") as? FollowersListController
+                self.navigationController?.pushViewController(viewVC!, animated: true)
+            case 103...106:
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
                 viewVC?.gameData = hotGameData[viewTag - 103]
                 
                 self.navigationController?.pushViewController(viewVC!, animated: true)
-            } else {
+            case 107...109:
                 let viewVC = self.storyboard!.instantiateViewControllerWithIdentifier("VideoListVC") as? VideoListController
                 viewVC?.gameData = newGameData[viewTag - 107]
                 
                 self.navigationController?.pushViewController(viewVC!, animated: true)
+            default: ()
+                
             }
         } else {
             let view = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerViewVC") as? PlayerViewController
@@ -841,15 +886,32 @@ extension HomeController: MyCellDelegate {
         
         var video = self.videoListData[sender.tag - index.row - 100]![index.row-1]
         
-        //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+//        var video = Video()
+//        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+//        switch sender.tag {
+//        case 101:
+//            video = newChannelVideoData[index.row - 1]
+//        case 102:
+//            video = featuredChannelVideoData[index.row - 1]
+//        case 103...106:
+//            video = hotGameData[sender.tag - index.row - 200].videos[index.row - 1]
+//            println(video)
+//        case 107...109:
+//            video = newGameData[sender.superview!.superview!.tag - index.row - 100].videos[index.row - 1]
+//        default: ()
+//            
+//        }
+//        
+//        println(video)
         
+
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: "追隨", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
             if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {

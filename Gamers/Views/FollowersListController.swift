@@ -1,34 +1,30 @@
 //
-//  VideoListController.swift
+//  FollowersListController.swift
 //  Gamers
 //
-//  Created by 虚空之翼 on 15/7/27.
+//  Created by 虚空之翼 on 15/9/14.
 //  Copyright (c) 2015年 Freedom. All rights reserved.
 //
 
+
 import UIKit
-import Bolts
 import MJRefresh
 import MBProgressHUD
+import Bolts
 import Social
-import RealmSwift
 
-class VideoListController: UITableViewController {
-
-    var gameData: Game!
-    var videoListData = [Video]()
-    var videoPageOffset = 1         //分页偏移量，默认为上次最后一个视频ID
-    var videoPageCount = 20         //每页视频总数
+class FollowersListController: UITableViewController {
     
-    var isNoMoreData: Bool = false  //解决控件不能自己判断BUG
-
+    var videoListData = [Video]()
+    let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 刷新功能
+        self.navigationItem.title = "熱門大咖"
+        // 上拉下拉刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
-        self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
-
+        
         // 子页面PlayerView的导航栏返回按钮文字，可为空（去掉按钮文字）
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         // 删除多余的分割线
@@ -40,13 +36,48 @@ class VideoListController: UITableViewController {
         if self.tableView.respondsToSelector("setLayoutMargins:") {
             self.tableView.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
-
-        // 加载初始化数据
-        loadInitData()
-
-        self.navigationItem.title = gameData.localName
-
         
+        // 初始化数据
+        loadInitData()
+        
+        
+    }
+    
+    /**
+    启动初始化数据
+    */
+    func loadInitData() {
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = "加載中..."
+        
+        ChannelBL.sharedSingleton.getFollowers(limit: 9, videoCount: 1).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [Video])!
+            self?.tableView.reloadData()
+
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
+            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
+            
+            return nil
+        })
+
+    }
+    /**
+    刷新数据
+    */
+    func loadNewData() {
+        ChannelBL.sharedSingleton.getFollowers(limit: 9, videoCount: 1).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            self!.videoListData = (task.result as? [Video])!
+            self?.tableView.reloadData()
+            
+            return nil
+        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
+            if task.error != nil { println(task.error) }
+            self?.tableView.header.endRefreshing()
+            
+            return nil
+        })
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -56,84 +87,30 @@ class VideoListController: UITableViewController {
         self.navigationController?.navigationBar.translucent = false
     }
     
-    // 初始化数据
-    func loadInitData() {
-        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加載中..."
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+}
+
+// MARK: - 表格代理协议
+extension FollowersListController: UITableViewDataSource, UITableViewDelegate {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return videoListData.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("FollowersListCell", forIndexPath: indexPath) as! VideoListCell
+        cell.setVideo(videoListData[indexPath.row])
+        cell.delegate = self
         
-        videoPageOffset = 1
-        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoListData = (task.result as? [Video])!
-            self!.videoPageOffset += 1
-            self?.tableView.reloadData()
-            
-            if self!.videoListData.count < self!.videoPageCount {
-                self?.tableView.footer.noticeNoMoreData()
-            }
-            
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil { println(task.error) }
-            MBProgressHUD.hideHUDForView(self!.navigationController!.view, animated: true)
-            
-            return nil
-        })
-    }
-    /**
-    刷新数据
-    */
-    func loadNewData() {
-        videoPageOffset = 1
-        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoListData = (task.result as? [Video])!
-            self!.videoPageOffset += 1
-            self?.tableView.reloadData()
-            
-            if self!.videoListData.count < self!.videoPageCount {
-                self?.tableView.footer.noticeNoMoreData()
-            } else {
-                self?.tableView.footer.resetNoMoreData()
-            }
-
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil { println(task.error) }
-            self?.tableView.header.endRefreshing()
-            self!.isNoMoreData = false
-            
-            return nil
-        })
-    }
-    /**
-    加载更多数据
-    */
-    func loadMoreData() {
-        GameBL.sharedSingleton.getGameVideo(gameId: gameData.gameId, page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            var newData = (task.result as? [Video])!
-            // 如果没有数据显示加载完成，否则继续
-            if newData.isEmpty {
-                self?.tableView.footer.noticeNoMoreData()
-                self!.isNoMoreData = true
-            } else{
-                if newData.count < self!.videoPageCount {
-                    self?.tableView.footer.noticeNoMoreData()
-                    self!.isNoMoreData = true
-                }
-                
-                self!.videoListData += newData
-                self!.videoPageOffset += 1
-                self?.tableView.reloadData()
-            }
-
-            return nil
-        }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            if task.error != nil { println(task.error) }
-            if !self!.isNoMoreData {
-                self?.tableView.footer.endRefreshing()
-            }
-
-            return nil
-        })
+        return cell
     }
     
     // 跳转传值
@@ -143,43 +120,6 @@ class VideoListController: UITableViewController {
         // 提取选中的游戏视频，把值传给列表页面
         var indexPath = self.tableView.indexPathForSelectedRow()!
         playerViewController.videoData =  videoListData[indexPath.row]
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-}
-
-// MARK: - 表格数据代理协议
-extension VideoListController: UITableViewDataSource, UITableViewDelegate {
-    // 一个分区
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    // 设置表格行数
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videoListData.count
-    }
-    // 设置行高
-    //    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    //        return 100
-    //    }
-    
-    // 设置表格行内容
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("VideoListCell", forIndexPath: indexPath) as! VideoListCell
-        cell.setVideo(self.videoListData[indexPath.row])
-        cell.delegate = self
-        
-        return cell
-    }
-    
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 30))
-        
-        return footerView
     }
     
     // cell分割线的边距
@@ -191,30 +131,29 @@ extension VideoListController: UITableViewDataSource, UITableViewDelegate {
             cell.layoutMargins = UIEdgeInsetsMake(0, 5, 0, 5)
         }
     }
+    
 }
 
 // MARK: - 表格行Cell代理
-extension VideoListController: MyCellDelegate {
+extension FollowersListController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
         var index: NSIndexPath = self.tableView.indexPathForCell(sender)!
-        //println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
-        
         var video = self.videoListData[index.row]
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
         actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
-        })
+            })
         // 关注频道
         actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            if NSUserDefaults.standardUserDefaults().boolForKey("isLogin") {
+            if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {
                 var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
                 alertView.show()
             }
-        })
+            })
         // 分享到Facebook
         actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
@@ -222,6 +161,7 @@ extension VideoListController: MyCellDelegate {
             slComposerSheet.addImage(UIImage(named: video.imageSource))
             slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
@@ -229,7 +169,7 @@ extension VideoListController: MyCellDelegate {
                     alertView.show()
                 }
             }
-        })
+            })
         // 分享到Twitter
         actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
@@ -244,11 +184,11 @@ extension VideoListController: MyCellDelegate {
                     alertView.show()
                 }
             }
-        })
+            })
         
         // 显示Sheet
         self.presentViewController(actionSheetController, animated: true, completion: nil)
-
+        
         
     }
 }

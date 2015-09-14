@@ -22,6 +22,7 @@ enum Router: URLRequestConvertible {
     case HomeSlider()                   //首页顶部轮播
     case RecommendGame()                //首页推荐游戏：4个热门游戏、3个新游戏
     case RecommendChannel(channelType: String, offset: Int, count: Int, order: String)  //首页推荐频道：新手、游戏大咖
+    case Followers(limit: Int, videoCount: Int)    //游戏大咖（暂时同步网页）
 
     case AllGame(page: Int, limit: Int)                                 //所有游戏
     case SearchGame(gameName: String, page: Int, limit: Int)            //获取游戏
@@ -203,7 +204,13 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject]!
                 
                 return (.GET, "/mobile_api/mobile/version", parameters)
+            case .Followers(let limit, let videoCount):
+                var parameters: [String: AnyObject] = [
+                    "limit": limit,
+                    "video_count": videoCount
+                ]
                 
+                return (.GET, "/mobile_api/followers", parameters)
                 
                 
             }

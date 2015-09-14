@@ -51,7 +51,7 @@ class ChannelVideoController: UITableViewController {
     // 初始化数据
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加载中..."
+        hub.labelText = "加載中..."
         
         videoPageOffset = 1
         ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount, channels: nil).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in

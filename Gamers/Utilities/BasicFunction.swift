@@ -17,11 +17,11 @@ struct BasicFunction {
         var totalString = ""
         
         if theTotal < 1_000 {
-            totalString = "\(theTotal)次观看"
+            totalString = "\(theTotal)次觀看"
         } else if theTotal < 10_000 {
-            totalString = "\(theTotal / 1_000)千次观看"
+            totalString = "\(theTotal / 1_000)千次觀看"
         } else {
-            totalString = "\(theTotal / 10_000)万次观看"
+            totalString = "\(theTotal / 10_000)万次觀看"
         }
         
         return totalString
@@ -57,15 +57,15 @@ struct BasicFunction {
         if cha / DATE_TIME_MINUTEX < 1 {
             dataString = "\(cha / DATE_TIME_MINUTEX)秒前"
         } else if cha / DATE_TIME_HOURS < 1 {
-            dataString = "\(cha / DATE_TIME_MINUTEX)分钟前"
+            dataString = "\(cha / DATE_TIME_MINUTEX)分鐘前"
         } else if cha / DATE_TIME_DAYTIME < 1 {
-            dataString = "\(cha / DATE_TIME_HOURS)小时前"
+            dataString = "\(cha / DATE_TIME_HOURS)小時前"
         } else if cha / DATE_TIME_WEEK < 1 {
             dataString = "\(cha / DATE_TIME_DAYTIME)天前"
         } else if cha / DATE_TIME_MONTH < 1 {
-            dataString = "\(cha / DATE_TIME_WEEK)周前"
+            dataString = "\(cha / DATE_TIME_WEEK)週前"
         } else if cha / DATE_TIME_YEAR < 1 {
-            dataString = "\(cha / DATE_TIME_MONTH)个月前"
+            dataString = "\(cha / DATE_TIME_MONTH)個月前"
         } else {
             dataString = "\(cha / DATE_TIME_YEAR)年前"
         }

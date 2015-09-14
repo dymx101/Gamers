@@ -137,7 +137,7 @@ class VideoInfoController: UIViewController {
         
         // 初始化数据
         loadInitData(videoData.ownerId)
-        channelAutograph.text = FormatViewsTotal(videoData.views)
+        channelAutograph.text = BasicFunction.formatViewsTotal(videoData.views)
         
         // 重新加载视频评论监听器
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoInfo:", name: "reloadVideoInfoNotification", object: nil)
@@ -151,7 +151,7 @@ class VideoInfoController: UIViewController {
             self!.channelData = (task.result as? Channel)!
             
             self?.channelSubscribers.text = self!.FormatSubscribersTotal(self!.channelData.subscribers.toInt()!)
-            //self?.channelAutograph.text = self!.FormatViewsTotal(self!.videoData.views)
+            self?.channelAutograph.text = BasicFunction.formatViewsTotal(self!.videoData.views)
             
             let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
             self?.headerImage.hnk_setImageFromURL(NSURL(string: imageUrl)!)
@@ -168,20 +168,6 @@ class VideoInfoController: UIViewController {
         })
     }
     
-    // 数量格式化, todo:扩展Int
-    func FormatViewsTotal(theTotal: Int) -> String {
-        var totalString = ""
-        
-        if theTotal < 1_000 {
-            totalString = "\(theTotal)次观看"
-        } else if theTotal < 10_000 {
-            totalString = "\(theTotal / 1_000)千次观看"
-        } else {
-            totalString = "\(theTotal / 10_000)万次观看"
-        }
-        
-        return totalString
-    }
     func FormatSubscribersTotal(theTotal: Int) -> String {
         var totalString = ""
         
@@ -199,7 +185,7 @@ class VideoInfoController: UIViewController {
     func reloadVideoInfo(notification: NSNotification) {
         let userInfo = notification.userInfo!
         let newVideoData = userInfo["data"] as! Video
-        channelAutograph.text = FormatViewsTotal(newVideoData.views)
+        channelAutograph.text = BasicFunction.formatViewsTotal(newVideoData.views)
         
         //loadInitData(newVideoData.ownerId)
 

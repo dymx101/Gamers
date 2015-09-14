@@ -61,7 +61,7 @@ class FreedomController: UITableViewController {
 
         // 顶部图标
         //[navigationController.navigationBar setBackgroundImage: [UIImage imageNamed:@"banner.png"] forBarMetrics:UIBarMetricsDefault];
-        //navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
+//        navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
 //        let imageView = UIImage(named: "1.jpg")
 //        let view = UIView(frame: CGRectMake(110, 6, 32, 32))
 //        view.backgroundColor = UIColor.redColor()
@@ -110,7 +110,7 @@ class FreedomController: UITableViewController {
     */
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加载中..."
+        hub.labelText = "加載中..."
         
 //        VideoBL.sharedSingleton.getChannelVideos(channelId: freedomChannels, pageToken: pageToken, maxResults: maxResults, order: "date", videoDefinition: "high").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
 //            self!.videoListData = (task.result as? [YTVideo])!
@@ -140,7 +140,7 @@ class FreedomController: UITableViewController {
             if self!.videoListData.count < self!.videoPageCount {
                 self?.tableView.footer.noticeNoMoreData()
             }
-            
+            //println(self!.videoListData)
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
             if task.error != nil { println(task.error) }
@@ -319,7 +319,7 @@ class FreedomController: UITableViewController {
             var playerViewController = segue.destinationViewController as! PlayerViewController
             // 提取选中的游戏视频，把值传给列表页面
             var indexPath = self.tableView.indexPathForSelectedRow()!
-            //playerViewController.videoData =  videoListData[indexPath.row]
+            playerViewController.videoData =  videoListData[indexPath.row]
         }
     }
     

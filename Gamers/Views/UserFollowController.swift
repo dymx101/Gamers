@@ -18,6 +18,7 @@ class UserFollowController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = "追隨"
         // 上拉下拉刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         //self.tableView.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "loadMoreData")
@@ -47,7 +48,7 @@ class UserFollowController: UITableViewController {
     // 初始化数据
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加载中..."
+        hub.labelText = "加載中..."
         UserBL.sharedSingleton.getSubscriptions(userToken: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.userListData = (task.result as? [User])!
             self?.tableView.reloadData()
@@ -151,7 +152,7 @@ extension UserFollowController: UITableViewDataSource, UITableViewDelegate {
     }
     
     override func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String! {
-        return "取消跟随"
+        return "取消追隨"
     }
 }
 
@@ -161,7 +162,7 @@ extension UserFollowController: ChannelCellDelegate {
     func clickCellUnFollow(cell: UITableViewCell) {
         var index: NSIndexPath = self.tableView.indexPathForCell(cell)!
         
-        var actionSheetController: UIAlertController = UIAlertController(title: "", message: "是否取消跟随", preferredStyle: UIAlertControllerStyle.Alert)
+        var actionSheetController: UIAlertController = UIAlertController(title: "", message: "是否取消追隨", preferredStyle: UIAlertControllerStyle.Alert)
         actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
             //
         }))

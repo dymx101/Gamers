@@ -56,7 +56,7 @@ class PlayerViewController: UIViewController {
         self.navigationController?.navigationBar.translucent = true
         
         // 加载视频播放
-        var playerVars = ["playsinline": 1, "showinfo": 1]
+        var playerVars = ["playsinline": 1, "showinfo": 1, "origin": "http://www.gamers.tm"]
         playerView.loadWithVideoId(videoData.videoId, playerVars: playerVars)
         
         // 添加加载新视频数据的监听器
@@ -69,13 +69,13 @@ class PlayerViewController: UIViewController {
         
         // 标签切换页面
         let VideoInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoInfoVC") as! VideoInfoController
-        VideoInfoVC.title = "详情"
+        VideoInfoVC.title = "詳情"
         VideoInfoVC.videoData = videoData
         let VideoRelateVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoRelateVC") as! VideoRelateController
-        VideoRelateVC.title = "相关视频"
+        VideoRelateVC.title = "相關影片"
         VideoRelateVC.videoData = videoData
         let VideoCommentVC = self.storyboard?.instantiateViewControllerWithIdentifier("VideoCommentVC") as! VideoCommentController
-        VideoCommentVC.title = "评论"
+        VideoCommentVC.title = "留言"
         VideoCommentVC.videoData = videoData
         let viewControllers = [VideoInfoVC, VideoRelateVC, VideoCommentVC]
         
@@ -136,7 +136,7 @@ class PlayerViewController: UIViewController {
         let userInfo = notification.userInfo!
         let newVideoData = userInfo["data"] as! Video
         
-        var playerVars = ["playsinline": 1, "showinfo": 1]
+        var playerVars = ["playsinline": 1, "showinfo": 1, "origin": "http://www.gamers.tm"]
         playerView.loadWithVideoId(newVideoData.videoId, playerVars: playerVars)
         
         //videoViews.text = String(newVideoData.views) + " 次"

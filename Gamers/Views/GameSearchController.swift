@@ -230,7 +230,7 @@ extension GameSearchController: UISearchBarDelegate {
     // 点击搜索
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加载中..."
+        hub.labelText = "加載中..."
         // 搜索数据
         loadNewData()
         

@@ -82,4 +82,15 @@ class Video: Object {
         return collection
     }
     
+    class func collectionFollow(#json: JSON) -> [Video] {
+        var collection = [Video]()
+        if let items = json.array {
+            for item in items {
+                collection.append(Video.modelFromJSON(item["videos"][0]))
+            }
+        }
+        
+        return collection
+    }
+    
 }

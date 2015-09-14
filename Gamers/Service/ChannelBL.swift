@@ -132,6 +132,29 @@ class ChannelBL: NSObject {
         
         return fetchTask
     }
+    // 首页大咖
+    func getFollowers(#limit: Int, videoCount: Int) -> BFTask {
+        var fetchTask = BFTask(result: nil)
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            return ChannelDao.getFollowers(limit: limit, videoCount: videoCount)
+        })
+        
+        fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
+            if let videos = task.result as? [Video] {
+                return BFTask(result: videos)
+            }
+            
+            return task
+        })
+        
+        fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
+            
+            return task
+        })
+        
+        return fetchTask
+    }
     
     /**
     搜索频道

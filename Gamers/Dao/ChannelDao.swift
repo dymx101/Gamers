@@ -159,4 +159,31 @@ extension ChannelDao {
         return source.task
     }
     
+    // 首页游戏大咖
+    static func getFollowers(#limit: Int, videoCount: Int) -> BFTask {
+        var URLRequest = Router.Followers(limit: limit, videoCount: videoCount)
+        
+        return fetchFollowers(URLRequest: URLRequest)
+    }
+    private static func fetchFollowers(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                var videos = [Video]()
+                
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    videos = Video.collectionFollow(json: JSON(JSONDictionary))
+                }
+                
+                source.setResult(videos)
+                
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
 }
