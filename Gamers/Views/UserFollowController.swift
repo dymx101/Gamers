@@ -48,7 +48,7 @@ class UserFollowController: UITableViewController {
     // 初始化数据
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加載中..."
+        hub.labelText = NSLocalizedString("Loading...", comment: "加载中...")
         UserBL.sharedSingleton.getSubscriptions(userToken: "").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.userListData = (task.result as? [User])!
             self?.tableView.reloadData()

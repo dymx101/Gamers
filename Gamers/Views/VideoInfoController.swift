@@ -150,7 +150,7 @@ class VideoInfoController: UIViewController {
         ChannelBL.sharedSingleton.getChannelInfo(channelId: channelId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.channelData = (task.result as? Channel)!
             
-            self?.channelSubscribers.text = self!.FormatSubscribersTotal(self!.channelData.subscribers.toInt()!)
+            self?.channelSubscribers.text = BasicFunction.FormatSubscribersTotal(self!.channelData.subscribers.toInt()!)
             self?.channelAutograph.text = BasicFunction.formatViewsTotal(self!.videoData.views)
             
             let imageUrl = self!.channelData.image.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -168,19 +168,6 @@ class VideoInfoController: UIViewController {
         })
     }
     
-    func FormatSubscribersTotal(theTotal: Int) -> String {
-        var totalString = ""
-        
-        if theTotal < 1_000 {
-            totalString = "\(theTotal)人跟随"
-        } else if theTotal < 10_000 {
-            totalString = "\(theTotal / 1_000)千人跟随"
-        } else {
-            totalString = "\(theTotal / 10_000)万人跟随"
-        }
-        
-        return totalString
-    }
     // 重新加载视频信息
     func reloadVideoInfo(notification: NSNotification) {
         let userInfo = notification.userInfo!

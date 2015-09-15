@@ -37,7 +37,7 @@ class GameController: UICollectionViewController {
     */
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加載中..."
+        hub.labelText = NSLocalizedString("Loading...", comment: "加載中...")
         
         GameBL.sharedSingleton.getAllGame(page: gamePage, limit: gamePageCount).continueWithSuccessBlock ({ [weak self] (task: BFTask!) -> BFTask! in
             self!.gameListData = (task.result as? [Game])!

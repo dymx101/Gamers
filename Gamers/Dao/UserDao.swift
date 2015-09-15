@@ -214,7 +214,7 @@ extension UserDao {
             if error == nil {
                 var comment = YTChannel()
                 var error = YTError()
-                println(JSONDictionary)
+                //println(JSONDictionary)
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     let json = JSON(JSONDictionary)
                     if json["error"]["message"] != nil {

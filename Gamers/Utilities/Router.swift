@@ -101,7 +101,7 @@ enum Router: URLRequestConvertible {
                 var parameters: [String: AnyObject] = [
                     "page": page,
                     "limit": limit,
-                    "order": "popular"
+                    "order": "latest"  //latest、popular
                 ]
                 
                 return (.GET, "mobile_api/games/\(gameId)", parameters)

@@ -52,23 +52,13 @@ class FreedomController: UITableViewController {
 //        self.tableView.tableHeaderView = cycleScrollView
         
         // 头部使用图片
-        let headerView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, 160))
-        headerView.image = UIImage(named: "gamers_header.jpg")
+        //let headerView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, 160))
+        //headerView.image = UIImage(named: "gamers_header.jpg")
         //self.tableView.tableHeaderView = headerView
 
         // 加载初始化数据
         loadInitData()
 
-        // 顶部图标
-        //[navigationController.navigationBar setBackgroundImage: [UIImage imageNamed:@"banner.png"] forBarMetrics:UIBarMetricsDefault];
-//        navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
-//        let imageView = UIImage(named: "1.jpg")
-//        let view = UIView(frame: CGRectMake(110, 6, 32, 32))
-//        view.backgroundColor = UIColor.redColor()
-        
-        navigationController?.navigationBar.addSubview(view)
-        
-        
         
         
         
@@ -110,7 +100,7 @@ class FreedomController: UITableViewController {
     */
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加載中..."
+        hub.labelText = NSLocalizedString("Loading...", comment: "加載中...")
         
 //        VideoBL.sharedSingleton.getChannelVideos(channelId: freedomChannels, pageToken: pageToken, maxResults: maxResults, order: "date", videoDefinition: "high").continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
 //            self!.videoListData = (task.result as? [YTVideo])!
@@ -397,18 +387,16 @@ extension FreedomController: SDCycleScrollViewDelegate {
 extension FreedomController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
-        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
-        var index: NSIndexPath = table.indexPathForCell(sender)!
-        
-        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        var index: NSIndexPath = self.tableView.indexPathForCell(sender)!
         var video = self.videoListData[index.row]
+        
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
-        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "取消"), style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
         })
 //        // 关注频道
-//        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+//        actionSheetController.addAction(UIAlertAction(title: "追隨", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
 //            if self.userDefaults.boolForKey("isLogin") {
 //                UserBL.sharedSingleton.setFollow(channelId: self.freedomChannelId)
 //            } else {
@@ -417,31 +405,32 @@ extension FreedomController: MyCellDelegate {
 //            }
 //        })
         // 分享到Facebook
-        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Facebook", comment: "分享到Facebook"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             slComposerSheet.setInitialText(video.videoTitle)
             slComposerSheet.addImage(UIImage(named: video.imageSource))
-            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.id)"))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }
         })
         // 分享到Twitter
-        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Twitter", comment: "分享到Twitter"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             slComposerSheet.setInitialText(video.videoTitle)
             slComposerSheet.addImage(UIImage(named: video.imageSource))
-            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.id)"))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }

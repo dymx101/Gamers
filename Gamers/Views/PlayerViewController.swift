@@ -117,7 +117,7 @@ class PlayerViewController: UIViewController {
         if isLogin {
             UserBL.sharedSingleton.setSubscribe(channelId: videoData.ownerId).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
                 let response = (task.result as? Response)!
-                var message: String = response.code == "0" ? "跟随成功" : "跟随失败"
+                var message: String = response.code == "0" ? "追隨成功" : "追隨失败"
                 var alertView: UIAlertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "确定")
                 alertView.show()
                 

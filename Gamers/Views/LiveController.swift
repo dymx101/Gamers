@@ -58,7 +58,7 @@ class LiveController: UITableViewController {
     */
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加載中..."
+        hub.labelText = NSLocalizedString("Loading...", comment: "加載中...")
         
         LiveBL.sharedSingleton.getLive(page: videoPageOffset, limit: videoPageCount).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
             self!.liveListData = (task.result as? [Live])!

@@ -51,7 +51,7 @@ class ChannelVideoController: UITableViewController {
     // 初始化数据
     func loadInitData() {
         let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-        hub.labelText = "加載中..."
+        hub.labelText = NSLocalizedString("Loading...", comment: "加载中...")
         
         videoPageOffset = 1
         ChannelBL.sharedSingleton.getChannelVideo(channelId: userData.userId, offset: videoPageOffset, count: videoPageCount, channels: nil).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
@@ -200,46 +200,42 @@ extension ChannelVideoController: UITableViewDataSource, UITableViewDelegate {
 extension ChannelVideoController: MyCellDelegate {
     // 分享按钮
     func clickCellButton(sender: UITableViewCell) {
-        
-        let table = self.view.viewWithTag(sender.superview!.superview!.tag) as! UITableView
-        var index: NSIndexPath = table.indexPathForCell(sender)!
-        
-        println("表格：\(sender.tag - index.row - 100)，行：\(index.row)")
+        var index: NSIndexPath = self.tableView.indexPathForCell(sender)!
+        var video = self.videoListData[index.row]
         
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
-        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "取消"), style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
         })
-        // 关注频道
-//        actionSheetController.addAction(UIAlertAction(title: "关注", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-//        })
+
         // 分享到Facebook
-        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Facebook", comment: "分享到Facebook"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            slComposerSheet.setInitialText(video.videoTitle)
+            slComposerSheet.addImage(UIImage(named: video.imageSource))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }
         })
         // 分享到Twitter
-        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Twitter", comment: "分享到Twitter"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            slComposerSheet.setInitialText("share facebook")
-            slComposerSheet.addImage(UIImage(named: "user.png"))
-            slComposerSheet.addURL(NSURL(string: "http://www.facebook.com/"))
+            slComposerSheet.setInitialText(video.videoTitle)
+            slComposerSheet.addImage(UIImage(named: video.imageSource))
+            slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }

@@ -1,0 +1,52 @@
+/* 
+  Localizable.strings
+  Gamers
+
+  Created by 虚空之翼 on 15/9/15.
+  Copyright (c) 2015年 Freedom. All rights reserved.
+*/
+"Loading..." = "加载中...";
+"The new version is detected, whether the update!" = "检测到新版本，是否更新！";
+"No" = "否";
+"Yes" = "是";
+
+"Cancel" = "取消";
+"OK" = "确定";
+"Please Login" = "请先登入";
+"Follow" = "追随";
+"Follow success" = "追隨成功";
+"Follow failed" = "追隨失败";
+"Are you cancel follow" = "是否取消追隨";
+"Cancel follow" = "取消追隨";
+
+"Share on Facebook" = "分享到Facebook";
+"Share on Twitter" = "分享到Twitter";
+"Share Finish" = "分享完成";
+
+"Featured youtuber" = "精选玩咖";
+"Hot youtuber" = "热门大咖";
+"Featured games recommended" = "精选游戏推荐";
+"Hot games recommended" = "热门游戏推荐";
+
+"You need to be logged Freedom, whether or login?" = "需要登入Freedom，是否登入？";
+"ou need to be logged YouTube, whether or login?" = "需要登入YouTube，是否登入？";
+"Subscribe to fail" = "订阅失败";
+"Subscribe to success" = "订阅成功";
+"Do not repeat the login" = "不用重复登入";
+"Successful exit" = "成功退出";
+
+"Cleared" = "清理完毕";
+
+"people follows" = "人追随";
+"Thousands people follow" = "千人追随";
+"Ten thousand people follow" = "万人追随";
+"Seconds ago" = "秒前";
+"Minutes ago" = "分钟前";
+"Hours ago" = "小时前";
+"Days ago" = "天前";
+"Weeks ago" = "周前";
+"Months ago" = "个月前";
+"Years ago" = "年前";
+"Views" = "次观看";
+"Thousands views" = "千次观看";
+"Million views" = "万次观看";

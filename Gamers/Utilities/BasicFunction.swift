@@ -17,11 +17,11 @@ struct BasicFunction {
         var totalString = ""
         
         if theTotal < 1_000 {
-            totalString = "\(theTotal)次觀看"
+            totalString = "\(theTotal)" + NSLocalizedString("Views", comment: "次觀看")
         } else if theTotal < 10_000 {
-            totalString = "\(theTotal / 1_000)千次觀看"
+            totalString = "\(theTotal / 1_000)" + NSLocalizedString("Thousands views", comment: "千次觀看")
         } else {
-            totalString = "\(theTotal / 10_000)万次觀看"
+            totalString = "\(theTotal / 10_000)" + NSLocalizedString("Million views", comment: "万次觀看")
         }
         
         return totalString
@@ -55,23 +55,38 @@ struct BasicFunction {
         var cha = Int(now - dateValue)
         
         if cha / DATE_TIME_MINUTEX < 1 {
-            dataString = "\(cha / DATE_TIME_MINUTEX)秒前"
+            dataString = "\(cha / DATE_TIME_MINUTEX)" + NSLocalizedString("Seconds ago", comment: "")
         } else if cha / DATE_TIME_HOURS < 1 {
-            dataString = "\(cha / DATE_TIME_MINUTEX)分鐘前"
+            dataString = "\(cha / DATE_TIME_MINUTEX)" + NSLocalizedString("Minutes ago", comment: "")
         } else if cha / DATE_TIME_DAYTIME < 1 {
-            dataString = "\(cha / DATE_TIME_HOURS)小時前"
+            dataString = "\(cha / DATE_TIME_HOURS)" + NSLocalizedString("Hours ago", comment: "")
         } else if cha / DATE_TIME_WEEK < 1 {
-            dataString = "\(cha / DATE_TIME_DAYTIME)天前"
+            dataString = "\(cha / DATE_TIME_DAYTIME)" + NSLocalizedString("Days ago", comment: "")
         } else if cha / DATE_TIME_MONTH < 1 {
-            dataString = "\(cha / DATE_TIME_WEEK)週前"
+            dataString = "\(cha / DATE_TIME_WEEK)" + NSLocalizedString("Weeks ago", comment: "")
         } else if cha / DATE_TIME_YEAR < 1 {
-            dataString = "\(cha / DATE_TIME_MONTH)個月前"
+            dataString = "\(cha / DATE_TIME_MONTH)" + NSLocalizedString("Months ago", comment: "")
         } else {
-            dataString = "\(cha / DATE_TIME_YEAR)年前"
+            dataString = "\(cha / DATE_TIME_YEAR)" + NSLocalizedString("Years ago", comment: "")
         }
         
         return dataString
         
+    }
+    
+    // 追随人数格式化
+    static func FormatSubscribersTotal(theTotal: Int) -> String {
+        var totalString = ""
+        
+        if theTotal < 1_000 {
+            totalString = "\(theTotal)" + NSLocalizedString("people follows", comment: "")
+        } else if theTotal < 10_000 {
+            totalString = "\(theTotal / 1_000)" + NSLocalizedString("Thousand people follow", comment: "")
+        } else {
+            totalString = "\(theTotal / 10_000)" + NSLocalizedString("Million people follow", comment: "")
+        }
+        
+        return totalString
     }
     
     // 过滤HTML标签

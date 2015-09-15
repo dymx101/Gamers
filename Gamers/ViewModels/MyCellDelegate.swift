@@ -19,6 +19,6 @@ import Foundation
 
 // channelCell的代理协议
 @objc protocol ChannelCellDelegate: NSObjectProtocol {
-    // 点击取消跟随
+    // 点击取消追隨
     optional func clickCellUnFollow(cell: UITableViewCell)
 }

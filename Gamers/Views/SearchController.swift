@@ -13,6 +13,7 @@ import MBProgressHUD
 import Social
 
 class SearchController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+    let userDefaults = NSUserDefaults.standardUserDefaults()        //用户全局登入信息
     
     var searchContentView: UIView!
     var searchBackgroundView: UIView!
@@ -338,35 +339,36 @@ extension SearchController: MyCellDelegate {
         var video = self.videoListData[index.row]
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
-        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "取消"), style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "跟随", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
-            if NSUserDefaults.standardUserDefaults().boolForKey("isLogin") {
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "确定"), style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+            if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {
-                var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+                var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Please Login", comment: "请先登入"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                 alertView.show()
             }
         })
         // 分享到Facebook
-        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Facebook", comment: "分享到Facebook"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             slComposerSheet.setInitialText(video.videoTitle)
             slComposerSheet.addImage(UIImage(named: video.imageSource))
             slComposerSheet.addURL(NSURL(string: "https://www.youtube.com/watch?v=\(video.videoId)"))
             self.presentViewController(slComposerSheet, animated: true, completion: nil)
+            SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }
         })
         // 分享到Twitter
-        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Twitter", comment: "分享到Twitter"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             slComposerSheet.setInitialText(video.videoTitle)
             slComposerSheet.addImage(UIImage(named: video.imageSource))
@@ -375,7 +377,7 @@ extension SearchController: MyCellDelegate {
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }

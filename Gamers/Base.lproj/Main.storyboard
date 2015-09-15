@@ -568,7 +568,7 @@
                                     <constraint firstAttribute="width" constant="45" id="628-ez-T4m"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="跟随">
+                                <state key="normal" title="追隨">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -1124,7 +1124,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="SearchVC" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DEu-rD-nYL" customClass="SearchController" customModule="Gamers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4yO-6h-ia1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -4734,23 +4734,23 @@
                                             <exclude reference="Dio-QL-y2j"/>
                                         </mask>
                                         <mask key="constraints">
+                                            <exclude reference="NPe-uZ-wj3"/>
+                                            <exclude reference="NbR-Fu-WlH"/>
+                                            <exclude reference="Ydc-ZT-RvB"/>
+                                            <exclude reference="eYv-xw-pEB"/>
+                                            <exclude reference="j79-AU-bZx"/>
+                                            <exclude reference="oGd-GA-fsu"/>
                                             <exclude reference="Bv8-dR-UdU"/>
                                             <exclude reference="rmQ-fi-gZc"/>
-                                            <exclude reference="j79-AU-bZx"/>
-                                            <exclude reference="NbR-Fu-WlH"/>
-                                            <exclude reference="NPe-uZ-wj3"/>
-                                            <exclude reference="eYv-xw-pEB"/>
-                                            <exclude reference="Ydc-ZT-RvB"/>
-                                            <exclude reference="oGd-GA-fsu"/>
-                                            <exclude reference="N3u-S0-oTk"/>
                                             <exclude reference="AGr-by-zQ4"/>
+                                            <exclude reference="N3u-S0-oTk"/>
                                             <exclude reference="TIy-xo-0jS"/>
-                                            <exclude reference="xF8-dY-bwi"/>
                                             <exclude reference="97K-LR-rTM"/>
                                             <exclude reference="SD1-Zg-diG"/>
+                                            <exclude reference="xF8-dY-bwi"/>
+                                            <exclude reference="FW0-ba-lpb"/>
                                             <exclude reference="Vkb-C5-SdE"/>
                                             <exclude reference="exj-00-ScH"/>
-                                            <exclude reference="FW0-ba-lpb"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -4762,23 +4762,23 @@
                                             <include reference="Dio-QL-y2j"/>
                                         </mask>
                                         <mask key="constraints">
+                                            <include reference="NPe-uZ-wj3"/>
+                                            <include reference="NbR-Fu-WlH"/>
+                                            <include reference="Ydc-ZT-RvB"/>
+                                            <include reference="eYv-xw-pEB"/>
+                                            <include reference="j79-AU-bZx"/>
+                                            <include reference="oGd-GA-fsu"/>
                                             <include reference="Bv8-dR-UdU"/>
                                             <include reference="rmQ-fi-gZc"/>
-                                            <include reference="j79-AU-bZx"/>
-                                            <include reference="NbR-Fu-WlH"/>
-                                            <include reference="NPe-uZ-wj3"/>
-                                            <include reference="eYv-xw-pEB"/>
-                                            <include reference="Ydc-ZT-RvB"/>
-                                            <include reference="oGd-GA-fsu"/>
-                                            <include reference="N3u-S0-oTk"/>
                                             <include reference="AGr-by-zQ4"/>
+                                            <include reference="N3u-S0-oTk"/>
                                             <include reference="TIy-xo-0jS"/>
-                                            <include reference="xF8-dY-bwi"/>
                                             <include reference="97K-LR-rTM"/>
                                             <include reference="SD1-Zg-diG"/>
+                                            <include reference="xF8-dY-bwi"/>
+                                            <include reference="FW0-ba-lpb"/>
                                             <include reference="Vkb-C5-SdE"/>
                                             <include reference="exj-00-ScH"/>
-                                            <include reference="FW0-ba-lpb"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -4818,8 +4818,8 @@
         <image name="user.png" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DnD-sj-4cL"/>
+        <segue reference="aNj-fK-FVQ"/>
         <segue reference="v7q-65-B5T"/>
-        <segue reference="TRi-UZ-lc4"/>
+        <segue reference="1p2-Li-oK0"/>
     </inferredMetricsTieBreakers>
 </document>

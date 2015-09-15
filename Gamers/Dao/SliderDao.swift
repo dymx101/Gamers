@@ -14,18 +14,20 @@ import SwiftyJSON
 struct SliderDao {}
 
 extension SliderDao {
+    // 首页的轮播视图
     static func getHomeSlider() -> BFTask {
         var URLRequest = Router.HomeSlider()
         
         return fetchVideos(URLRequest: URLRequest)
     }
-    
+    // 频道的轮播视图
     static func getChannelSlider(#channelId: String) -> BFTask {
         var URLRequest = Router.ChannelSlider(channelId: channelId)
         
         return fetchVideos(URLRequest: URLRequest)
     }
     
+    // 解析
     private static func fetchVideos(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         

@@ -84,19 +84,32 @@ class HomeController: UIViewController {
     var refresh = 0
     var isStartUp = true
     
+    var logoView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 设定启动界面时间
         NSThread.sleepForTimeInterval(0.5)//延长3秒
         // 子页面的导航栏返回按钮文字，可为空（去掉按钮文字）
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         
         // 顶部图标
-        //        navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
-        //        let imageView = UIImage(named: "1.jpg")
-        //        let view = UIView(frame: CGRectMake(110, 6, 32, 32))
-        //        view.backgroundColor = UIColor.redColor()
+        navigationItem.title = "" //去掉文字，改用图标
+        navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
+        logoView = UIImageView(image: UIImage(named: "Gamers-logo"))
+        navigationController?.navigationBar.addSubview(logoView)
+        
+        logoView.snp_makeConstraints { (make) -> Void in
+            make.height.equalTo(28)
+            make.width.equalTo(82)
+            make.center.equalTo(navigationController!.navigationBar)
+        }
+        
+        
+        //navigationController?.navigationBar.subviews.map ({ $0.removeFromSuperview() })
+        // navigationController?.navigationBar.removeFromSuperview()
+        
 
         // 下拉刷新数据
         scrollView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
@@ -162,7 +175,7 @@ class HomeController: UIViewController {
         // 第一次启动使用MBProgressHUD
         if isStartUp {
             let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
-            hub.labelText = "加載中..."
+            hub.labelText = NSLocalizedString("Loading...", comment: "加載中...")
             isStartUp = false
         }
         
@@ -194,7 +207,7 @@ class HomeController: UIViewController {
                 self!.videoListData[101] = videoData
                 self!.newChannelVideoData = videoData
             }
-            println(self!.newChannelVideoData)
+
             self!.newChannelView.reloadData()
 
             return nil
@@ -636,13 +649,12 @@ class HomeController: UIViewController {
                 let localVersion = systemData["version"] as! String
                 
                 if version.version.toInt() > localVersion.toInt() {
-                    var actionSheetController: UIAlertController = UIAlertController(title: "", message: "检测到新版本，是否更新！", preferredStyle: UIAlertControllerStyle.Alert)
-                    actionSheetController.addAction(UIAlertAction(title: "否", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                    var actionSheetController: UIAlertController = UIAlertController(title: "", message: NSLocalizedString("The new version is detected, whether the update!", comment: "检测到新版本，是否更新！"), preferredStyle: UIAlertControllerStyle.Alert)
+                    actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "否"), style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
                         //
                     }))
-                    actionSheetController.addAction(UIAlertAction(title: "是", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                    actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "是"), style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
                         //
-                        println("是")
                     }))
 
                     // 显示Sheet
@@ -670,12 +682,21 @@ class HomeController: UIViewController {
         self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, CGFloat(height))
         self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGFloat(height))
         self.view.backgroundColor = UIColor.lightGrayColor()
+        
+
 
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        //navigationController?.navigationBar.subviews.map ({ $0.removeFromSuperview() })
+        // navigationController?.navigationBar.removeFromSuperview()
+        //logoView.removeFromSuperview()
+        logoView.hidden = true //切换隐藏图标
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -684,6 +705,7 @@ class HomeController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage(named: "image_1.jpg")
         self.navigationController?.navigationBar.translucent = false
         
+        logoView.hidden = false //切换显示图标
     }
     
     override func didReceiveMemoryWarning() {
@@ -907,20 +929,20 @@ extension HomeController: MyCellDelegate {
 
         // 退出
         var actionSheetController: UIAlertController = UIAlertController()
-        actionSheetController.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "取消"), style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: "追隨", style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "确定"), style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
             if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {
-                var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+                var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Please Login", comment: "请先登入"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                 alertView.show()
             }
         })
         // 分享到Facebook
-        actionSheetController.addAction(UIAlertAction(title: "分享到Facebook", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Facebook", comment: "分享到Facebook"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             slComposerSheet.setInitialText(video.videoTitle)
             slComposerSheet.addImage(UIImage(named: video.imageSource))
@@ -930,13 +952,13 @@ extension HomeController: MyCellDelegate {
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }
         })
         // 分享到Twitter
-        actionSheetController.addAction(UIAlertAction(title: "分享到Twitter", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Share on Twitter", comment: "分享到Twitter"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             var slComposerSheet = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             slComposerSheet.setInitialText(video.videoTitle)
             slComposerSheet.addImage(UIImage(named: video.imageSource))
@@ -945,7 +967,7 @@ extension HomeController: MyCellDelegate {
             
             slComposerSheet.completionHandler = { (result: SLComposeViewControllerResult) in
                 if result == .Done {
-                    var alertView: UIAlertView = UIAlertView(title: "", message: "分享完成", delegate: nil, cancelButtonTitle: "确定")
+                    var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Share Finish", comment: "分享完成"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }

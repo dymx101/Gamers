@@ -125,7 +125,7 @@ class UserBL: NSObject {
         
     }
     
-    // 跟随 todo：统一使用Router
+    // 追隨 todo：统一使用Router
     func setFollow(#channelId: String) {
         let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
         let isLogin = userDefaults.boolForKey("isLogin")
@@ -150,7 +150,7 @@ class UserBL: NSObject {
         }
     }
     
-    // 取消跟随 todo：统一使用Router
+    // 取消追隨 todo：统一使用Router
     func setUnFollow(#channelId: String) {
         let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
         let isLogin = userDefaults.boolForKey("isLogin")

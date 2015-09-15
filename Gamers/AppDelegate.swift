@@ -31,14 +31,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reachability.whenReachable = { reachability in
             if reachability.isReachableViaWiFi() {
                 println("Reachable via WiFi")
+//                var alertView: UIAlertView = UIAlertView(title: "", message: "WIFI已断开！", delegate: nil, cancelButtonTitle: "确定")
+//                alertView.show()
             } else {
                 println("Reachable via Cellular")
+                var alertView: UIAlertView = UIAlertView(title: "", message: "WIFI已断开！", delegate: nil, cancelButtonTitle: "确定")
+                alertView.show()
             }
             
         }
         reachability.whenUnreachable = { reachability in
             println("Not reachable")
-            var alertView: UIAlertView = UIAlertView(title: "", message: "网络出现问题！", delegate: nil, cancelButtonTitle: "确定")
+            var alertView: UIAlertView = UIAlertView(title: "", message: "WIFI已断开！", delegate: nil, cancelButtonTitle: "确定")
             alertView.show()
         }
         // 全局通知事件
