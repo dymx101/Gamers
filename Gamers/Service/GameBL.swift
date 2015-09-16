@@ -96,8 +96,6 @@ class GameBL: NSObject {
         return fetchTask
     }
     
-    
-    
     // 游戏的视频列表
     func getGameVideo(#gameId: String, page: Int, limit: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)

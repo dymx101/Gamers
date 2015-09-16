@@ -753,22 +753,22 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         case 0 where tableView.isEqual(newChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
             cell.imageView?.image = UIImage(named: "Icon-recommend")
-            cell.hearderTitle.text = "精選玩咖"
+            cell.hearderTitle.text = NSLocalizedString("Featured youtuber", comment: "精選玩咖")
             
             return cell
         case 0 where tableView.isEqual(featuredChannelView):
             let cell = tableView.dequeueReusableCellWithIdentifier("ChannelHeaderCell", forIndexPath: indexPath) as! ChannelHeaderCell
             cell.imageView?.image = UIImage(named: "Icon-great")
-            cell.hearderTitle.text = "熱門大咖"
+            cell.hearderTitle.text = NSLocalizedString("Hot youtuber", comment: "热门大咖")
             
             return cell
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("GameHeaderCell", forIndexPath: indexPath) as! GameHeaderCell
             cell.gameName.text = gamesName[viewTag]
             if viewTag <= 106 {
-                cell.gameDetail.text = "熱門遊戲推薦"
+                cell.gameDetail.text = NSLocalizedString("Featured games recommended", comment: "熱門遊戲推薦")
             } else {
-                cell.gameDetail.text = "精選遊戲推薦"
+                cell.gameDetail.text = NSLocalizedString("Hot games recommended", comment: "精選遊戲推薦")
             }
             
             let imageUrl = self.gamesImage[viewTag]!.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -933,7 +933,7 @@ extension HomeController: MyCellDelegate {
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "确定"), style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Follow", comment: "追随"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {

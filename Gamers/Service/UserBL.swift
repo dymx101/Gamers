@@ -28,6 +28,9 @@ class UserBL: NSObject {
             if let user = task.result as? User {
                 return BFTask(result: user)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -53,6 +56,9 @@ class UserBL: NSObject {
             if let user = task.result as? User {
                 return BFTask(result: user)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -76,8 +82,10 @@ class UserBL: NSObject {
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let users = task.result as? [User] {
-                
                 return BFTask(result: users)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -104,6 +112,9 @@ class UserBL: NSObject {
             if let response = task.result as? Response {
                 return BFTask(result: response)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -116,6 +127,7 @@ class UserBL: NSObject {
         return fetchTask
     }
     
+    // 登入，添加用户
     func saveUser(user: User) {
         let realm = Realm()
         
@@ -137,15 +149,15 @@ class UserBL: NSObject {
                 let response = Response.collection(json: JSON(JSONData!))
 
                 if response.code == "0" {
-                    let alertView: UIAlertView = UIAlertView(title: "", message: "订阅成功", delegate: nil, cancelButtonTitle: "确定")
+                    let alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Subscribe to success", comment: "订阅成功"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 } else {
-                    let alertView: UIAlertView = UIAlertView(title: "", message: "订阅失败", delegate: nil, cancelButtonTitle: "确定")
+                    let alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Subscribe to fail", comment: "订阅失败"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
                     alertView.show()
                 }
             }
         } else {
-            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+            var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Please Login", comment: "请先登入"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
             alertView.show()
         }
     }
@@ -161,20 +173,23 @@ class UserBL: NSObject {
             Alamofire.request(.POST, "http://beta.gamers.tm:3000/mobile_api/unsubscribe?userId=\(channelId)", headers: headers).responseJSON { _, _, JSONData, _ in
                 let response = Response.collection(json: JSON(JSONData!))
 //                if response.code == "0" {
-//                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消成功", delegate: nil, cancelButtonTitle: "确定")
+//                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消成功", delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
 //                    alertView.show()
 //                } else {
-//                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消失败", delegate: nil, cancelButtonTitle: "确定")
+//                    let alertView: UIAlertView = UIAlertView(title: "", message: "取消失败", delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
 //                    alertView.show()
 //                }
             }
         } else {
-            var alertView: UIAlertView = UIAlertView(title: "", message: "请先登入", delegate: nil, cancelButtonTitle: "确定")
+            var alertView: UIAlertView = UIAlertView(title: "", message: NSLocalizedString("Please Login", comment: "请先登入"), delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "确定"))
             alertView.show()
         }
     }
     
-    // Google 登入
+    
+    // MARK: - 直接调用Youtube Data API
+    
+    // Google 登入（后期统一）
     func googleLogin(code: String) {
         var parameters: [String: AnyObject] = [
             "code": code,
@@ -183,7 +198,7 @@ class UserBL: NSObject {
             "redirect_uri": "http://beta.gamers.tm:3000/back",
             "grant_type": "authorization_code",
         ]
-
+        
         Alamofire.request(.POST, "https://www.googleapis.com/oauth2/v3/token", parameters: parameters).responseJSON { _, _, JSONData, _ in
             if let JSONData: AnyObject = JSONData {
                 let googleData  = JSON(JSONData)
@@ -194,32 +209,9 @@ class UserBL: NSObject {
             }
         }
     }
-    // 刷新Google的access_token
-    func googleRefreshToken() {
-        var parameters: [String: AnyObject] = [
-            "client_id": "921894916096-i9cuji72d09ut6qo7phcsbpkqsfcmn1a.apps.googleusercontent.com",
-            "client_secret": "282qMxcJSHOZ3DdJM5tVZxyk",
-            //"refresh_token": NSUserDefaults.standardUserDefaults().stringForKey("googleRefreshToken")!,
-            "grant_type": "refresh_token",
-        ]
-        
-        Alamofire.request(.POST, "https://www.googleapis.com/oauth2/v3/token", parameters: parameters).responseJSON { _, _, JSONData, _ in
-            if let JSONData: AnyObject = JSONData {
-                let googleData  = JSON(JSONData)
-                println(googleData)
-                NSUserDefaults.standardUserDefaults().setObject(googleData["access_token"].string, forKey: "googleAccessToken")
-                NSUserDefaults.standardUserDefaults().setObject(googleData["expires_in"].string, forKey: "googleExpiresIn")
-                NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970, forKey: "googleTokenBeginTime")
-            }
-        }
-    }
     
-
-}
-
-// 直接调用Youtube Data API
-extension UserBL {
-    func googleRefreshToken2() -> BFTask {
+    //刷新Google的access_token
+    func googleRefreshToken() -> BFTask {
         var fetchTask = BFTask(result: nil)
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in

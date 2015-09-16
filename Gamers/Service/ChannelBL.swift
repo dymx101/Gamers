@@ -28,6 +28,9 @@ class ChannelBL: NSObject {
             if let channel = task.result as? Channel {
                 return BFTask(result: channel)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -60,7 +63,10 @@ class ChannelBL: NSObject {
             if let channels = task.result as? [Channel] {
                 return BFTask(result: channels)
             }
-
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
+            
             return task
         })
         
@@ -92,6 +98,9 @@ class ChannelBL: NSObject {
             if let videos = task.result as? [Video] {
                 return BFTask(result: videos)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -121,6 +130,9 @@ class ChannelBL: NSObject {
             if let videos = task.result as? [Video] {
                 return BFTask(result: videos)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -143,6 +155,9 @@ class ChannelBL: NSObject {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let videos = task.result as? [Video] {
                 return BFTask(result: videos)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -176,6 +191,9 @@ class ChannelBL: NSObject {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let channels = task.result as? [Channel] {
                 return BFTask(result: channels)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task

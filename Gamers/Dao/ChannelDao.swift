@@ -44,6 +44,7 @@ extension ChannelDao {
     :param: channelId 频道ID
     :param: offset    分页偏移量
     :param: count     每次总数
+    :param: channels  freedom中文专用
     
     :returns: 视频列表
     */
@@ -85,99 +86,114 @@ extension ChannelDao {
         return fetchChannel(URLRequest: URLRequest)
     }
     
-    
-    
     /**
-    解析游戏视频列表的JSON数据
-    */
-    private static func fetchChannelInfo(#URLRequest: URLRequestConvertible) -> BFTask {
-        var source = BFTaskCompletionSource()
-        
-        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
-            if error == nil {
-                var user: Channel!
-                
-                if let JSONDictionary: AnyObject = JSONDictionary {
-                    user = Channel.Info(json: JSON(JSONDictionary))
-                }
-
-                source.setResult(user)
-                
-            } else {
-                source.setError(error)
-            }
-        }
-        
-        return source.task
-    }
+    首页游戏大咖
     
-    /**
-    解析频道列表的JSON数据
-    */
-    private static func fetchChannel(#URLRequest: URLRequestConvertible) -> BFTask {
-        var source = BFTaskCompletionSource()
-        
-        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
-            if error == nil {
-                var channels = [Channel]()
-                
-                if let JSONDictionary: AnyObject = JSONDictionary {
-                    channels = Channel.collection(json: JSON(JSONDictionary))
-                }
-
-                source.setResult(channels)
-                
-            } else {
-                source.setError(error)
-            }
-        }
-        
-        return source.task
-    }
+    :param: limit      每页频道个数
+    :param: videoCount 频道视频个数
     
-    /**
-    解析游戏视频列表的JSON数据
+    :returns: 频道的视频列表
     */
-    private static func fetchVideo(#URLRequest: URLRequestConvertible) -> BFTask {
-        var source = BFTaskCompletionSource()
-        
-        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
-            if error == nil {
-                var videos = [Video]()
-                
-                if let JSONDictionary: AnyObject = JSONDictionary {
-                    videos = Video.collection(json: JSON(JSONDictionary))
-                }
-                
-                source.setResult(videos)
-                
-            } else {
-                source.setError(error)
-            }
-        }
-        
-        return source.task
-    }
-    
-    // 首页游戏大咖
     static func getFollowers(#limit: Int, videoCount: Int) -> BFTask {
         var URLRequest = Router.Followers(limit: limit, videoCount: videoCount)
         
         return fetchFollowers(URLRequest: URLRequest)
     }
+    
+    // MARK: - 解析
+    
+    //解析频道信息的JSON数据
+    private static func fetchChannelInfo(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let channel = Channel.Info(json: JSON(JSONDictionary))
+                        source.setResult(channel)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
+                }
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
+    //解析频道列表的JSON数据
+    private static func fetchChannel(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let channels = Channel.collection(json: JSON(JSONDictionary))
+                        source.setResult(channels)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
+                }
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+
+    //解析频道视频列表的JSON数据
+    private static func fetchVideo(#URLRequest: URLRequestConvertible) -> BFTask {
+        var source = BFTaskCompletionSource()
+        
+        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+            if error == nil {
+                if let JSONDictionary: AnyObject = JSONDictionary {
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let videos = Video.collection(json: JSON(JSONDictionary))
+                        source.setResult(videos)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
+                }
+            } else {
+                source.setError(error)
+            }
+        }
+        
+        return source.task
+    }
+    
+    // 解析大咖JSON
     private static func fetchFollowers(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var videos = [Video]()
-                
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    videos = Video.collectionFollow(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let videos = Video.collectionFollow(json: JSON(JSONDictionary))
+                        source.setResult(videos)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
                 }
-                
-                source.setResult(videos)
-                
             } else {
                 source.setError(error)
             }

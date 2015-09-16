@@ -208,7 +208,7 @@ extension VideoListController: MyCellDelegate {
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "确定"), style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Follow", comment: "追随"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {

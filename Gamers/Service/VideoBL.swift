@@ -28,6 +28,9 @@ class VideoBL: NSObject {
             if let videos = task.result as? [Video] {
                 return BFTask(result: videos)
             }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
+            }
             
             return task
         })
@@ -53,6 +56,9 @@ class VideoBL: NSObject {
                 if comments.count != 0 {
                     return BFTask(result: comments)
                 }
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -83,7 +89,7 @@ class VideoBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithBlock({ (task) -> AnyObject! in
-            println(task.error)
+
             return task
         })
         
@@ -102,6 +108,9 @@ class VideoBL: NSObject {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let liveVideos = task.result as? [Video] {
                 return BFTask(result: liveVideos)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -127,6 +136,9 @@ class VideoBL: NSObject {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let videos = task.result as? [Video] {
                 return BFTask(result: videos)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -156,11 +168,10 @@ class VideoBL: NSObject {
             }
         }
     }
-
-}
-
-// 直接调用Youtube Data API
-extension VideoBL {
+    
+    
+    // MARK: - 直接调用Youtube Data API
+    
     // 获取评论
     func getYoutubeComment(#videoId: String, pageToken: String, maxResults: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
@@ -172,6 +183,9 @@ extension VideoBL {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let comments = task.result as? [YTVComment] {
                 return BFTask(result: comments)
+            }
+            if let errorData = task.result as? YTError {
+                return BFTask(result: errorData)
             }
             
             return task
@@ -195,6 +209,9 @@ extension VideoBL {
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
             if let comment = task.result as? YTVComment {
                 return BFTask(result: comment)
+            }
+            if let errorData = task.result as? YTError {
+                return BFTask(result: errorData)
             }
             
             return task
@@ -220,6 +237,9 @@ extension VideoBL {
             if let videos = task.result as? [YTVideo] {
                 return BFTask(result: videos)
             }
+            if let errorData = task.result as? YTError {
+                return BFTask(result: errorData)
+            }
             
             return task
         })
@@ -233,3 +253,4 @@ extension VideoBL {
     }
 
 }
+

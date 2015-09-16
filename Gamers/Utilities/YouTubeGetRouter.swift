@@ -100,7 +100,7 @@ enum YouTubeGetRouter: URLRequestConvertible {
         let URL = NSURL(string: YouTubeGetRouter.baseURLString)!
         let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
         mutableURLRequest.HTTPMethod = method.rawValue
-        
+
         return encoding.encode(mutableURLRequest, parameters: parameters).0
         
     }

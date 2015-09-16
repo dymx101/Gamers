@@ -32,13 +32,14 @@ class SystemController: UITableViewController {
         case 0 :
             systemClear()
         case 1 where indexPath.row == 0 :
-            let storeUrl = "https://www.freedom.tm"
-            UIApplication.sharedApplication().openURL(NSURL(string: storeUrl)!)
+            let homeUrl = "http://www.gamers.tm"
+            UIApplication.sharedApplication().openURL(NSURL(string: homeUrl)!)
         case 1 where indexPath.row == 1 :
-            let storeUrl = "http://itunes.apple.com/us/app/apple-store/id375380948?mt=8"
+            let storeUrl = "itms-apps://itunes.apple.com/app/id1040036058"
+            println(storeUrl)
             UIApplication.sharedApplication().openURL(NSURL(string: storeUrl)!)
-        default:
-            println("abc")
+        default: ()
+
         }
         
 

@@ -19,9 +19,11 @@ class VideoRelateController: UITableViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
 
         ChannelBL.sharedSingleton.getChannelVideo(channelId: videoData.ownerId, offset: 0, count: 20, channels: nil).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.videoRelateData = (task.result as? [Video])!
-            self?.tableView.reloadData()
-            
+            if let newData = task.result as? [Video] {
+                self!.videoRelateData = newData
+                self?.tableView.reloadData()
+            }
+
             return nil
         })
         

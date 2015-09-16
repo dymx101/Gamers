@@ -14,6 +14,8 @@ import SwiftyJSON
 struct SystemDao {}
 
 extension SystemDao {
+    
+    // 获取版本信息
     static func getVersion() -> BFTask {
         var URLRequest = Router.Version()
         
@@ -21,20 +23,23 @@ extension SystemDao {
     }
     
 
-    
+    // 解析版本JSON结构
     private static func fetchVersion(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var sliders = [Version]()
-                
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    sliders = Version.collection(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let version = Version.collection(json: JSON(JSONDictionary))
+                        source.setResult(version)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
                 }
-                
-                source.setResult(sliders)
-                
             } else {
                 source.setError(error)
             }

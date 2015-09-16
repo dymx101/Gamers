@@ -12,6 +12,7 @@ import PagingMenuController
 import Social
 import Bolts
 import RealmSwift
+import MBProgressHUD
 
 class PlayerViewController: UIViewController {
 
@@ -19,6 +20,7 @@ class PlayerViewController: UIViewController {
     let userDefaults = NSUserDefaults.standardUserDefaults()    //用户全局登入信息
     // 导航条默认隐藏
     var isflage = true
+    var isPlay = 0
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var playerView: YTPlayerView!
@@ -104,8 +106,20 @@ class PlayerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChange:", name: UIKeyboardWillChangeFrameNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleTapGesture:", name: "handleTapGestureNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "MBProgressHUDHide", name: "MBProgressHUDHideNotification", object: nil)
 
+        let hub = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
+        hub.labelText = NSLocalizedString("Loading...", comment: "加載中...")
 
+    }
+    func MBProgressHUDHide() {
+        MBProgressHUD.hideHUDForView(navigationController!.view, animated: true)
+        isPlay += 1
+        if isPlay >= 2 {
+            playerView.playVideo()
+            isPlay = 0
+        }
+        
     }
     
     // 用户订阅
@@ -303,7 +317,11 @@ extension PlayerViewController: PagingMenuControllerDelegate {
 extension PlayerViewController: YTPlayerViewDelegate {
     // 加载完成立即播放
     func playerViewDidBecomeReady(playerView: YTPlayerView!) {
-        playerView.playVideo()
+        isPlay += 1
+        if isPlay >= 2 {
+            playerView.playVideo()
+            isPlay = 0
+        }
     }
 }
 // MARK: 网络Web代理

@@ -46,8 +46,12 @@ class VideoCommentController: UIViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "insertComment:", name: "insertCommentNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadVideoComment:", name: "reloadVideoCommentNotification", object: nil)
+        
+        commentData = [YTVComment]()
+        
         // 加载初始化数据
         loadInit()
+
     }
     
     // 隐藏键盘
@@ -58,26 +62,27 @@ class VideoCommentController: UIViewController {
     // 初始化数据
     func loadInit() {
         pageToken = ""
-        VideoBL.sharedSingleton.getYoutubeComment(videoId: videoData.videoId, pageToken: pageToken, maxResults: maxResults).continueWithSuccessBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            self!.commentData = (task.result as? [YTVComment])!
+        
+        VideoBL.sharedSingleton.getYoutubeComment(videoId: videoData.videoId, pageToken: pageToken, maxResults: maxResults).continueWithExecutor(BFExecutor.mainThreadExecutor(), withSuccessBlock: { [weak self] (task: BFTask!) -> BFTask! in
+            if let newData = task.result as? [YTVComment] {
+                    self!.commentData = newData
+                    if !self!.commentData.isEmpty {
+                        self?.commentTableView.reloadData()
+                        if self!.commentData.last!.nextPageToken == "" {
+                            self?.commentTableView.footer.noticeNoMoreData()
+                            self!.isNoMoreData = true
+                        } else {
+                            self!.pageToken = self!.commentData.last!.nextPageToken
+                        }
+                    }
 
-            if !self!.commentData.isEmpty {
-                self?.commentTableView.reloadData()
-                
-                if self!.commentData.last!.nextPageToken == "" {
-                    self?.commentTableView.footer.noticeNoMoreData()
-                    self!.isNoMoreData = true
-                } else {
-                    self!.pageToken = self!.commentData.last!.nextPageToken
-                }
             } else {
-                self?.commentData.removeAll(keepCapacity: false)
-                self?.commentTableView.reloadData()
+                println("错误：\(task.result)")
             }
-            
+
             return nil
         }).continueWithBlock({ [weak self] (task: BFTask!) -> BFTask! in
-            
+            NSNotificationCenter.defaultCenter().postNotificationName("MBProgressHUDHideNotification", object: nil, userInfo: nil)
             return nil
         })
         
@@ -104,7 +109,7 @@ class VideoCommentController: UIViewController {
             self?.commentTableView.header.endRefreshing()
             // 刷新Google的token
             if (self!.userDefaults.stringForKey("googleRefreshToken") != nil) {
-                UserBL.sharedSingleton.googleRefreshToken2()
+                UserBL.sharedSingleton.googleRefreshToken()
             }
             
             return nil
@@ -119,7 +124,12 @@ class VideoCommentController: UIViewController {
                 self?.commentTableView.footer.noticeNoMoreData()
                 self!.isNoMoreData = true
             } else{
+                
+                
+                
                 self!.commentData += newData
+                
+
                 
                 if newData.last!.nextPageToken == "" {
                     self?.commentTableView.footer.noticeNoMoreData()
@@ -139,7 +149,7 @@ class VideoCommentController: UIViewController {
             
             // 刷新Google的token
             if (self!.userDefaults.stringForKey("googleRefreshToken") != nil) {
-                UserBL.sharedSingleton.googleRefreshToken2()
+                UserBL.sharedSingleton.googleRefreshToken()
             }
 
             return nil
@@ -201,7 +211,7 @@ class VideoCommentController: UIViewController {
             })
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

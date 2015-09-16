@@ -47,7 +47,7 @@ extension UserDao {
     }
     
     /**
-    获取订阅频道的视频
+    获取订阅频道
     
     :param: userId    用户ID
     :param: userToken 用户登入令牌
@@ -75,9 +75,9 @@ extension UserDao {
     }
     
 
-    /**
-    解析返回结果JSON数据结构
-    */
+    // MARK: - 解析
+    
+    //解析返回结果JSON数据结构
     private static func fetchResponse(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
@@ -97,44 +97,49 @@ extension UserDao {
         return source.task
     }
     
-    /**
-    解析游戏视频列表的JSON数据
-    */
-    private static func fetchVideo(#URLRequest: URLRequestConvertible) -> BFTask {
-        var source = BFTaskCompletionSource()
-        
-        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
-            if error == nil {
-                var videos = [Video]()
-                
-                if let JSONDictionary: AnyObject = JSONDictionary {
-                    videos = Video.collection(json: JSON(JSONDictionary))
-                }
 
-                source.setResult(videos)
-            } else {
-                source.setError(error)
-            }
-        }
-        
-        return source.task
-    }
+//    //解析视频列表的JSON数据
+//    private static func fetchVideo(#URLRequest: URLRequestConvertible) -> BFTask {
+//        var source = BFTaskCompletionSource()
+//        
+//        Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
+//            if error == nil {
+//                if let JSONDictionary: AnyObject = JSONDictionary {
+//                    if JSON(JSONDictionary)["errCode"] == nil {
+//                        let videos = Video.collection(json: JSON(JSONDictionary))
+//                        source.setResult(videos)
+//                    } else {
+//                        let response = Response.collection(json: JSON(JSONDictionary))
+//                        source.setResult(response)
+//                    }
+//                } else {
+//                    source.setResult(Response())
+//                }
+//            } else {
+//                source.setError(error)
+//            }
+//        }
+//        
+//        return source.task
+//    }
 
-    /**
-    解析游戏视频列表的JSON数据
-    */
+    // 解析用户信息的JSON数据
     private static func fetchUser(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var user: User!
-
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    user = User.collection(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let user = User.collection(json: JSON(JSONDictionary))
+                        source.setResult(user)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
                 }
-
-                source.setResult(user)
             } else {
                 source.setError(error)
             }
@@ -143,18 +148,23 @@ extension UserDao {
         return source.task
     }
 
+    // 解析订阅频道列表JSON数据
     private static func fetchUsers(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var users = [User]()
-                
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    users = User.collections(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let users = User.collections(json: JSON(JSONDictionary))
+                        source.setResult(users)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
                 }
-                
-                source.setResult(users)
             } else {
                 source.setError(error)
             }
@@ -163,9 +173,11 @@ extension UserDao {
         return source.task
     }
 
-}
-// 直接调用Youtube Data API
-extension UserDao {
+    
+    
+    // MARK: - Youtube Data API
+    
+    // 刷新Google的令牌，延长有效期
     static func googleRefreshToken() -> BFTask {
         var source = BFTaskCompletionSource()
         
@@ -180,12 +192,11 @@ extension UserDao {
             if error == nil {
                 if let JSONData: AnyObject = JSONDictionary {
                     let googleData  = JSON(JSONDictionary!)
-                    println(googleData)
                     NSUserDefaults.standardUserDefaults().setObject(googleData["access_token"].string, forKey: "googleAccessToken")
                     NSUserDefaults.standardUserDefaults().setObject(googleData["expires_in"].string, forKey: "googleExpiresIn")
                     NSUserDefaults.standardUserDefaults().setObject(NSDate().dateByAddingTimeInterval(0).timeIntervalSince1970, forKey: "googleTokenBeginTime")
                     
-                    //source.setResult(googleData)
+                    source.setResult(JSONDictionary)
                 }
             } else {
                 source.setError(error)
@@ -194,7 +205,7 @@ extension UserDao {
         
         return source.task
     }
-    
+
     // 临时方法,订阅youtube频道
     static func Subscriptions(#channelId: String) -> BFTask {
         var source = BFTaskCompletionSource()
@@ -212,18 +223,17 @@ extension UserDao {
         
         Alamofire.request(.POST, URLRequest, parameters: parameters, headers: headers, encoding: .JSON).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var comment = YTChannel()
-                var error = YTError()
-                //println(JSONDictionary)
                 if let JSONDictionary: AnyObject = JSONDictionary {
                     let json = JSON(JSONDictionary)
                     if json["error"]["message"] != nil {
-                        error = YTError.collection(json: JSON(JSONDictionary))
+                        let error = YTError.collection(json: JSON(JSONDictionary))
                         source.setResult(error)
                     } else {
-                        comment = YTChannel.collection(json: JSON(JSONDictionary))
+                        let comment = YTChannel.collection(json: JSON(JSONDictionary))
                         source.setResult(comment)
                     }
+                } else {
+                    source.setResult(Response())
                 }
             } else {
                 source.setError(error)
@@ -232,6 +242,7 @@ extension UserDao {
         
         return source.task
     }
+
     
 }
 

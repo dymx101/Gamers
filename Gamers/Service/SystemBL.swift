@@ -30,8 +30,9 @@ class SystemBL: NSObject {
                         return BFTask(result: version)
                     }
                 }
-
-                //return BFTask(result: version)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task

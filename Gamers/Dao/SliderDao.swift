@@ -14,32 +14,49 @@ import SwiftyJSON
 struct SliderDao {}
 
 extension SliderDao {
-    // 首页的轮播视图
+
+    /**
+    首页的轮播视图
+    
+    :returns: 首页顶部的轮播信息
+    */
     static func getHomeSlider() -> BFTask {
         var URLRequest = Router.HomeSlider()
         
-        return fetchVideos(URLRequest: URLRequest)
+        return fetchSlider(URLRequest: URLRequest)
     }
-    // 频道的轮播视图
+    
+    /**
+    频道的轮播视图
+    
+    :param: channelId 频道ID
+    :returns: 顶部的轮播信息
+    */
     static func getChannelSlider(#channelId: String) -> BFTask {
         var URLRequest = Router.ChannelSlider(channelId: channelId)
         
-        return fetchVideos(URLRequest: URLRequest)
+        return fetchSlider(URLRequest: URLRequest)
     }
     
-    // 解析
-    private static func fetchVideos(#URLRequest: URLRequestConvertible) -> BFTask {
+    // MARK: - 解析
+    
+    // 解析轮播JSON信息
+    private static func fetchSlider(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var sliders = [Slider]()
-                
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    sliders = Slider.collection(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let sliders = Slider.collection(json: JSON(JSONDictionary))
+                        source.setResult(sliders)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                   source.setResult(Response())
                 }
-
-                source.setResult(sliders)
             } else {
                 source.setError(error)
             }

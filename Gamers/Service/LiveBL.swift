@@ -15,7 +15,7 @@ class LiveBL: NSObject {
     // 单例模式
     static let sharedSingleton = LiveBL()
     
-    // 首页推荐游戏
+    // 直播列表
     func getLive(#page: Int, limit: Int) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -24,9 +24,11 @@ class LiveBL: NSObject {
         })
         
         fetchTask = fetchTask.continueWithSuccessBlock({ (task) -> AnyObject! in
-
             if let games = task.result as? [Live] {
                 return BFTask(result: games)
+            }
+            if let response = task.result as? Response {
+                return BFTask(result: response)
             }
             
             return task
@@ -40,7 +42,7 @@ class LiveBL: NSObject {
         return fetchTask
     }
     
-    
+    // 获取twitch直播地址
     func getTwitchStreamsURL(#channelId: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -72,15 +74,3 @@ class LiveBL: NSObject {
     
     
 }
-//
-//extension String {
-//    func urlEncodedString() -> String {
-//        // first we replace all spaces with pluses because some sites like pluses
-//        var urlEncodedString = self.replaceString(" ", withString: "+")
-//        
-//        // now we encode the remaining string
-//        urlEncodedString = urlEncodedString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-//        
-//        return urlEncodedString
-//    }
-//}

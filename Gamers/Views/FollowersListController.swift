@@ -21,7 +21,7 @@ class FollowersListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "熱門大咖"
+        self.navigationItem.title = NSLocalizedString("Hot youtuber", comment: "热门大咖")
         // 上拉下拉刷新功能
         self.tableView.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadNewData")
         
@@ -146,7 +146,7 @@ extension FollowersListController: MyCellDelegate {
             //code
         })
         // 关注频道
-        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "确定"), style: UIAlertActionStyle.Destructive) { (alertAction) -> Void in
+        actionSheetController.addAction(UIAlertAction(title: NSLocalizedString("Follow", comment: "追随"), style: UIAlertActionStyle.Default) { (alertAction) -> Void in
             if self.userDefaults.boolForKey("isLogin") {
                 UserBL.sharedSingleton.setFollow(channelId: video.ownerId)
             } else {

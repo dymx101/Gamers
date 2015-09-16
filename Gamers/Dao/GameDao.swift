@@ -28,7 +28,6 @@ extension GameDao {
     
     /**
     获取所有游戏列表，用于游戏栏目
-    // TODO: 如果数量太多，则分页上拉刷新更多
     
     :returns: 游戏列表
     */
@@ -68,21 +67,25 @@ extension GameDao {
         return fetchGame(URLRequest: URLRequest)
     }
     
+    // MARK: - 解析
     
-    /**
-    解析游戏列表的JSON数据
-    */
+    // 解析游戏列表的JSON数据
     private static func fetchGame(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var games = [Game]()
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    games = Game.collection(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let games = Game.collection(json: JSON(JSONDictionary))
+                        source.setResult(games)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
                 }
-                
-                source.setResult(games)
             } else {
                 source.setError(error)
             }
@@ -91,21 +94,23 @@ extension GameDao {
         return source.task
     }
     
-    /**
-    解析游戏视频列表的JSON数据
-    */
+    // 解析游戏视频列表的JSON数据
     private static func fetchGameVideo(#URLRequest: URLRequestConvertible) -> BFTask {
         var source = BFTaskCompletionSource()
         
         Alamofire.request(URLRequest).responseJSON { (_, _, JSONDictionary, error) in
             if error == nil {
-                var videos = [Video]()
-                
                 if let JSONDictionary: AnyObject = JSONDictionary {
-                    videos = Video.collection(json: JSON(JSONDictionary))
+                    if JSON(JSONDictionary)["errCode"] == nil {
+                        let videos = Video.collection(json: JSON(JSONDictionary))
+                        source.setResult(videos)
+                    } else {
+                        let response = Response.collection(json: JSON(JSONDictionary))
+                        source.setResult(response)
+                    }
+                } else {
+                    source.setResult(Response())
                 }
-
-                source.setResult(videos)
             } else {
                 source.setError(error)
             }

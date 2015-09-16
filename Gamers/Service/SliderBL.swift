@@ -15,6 +15,10 @@ class SliderBL: NSObject {
     // 单例模式
     static let sharedSingleton = SliderBL()
 
+    /**
+    获取首页顶部的轮播信息
+    :returns: 成功轮播列表，失败错误信息
+    */
     func getHomeSlider() -> BFTask {
         var fetchTask = BFTask(result: nil)
         
@@ -41,7 +45,12 @@ class SliderBL: NSObject {
         return fetchTask
     }
     
+    /**
+    获取频道的轮播信息
     
+    :param: channelId 频道ID
+    :returns: 成功轮播列表，失败错误信息
+    */
     func getChannelSlider(#channelId: String) -> BFTask {
         var fetchTask = BFTask(result: nil)
         
